@@ -5,6 +5,7 @@ import re
 import secrets
 from contextlib import closing
 from pathlib import Path
+from urllib.parse import urlsplit
 
 import server
 
@@ -12,6 +13,10 @@ VERSION = 'V1.25.11.1'
 VERSION_BYTES = VERSION.encode('utf-8')
 MAX_BACKUP_VERSION = (1, 25, 11, 1)
 _BASE_HANDLER = server.Handler
+ASSET_ROOT = server.PROJECT_ROOT / 'client' / 'assets'
+STATIC_ASSETS = {
+    '/assets/brand/club-logo.png': (ASSET_ROOT / 'brand' / 'club-logo.png', 'image/png'),
+}
 
 
 def validate(payload):
@@ -55,6 +60,19 @@ class CurrentHandler(_BASE_HANDLER):
             value['serverBuild'] = VERSION
         return super().send(status, value, cookie=cookie, mime=mime, csp=csp)
 
+    def route(self):
+        path = urlsplit(self.path).path
+        static = STATIC_ASSETS.get(path)
+        if self.command == 'GET' and static is not None:
+            origin = 'http://127.0.0.1:' + str(self.server.server_port)
+            if self.headers.get('Host') != origin[7:]:
+                raise server.Problem(403, 'Adresse du serveur non autorisée.')
+            file_path, mime = static
+            if not file_path.is_file():
+                raise server.Problem(404, 'Ressource statique introuvable.')
+            return self.send(200, file_path.read_bytes(), mime=mime)
+        return super().route()
+
 
 server.validate = validate
 server.Handler = CurrentHandler
@@ -68,31 +86,28 @@ def main():
     server.initialize(args.data)
     with closing(server.connect(args.data)) as db:
         empty = db.execute('SELECT count(*) FROM users').fetchone()[0] == 0
-    if args.command in ('add-user', 'reset-password') or empty:
+    if args.command in ('add-user','reset-password') or empty:
         print('Comptes serveur distincts des comptes du HTML. Aucun mot de passe par défaut.')
-        name = input('Identifiant serveur : ').strip()
-        password = getpass.getpass('Mot de passe (12 caractères minimum, saisie invisible) : ')
-        if password != getpass.getpass('Confirmer le mot de passe : '):
+        name=input('Identifiant serveur : ').strip()
+        password=getpass.getpass('Mot de passe (12 caractères minimum, saisie invisible) : ')
+        if password!=getpass.getpass('Confirmer le mot de passe : '):
             raise SystemExit('Confirmation différente.')
-        if args.command == 'reset-password':
-            if not 12 <= len(password) <= 256:
+        if args.command=='reset-password':
+            if not 12<=len(password)<=256:
                 raise SystemExit('Longueur invalide.')
-            salt = secrets.token_hex(16)
-            with closing(server.connect(args.data)) as db, db:
-                cur = db.execute(
-                    'UPDATE users SET salt=?,password=? WHERE name=?',
-                    (salt, server.password_hash(password, salt), name),
-                )
+            salt=secrets.token_hex(16)
+            with closing(server.connect(args.data)) as db,db:
+                cur=db.execute('UPDATE users SET salt=?,password=? WHERE name=?',(salt,server.password_hash(password,salt),name))
                 if not cur.rowcount:
                     raise SystemExit('Compte introuvable.')
-                db.execute('DELETE FROM sessions WHERE user=?', (name,))
+                db.execute('DELETE FROM sessions WHERE user=?',(name,))
         else:
-            role = 'admin' if empty else input('Rôle (admin/editor/reader) : ').strip()
-            server.add_user(args.data, name, password, role)
+            role='admin' if empty else input('Rôle (admin/editor/reader) : ').strip()
+            server.add_user(args.data,name,password,role)
         print('Compte enregistré.')
-        if args.command != 'start':
+        if args.command!='start':
             return
-    srv = server.make_server(args.data)
+    srv=server.make_server(args.data)
     srv.watch.start()
     print('Base de donnees : ' + str(args.data))
     print('FC LA COUR ' + VERSION + ' — http://127.0.0.1:8765 — Ctrl+C pour arrêter.')
@@ -105,5 +120,5 @@ def main():
         srv.server_close()
 
 
-if __name__ == '__main__':
+if __name__=='__main__':
     main()

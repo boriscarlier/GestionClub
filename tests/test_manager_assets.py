@@ -1,5 +1,8 @@
 import base64
 import hashlib
+import os
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -66,6 +69,43 @@ class ManagerAssetTests(unittest.TestCase):
         self.assertEqual(len(repo_raw), EXPECTED_BYTES)
         self.assertEqual(hashlib.sha256(repo_raw).hexdigest(), EXPECTED_SHA256)
         self.assertEqual(repo_raw, embedded)
+
+    def test_07_static_asset_route_serves_exact_logo_without_touching_gestion(self):
+        code = r'''
+import hashlib
+import http.client
+import tempfile
+import threading
+from pathlib import Path
+import current_server
+import server
+with tempfile.TemporaryDirectory() as temp:
+    path=Path(temp)/'asset-route.sqlite3'
+    srv=server.make_server(path,0)
+    thread=threading.Thread(target=srv.serve_forever,daemon=True)
+    thread.start()
+    try:
+        port=srv.server_port
+        conn=http.client.HTTPConnection('127.0.0.1',port,timeout=5)
+        conn.request('GET','/assets/brand/club-logo.png',headers={'Host':'127.0.0.1:'+str(port)})
+        response=conn.getresponse(); raw=response.read(); ctype=response.getheader('Content-Type',''); conn.close()
+        assert response.status == 200
+        assert ctype == 'image/png'
+        assert len(raw) == 92264
+        assert hashlib.sha256(raw).hexdigest() == 'f1152a3cb6601bb95a90f5e362119e0bde45b8da9f4bafe5dd256bba028fb6bd'
+        conn=http.client.HTTPConnection('127.0.0.1',port,timeout=5)
+        conn.request('GET','/assets/brand/club-logo.png',headers={'Host':'foreign.invalid:'+str(port)})
+        foreign=conn.getresponse(); foreign.read(); conn.close()
+        assert foreign.status == 403
+        print('asset-route-ok')
+    finally:
+        srv.shutdown(); srv.server_close(); thread.join()
+'''
+        env = os.environ.copy()
+        env['PYTHONPATH'] = os.pathsep.join([str(ROOT / 'server'), str(ROOT / 'vendor')])
+        result = subprocess.run([sys.executable, '-c', code], cwd=ROOT, env=env, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('asset-route-ok', result.stdout)
 
 
 if __name__ == '__main__':

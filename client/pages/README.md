@@ -20,7 +20,7 @@ Tant qu'une page n'est pas `runtime_active`, `client/FC_LA_COUR_Manager.html` re
 | Page | Chemin | Statut |
 | --- | --- | --- |
 | Dashboard admin | `admin/dashboard.html` | `extracted_shadow` |
-| Licencies admin | `admin/members.html` | `legacy_bridge` |
+| Licencies admin | `admin/members.html` | `extracted_shadow` |
 | Equipes admin | `admin/teams.html` | `legacy_bridge` |
 | Accueil public | `public/home.html` | `legacy_bridge` |
 | Accueil educateur | `coach/home.html` | `legacy_bridge` |
@@ -34,3 +34,12 @@ Tant qu'une page n'est pas `runtime_active`, `client/FC_LA_COUR_Manager.html` re
 - `/api/state/summary`
 
 Elle ne modifie aucune donnee et conserve un lien visible vers `/gestion#dashboard`.
+
+## Licencies admin
+
+`admin/members.html` est la deuxieme page extraite en mode shadow. Elle lit uniquement :
+
+- `/api/session`
+- `/api/state/members?limit=500`
+
+Elle affiche une liste et un filtre local en lecture seule, sans remplacer l'ecran Licencies du Manager complet.

@@ -1,0 +1,95 @@
+name: Package V1.25.11.1 LAN test
+
+on:
+  push:
+    branches:
+      - dev/v1.25.11-lan-stable-base
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout V1.25.11.1 branch
+        uses: actions/checkout@v4
+
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate Python syntax
+        run: python -m py_compile server/*.py server/services/*.py scripts/*.py
+
+      - name: Validate Manager monolith integrity
+        run: |
+          python scripts/index_manager_html.py --output /tmp/MONOLITH_INDEX.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          index = json.loads(Path('/tmp/MONOLITH_INDEX.json').read_text(encoding='utf-8'))
+          if index['encoding'] != 'utf-8-strict':
+              raise SystemExit('Manager: encodage inattendu')
+          if index['bytes'] < 1_000_000:
+              raise SystemExit(f"Manager: taille anormalement faible ({index['bytes']} octets)")
+          missing = [name for name, value in index['anchors'].items() if value is None]
+          if missing:
+              raise SystemExit('Manager: ancres manquantes: ' + ', '.join(missing))
+          if not index['embedded_data_uris']:
+              raise SystemExit('Manager: ressources embarquees absentes')
+          print('Manager monolith integrity OK')
+          PY
+
+      - name: Validate Windows candidate wiring
+        run: |
+          grep -q '^version: V1.25.11.1-dev$' PROJECT_STATE.yaml
+          grep -q 'server\\current_server.py start' scripts/windows/DEMARRER_SERVEUR.cmd
+          grep -q 'dernier_test.log' scripts/windows/LANCER_TESTS.cmd
+          grep -q 'derniere_mise_a_jour.log' METTRE_A_JOUR.cmd
+          grep -q -- '--backend-port 8765 --port 8766' scripts/windows/DEMARRER_RESEAU_LOCAL.cmd
+          grep -q 'V1.25.11.1' server/current_server.py
+
+      - name: Run automated tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}/server:${{ github.workspace }}/vendor:${{ github.workspace }}/tests:${{ github.workspace }}/scripts
+        run: python scripts/run_tests_compact.py
+
+      - name: Build V1.25.11.1 LAN test ZIP
+        run: |
+          mkdir -p package/FC_LA_COUR_GestionClub
+          rsync -a --exclude '.git' --exclude 'data' --exclude 'releases' --exclude '__pycache__' --exclude 'logs' ./ package/FC_LA_COUR_GestionClub/
+          cd package
+          zip -qr ../FC_LA_COUR_GestionClub_V1.25.11.1_LAN_test.zip FC_LA_COUR_GestionClub
+
+      - name: Verify built ZIP contents
+        run: |
+          python - <<'PY'
+          from zipfile import ZipFile
+          path='FC_LA_COUR_GestionClub_V1.25.11.1_LAN_test.zip'
+          with ZipFile(path) as z:
+              root='FC_LA_COUR_GestionClub/'
+              state=z.read(root+'PROJECT_STATE.yaml').decode('utf-8')
+              start=z.read(root+'scripts/windows/DEMARRER_SERVEUR.cmd').decode('utf-8')
+              tests=z.read(root+'scripts/windows/LANCER_TESTS.cmd').decode('utf-8')
+              update=z.read(root+'METTRE_A_JOUR.cmd').decode('utf-8')
+              lan=z.read(root+'scripts/windows/DEMARRER_RESEAU_LOCAL.cmd').decode('utf-8')
+              manager=z.read(root+'client/FC_LA_COUR_Manager.html')
+              assert 'version: V1.25.11.1-dev' in state
+              assert 'server\\current_server.py start' in start
+              assert 'dernier_test.log' in tests
+              assert 'derniere_mise_a_jour.log' in update
+              assert '--backend-port 8765 --port 8766' in lan
+              assert len(manager) > 1_000_000
+              manager.decode('utf-8')
+          print('ZIP V1.25.11.1 verified')
+          PY
+
+      - name: Upload V1.25.11.1 LAN test ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: FC_LA_COUR_GestionClub_V1.25.11.1_LAN_test
+          path: FC_LA_COUR_GestionClub_V1.25.11.1_LAN_test.zip
+          compression-level: 0

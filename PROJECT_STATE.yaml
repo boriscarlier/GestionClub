@@ -1,6 +1,7 @@
 project: FC LA COUR Gestion Club
-version: V1.25.10
+version: V1.25.12-dev
 base_imported: V1.24.5
+base_stable: V1.25.11.1
 runtime:
   language: Python
   client: HTML JavaScript CSS
@@ -13,10 +14,12 @@ storage:
     - FCLC_DATA_PATH
     - FCLC_DATA_DIR
 current_focus:
-  - architecture_client_serveur
-  - confort_installation_windows
-  - mises_a_jour_sans_recopie_data
-  - tests_automatises
+  - decomposition_html_sans_perte
+  - indexation_structurelle_monolithe
+  - recomposition_binaire_deterministe
+  - architecture_multi_pages
+  - extraction_progressive_assets_css_js
+  - maintien_fallback_monolithe
 stable_versions:
   - V1.25.1
   - V1.25.2
@@ -27,4 +30,50 @@ stable_versions:
   - V1.25.7
   - V1.25.8
   - V1.25.9
-  - V1.25.10
+  - V1.25.10.2
+  - V1.25.11.1
+last_physical_validation:
+  version: V1.25.11.1
+  date: 2026-09-10
+  platform: Windows + second LAN device
+  result: tests_passed_server_online_lan_access_confirmed
+  lan_endpoint: http://192.168.1.3:8766/
+candidate_version: V1.25.12-dev
+refactor_branch: refactor/v1.25.12-html-decomposition
+refactor_phase:
+  completed: V1.25.12-A
+  current: V1.25.12-B
+canonical_manager:
+  path: client/FC_LA_COUR_Manager.html
+  bytes: 1143051
+  git_blob_sha: 64def65ec261d3da05d855896484c4deb79da407
+  content_sha256: 5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c
+structure_inventory:
+  raw_parts: 41
+  fragment_parts: 21
+  style_parts: 5
+  script_parts: 15
+  functional_units: 70
+  admin_units: 44
+  public_units: 13
+  coach_units: 7
+  member_units: 6
+assets:
+  club_logo:
+    path: client/assets/brand/club-logo.png
+    bytes: 92264
+    width: 576
+    height: 507
+    sha256: f1152a3cb6601bb95a90f5e362119e0bde45b8da9f4bafe5dd256bba028fb6bd
+    source_constant: CLUB_LOGO_DATA_URI
+    runtime_active: false
+    fallback_embedded: true
+validation_required:
+  - monolithe_canonique_inchange
+  - utf8_strict
+  - decomposition_couvre_100_pourcent_octets
+  - recomposition_identique_octet_pour_octet
+  - tests_existants_verts
+  - extraction_progressive_par_etapes
+  - fallback_gestion_legacy_conserve_jusqua_validation_pages
+next_deferred_feature: Veo_et_videos_de_match

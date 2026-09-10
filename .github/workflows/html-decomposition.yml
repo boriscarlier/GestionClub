@@ -1,0 +1,132 @@
+name: Validate HTML decomposition
+
+on:
+  push:
+    branches:
+      - refactor/v1.25.12-html-decomposition
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  decomposition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout stable-based refactor branch
+        uses: actions/checkout@v4
+
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate Python syntax
+        run: python -m py_compile scripts/index_manager_html.py scripts/decompose_manager.py scripts/rebuild_manager.py scripts/index_manager_pages.py scripts/extract_manager_assets.py
+
+      - name: Generate structural index
+        run: python scripts/index_manager_html.py --output build/MONOLITH_INDEX.json
+
+      - name: Generate functional page index
+        env:
+          PYTHONPATH: ${{ github.workspace }}/scripts
+        run: |
+          python scripts/index_manager_pages.py \
+            --json-output build/MANAGER_PAGES_INDEX.json \
+            --md-output build/MANAGER_PAGES_INDEX.md
+
+      - name: Extract embedded assets without runtime switch
+        env:
+          PYTHONPATH: ${{ github.workspace }}/scripts
+        run: |
+          python scripts/extract_manager_assets.py \
+            --logo-output build/assets/brand/club-logo.png \
+            --index-output build/MANAGER_ASSETS_INDEX.json
+          python - <<'PY'
+          import hashlib, json, struct
+          from pathlib import Path
+          raw=Path('build/assets/brand/club-logo.png').read_bytes()
+          index=json.loads(Path('build/MANAGER_ASSETS_INDEX.json').read_text(encoding='utf-8'))
+          asset=index['assets'][0]
+          assert len(raw) == 92264
+          assert hashlib.sha256(raw).hexdigest() == 'f1152a3cb6601bb95a90f5e362119e0bde45b8da9f4bafe5dd256bba028fb6bd'
+          assert raw[:8] == b'\x89PNG\r\n\x1a\n'
+          assert struct.unpack('>II', raw[16:24]) == (576, 507)
+          assert asset['runtime_active'] is False
+          print('Manager asset extraction OK')
+          PY
+
+      - name: Refresh committed extracted assets when needed
+        env:
+          PYTHONPATH: ${{ github.workspace }}/scripts
+        run: |
+          python scripts/extract_manager_assets.py \
+            --logo-output client/assets/brand/club-logo.png \
+            --index-output docs/MANAGER_ASSETS_INDEX.json
+          git fetch origin "$GITHUB_REF_NAME"
+          LOCAL_SHA=$(git rev-parse HEAD)
+          REMOTE_SHA=$(git rev-parse "origin/$GITHUB_REF_NAME")
+          if [ "$LOCAL_SHA" != "$REMOTE_SHA" ]; then
+            echo "Run remplace par un commit plus recent; pas de push automatique."
+            exit 0
+          fi
+          if git diff --quiet -- client/assets/brand/club-logo.png docs/MANAGER_ASSETS_INDEX.json; then
+            echo "Assets extraits deja conformes."
+            exit 0
+          fi
+          git config user.name "FC LA COUR CI"
+          git config user.email "actions@users.noreply.github.com"
+          git add client/assets/brand/club-logo.png docs/MANAGER_ASSETS_INDEX.json
+          git commit -m "Refresh extracted Manager assets"
+          git push origin "HEAD:$GITHUB_REF_NAME"
+
+      - name: Decompose stable Manager
+        run: python scripts/decompose_manager.py --output build/manager_parts
+
+      - name: Rebuild and compare byte-for-byte
+        run: |
+          python scripts/rebuild_manager.py \
+            --manifest build/manager_parts/manifest.json \
+            --output build/rebuilt_FC_LA_COUR_Manager.html \
+            --compare client/FC_LA_COUR_Manager.html
+          cmp --silent client/FC_LA_COUR_Manager.html build/rebuilt_FC_LA_COUR_Manager.html
+
+      - name: Summarize decomposition
+        run: |
+          python - <<'PY'
+          import json
+          from collections import Counter
+          from pathlib import Path
+          manifest=json.loads(Path('build/manager_parts/manifest.json').read_text(encoding='utf-8'))
+          pages=json.loads(Path('build/MANAGER_PAGES_INDEX.json').read_text(encoding='utf-8'))
+          assets=json.loads(Path('build/MANAGER_ASSETS_INDEX.json').read_text(encoding='utf-8'))
+          counts=Counter(part['type'] for part in manifest['parts'])
+          print('Manager bytes:', manifest['source_bytes'])
+          print('Manager SHA256:', manifest['source_sha256'])
+          print('Git blob SHA:', manifest.get('source_git_blob_sha'))
+          print('Parts:', manifest['parts_count'])
+          for key in sorted(counts):
+              print(key + ':', counts[key])
+          print('Functional units:', pages['total'], pages['counts'])
+          print('Assets:', [(a['id'], a['bytes'], a['sha256'], a['runtime_active']) for a in assets['assets']])
+          PY
+
+      - name: Run decomposition, page-index and asset tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}/server:${{ github.workspace }}/vendor:${{ github.workspace }}/tests:${{ github.workspace }}/scripts
+        run: python -m unittest -v tests.test_html_decomposition tests.test_manager_page_index tests.test_manager_assets
+
+      - name: Upload decomposition inspection artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: V1.25.12-manager-decomposition-inspection
+          path: |
+            build/MONOLITH_INDEX.json
+            build/MANAGER_PAGES_INDEX.json
+            build/MANAGER_PAGES_INDEX.md
+            build/MANAGER_ASSETS_INDEX.json
+            build/assets/
+            build/manager_parts/
+            build/rebuilt_FC_LA_COUR_Manager.html
+          compression-level: 0

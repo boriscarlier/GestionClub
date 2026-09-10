@@ -109,19 +109,94 @@ Etat : stable technique.
 
 ## V1.25.10 - Tests Windows en affichage compact
 
-Etat : stable technique.
+Etat : stable Windows via correctif final V1.25.10.2, valide le 10/09/2026.
 
 - Afficher une progression courte `N / X` pendant les tests.
 - Conserver les details en cas d'echec.
 - Garder le bilan final visible pour diagnostic.
+- Corriger la journalisation Windows et valider mise a jour, tests et serveur sur l'installation reelle.
 
 ## V1.25.11 - Acces reseau local
 
-- Autoriser un acces LAN controle.
-- Verifier les protections Host, Origin, session et role.
-- Tester depuis un autre appareil du reseau avant toute ouverture routeur.
+Etat : stable via V1.25.11.1, valide physiquement le 10/09/2026.
 
-## V1.25.12 - Veo et videos de matchs
+- [x] Ajouter un mode LAN explicite sans modifier le mode local par defaut.
+- [x] Conserver le serveur local sur `127.0.0.1:8765`.
+- [x] Ajouter une passerelle LAN separee sur `0.0.0.0:8766`.
+- [x] Detecter les IPv4 privees du poste serveur, avec repli Windows via `ipconfig`.
+- [x] Restreindre les hôtes serveur aux IPv4 privees detectees/autorisees.
+- [x] Refuser les clients hors reseau local.
+- [x] Verifier que `Origin` correspond exactement au `Host` utilise.
+- [x] Conserver sessions, CSRF et roles `admin`, `editor`, `reader`.
+- [x] Ajouter les tests LAN aux suites standard et compacte Windows.
+- [x] Conserver des journaux permanents de mise a jour, tests et acces LAN.
+- [x] Redemarrer proprement l'ancienne instance serveur pendant une mise a jour.
+- [x] Verifier la version source et la version cible pendant la mise a jour.
+- [x] Tester la mise a jour Windows depuis la base stable V1.25.10.2.
+- [x] Tester l'acces depuis un deuxieme appareil du meme reseau local.
+
+Validation physique : acces LAN confirme via `http://192.168.1.3:8766/`.
+Aucune redirection du port 8766 sur le routeur ne fait partie de V1.25.11.
+
+## V1.25.12 - Decomposition HTML et architecture multi-pages
+
+Etat : en developpement depuis V1.25.11.1 stable.
+
+Objectif : remplacer progressivement le monolithe par une architecture HTML indexee, lisible et extensible, sans regression fonctionnelle ni perte de donnees.
+
+### V1.25.12-A - Inventaire et reconstruction sans perte
+
+Etat : termine, garde-fous automatises verts.
+
+- [x] Figer le Manager canonique V1.25.11.1 : `1 143 051` octets, Git blob SHA `64def65ec261d3da05d855896484c4deb79da407`, SHA-256 contenu `5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c`.
+- [x] Ajouter un decomposeur binaire deterministe des blocs HTML/style/script.
+- [x] Ajouter un recomposeur qui exige une identite octet pour octet.
+- [x] Ajouter les tests de continuite, SHA, UTF-8 et alteration de bloc.
+- [x] Ajouter une CI dediee qui produit un artefact d'inspection sans modifier l'application.
+- [x] Generer et inspecter l'index structurel et le manifeste de decomposition : 41 blocs (`21` fragments, `5` styles de premier niveau, `15` scripts).
+- [x] Etablir la cartographie des pages fonctionnelles a partir des IDs et ancres reels : 70 unites (`44` administration, `13` public, `7` educateur, `6` adherent).
+
+### V1.25.12-B - Extraction des ressources embarquees
+
+Etat : extraction passive terminee, validation CI finale en cours.
+
+- [x] Extraire le gros `CLUB_LOGO_DATA_URI` PNG vers `client/assets/brand/club-logo.png`.
+- [x] Verifier la ressource par SHA-256, taille et dimensions : `92 264` octets, `576x507`, SHA-256 `f1152a3cb6601bb95a90f5e362119e0bde45b8da9f4bafe5dd256bba028fb6bd`.
+- [x] Indexer l'asset dans `docs/MANAGER_ASSETS_INDEX.json` avec `runtime_active: false`.
+- [x] Tester que le PNG versionne dans GitHub est identique octet pour octet au PNG embarque.
+- [x] Introduire une desserte statique controlee `/assets/brand/club-logo.png` et verifier son contenu par HTTP.
+- [x] Conserver le monolithe canonique strictement intact : son Base64 devient le fallback/legacy de reference et n'est pas modifie pendant la refactorisation.
+- [ ] Faire utiliser l'asset externe uniquement par les nouvelles pages multi-pages lorsqu'elles seront creees.
+
+### V1.25.12-C - Socle commun CSS
+
+- [ ] Extraire les styles globaux vers `client/shared/css/`.
+- [ ] Distinguer styles communs et styles propres a chaque page.
+- [ ] Conserver la compatibilite avec `/gestion` pendant la migration.
+
+### V1.25.12-D - Socle commun JavaScript
+
+- [ ] Extraire les services communs : etat, stockage, API, sauvegarde, session et utilitaires.
+- [ ] Definir des modules stables sous `client/shared/js/`.
+- [ ] Interdire les duplications de logique metier entre pages.
+
+### V1.25.12-E - Pages fonctionnelles
+
+- [ ] Creer les pages uniquement a partir de la cartographie reelle du Manager.
+- [ ] Fournir une navigation/index unique et un referencement clair dans GitHub.
+- [ ] Migrer une page a la fois avec tests et fallback legacy.
+- [ ] Ne supprimer le monolithe qu'apres validation de toutes les pages equivalentes.
+
+### V1.25.12-F - Bascule et nettoyage
+
+- [ ] Faire de l'architecture multi-pages le chemin principal.
+- [ ] Conserver temporairement `/gestion-legacy` pour comparaison/rollback.
+- [ ] Valider sous Windows, serveur local et passerelle LAN.
+- [ ] Archiver puis retirer le monolithe uniquement apres validation physique complete.
+
+## V1.25.13 - Veo et videos de matchs
+
+Etat : reporte apres stabilisation de l'architecture multi-pages.
 
 - Qualifier les liens publics Veo.
 - Ajouter un modele de reference video rattache a equipe, date, adversaire et competition.

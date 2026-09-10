@@ -170,6 +170,11 @@ Etat : extraction passive terminee, validation CI finale en cours.
 
 ### V1.25.12-C - Socle commun CSS
 
+C1 : extraction passive du prefixe commun (tokens, base, composants), controles locaux 11/11.
+Les fichiers ne sont pas actifs dans `/gestion`. La phase C reste en cours.
+C2 : cartographier les surcharges et styles responsive avant activation et comparaison visuelle.
+Voir `client/shared/css/README.md`.
+
 - [ ] Extraire les styles globaux vers `client/shared/css/`.
 - [ ] Distinguer styles communs et styles propres a chaque page.
 - [ ] Conserver la compatibilite avec `/gestion` pendant la migration.

@@ -30,6 +30,7 @@ jobs:
           - test_html_decomposition
           - test_manager_page_index
           - test_manager_assets
+          - test_manager_css
     steps:
       - name: Checkout
         uses: actions/checkout@v4

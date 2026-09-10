@@ -1,0 +1,35 @@
+{
+  "format": "FCLC_SHARED_CSS",
+  "schema_version": 1,
+  "source": "client/FC_LA_COUR_Manager.html",
+  "source_sha256": "5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c",
+  "runtime_active": false,
+  "phase": "V1.25.12-C1",
+  "scope": "Leading shared foundation only; later overrides remain in canonical HTML",
+  "parts": [
+    {
+      "path": "01-tokens.css",
+      "order": 1,
+      "byte_start": 209,
+      "byte_end": 484,
+      "bytes": 275,
+      "sha256": "f02fcb2654bf73539ba063e0c8996f9e4af860297e03a3b88b2795e69c17fec1"
+    },
+    {
+      "path": "02-base.css",
+      "order": 2,
+      "byte_start": 484,
+      "byte_end": 956,
+      "bytes": 472,
+      "sha256": "84262aad69e7dc52e915bfa4a45cdf73f9c5bdf3bd00afe322ce5bb8eaa474ac"
+    },
+    {
+      "path": "03-components.css",
+      "order": 3,
+      "byte_start": 956,
+      "byte_end": 2744,
+      "bytes": 1788,
+      "sha256": "91755561ee7fe2cd8ae273f9842a85ee0b0505ddd11bf17906497d62f9fa2788"
+    }
+  ]
+}

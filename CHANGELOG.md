@@ -2,6 +2,12 @@
 
 ## V1.25.12-dev
 
+- C1 : extraction passive du prefixe CSS commun en trois fichiers (tokens, base, composants).
+- Extracteur reproductible et manifeste avec plages source / SHA-256 ; refus des fichiers divergents.
+- Six tests CSS ajoutes aux lanceurs Linux, Windows compact et CI.
+- Verification locale : 6 tests CSS + 5 tests decomposition passes. Suite complete et validation visuelle non executees localement pour ce lot.
+- Monolithe, routes et CSS actifs inchanges. Phase C non terminee : surcharges et responsive a cartographier.
+
 - Demarrage de la decomposition HTML depuis la base stable V1.25.11.1.
 - Monolithe canonique fige a `1 143 051` octets avec controles Git SHA, SHA-256 et UTF-8 strict.
 - Decomposition deterministe en 41 blocs et recomposition identique octet pour octet.

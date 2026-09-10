@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - 'dev/**'
+      - 'refactor/**'
   pull_request:
 
 permissions:
@@ -26,6 +27,7 @@ jobs:
           - test_convocations
           - test_lan_server
           - test_windows_runtime
+          - test_html_decomposition
     steps:
       - name: Checkout
         uses: actions/checkout@v4

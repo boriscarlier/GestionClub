@@ -4,13 +4,57 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Licencies - FC LA COUR Gestion Club</title>
-  <meta http-equiv="refresh" content="0; url=/gestion#members">
+  <link rel="stylesheet" href="../../shared/css/page-shell.css">
+  <script src="../../shared/js/members-list.js" defer></script>
 </head>
-<body>
-  <main>
-    <h1>Licencies</h1>
-    <p>Page en cours de decomposition. Le Manager stable reste la reference active.</p>
-    <p><a href="/gestion#members">Ouvrir les licencies dans le Manager stable</a></p>
+<body data-page-status="extracted_shadow" data-legacy-target="/gestion#members">
+  <main class="page-shell">
+    <header class="page-header">
+      <div>
+        <p class="page-kicker">Decomposition HTML - shadow</p>
+        <h1>Licencies</h1>
+      </div>
+      <nav class="page-actions" aria-label="Actions de securite">
+        <a class="button-link" href="/gestion#members">Rollback Manager stable</a>
+        <a class="button-link" href="../README.md">Index des pages</a>
+        <a class="button-link primary" href="/gestion">Ouvrir Gestion Club complet</a>
+      </nav>
+    </header>
+
+    <p class="status-banner" data-members-status>Chargement des licencies depuis le serveur...</p>
+
+    <section class="details-panel">
+      <div class="toolbar-line">
+        <div>
+          <h2>Liste serveur</h2>
+          <p><strong data-members-total>0</strong> licencie(s) visibles en lecture seule.</p>
+        </div>
+        <label class="search-field">Rechercher
+          <input type="search" data-members-filter maxlength="120" placeholder="Nom, prenom, licence ou categorie">
+        </label>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Licence</th>
+              <th>Categorie</th>
+              <th>Contact</th>
+            </tr>
+          </thead>
+          <tbody data-members-rows>
+            <tr><td colspan="4">Chargement...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="details-panel">
+      <h2>Garde-fou</h2>
+      <p>Cette page lit /api/state/members et ne remplace pas encore l'ecran Licencies du Manager complet.</p>
+      <p>En cas d'ecart, utiliser le lien de rollback vers /gestion#members.</p>
+    </section>
   </main>
 </body>
 </html>

@@ -17,6 +17,7 @@ MODULES = (
     'tests.test_convocations',
     'tests.test_lan_server',
     'tests.test_windows_runtime',
+    'tests.test_html_decomposition',
 )
 
 

@@ -1,4 +1,4 @@
-"""FC LA COUR V1.25.2: sauvegardes, veille publique et pont Gestion Club serveur."""
+"""FC LA COUR V1.25.3: sauvegardes, veille publique et API metier serveur."""
 import argparse, getpass, hashlib, hmac, json, re, secrets, sqlite3, time
 from contextlib import closing
 from http.cookies import SimpleCookie
@@ -9,6 +9,7 @@ import watch
 import manual_watch
 import pdf_watch
 import convocations
+from services import club_state
 
 SERVER_ROOT = Path(__file__).resolve().parent
 PROJECT_ROOT = SERVER_ROOT.parent
@@ -30,7 +31,7 @@ def validate(p):
     if not re.fullmatch(r'V\d+\.\d+\.\d+(?:\.\d+)?', str(p.get('build', ''))):
         raise Problem(400, 'Version de sauvegarde non reconnue.')
     v = tuple(map(int, p['build'][1:].split('.')))
-    if v + (0,) * (4-len(v)) > (1,25,2,0):
+    if v + (0,) * (4-len(v)) > (1,25,3,0):
         raise Problem(400, 'Sauvegarde plus récente que ce serveur.')
     s = p.get('state')
     if not isinstance(s, dict):
@@ -67,6 +68,8 @@ def initialize(path):
         CREATE TABLE IF NOT EXISTS revisions(id INTEGER PRIMARY KEY AUTOINCREMENT,created REAL NOT NULL,actor TEXT NOT NULL,club TEXT NOT NULL,payload TEXT NOT NULL);
         CREATE TABLE IF NOT EXISTS attempts(id INTEGER PRIMARY KEY,created REAL NOT NULL);
         ''')
+        club_state.initialize(db)
+        club_state.bootstrap_latest(db)
     watch.initialize(path)
     pdf_watch.initialize(path)
     convocations.initialize(path)
@@ -92,7 +95,7 @@ def manager_page():
         return html.encode('utf-8')
     banner = """
 <div id="serverBridgeBanner" style="position:sticky;top:0;z-index:99999;background:#102516;color:#fffbe6;border-bottom:2px solid #2ecc71;padding:10px 16px;font:14px/1.35 system-ui,Segoe UI,sans-serif">
-  <strong>Gestion Club servi par le serveur local V1.25.2.</strong>
+  <strong>Gestion Club servi par le serveur local V1.25.3.</strong>
   Les donnees reelles restent dans la base serveur ; l'enregistrement complet est volontaire et confirme.
   <button id="serverBridgeSave" type="button" style="margin-left:12px;border:1px solid #2ecc71;border-radius:10px;background:#2ecc71;color:#06100a;font-weight:800;padding:7px 10px;cursor:pointer">Enregistrer sur serveur</button>
   <button id="serverBridgeDownload" type="button" style="margin-left:6px;border:1px solid #9df7b9;border-radius:10px;background:transparent;color:#9df7b9;font-weight:700;padding:7px 10px;cursor:pointer">Telecharger revision serveur</button>
@@ -100,7 +103,7 @@ def manager_page():
   <span id="serverBridgeStatus" style="display:block;margin-top:6px;color:#c8f7d8"></span>
 </div>
 <script>
-window.FC_LA_COUR_SERVER_BRIDGE={build:"V1.25.2",mode:"server-bridge",bootstrapUrl:"/api/gestion/bootstrap"};
+window.FC_LA_COUR_SERVER_BRIDGE={build:"V1.25.3",mode:"server-bridge",bootstrapUrl:"/api/gestion/bootstrap"};
 (function(){
   async function api(path,method,body,csrf){
     const response=await fetch(path,{method:method||"GET",credentials:"same-origin",cache:"no-store",headers:Object.assign({"Content-Type":"application/json"},csrf?{"X-CSRF-Token":csrf}:{}),body:body===undefined?undefined:JSON.stringify(body)});
@@ -141,7 +144,7 @@ window.FC_LA_COUR_SERVER_BRIDGE={build:"V1.25.2",mode:"server-bridge",bootstrapU
     return (html[:end+1] + banner + html[end+1:]).encode('utf-8')
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = 'FCLaCour/1.25.2'
+    server_version = 'FCLaCour/1.25.3'
     sys_version = ''
     def log_message(self, *args):
         pass
@@ -233,7 +236,17 @@ class Handler(BaseHTTPRequestHandler):
             if path == '/api/gestion/bootstrap' and self.command == 'GET':
                 row=db.execute('SELECT id,created,actor,club,payload FROM revisions ORDER BY id DESC LIMIT 1').fetchone()
                 latest = None if not row else {'revision':row['id'],'created':row['created'],'actor':row['actor'],'club':row['club'],'backup':json.loads(row['payload'])}
-                return self.send(200,{'serverBuild':'V1.25.2','mode':'server-bridge','user':user['user'],'role':user['role'],'latest':latest})
+                return self.send(200,{'serverBuild':'V1.25.3','mode':'server-bridge','user':user['user'],'role':user['role'],'latest':latest})
+            if path == '/api/state/summary' and self.command == 'GET':
+                return self.send(200, club_state.summary(db))
+            if path == '/api/state/members' and self.command == 'GET':
+                return self.send(200, club_state.members(db, parse_qs(urlsplit(self.path).query)))
+            if path.startswith('/api/state/members/') and self.command == 'GET':
+                ident = path.rsplit('/', 1)[-1]
+                member = club_state.member(db, ident)
+                if not member:
+                    raise Problem(404, 'Licencié introuvable.')
+                return self.send(200, {'member': member})
             if path.startswith('/api/watch'):
                 params=parse_qs(urlsplit(self.path).query)
                 if self.command == 'GET':
@@ -303,6 +316,7 @@ class Handler(BaseHTTPRequestHandler):
                         raise Problem(409,'Affiliation différente de la base serveur.')
                     cur=db.execute('INSERT INTO revisions(created,actor,club,payload) VALUES(?,?,?,?)',(time.time(),user['user'],club,raw))
                     revision=cur.lastrowid
+                    club_state.sync_members(db, revision, p)
                 return self.send(201,{'revision':revision})
             raise Problem(404,'Ressource inexistante.')
     def handle_request(self):
@@ -357,7 +371,7 @@ def main():
             return
     srv=make_server(args.data)
     srv.watch.start()
-    print('FC LA COUR V1.25.2 — http://127.0.0.1:8765 — Ctrl+C pour arrêter.')
+    print('FC LA COUR V1.25.3 — http://127.0.0.1:8765 — Ctrl+C pour arrêter.')
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

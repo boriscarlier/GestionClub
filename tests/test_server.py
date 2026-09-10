@@ -98,7 +98,7 @@ class ServerTests(unittest.TestCase):
         s=self.login();revision=self.deposit(s)[1]['revision']
         code,r,_=self.request('/api/gestion/bootstrap',session=s)
         self.assertEqual(code,200)
-        self.assertEqual(r['serverBuild'],'V1.25.2')
+        self.assertEqual(r['serverBuild'],'V1.25.3')
         self.assertEqual(r['mode'],'server-bridge')
         self.assertEqual(r['latest']['revision'],revision)
         self.assertEqual(r['latest']['backup'],self.p)
@@ -110,11 +110,46 @@ class ServerTests(unittest.TestCase):
         self.assertIn(b'/api/snapshot',raw)
         self.assertIn(b'expectedRevision:state.revision',raw)
     def test_21_current_manager_backup_version_accepted(self):
-        s=self.login();self.p['build']='V1.25.2'
+        s=self.login();self.p['build']='V1.25.3'
         code,r,_=self.deposit(s)
         self.assertEqual(code,201)
         self.assertGreaterEqual(r['revision'],1)
         out=self.request('/api/snapshot',session=s)[1]['backup']
-        self.assertEqual(out['build'],'V1.25.2')
+        self.assertEqual(out['build'],'V1.25.3')
+    def test_22_members_synced_to_sql_and_listed_by_api(self):
+        s=self.login()
+        self.p['state']['members']=[
+            {'id':'m-1','licenseNumber':'9601','personNumber':'p-1','last':'ABAR','first':'Mylan','birthDate':'2015-07-25','category':'U11','email':'mylan@example.test'},
+            {'id':'m-2','licenseNumber':'9602','personNumber':'p-2','last':'OLIVAR','first':'Teddy','birthDate':'2019-10-08','category':'U7','phone':'0692188189'}
+        ]
+        revision=self.deposit(s)[1]['revision']
+        code,summary,_=self.request('/api/state/summary',session=s)
+        self.assertEqual(code,200)
+        self.assertEqual(summary['revision'],revision)
+        self.assertEqual(summary['counts']['members'],2)
+        code,listing,_=self.request('/api/state/members?q=olivar',session=s)
+        self.assertEqual(code,200)
+        self.assertEqual(listing['total'],1)
+        self.assertEqual(listing['members'][0]['id'],'m-2')
+        self.assertEqual(listing['members'][0]['fullName'],'OLIVAR Teddy')
+    def test_23_member_detail_api_returns_source_payload(self):
+        s=self.login()
+        self.p['state']['members']=[{'id':'m-1','licenseNumber':'9601','last':'ABAR','first':'Mylan','sourceData':{'raw':'kept'}}]
+        self.deposit(s)
+        code,r,_=self.request('/api/state/members/m-1',session=s)
+        self.assertEqual(code,200)
+        self.assertEqual(r['member']['payload']['sourceData']['raw'],'kept')
+        self.assertEqual(self.request('/api/state/members/missing',session=s)[0],404)
+    def test_24_existing_revision_bootstraps_members_sql(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path=Path(temp)/'legacy.sqlite3'
+            server.initialize(path)
+            backup={**self.p,'state':{**self.p['state'],'members':[{'id':'legacy-member','last':'LEGACY','first':'SQL'}]}}
+            with closing(server.connect(path)) as db,db:
+                db.execute('INSERT INTO revisions(created,actor,club,payload) VALUES(?,?,?,?)',(1,'legacy','000000',json.dumps(backup)))
+            server.initialize(path)
+            with closing(server.connect(path)) as db:
+                row=db.execute('SELECT full_name FROM members WHERE id=?',('legacy-member',)).fetchone()
+                self.assertEqual(row['full_name'],'LEGACY SQL')
 
 if __name__=='__main__':unittest.main(verbosity=2)

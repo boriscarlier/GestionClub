@@ -27,7 +27,7 @@ Livraison calme V1.25.1 :
 
 ## V1.25.2 - Donnees communes
 
-Etat : en developpement.
+Etat : stable technique.
 
 - Remplacer progressivement les ecritures navigateur directes par des appels serveur.
 - Traiter membres, equipes, licences et comptes en priorite.
@@ -41,13 +41,23 @@ Livraison V1.25.2 :
 - sauvegardes completes du client acceptees jusqu'a V1.25.2 ;
 - les ecritures champ par champ restent un choix d'architecture a trancher plus tard.
 
-## V1.25.3 - Acces reseau local
+## V1.25.3 - Socle SQL/API des licencies
+
+Etat : en developpement.
+
+- Creer les premiers services serveur separes.
+- Synchroniser les licencies de la derniere sauvegarde vers SQLite.
+- Exposer un resume d'etat serveur et les lectures licencies par API.
+- Proteger la reprise des anciennes bases par migration douce au demarrage.
+- Garder la sauvegarde complete comme filet de securite.
+
+## V1.25.4 - Acces reseau local
 
 - Autoriser un acces LAN controle.
 - Verifier les protections Host, Origin, session et role.
 - Tester depuis un autre appareil du reseau avant toute ouverture routeur.
 
-## V1.25.4 - Veo et videos de matchs
+## V1.25.5 - Veo et videos de matchs
 
 - Qualifier les liens publics Veo.
 - Ajouter un modele de reference video rattache a equipe, date, adversaire et competition.

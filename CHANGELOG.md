@@ -1,5 +1,15 @@
 # Changelog
 
+## V1.25.3
+
+- Debut de la migration module par module vers SQL/API.
+- Ajout du service `server/services/club_state.py`.
+- Ajout d'une table SQL `members` synchronisee depuis chaque sauvegarde complete deposee.
+- Migration douce au demarrage : une base existante reconstruit `members` depuis la derniere revision si necessaire.
+- Ajout des API `/api/state/summary`, `/api/state/members` et `/api/state/members/{id}`.
+- Sauvegardes completes acceptees jusqu'a `V1.25.3`.
+- Tests serveur portes a 24 controles.
+
 ## V1.25.2
 
 - V1.25.1 marquee comme stable.

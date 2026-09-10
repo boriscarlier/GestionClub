@@ -9,7 +9,8 @@ from pathlib import Path
 
 SOURCE_DEFAULT = Path('client/FC_LA_COUR_Manager.html')
 OUTPUT_DEFAULT = Path('client/manager_parts')
-EXPECTED_SHA256 = '64def65ec261d3da05d855896484c4deb79da407'
+EXPECTED_SHA256 = '5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c'
+EXPECTED_GIT_BLOB_SHA = '64def65ec261d3da05d855896484c4deb79da407'
 EXPECTED_BYTES = 1_143_051
 BLOCK_RE = re.compile(br'<(style|script)\b[^>]*>.*?</\1\s*>', re.IGNORECASE | re.DOTALL)
 
@@ -25,7 +26,8 @@ def validate_source(raw: bytes, expected_sha256: str | None = EXPECTED_SHA256) -
     sha256 = digest(raw)
     if expected_sha256 and sha256 != expected_sha256:
         raise SystemExit(
-            'Manager: SHA256 inattendu. Attendu %s, obtenu %s.' % (expected_sha256, sha256)
+            'Manager: SHA256 contenu inattendu. Attendu %s, obtenu %s.'
+            % (expected_sha256, sha256)
         )
     if expected_sha256 == EXPECTED_SHA256 and len(raw) != EXPECTED_BYTES:
         raise SystemExit(
@@ -92,8 +94,9 @@ def decompose(source: Path, output_dir: Path, expected_sha256: str | None = EXPE
         'format': 'FC_LA_COUR_MANAGER_DECOMPOSITION',
         'schema_version': 1,
         'source': str(source).replace('\\', '/'),
-        'source_sha256': source_sha256,
         'source_bytes': len(raw),
+        'source_sha256': source_sha256,
+        'source_git_blob_sha': EXPECTED_GIT_BLOB_SHA if source_sha256 == EXPECTED_SHA256 else None,
         'encoding': 'utf-8-strict',
         'strategy': 'lossless-style-script-boundaries',
         'parts_count': len(parts),
@@ -114,7 +117,7 @@ def main():
     parser.add_argument(
         '--expected-sha256',
         default=EXPECTED_SHA256,
-        help='SHA256 source attendu; utiliser une chaine vide pour desactiver ce garde-fou.',
+        help='SHA256 contenu attendu; utiliser une chaine vide pour desactiver ce garde-fou.',
     )
     args = parser.parse_args()
     expected = args.expected_sha256.strip() or None
@@ -130,7 +133,9 @@ def main():
             ', '.join('%s=%s' % item for item in sorted(counts.items())),
         )
     )
-    print('SHA256 source: ' + manifest['source_sha256'])
+    print('SHA256 contenu: ' + manifest['source_sha256'])
+    if manifest.get('source_git_blob_sha'):
+        print('Git blob SHA: ' + manifest['source_git_blob_sha'])
 
 
 if __name__ == '__main__':

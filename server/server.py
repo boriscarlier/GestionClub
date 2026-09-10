@@ -4,7 +4,7 @@ from contextlib import closing
 from http.cookies import SimpleCookie
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import urlsplit, parse_qs
+from urllib.parse import urlsplit, parse_qs, unquote
 import watch
 import manual_watch
 import pdf_watch
@@ -152,6 +152,38 @@ window.FC_LA_COUR_SERVER_BRIDGE={build:"V1.25.10",mode:"server-bridge",bootstrap
 """
     return (html[:end+1] + banner + html[end+1:]).encode('utf-8')
 
+
+def protected_client_asset(request_path):
+    decoded = unquote(request_path)
+    if decoded.startswith('/pages/'):
+        root = CLIENT_ROOT / 'pages'
+        relative = decoded[len('/pages/'):]
+    elif decoded.startswith('/shared/'):
+        root = CLIENT_ROOT / 'shared'
+        relative = decoded[len('/shared/'):]
+    else:
+        raise Problem(404, 'Ressource inexistante.')
+    if not relative or relative.endswith('/') or '\x00' in relative:
+        raise Problem(404, 'Ressource inexistante.')
+    suffix = Path(relative).suffix.lower()
+    mimes = {
+        '.html': 'text/html; charset=utf-8',
+        '.css': 'text/css; charset=utf-8',
+        '.js': 'text/javascript; charset=utf-8',
+        '.md': 'text/markdown; charset=utf-8',
+    }
+    if suffix not in mimes:
+        raise Problem(404, 'Type de ressource non autorisé.')
+    base = root.resolve()
+    target = (root / relative).resolve()
+    try:
+        target.relative_to(base)
+    except ValueError:
+        raise Problem(404, 'Ressource inexistante.')
+    if not target.is_file():
+        raise Problem(404, 'Ressource inexistante.')
+    return target, mimes[suffix]
+
 class Handler(BaseHTTPRequestHandler):
     server_version = 'FCLaCour/1.25.10'
     sys_version = ''
@@ -239,6 +271,10 @@ class Handler(BaseHTTPRequestHandler):
                 raise Problem(403,'Jeton de session invalide.')
             if path == '/api/session' and self.command == 'GET':
                 return self.send(200,{'user':user['user'],'role':user['role'],'csrf':user['csrf']})
+            if self.command == 'GET' and (path.startswith('/pages/') or path.startswith('/shared/')):
+                file_path, mime = protected_client_asset(path)
+                csp = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
+                return self.send(200, file_path.read_bytes(), mime=mime, csp=csp)
             if path == '/gestion' and self.command == 'GET':
                 csp = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
                 return self.send(200, manager_page(), mime='text/html; charset=utf-8', csp=csp)

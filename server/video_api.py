@@ -1,4 +1,4 @@
-"""API HTTP des references video V1.25.12."""
+"""API HTTP et interface des references video V1.25.12."""
 import hmac
 from contextlib import closing
 from urllib.parse import parse_qs, urlsplit
@@ -6,10 +6,16 @@ from urllib.parse import parse_qs, urlsplit
 import server
 from services import video_refs
 
+UI_FILES = {
+    '/videos': ('videos.html', 'text/html; charset=utf-8'),
+    '/videos.js': ('videos.js', 'text/javascript; charset=utf-8'),
+    '/videos.css': ('videos.css', 'text/css; charset=utf-8'),
+}
+
 
 def is_video_path(raw_path):
     path = urlsplit(raw_path).path
-    return path == '/api/videos' or path.startswith('/api/videos/')
+    return path in UI_FILES or path == '/api/videos' or path.startswith('/api/videos/')
 
 
 def initialize(path):
@@ -35,6 +41,10 @@ def route(handler):
             handler.headers.get('X-CSRF-Token', ''), user['csrf']
         ):
             raise server.Problem(403, 'Jeton de session invalide.')
+
+        if path in UI_FILES and handler.command == 'GET':
+            filename, mime = UI_FILES[path]
+            return handler.send(200, (server.CLIENT_ROOT / filename).read_bytes(), mime=mime)
 
         if path == '/api/videos' and handler.command == 'GET':
             return handler.send(200, video_refs.listing(db, parse_qs(parsed.query)))

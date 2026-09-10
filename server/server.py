@@ -1,4 +1,4 @@
-"""FC LA COUR V1.25.9: sauvegardes, veille publique et API metier serveur."""
+"""FC LA COUR V1.25.10: sauvegardes, veille publique et API metier serveur."""
 import argparse, getpass, hashlib, hmac, json, os, re, secrets, sqlite3, time
 from contextlib import closing
 from http.cookies import SimpleCookie
@@ -31,7 +31,7 @@ def validate(p):
     if not re.fullmatch(r'V\d+\.\d+\.\d+(?:\.\d+)?', str(p.get('build', ''))):
         raise Problem(400, 'Version de sauvegarde non reconnue.')
     v = tuple(map(int, p['build'][1:].split('.')))
-    if v + (0,) * (4-len(v)) > (1,25,9,0):
+    if v + (0,) * (4-len(v)) > (1,25,10,0):
         raise Problem(400, 'Sauvegarde plus récente que ce serveur.')
     s = p.get('state')
     if not isinstance(s, dict):
@@ -104,7 +104,7 @@ def manager_page():
         return html.encode('utf-8')
     banner = """
 <div id="serverBridgeBanner" style="position:sticky;top:0;z-index:99999;background:#102516;color:#fffbe6;border-bottom:2px solid #2ecc71;padding:10px 16px;font:14px/1.35 system-ui,Segoe UI,sans-serif">
-    <strong>Gestion Club servi par le serveur local V1.25.9.</strong>
+    <strong>Gestion Club servi par le serveur local V1.25.10.</strong>
   Les donnees reelles restent dans la base serveur ; l'enregistrement complet est volontaire et confirme.
   <button id="serverBridgeSave" type="button" style="margin-left:12px;border:1px solid #2ecc71;border-radius:10px;background:#2ecc71;color:#06100a;font-weight:800;padding:7px 10px;cursor:pointer">Enregistrer sur serveur</button>
   <button id="serverBridgeDownload" type="button" style="margin-left:6px;border:1px solid #9df7b9;border-radius:10px;background:transparent;color:#9df7b9;font-weight:700;padding:7px 10px;cursor:pointer">Telecharger revision serveur</button>
@@ -112,7 +112,7 @@ def manager_page():
   <span id="serverBridgeStatus" style="display:block;margin-top:6px;color:#c8f7d8"></span>
 </div>
 <script>
-window.FC_LA_COUR_SERVER_BRIDGE={build:"V1.25.9",mode:"server-bridge",bootstrapUrl:"/api/gestion/bootstrap"};
+window.FC_LA_COUR_SERVER_BRIDGE={build:"V1.25.10",mode:"server-bridge",bootstrapUrl:"/api/gestion/bootstrap"};
 (function(){
   async function api(path,method,body,csrf){
     const response=await fetch(path,{method:method||"GET",credentials:"same-origin",cache:"no-store",headers:Object.assign({"Content-Type":"application/json"},csrf?{"X-CSRF-Token":csrf}:{}),body:body===undefined?undefined:JSON.stringify(body)});
@@ -153,7 +153,7 @@ window.FC_LA_COUR_SERVER_BRIDGE={build:"V1.25.9",mode:"server-bridge",bootstrapU
     return (html[:end+1] + banner + html[end+1:]).encode('utf-8')
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = 'FCLaCour/1.25.9'
+    server_version = 'FCLaCour/1.25.10'
     sys_version = ''
     def log_message(self, *args):
         pass
@@ -245,7 +245,7 @@ class Handler(BaseHTTPRequestHandler):
             if path == '/api/gestion/bootstrap' and self.command == 'GET':
                 row=db.execute('SELECT id,created,actor,club,payload FROM revisions ORDER BY id DESC LIMIT 1').fetchone()
                 latest = None if not row else {'revision':row['id'],'created':row['created'],'actor':row['actor'],'club':row['club'],'backup':json.loads(row['payload'])}
-                return self.send(200,{'serverBuild':'V1.25.9','mode':'server-bridge','user':user['user'],'role':user['role'],'latest':latest})
+                return self.send(200,{'serverBuild':'V1.25.10','mode':'server-bridge','user':user['user'],'role':user['role'],'latest':latest})
             if path == '/api/state/summary' and self.command == 'GET':
                 return self.send(200, club_state.summary(db))
             if path == '/api/state/members' and self.command == 'GET':
@@ -389,7 +389,7 @@ def main():
     srv=make_server(args.data)
     srv.watch.start()
     print('Base de donnees : ' + str(args.data))
-    print('FC LA COUR V1.25.9 — http://127.0.0.1:8765 — Ctrl+C pour arrêter.')
+    print('FC LA COUR V1.25.10 — http://127.0.0.1:8765 — Ctrl+C pour arrêter.')
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

@@ -9,7 +9,7 @@ if errorlevel 1 (
 )
 set "PYTHONPATH=%CD%\server;%CD%\vendor;%CD%\tests"
 echo Tests techniques avec bases temporaires. Votre dossier data n'est pas modifie.
-py -3 -m unittest -v tests.test_server tests.test_watch tests.test_manual_watch tests.test_pdf_watch tests.test_convocations
+py -3 scripts\run_tests_compact.py
 if errorlevel 1 (
   echo ECHEC : conservez le bilan affiche.
   pause

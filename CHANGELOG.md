@@ -1,5 +1,14 @@
 # Changelog
 
+## V1.25.10
+
+- Ajout d'un lanceur de tests compact pour Windows.
+- `LANCER_TESTS.cmd` affiche une progression `Statut tests : N / X` au lieu de lister tous les tests.
+- Les details restent affiches en cas d'echec ou d'erreur.
+- Ajout d'un test automatise pour verifier que le lanceur Windows utilise bien ce mode compact.
+- Sauvegardes completes acceptees jusqu'a `V1.25.10`.
+- Tests serveur portes a 33 controles, suite totale a 89 controles.
+
 ## V1.25.9
 
 - Le lanceur Windows vérifie si `http://127.0.0.1:8765/` répond déjà avant de démarrer le serveur.

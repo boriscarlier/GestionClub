@@ -100,20 +100,28 @@ Etat : stable technique.
 
 ## V1.25.9 - Garde-fou anti double demarrage Windows
 
-Etat : en developpement.
+Etat : stable technique.
 
 - Verifier si le serveur local repond deja sur `127.0.0.1:8765`.
 - Ouvrir la page existante au lieu de lancer une deuxieme instance.
 - Appliquer le meme comportement apres mise a jour automatique.
 - Tester le lanceur Windows par inspection automatisee.
 
-## V1.25.10 - Acces reseau local
+## V1.25.10 - Tests Windows en affichage compact
+
+Etat : stable technique.
+
+- Afficher une progression courte `N / X` pendant les tests.
+- Conserver les details en cas d'echec.
+- Garder le bilan final visible pour diagnostic.
+
+## V1.25.11 - Acces reseau local
 
 - Autoriser un acces LAN controle.
 - Verifier les protections Host, Origin, session et role.
 - Tester depuis un autre appareil du reseau avant toute ouverture routeur.
 
-## V1.25.11 - Veo et videos de matchs
+## V1.25.12 - Veo et videos de matchs
 
 - Qualifier les liens publics Veo.
 - Ajouter un modele de reference video rattache a equipe, date, adversaire et competition.

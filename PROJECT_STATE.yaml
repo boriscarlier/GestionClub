@@ -1,5 +1,5 @@
 project: FC LA COUR Gestion Club
-version: V1.25.9
+version: V1.25.10
 base_imported: V1.24.5
 runtime:
   language: Python
@@ -26,3 +26,5 @@ stable_versions:
   - V1.25.6
   - V1.25.7
   - V1.25.8
+  - V1.25.9
+  - V1.25.10

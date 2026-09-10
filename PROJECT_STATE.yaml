@@ -41,8 +41,10 @@ last_physical_validation:
 candidate_version: V1.25.12-dev
 refactor_branch: refactor/v1.25.12-html-decomposition
 refactor_phase:
-  completed: V1.25.12-A
-  current: V1.25.12-B
+  completed:
+    - V1.25.12-A
+    - V1.25.12-B_passive
+  current: V1.25.12-C
 canonical_manager:
   path: client/FC_LA_COUR_Manager.html
   bytes: 1143051

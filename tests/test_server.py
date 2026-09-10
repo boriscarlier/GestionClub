@@ -98,7 +98,7 @@ class ServerTests(unittest.TestCase):
         s=self.login();revision=self.deposit(s)[1]['revision']
         code,r,_=self.request('/api/gestion/bootstrap',session=s)
         self.assertEqual(code,200)
-        self.assertEqual(r['serverBuild'],'V1.25.8')
+        self.assertEqual(r['serverBuild'],'V1.25.9')
         self.assertEqual(r['mode'],'server-bridge')
         self.assertEqual(r['latest']['revision'],revision)
         self.assertEqual(r['latest']['backup'],self.p)
@@ -110,12 +110,12 @@ class ServerTests(unittest.TestCase):
         self.assertIn(b'/api/snapshot',raw)
         self.assertIn(b'expectedRevision:state.revision',raw)
     def test_21_current_manager_backup_version_accepted(self):
-        s=self.login();self.p['build']='V1.25.8'
+        s=self.login();self.p['build']='V1.25.9'
         code,r,_=self.deposit(s)
         self.assertEqual(code,201)
         self.assertGreaterEqual(r['revision'],1)
         out=self.request('/api/snapshot',session=s)[1]['backup']
-        self.assertEqual(out['build'],'V1.25.8')
+        self.assertEqual(out['build'],'V1.25.9')
     def test_22_members_synced_to_sql_and_listed_by_api(self):
         s=self.login()
         self.p['state']['members']=[
@@ -154,7 +154,7 @@ class ServerTests(unittest.TestCase):
     def test_25_gestion_members_api_bridge_is_visible(self):
         s=self.login();code,raw,_=self.raw_request('/gestion',session=s)
         self.assertEqual(code,200)
-        self.assertIn(b'V1.25.8',raw)
+        self.assertIn(b'V1.25.9',raw)
         self.assertIn(b'/api/state/members?limit=500',raw)
         self.assertIn(b'Source : serveur SQL/API',raw)
     def test_26_teams_synced_to_sql_and_listed_by_api(self):
@@ -223,8 +223,8 @@ class ServerTests(unittest.TestCase):
     def test_32_homepage_displays_current_server_version(self):
         code,raw,_=self.raw_request('/')
         self.assertEqual(code,200)
-        self.assertIn(b'Serveur V1.25.8',raw)
-        self.assertIn('FC LA COUR · V1.25.8'.encode('utf-8'),raw)
+        self.assertIn(b'Serveur V1.25.9',raw)
+        self.assertIn('FC LA COUR · V1.25.9'.encode('utf-8'),raw)
         self.assertNotIn(b'V1.25.1',raw)
 
 if __name__=='__main__':unittest.main(verbosity=2)

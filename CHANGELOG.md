@@ -1,5 +1,14 @@
 # Changelog
 
+## V1.25.9
+
+- Le lanceur Windows vérifie si `http://127.0.0.1:8765/` répond déjà avant de démarrer le serveur.
+- Si un serveur est déjà lancé, le script ouvre la page existante et ne crée pas de deuxième instance.
+- Le contrôle s'applique aussi après `METTRE_A_JOUR.cmd`, car il appelle le même lanceur.
+- Alignement de l'identifiant HTTP interne `FCLaCour/1.25.9`.
+- Sauvegardes completes acceptees jusqu'a `V1.25.9`.
+- Tests serveur maintenus a 32 controles avec verification du garde-fou Windows.
+
 ## V1.25.8
 
 - Correction du numero de version affiche sur la page d'accueil serveur.

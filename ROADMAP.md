@@ -146,7 +146,7 @@ Objectif : remplacer progressivement le monolithe par une architecture HTML inde
 
 ### V1.25.12-A - Inventaire et reconstruction sans perte
 
-- [x] Figer le Manager canonique V1.25.11.1 : `1 143 051` octets, SHA256 `64def65ec261d3da05d855896484c4deb79da407`.
+- [x] Figer le Manager canonique V1.25.11.1 : `1 143 051` octets, Git blob SHA `64def65ec261d3da05d855896484c4deb79da407`, SHA-256 contenu `5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c`.
 - [x] Ajouter un decomposeur binaire deterministe des blocs HTML/style/script.
 - [x] Ajouter un recomposeur qui exige une identite octet pour octet.
 - [x] Ajouter les tests de continuite, SHA, UTF-8 et alteration de bloc.

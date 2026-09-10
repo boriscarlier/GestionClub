@@ -1,5 +1,5 @@
 project: FC LA COUR Gestion Club
-version: V1.25.11-dev
+version: V1.25.11.1-dev
 base_imported: V1.24.5
 base_stable: V1.25.10.2
 runtime:
@@ -14,7 +14,9 @@ storage:
     - FCLC_DATA_PATH
     - FCLC_DATA_DIR
 current_focus:
-  - acces_reseau_local_controle
+  - redemarrage_propre_apres_mise_a_jour
+  - logs_windows_permanents
+  - acces_reseau_local_controle_port_8766
   - protections_host_origin
   - conservation_sessions_roles_csrf
   - compatibilite_mode_local
@@ -34,10 +36,11 @@ last_physical_validation:
   date: 2026-09-10
   platform: Windows
   result: tests_passed_server_online
-candidate_version: V1.25.11-dev
+candidate_version: V1.25.11.1-dev
 validation_required:
-  - tests_automatises_lan
-  - test_depuis_second_appareil_du_lan
+  - mise_a_jour_confirme_version_cible
+  - generation_logs_mise_a_jour_et_tests
+  - redemarrage_runtime_V1.25.11.1
+  - test_depuis_second_appareil_du_lan_sur_port_8766
   - verification_host_origin_session_role_csrf
-  - verification_mode_local_inchange
   - verification_data_reelle_non_modifiee

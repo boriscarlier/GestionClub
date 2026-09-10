@@ -19,6 +19,7 @@ MODULES = (
     'tests.test_windows_runtime',
     'tests.test_html_decomposition',
     'tests.test_manager_page_index',
+    'tests.test_manager_assets',
 )
 
 

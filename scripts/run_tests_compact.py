@@ -18,6 +18,7 @@ MODULES = (
     'tests.test_lan_server',
     'tests.test_windows_runtime',
     'tests.test_html_decomposition',
+    'tests.test_manager_page_index',
 )
 
 

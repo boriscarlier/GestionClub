@@ -22,7 +22,7 @@ Apres connexion au serveur, `/gestion-modulaire` assemble les sources CSS, JavaS
 `/gestion-legacy` conserve la reference de comparaison.
 Index : `docs/MANAGER_CSS_INDEX.md`, `docs/MANAGER_JS_SERVICES.md`, `docs/MANAGER_COMPOSED_PAGES.md`.
 Les templates ne sont pas des HTML autonomes ; voir `client/pages/README.md`.
-139 tests Python locaux passes. Validation navigateur/Windows avant bascule par defaut.
+141 tests Python locaux passes. 210 comparaisons visuelles reussies sur le lot precedent ; revalidation des 70 acces directs bloquee par le demarrage de GitHub Actions. Validation Windows avant bascule par defaut.
 
 ## Demarrage Windows local
 

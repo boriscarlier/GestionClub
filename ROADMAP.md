@@ -199,8 +199,8 @@ Ce n'est pas une conversion en ES modules autonomes ; aucune nouvelle logique me
 70 templates extraits, inclusions imbriquees et routes optionnelles raccordees.
 Voir `docs/MANAGER_COMPOSED_PAGES.md` et `client/pages/README.md`.
 Les 70 routes passent les controles HTTP ; le document modulaire de base est identique au legacy.
-139 tests Python passes localement. Comparaison navigateur en attente de CI.
-La validation interactive/visuelle reste ouverte : ne pas declarer E terminee sans son resultat.
+141 tests Python passes localement, dont passerelle LAN. 210 comparaisons navigateur passees sur 330c941 (70 pages x trois largeurs).
+Les 70 acces directs ont ensuite revele une injection dans des chaines HTML d'export : corrigee avec test de regression. Revalidation navigateur bloquee par GitHub Actions (jobs sans etapes ni journaux). E reste ouverte ; ne pas fusionner avant ce resultat.
 
 - [ ] Creer les pages uniquement a partir de la cartographie reelle du Manager.
 - [ ] Fournir une navigation/index unique et un referencement clair dans GitHub.

@@ -49,7 +49,9 @@ refactor_phase:
     css_units: 114
     javascript_classic_units: 663
     page_templates: 70
-    python_tests_local: 139
+    python_tests_local: 141
+    browser_parity_previous_commit: 210
+    direct_routes_browser_validation: blocked_actions_jobs_have_no_steps
     canonical_byte_equality: true
     default_route_changed: false
     optional_route: /gestion-modulaire

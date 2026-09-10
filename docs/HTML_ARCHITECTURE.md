@@ -7,7 +7,7 @@ Assemblage verifie par `server/manager_sources.py`, sans modification des octets
 Entree optionnelle `/gestion-modulaire` ; `/gestion` et `/gestion-legacy` restent les references.
 Index techniques : `MANAGER_CSS_INDEX.md`, `MANAGER_JS_SERVICES.md`, `MANAGER_COMPOSED_PAGES.md`.
 L'assemblage conserve toute la structure DOM et la portee des scripts, donc pas encore de chargement a la demande ni d'ES modules.
-Les tests Python et les 70 routes passent ; validation visuelle CI en attente avant cloture des phases.
+Les 141 tests Python et les 70 routes HTTP passent. 210 comparaisons visuelles ont passe sur 330c941. La verification supplementaire des 70 acces directs reste a relancer apres correction de l'injection dans les exports embarques : les derniers jobs GitHub Actions echouent avant leur premiere etape. Ne pas clore E ni fusionner avant ce controle.
 
 ## Base de reference
 

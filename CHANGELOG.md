@@ -5,9 +5,9 @@
 - C/D/E : extraction source complete (114 CSS, 663 unites JS classiques, 70 templates imbriques).
 - Ajout d'un assembleur avec verification SHA-256 de chaque source, inclusions uniques et rejet des chemins hors client.
 - `/gestion-modulaire` et 70 routes explicites ajoutes derriere l'authentification existante ; `/gestion` reste inchange et `/gestion-legacy` disponible.
-- 139 tests Python passes localement, dont recomposition exacte, syntaxe JS, routes, authentification et repli sur incident.
+- 141 tests Python passes localement, dont recomposition exacte, syntaxe JS, routes, authentification, passerelle LAN et repli sur incident.
 - Ajout d'un banc navigateur CI ; execution locale bloquee par absence de Chromium et echec de telechargement.
-- Pas de bascule F ni declaration de validation visuelle a ce stade.
+- 210 comparaisons visuelles passees sur 330c941 (70 pages, trois largeurs). Les tests supplementaires des acces directs ont identifie une injection dans les exports HTML embarques : corrigee avec test de regression. Nouvelle validation navigateur bloquee : jobs Actions sans aucune etape ni journal. Pas de fusion ni de bascule F.
 
 - C1 : extraction passive du prefixe CSS commun en trois fichiers (tokens, base, composants).
 - Extracteur reproductible et manifeste avec plages source / SHA-256 ; refus des fichiers divergents.

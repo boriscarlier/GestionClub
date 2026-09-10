@@ -137,6 +137,24 @@ class VideoReferenceTests(unittest.TestCase):
         self.assertEqual(data['video']['opponent'], 'Nouvel adversaire')
         self.assertEqual(data['video']['visibility'], 'private')
 
+    def test_09_video_page_requires_session_and_is_served(self):
+        self.assertEqual(self.request('/videos')[0], 401)
+        session = self.login()
+        code, raw, _ = self.request('/videos', session=session)
+        self.assertEqual(code, 200)
+        self.assertIn('Vidéos de matchs'.encode('utf-8'), raw)
+        self.assertIn(b'id="videoForm"', raw)
+        self.assertIn(b'/videos.js', raw)
+        self.assertEqual(self.request('/videos.js', session=session)[0], 200)
+
+    def test_10_local_video_urls_are_rejected(self):
+        session = self.login()
+        code, data, _ = self.request(
+            '/api/videos', 'POST', self.sample('https://127.0.0.1/video'), session
+        )
+        self.assertEqual(code, 400)
+        self.assertIn('adresse locale', data['error'])
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

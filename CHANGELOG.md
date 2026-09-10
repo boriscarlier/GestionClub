@@ -1,6 +1,16 @@
 # Changelog
 
-## V1.25.11-dev
+## V1.25.12-dev
+
+- Demarrage de la decomposition HTML depuis la base stable V1.25.11.1.
+- Monolithe canonique fige a `1 143 051` octets avec controles Git SHA, SHA-256 et UTF-8 strict.
+- Decomposition deterministe en 41 blocs et recomposition identique octet pour octet.
+- Cartographie de 70 unites fonctionnelles : 44 administration, 13 public, 7 educateur et 6 adherent.
+- Extraction passive du logo vers `client/assets/brand/club-logo.png`, avec fallback embarque conserve.
+- Ajout des index, manifestes, scripts et tests de non-regression necessaires.
+- Prochaine phase active : extraction du socle CSS commun sans basculer le chemin `/gestion` legacy.
+
+## V1.25.11.1
 
 - Reprise depuis la base Windows V1.25.10.2 validee physiquement.
 - Ajout d'un mode reseau local explicite via `DEMARRER_RESEAU_LOCAL.cmd`.
@@ -13,7 +23,8 @@
 - Ajout de 7 tests LAN et integration aux suites standard et compacte Windows.
 - Ajout d'une CI par module pour isoler les regressions.
 - Ajout d'un garde-fou de packaging sur le Manager HTML : UTF-8 strict, taille minimale, ancres critiques et ressources embarquees.
-- Validation physique depuis un second appareil encore requise avant passage en stable.
+- Validation physique confirmee le 10/09/2026 depuis un second appareil via `http://192.168.1.3:8766/`.
+- Version declaree stable et retenue comme base canonique de V1.25.12.
 
 ## V1.25.10.2
 

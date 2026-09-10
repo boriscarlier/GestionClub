@@ -1,0 +1,38 @@
+name: Tests Gestion Club
+
+on:
+  push:
+    branches:
+      - main
+      - 'dev/**'
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  unittest:
+    name: ${{ matrix.module }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        module:
+          - test_server
+          - test_watch
+          - test_manual_watch
+          - test_pdf_watch
+          - test_convocations
+          - test_lan_server
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run module
+        env:
+          PYTHONPATH: ${{ github.workspace }}/server:${{ github.workspace }}/vendor:${{ github.workspace }}/tests
+        run: python3 -m unittest -v tests.${{ matrix.module }}

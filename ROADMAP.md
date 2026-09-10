@@ -146,19 +146,23 @@ Objectif : remplacer progressivement le monolithe par une architecture HTML inde
 
 ### V1.25.12-A - Inventaire et reconstruction sans perte
 
+Etat : termine, garde-fous automatises verts.
+
 - [x] Figer le Manager canonique V1.25.11.1 : `1 143 051` octets, Git blob SHA `64def65ec261d3da05d855896484c4deb79da407`, SHA-256 contenu `5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c`.
 - [x] Ajouter un decomposeur binaire deterministe des blocs HTML/style/script.
 - [x] Ajouter un recomposeur qui exige une identite octet pour octet.
 - [x] Ajouter les tests de continuite, SHA, UTF-8 et alteration de bloc.
 - [x] Ajouter une CI dediee qui produit un artefact d'inspection sans modifier l'application.
-- [ ] Generer et inspecter l'index structurel et le manifeste de decomposition.
-- [ ] Etablir la cartographie des pages fonctionnelles a partir des IDs et ancres reels.
+- [x] Generer et inspecter l'index structurel et le manifeste de decomposition : 41 blocs (`21` fragments, `5` styles de premier niveau, `15` scripts).
+- [x] Etablir la cartographie des pages fonctionnelles a partir des IDs et ancres reels : 70 unites (`44` administration, `13` public, `7` educateur, `6` adherent).
 
 ### V1.25.12-B - Extraction des ressources embarquees
 
-- [ ] Extraire en premier les gros `data:*;base64` vers `client/assets/`.
-- [ ] Verifier chaque ressource par SHA et conserver un fallback tant que la bascule n'est pas validee.
-- [ ] Revalider le rendu et tous les tests avant suppression des donnees embarquees.
+Etat : prochaine etape.
+
+- [ ] Extraire en premier le gros `CLUB_LOGO_DATA_URI` PNG vers `client/assets/`.
+- [ ] Verifier la ressource par SHA et conserver le fallback tant que la bascule n'est pas validee.
+- [ ] Revalider le rendu et tous les tests avant suppression de la donnee embarquee.
 
 ### V1.25.12-C - Socle commun CSS
 

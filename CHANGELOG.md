@@ -1,5 +1,16 @@
 # Changelog
 
+## V1.25.11-dev
+
+- Ajout d'un mode reseau local explicite sans modifier le demarrage local par defaut.
+- Ajout de `server/network_access.py` pour classifier les adresses IPv4 locales/privees, detecter les adresses LAN et valider strictement `Host` et `Origin`.
+- Ajout de `server/lan_server.py`, derive du serveur existant, avec ecoute IPv4 LAN et conservation des protections de session, CSRF et roles.
+- Ajout du lanceur Windows `DEMARRER_RESEAU_LOCAL.cmd` sans creation automatique de regle pare-feu ni ouverture routeur.
+- Ajout de 7 tests LAN : liaison, connexion/session, Host, Origin, role lecteur, CSRF, classification reseau et lanceur Windows.
+- Suite totale portee de 89 a 96 controles.
+- Ajout d'une CI GitHub Actions pour executer la suite sur `main`, les branches `dev/**` et les pull requests.
+- Livraison finale V1.25.11 conditionnee a un test physique depuis un autre appareil du meme reseau prive.
+
 ## V1.25.10
 
 - Ajout d'un lanceur de tests compact pour Windows.

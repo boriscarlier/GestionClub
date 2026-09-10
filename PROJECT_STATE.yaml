@@ -1,5 +1,7 @@
 project: FC LA COUR Gestion Club
 version: V1.25.10
+development_version: V1.25.11
+development_branch: dev/v1.25.11-lan
 base_imported: V1.24.5
 runtime:
   language: Python
@@ -12,8 +14,14 @@ storage:
   configurable_paths:
     - FCLC_DATA_PATH
     - FCLC_DATA_DIR
+network:
+  default_mode: loopback
+  lan_mode: opt_in
+  lan_launcher: DEMARRER_RESEAU_LOCAL.cmd
+  internet_exposure: forbidden_in_v1_25_11
 current_focus:
   - architecture_client_serveur
+  - acces_reseau_local_controle
   - confort_installation_windows
   - mises_a_jour_sans_recopie_data
   - tests_automatises

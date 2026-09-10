@@ -6,6 +6,7 @@ Application locale de gestion du club, avec sauvegardes serveur, veille publique
 
 - Version courante : `V1.25.10`
 - Derniere version stable validee : `V1.25.9`
+- Developpement en cours : `V1.25.11` - acces reseau local controle
 - Serveur local Python : authentification, revisions, depots de sauvegarde, veille, PDF, convocations, premieres API SQL metier
 - Ecran Licencies : lecture serveur SQL/API en mode `/gestion`, repli local en HTML autonome
 - Ecran Equipes : lecture serveur SQL/API en mode `/gestion`, repli local en HTML autonome
@@ -28,6 +29,24 @@ http://127.0.0.1:8765/
 ```
 
 Si un serveur est deja lance sur ce port, le script ouvre la page existante et ne demarre pas une deuxieme instance.
+
+## Acces reseau local - V1.25.11 en developpement
+
+Le mode local habituel reste le mode par defaut. Pour tester volontairement l'acces depuis un autre appareil du meme reseau prive :
+
+```bat
+DEMARRER_RESEAU_LOCAL.cmd
+```
+
+Le lanceur :
+
+- conserve la meme base `data` ;
+- refuse de demarrer si un autre serveur utilise deja le port `8765` ;
+- n'ajoute aucune regle de pare-feu automatiquement ;
+- affiche les adresses IPv4 privees acceptees ;
+- refuse les clients hors reseau local ainsi que les en-tetes `Host` et `Origin` non autorises.
+
+Le serveur utilise HTTP pour cette phase LAN. Utiliser uniquement un reseau prive de confiance et un compte de test pour la validation physique. Ne pas ouvrir ni rediriger le port `8765` sur le routeur.
 
 ## Tests Windows
 

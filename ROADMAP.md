@@ -117,9 +117,17 @@ Etat : stable technique.
 
 ## V1.25.11 - Acces reseau local
 
-- Autoriser un acces LAN controle.
-- Verifier les protections Host, Origin, session et role.
-- Tester depuis un autre appareil du reseau avant toute ouverture routeur.
+Etat : en developpement sur `dev/v1.25.11-lan`.
+
+- Conserver le serveur local `127.0.0.1` comme mode par defaut.
+- Ajouter un lanceur Windows explicite `DEMARRER_RESEAU_LOCAL.cmd`.
+- N'accepter en mode LAN que les clients IPv4 locaux/prives.
+- Limiter les valeurs `Host` aux adresses IPv4 LAN detectees et a la boucle locale.
+- Exiger pour les ecritures un `Origin` HTTP strictement identique au `Host` valide.
+- Conserver les protections existantes de session, CSRF et role.
+- Ne creer aucune regle de pare-feu ni ouverture routeur automatiquement.
+- Ajouter les tests LAN a la suite automatisee.
+- Valider physiquement depuis un autre appareil du meme reseau prive avec un compte de test avant livraison finale.
 
 ## V1.25.12 - Veo et videos de matchs
 

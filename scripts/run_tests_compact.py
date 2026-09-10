@@ -14,6 +14,7 @@ MODULES = (
     'tests.test_manual_watch',
     'tests.test_pdf_watch',
     'tests.test_convocations',
+    'tests.test_lan_server',
 )
 
 class CompactResult(unittest.TextTestResult):

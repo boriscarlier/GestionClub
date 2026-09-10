@@ -138,6 +138,18 @@ class LanServerTests(unittest.TestCase):
         self.assertFalse(network_access.is_lan_address('8.8.8.8'))
         self.assertFalse(network_access.is_lan_address('example.invalid'))
 
+    def test_07_windows_lan_launcher_is_explicit_and_non_destructive(self):
+        root = Path(__file__).resolve().parents[1]
+        root_launcher = (root / 'DEMARRER_RESEAU_LOCAL.cmd').read_text(encoding='utf-8')
+        launcher = (root / 'scripts/windows/DEMARRER_RESEAU_LOCAL.cmd').read_text(encoding='utf-8')
+        self.assertIn('scripts\\windows\\DEMARRER_RESEAU_LOCAL.cmd', root_launcher)
+        self.assertIn('FCLC_DATA_DIR', launcher)
+        self.assertIn('FCLC_DATA_PATH', launcher)
+        self.assertIn('TcpClient', launcher)
+        self.assertIn('server\\lan_server.py start --data "%FCLC_DATA_PATH%"', launcher)
+        self.assertIn('ne redirigez pas le port 8765', launcher.lower())
+        self.assertNotIn('netsh advfirewall', launcher.lower())
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

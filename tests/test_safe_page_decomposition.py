@@ -9,7 +9,6 @@ EXPECTED_MANAGER_BYTES = 1_143_051
 EXPECTED_MANAGER_SHA256 = '5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c'
 
 LEGACY_BRIDGES = {
-    'client/pages/admin/members.html': '/gestion#members',
     'client/pages/admin/teams.html': '/gestion#teams',
     'client/pages/public/home.html': '/gestion#public-home',
     'client/pages/coach/home.html': '/gestion#coach-home',
@@ -17,7 +16,8 @@ LEGACY_BRIDGES = {
 }
 
 SHADOW_PAGES = {
-    'client/pages/admin/dashboard.html': '/gestion#dashboard',
+    'client/pages/admin/dashboard.html': {'target': '/gestion#dashboard', 'script': '../../shared/js/dashboard-summary.js', 'api': '/api/state/summary'},
+    'client/pages/admin/members.html': {'target': '/gestion#members', 'script': '../../shared/js/members-list.js', 'api': '/api/state/members'},
 }
 
 
@@ -38,22 +38,24 @@ class SafePageDecompositionTests(unittest.TestCase):
             self.assertIn('Manager stable', text)
 
     def test_03_shadow_pages_keep_rollback_and_use_shared_assets(self):
-        for relative, target in SHADOW_PAGES.items():
+        for relative, meta in SHADOW_PAGES.items():
             path = ROOT / relative
             self.assertTrue(path.exists(), relative)
             text = path.read_text(encoding='utf-8')
             self.assertIn('<!doctype html>', text.lower())
             self.assertIn('data-page-status="extracted_shadow"', text)
-            self.assertIn(target, text)
+            self.assertIn(meta['target'], text)
             self.assertIn('../../shared/css/page-shell.css', text)
-            self.assertIn('../../shared/js/dashboard-summary.js', text)
-            self.assertIn('/api/state/summary', (ROOT / 'client/shared/js/dashboard-summary.js').read_text(encoding='utf-8'))
+            self.assertIn(meta['script'], text)
+            script_path = ROOT / 'client' / meta['script'].replace('../../', '')
+            self.assertIn(meta['api'], script_path.read_text(encoding='utf-8'))
 
     def test_04_page_index_documents_current_status(self):
         text = (ROOT / 'client' / 'pages' / 'README.md').read_text(encoding='utf-8')
         self.assertIn('legacy_bridge', text)
         self.assertIn('extracted_shadow', text)
         self.assertIn('| Dashboard admin | `admin/dashboard.html` | `extracted_shadow` |', text)
+        self.assertIn('| Licencies admin | `admin/members.html` | `extracted_shadow` |', text)
         for relative in list(LEGACY_BRIDGES) + list(SHADOW_PAGES):
             self.assertIn(relative.replace('client/pages/', ''), text)
 

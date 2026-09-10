@@ -29,6 +29,7 @@ jobs:
           - test_windows_runtime
           - test_html_decomposition
           - test_manager_page_index
+          - test_manager_assets
     steps:
       - name: Checkout
         uses: actions/checkout@v4

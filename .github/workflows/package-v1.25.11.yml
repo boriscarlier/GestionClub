@@ -1,0 +1,63 @@
+name: Package V1.25.11 LAN test
+
+on:
+  push:
+    branches:
+      - dev/v1.25.11-lan-stable-base
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout V1.25.11 branch
+        uses: actions/checkout@v4
+
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate Python syntax
+        run: python -m py_compile server/*.py server/services/*.py scripts/run_tests_compact.py scripts/index_manager_html.py
+
+      - name: Validate Manager monolith integrity
+        run: |
+          python scripts/index_manager_html.py --output /tmp/MONOLITH_INDEX.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          index = json.loads(Path('/tmp/MONOLITH_INDEX.json').read_text(encoding='utf-8'))
+          if index['encoding'] != 'utf-8-strict':
+              raise SystemExit('Manager: encodage inattendu')
+          if index['bytes'] < 1_000_000:
+              raise SystemExit(f"Manager: taille anormalement faible ({index['bytes']} octets)")
+          missing = [name for name, value in index['anchors'].items() if value is None]
+          if missing:
+              raise SystemExit('Manager: ancres manquantes: ' + ', '.join(missing))
+          if not index['embedded_data_uris']:
+              raise SystemExit('Manager: ressources embarquees absentes')
+          print('Manager monolith integrity OK')
+          PY
+
+      - name: Run automated tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}/server:${{ github.workspace }}/vendor:${{ github.workspace }}/tests
+        run: python scripts/run_tests_compact.py
+
+      - name: Build V1.25.11 LAN test ZIP
+        run: |
+          mkdir -p package/FC_LA_COUR_GestionClub
+          rsync -a --exclude '.git' --exclude 'data' --exclude 'releases' --exclude '__pycache__' ./ package/FC_LA_COUR_GestionClub/
+          cd package
+          zip -qr ../FC_LA_COUR_GestionClub_V1.25.11_LAN_test.zip FC_LA_COUR_GestionClub
+
+      - name: Upload V1.25.11 LAN test ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: FC_LA_COUR_GestionClub_V1.25.11_LAN_test
+          path: FC_LA_COUR_GestionClub_V1.25.11_LAN_test.zip
+          compression-level: 0

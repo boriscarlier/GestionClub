@@ -4,16 +4,17 @@ Application locale de gestion du club, avec sauvegardes serveur, veille publique
 
 ## Etat actuel
 
-- Version courante : `V1.25.10`
-- Derniere version stable validee : `V1.25.9`
+- Version en developpement : `V1.25.11-dev`
+- Derniere version stable validee sous Windows : `V1.25.10.2`
 - Serveur local Python : authentification, revisions, depots de sauvegarde, veille, PDF, convocations, premieres API SQL metier
+- Mode LAN V1.25.11 : acces reseau local explicite avec filtrage IP, Host et Origin ; aucune ouverture routeur automatique
 - Ecran Licencies : lecture serveur SQL/API en mode `/gestion`, repli local en HTML autonome
 - Ecran Equipes : lecture serveur SQL/API en mode `/gestion`, repli local en HTML autonome
 - Client principal : `client/FC_LA_COUR_Manager.html`
 - Donnees reelles : conservees hors depot dans `data/`
 - Tests automatises : suite `unittest`
 
-## Demarrage Windows
+## Demarrage Windows local
 
 Depuis la racine du dossier :
 
@@ -28,6 +29,26 @@ http://127.0.0.1:8765/
 ```
 
 Si un serveur est deja lance sur ce port, le script ouvre la page existante et ne demarre pas une deuxieme instance.
+
+## Demarrage Windows sur le reseau local — V1.25.11
+
+Le mode LAN est volontairement separe du mode local :
+
+```bat
+DEMARRER_RESEAU_LOCAL.cmd
+```
+
+Le serveur affiche les adresses IPv4 privees detectees et autorisees. Depuis un autre appareil connecte au meme reseau, ouvrir l'adresse affichee avec le port `8765`.
+
+Le mode LAN :
+
+- conserve la meme base `data\club.sqlite3` ;
+- conserve authentification, sessions, CSRF et roles ;
+- refuse les hôtes et origines non autorises ;
+- n'ajoute aucune regle Windows Firewall automatiquement ;
+- ne doit pas etre expose par redirection du port `8765` sur le routeur.
+
+Si Windows demande une autorisation pare-feu pendant le test, autoriser uniquement le reseau prive utilise pour ce test.
 
 ## Tests Windows
 
@@ -45,7 +66,9 @@ Pour tester une nouvelle version :
 2. Lancer `METTRE_A_JOUR.cmd` depuis ce dossier temporaire.
 3. Le script met a jour automatiquement `D:\FC_LA_COUR_GestionClub`.
 4. Les tests sont lances automatiquement.
-5. Si les tests passent, le serveur est demarre automatiquement.
+5. Si les tests passent, le serveur local est demarre automatiquement.
+
+Pour tester ensuite le mode LAN, fermer le serveur local puis lancer `DEMARRER_RESEAU_LOCAL.cmd` depuis `D:\FC_LA_COUR_GestionClub`.
 
 Le script de mise a jour remplace les fichiers programme et conserve le dossier `data` de la cible.
 

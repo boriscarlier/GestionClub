@@ -23,10 +23,18 @@ jobs:
           python-version: '3.11'
 
       - name: Validate Python syntax
-        run: python -m py_compile scripts/index_manager_html.py scripts/decompose_manager.py scripts/rebuild_manager.py
+        run: python -m py_compile scripts/index_manager_html.py scripts/decompose_manager.py scripts/rebuild_manager.py scripts/index_manager_pages.py
 
       - name: Generate structural index
         run: python scripts/index_manager_html.py --output build/MONOLITH_INDEX.json
+
+      - name: Generate functional page index
+        env:
+          PYTHONPATH: ${{ github.workspace }}/scripts
+        run: |
+          python scripts/index_manager_pages.py \
+            --json-output build/MANAGER_PAGES_INDEX.json \
+            --md-output build/MANAGER_PAGES_INDEX.md
 
       - name: Decompose stable Manager
         run: python scripts/decompose_manager.py --output build/manager_parts
@@ -46,18 +54,21 @@ jobs:
           from collections import Counter
           from pathlib import Path
           manifest=json.loads(Path('build/manager_parts/manifest.json').read_text(encoding='utf-8'))
+          pages=json.loads(Path('build/MANAGER_PAGES_INDEX.json').read_text(encoding='utf-8'))
           counts=Counter(part['type'] for part in manifest['parts'])
           print('Manager bytes:', manifest['source_bytes'])
           print('Manager SHA256:', manifest['source_sha256'])
+          print('Git blob SHA:', manifest.get('source_git_blob_sha'))
           print('Parts:', manifest['parts_count'])
           for key in sorted(counts):
               print(key + ':', counts[key])
+          print('Functional units:', pages['total'], pages['counts'])
           PY
 
-      - name: Run decomposition tests
+      - name: Run decomposition and page-index tests
         env:
           PYTHONPATH: ${{ github.workspace }}/server:${{ github.workspace }}/vendor:${{ github.workspace }}/tests:${{ github.workspace }}/scripts
-        run: python -m unittest -v tests.test_html_decomposition
+        run: python -m unittest -v tests.test_html_decomposition tests.test_manager_page_index
 
       - name: Upload decomposition inspection artifact
         uses: actions/upload-artifact@v4
@@ -65,6 +76,8 @@ jobs:
           name: V1.25.12-manager-decomposition-inspection
           path: |
             build/MONOLITH_INDEX.json
+            build/MANAGER_PAGES_INDEX.json
+            build/MANAGER_PAGES_INDEX.md
             build/manager_parts/
             build/rebuilt_FC_LA_COUR_Manager.html
           compression-level: 0

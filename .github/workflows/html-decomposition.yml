@@ -1,0 +1,70 @@
+name: Validate HTML decomposition
+
+on:
+  push:
+    branches:
+      - refactor/v1.25.12-html-decomposition
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  decomposition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout stable-based refactor branch
+        uses: actions/checkout@v4
+
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate Python syntax
+        run: python -m py_compile scripts/index_manager_html.py scripts/decompose_manager.py scripts/rebuild_manager.py
+
+      - name: Generate structural index
+        run: python scripts/index_manager_html.py --output build/MONOLITH_INDEX.json
+
+      - name: Decompose stable Manager
+        run: python scripts/decompose_manager.py --output build/manager_parts
+
+      - name: Rebuild and compare byte-for-byte
+        run: |
+          python scripts/rebuild_manager.py \
+            --manifest build/manager_parts/manifest.json \
+            --output build/rebuilt_FC_LA_COUR_Manager.html \
+            --compare client/FC_LA_COUR_Manager.html
+          cmp --silent client/FC_LA_COUR_Manager.html build/rebuilt_FC_LA_COUR_Manager.html
+
+      - name: Summarize decomposition
+        run: |
+          python - <<'PY'
+          import json
+          from collections import Counter
+          from pathlib import Path
+          manifest=json.loads(Path('build/manager_parts/manifest.json').read_text(encoding='utf-8'))
+          counts=Counter(part['type'] for part in manifest['parts'])
+          print('Manager bytes:', manifest['source_bytes'])
+          print('Manager SHA256:', manifest['source_sha256'])
+          print('Parts:', manifest['parts_count'])
+          for key in sorted(counts):
+              print(key + ':', counts[key])
+          PY
+
+      - name: Run decomposition tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}/server:${{ github.workspace }}/vendor:${{ github.workspace }}/tests:${{ github.workspace }}/scripts
+        run: python -m unittest -v tests.test_html_decomposition
+
+      - name: Upload decomposition inspection artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: V1.25.12-manager-decomposition-inspection
+          path: |
+            build/MONOLITH_INDEX.json
+            build/manager_parts/
+            build/rebuilt_FC_LA_COUR_Manager.html
+          compression-level: 0

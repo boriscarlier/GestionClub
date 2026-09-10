@@ -1,5 +1,28 @@
 # Changelog
 
+## V1.25.11-dev
+
+- Reprise depuis la base Windows V1.25.10.2 validee physiquement.
+- Ajout d'un mode reseau local explicite via `DEMARRER_RESEAU_LOCAL.cmd`.
+- Le serveur LAN ecoute sur `0.0.0.0` uniquement dans ce mode dedie.
+- Detection et autorisation des adresses IPv4 privees du poste serveur.
+- Validation stricte de `Host` et de `Origin` pour les requetes LAN.
+- Refus des clients hors reseau local.
+- Conservation des sessions, du jeton CSRF et des roles `admin`, `editor`, `reader`.
+- Aucune regle Windows Firewall ni ouverture du routeur n'est creee automatiquement.
+- Ajout de 7 tests LAN et integration aux suites standard et compacte Windows.
+- Ajout d'une CI par module pour isoler les regressions.
+- Ajout d'un garde-fou de packaging sur le Manager HTML : UTF-8 strict, taille minimale, ancres critiques et ressources embarquees.
+- Validation physique depuis un second appareil encore requise avant passage en stable.
+
+## V1.25.10.2
+
+- Base V1.25.10 restauree depuis le dernier Manager HTML intact apres detection d'une corruption binaire du monolithe.
+- Correction du lanceur Windows de tests : suppression de la commande PowerShell mal echappee.
+- Le flux de tests compact ecrit directement son journal depuis Python.
+- En cas d'echec, le journal est conserve sous `logs\erreur_tests_<date>.log`.
+- Mise a jour Windows, tests et demarrage serveur valides physiquement le 10/09/2026.
+
 ## V1.25.10
 
 - Ajout d'un lanceur de tests compact pour Windows.

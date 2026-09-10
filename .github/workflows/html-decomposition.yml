@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   decomposition:
@@ -56,6 +56,30 @@ jobs:
           assert asset['runtime_active'] is False
           print('Manager asset extraction OK')
           PY
+
+      - name: Refresh committed extracted assets when needed
+        env:
+          PYTHONPATH: ${{ github.workspace }}/scripts
+        run: |
+          python scripts/extract_manager_assets.py \
+            --logo-output client/assets/brand/club-logo.png \
+            --index-output docs/MANAGER_ASSETS_INDEX.json
+          git fetch origin "$GITHUB_REF_NAME"
+          LOCAL_SHA=$(git rev-parse HEAD)
+          REMOTE_SHA=$(git rev-parse "origin/$GITHUB_REF_NAME")
+          if [ "$LOCAL_SHA" != "$REMOTE_SHA" ]; then
+            echo "Run remplace par un commit plus recent; pas de push automatique."
+            exit 0
+          fi
+          if git diff --quiet -- client/assets/brand/club-logo.png docs/MANAGER_ASSETS_INDEX.json; then
+            echo "Assets extraits deja conformes."
+            exit 0
+          fi
+          git config user.name "FC LA COUR CI"
+          git config user.email "actions@users.noreply.github.com"
+          git add client/assets/brand/club-logo.png docs/MANAGER_ASSETS_INDEX.json
+          git commit -m "Refresh extracted Manager assets"
+          git push origin "HEAD:$GITHUB_REF_NAME"
 
       - name: Decompose stable Manager
         run: python scripts/decompose_manager.py --output build/manager_parts

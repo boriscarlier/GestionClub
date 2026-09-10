@@ -1,0 +1,139 @@
+:root {
+  color-scheme: light;
+  --fclc-green: #0f7a3b;
+  --fclc-dark: #102516;
+  --fclc-soft: #f4f7f2;
+  --fclc-border: #d9e4d6;
+  --fclc-text: #172116;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--fclc-soft);
+  color: var(--fclc-text);
+  font: 16px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.page-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.page-kicker {
+  margin: 0 0 4px;
+  color: var(--fclc-green);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  font-size: 12px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.15;
+}
+
+.page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.button-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid var(--fclc-green);
+  border-radius: 8px;
+  color: var(--fclc-green);
+  background: white;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.button-link.primary {
+  background: var(--fclc-green);
+  color: white;
+}
+
+.status-banner {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--fclc-border);
+  border-radius: 8px;
+  background: white;
+}
+
+.grid-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.metric-card {
+  min-height: 112px;
+  padding: 16px;
+  border: 1px solid var(--fclc-border);
+  border-radius: 8px;
+  background: white;
+}
+
+.metric-label {
+  margin: 0 0 8px;
+  color: #4a5948;
+  font-size: 14px;
+}
+
+.metric-value {
+  margin: 0;
+  font-size: 32px;
+  line-height: 1;
+  font-weight: 850;
+}
+
+.details-panel {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid var(--fclc-border);
+  border-radius: 8px;
+  background: white;
+}
+
+.details-panel h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.details-panel p {
+  margin: 6px 0;
+}
+
+@media (max-width: 720px) {
+  .page-shell {
+    padding: 16px;
+  }
+
+  .page-header {
+    display: block;
+  }
+
+  .page-actions {
+    margin-top: 14px;
+  }
+}

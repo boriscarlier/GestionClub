@@ -118,22 +118,29 @@ Etat : stable Windows via correctif final V1.25.10.2, valide le 10/09/2026.
 
 ## V1.25.11 - Acces reseau local
 
-Etat : en developpement depuis la base stable V1.25.10.2.
+Etat : stable via V1.25.11.1, valide physiquement le 10/09/2026.
 
 - [x] Ajouter un mode LAN explicite sans modifier le mode local par defaut.
-- [x] Ecouter sur `0.0.0.0` uniquement avec le lanceur LAN dedie.
+- [x] Conserver le serveur local sur `127.0.0.1:8765`.
+- [x] Ajouter une passerelle LAN separee sur `0.0.0.0:8766`.
+- [x] Detecter les IPv4 privees du poste serveur, avec repli Windows via `ipconfig`.
 - [x] Restreindre les hôtes serveur aux IPv4 privees detectees/autorisees.
 - [x] Refuser les clients hors reseau local.
 - [x] Verifier que `Origin` correspond exactement au `Host` utilise.
 - [x] Conserver sessions, CSRF et roles `admin`, `editor`, `reader`.
 - [x] Ajouter les tests LAN aux suites standard et compacte Windows.
-- [ ] Tester la mise a jour Windows avec les donnees reelles preservees.
-- [ ] Tester depuis un deuxieme appareil du meme reseau local.
-- [ ] Valider l'eventuelle autorisation Windows Firewall sans ouverture du routeur.
+- [x] Conserver des journaux permanents de mise a jour, tests et acces LAN.
+- [x] Redemarrer proprement l'ancienne instance serveur pendant une mise a jour.
+- [x] Verifier la version source et la version cible pendant la mise a jour.
+- [x] Tester la mise a jour Windows depuis la base stable V1.25.10.2.
+- [x] Tester l'acces depuis un deuxieme appareil du meme reseau local.
 
-Aucune redirection du port 8765 sur le routeur ne fait partie de V1.25.11.
+Validation physique : acces LAN confirme via `http://192.168.1.3:8766/`.
+Aucune redirection du port 8766 sur le routeur ne fait partie de V1.25.11.
 
 ## V1.25.12 - Veo et videos de matchs
+
+Etat : prochaine version.
 
 - Qualifier les liens publics Veo.
 - Ajouter un modele de reference video rattache a equipe, date, adversaire et competition.

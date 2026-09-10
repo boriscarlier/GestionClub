@@ -1,5 +1,5 @@
 project: FC LA COUR Gestion Club
-version: V1.25.5
+version: V1.25.6
 base_imported: V1.24.5
 runtime:
   language: Python
@@ -8,15 +8,17 @@ runtime:
 storage:
   real_data: data/
   tracked_in_git: false
+  configurable_paths:
+    - FCLC_DATA_PATH
+    - FCLC_DATA_DIR
 current_focus:
   - architecture_client_serveur
-  - migration_licencies_sql_api
-  - lecture_licencies_depuis_api
-  - migration_equipes_sql_api
-  - lecture_equipes_depuis_api
+  - confort_installation_windows
+  - mises_a_jour_sans_recopie_data
   - tests_automatises
 stable_versions:
   - V1.25.1
   - V1.25.2
   - V1.25.3
   - V1.25.4
+  - V1.25.5

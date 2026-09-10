@@ -1,5 +1,15 @@
 # Changelog
 
+## V1.25.6
+
+- Ajout de lanceurs Windows a la racine : `DEMARRER_SERVEUR.cmd` et `LANCER_TESTS.cmd`.
+- Ajout de `METTRE_A_JOUR.cmd` pour mettre a jour un dossier stable sans toucher au dossier `data`.
+- Ajout du chemin de donnees configurable par `FCLC_DATA_PATH` ou `FCLC_DATA_DIR`.
+- Le demarrage Windows affiche le dossier programme et la base SQLite utilisee.
+- Les tests Windows indiquent qu'ils utilisent des bases temporaires.
+- Sauvegardes completes acceptees jusqu'a `V1.25.6`.
+- Tests serveur portes a 31 controles.
+
 ## V1.25.5
 
 - Ajout d'une table SQL `teams` synchronisee depuis chaque sauvegarde complete deposee.

@@ -29,3 +29,10 @@ PYTHONPATH="$PWD/server:$PWD/vendor" python3 -m unittest -v \
 
 Les archives de livraison doivent etre generees dans `releases/` et ne sont pas suivies par Git.
 
+Depuis Linux :
+
+```bash
+git archive --format=zip --prefix=FC_LA_COUR_GestionClub/ -o ../FC_LA_COUR_GestionClub_V1.25.6_release.zip HEAD
+```
+
+Depuis Windows, l'utilisateur peut garder un dossier stable et appliquer une nouvelle archive avec `METTRE_A_JOUR.cmd`. Le dossier `data` de la cible est conserve.

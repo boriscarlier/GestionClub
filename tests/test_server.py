@@ -1,4 +1,4 @@
-import concurrent.futures, http.client, json, tempfile, threading, unittest
+import concurrent.futures, http.client, json, os, tempfile, threading, unittest
 from pathlib import Path
 from contextlib import closing
 import server
@@ -98,7 +98,7 @@ class ServerTests(unittest.TestCase):
         s=self.login();revision=self.deposit(s)[1]['revision']
         code,r,_=self.request('/api/gestion/bootstrap',session=s)
         self.assertEqual(code,200)
-        self.assertEqual(r['serverBuild'],'V1.25.5')
+        self.assertEqual(r['serverBuild'],'V1.25.6')
         self.assertEqual(r['mode'],'server-bridge')
         self.assertEqual(r['latest']['revision'],revision)
         self.assertEqual(r['latest']['backup'],self.p)
@@ -110,12 +110,12 @@ class ServerTests(unittest.TestCase):
         self.assertIn(b'/api/snapshot',raw)
         self.assertIn(b'expectedRevision:state.revision',raw)
     def test_21_current_manager_backup_version_accepted(self):
-        s=self.login();self.p['build']='V1.25.5'
+        s=self.login();self.p['build']='V1.25.6'
         code,r,_=self.deposit(s)
         self.assertEqual(code,201)
         self.assertGreaterEqual(r['revision'],1)
         out=self.request('/api/snapshot',session=s)[1]['backup']
-        self.assertEqual(out['build'],'V1.25.5')
+        self.assertEqual(out['build'],'V1.25.6')
     def test_22_members_synced_to_sql_and_listed_by_api(self):
         s=self.login()
         self.p['state']['members']=[
@@ -154,7 +154,7 @@ class ServerTests(unittest.TestCase):
     def test_25_gestion_members_api_bridge_is_visible(self):
         s=self.login();code,raw,_=self.raw_request('/gestion',session=s)
         self.assertEqual(code,200)
-        self.assertIn(b'V1.25.5',raw)
+        self.assertIn(b'V1.25.6',raw)
         self.assertIn(b'/api/state/members?limit=500',raw)
         self.assertIn(b'Source : serveur SQL/API',raw)
     def test_26_teams_synced_to_sql_and_listed_by_api(self):
@@ -186,5 +186,36 @@ class ServerTests(unittest.TestCase):
         self.assertEqual(code,200)
         self.assertIn(b'/api/state/teams?limit=500',raw)
         self.assertIn(b'teamDataSource',raw)
+    def test_29_default_data_path_can_use_environment_path(self):
+        with tempfile.TemporaryDirectory() as temp:
+            previous_path=os.environ.get('FCLC_DATA_PATH')
+            previous_dir=os.environ.get('FCLC_DATA_DIR')
+            try:
+                custom=Path(temp)/'external.sqlite3'
+                os.environ['FCLC_DATA_PATH']=str(custom)
+                os.environ['FCLC_DATA_DIR']=str(Path(temp)/'ignored')
+                self.assertEqual(server.default_data_path(),custom)
+                os.environ.pop('FCLC_DATA_PATH')
+                self.assertEqual(server.default_data_path(),Path(temp)/'ignored'/'club.sqlite3')
+            finally:
+                if previous_path is None: os.environ.pop('FCLC_DATA_PATH',None)
+                else: os.environ['FCLC_DATA_PATH']=previous_path
+                if previous_dir is None: os.environ.pop('FCLC_DATA_DIR',None)
+                else: os.environ['FCLC_DATA_DIR']=previous_dir
+    def test_30_root_windows_launchers_are_packaged(self):
+        root=Path(__file__).resolve().parents[1]
+        start=(root/'DEMARRER_SERVEUR.cmd').read_text(encoding='utf-8')
+        tests=(root/'LANCER_TESTS.cmd').read_text(encoding='utf-8')
+        update=(root/'METTRE_A_JOUR.cmd').read_text(encoding='utf-8').lower()
+        self.assertIn('scripts\\windows\\DEMARRER_SERVEUR.cmd',start)
+        self.assertIn('scripts\\windows\\LANCER_TESTS.cmd',tests)
+        self.assertIn('robocopy',update)
+        self.assertIn('"data"',update)
+    def test_31_windows_start_script_preserves_data_path(self):
+        root=Path(__file__).resolve().parents[1]
+        text=(root/'scripts/windows/DEMARRER_SERVEUR.cmd').read_text(encoding='utf-8')
+        self.assertIn('FCLC_DATA_DIR',text)
+        self.assertIn('FCLC_DATA_PATH',text)
+        self.assertIn('--data "%FCLC_DATA_PATH%"',text)
 
 if __name__=='__main__':unittest.main(verbosity=2)

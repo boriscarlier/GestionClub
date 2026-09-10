@@ -63,7 +63,7 @@ Etat : stable technique.
 
 ## V1.25.5 - Lecture des equipes depuis l'API serveur
 
-Etat : en developpement.
+Etat : stable technique.
 
 - Synchroniser les equipes vers SQLite avec leur fiche source complete.
 - Exposer `/api/state/teams` et `/api/state/teams/{id}`.
@@ -71,13 +71,23 @@ Etat : en developpement.
 - Conserver le repli local du HTML autonome.
 - Garder les compteurs sportifs calcules cote client pendant cette etape.
 
-## V1.25.6 - Acces reseau local
+## V1.25.6 - Installation et mises a jour Windows simplifiees
+
+Etat : en developpement.
+
+- Ajouter des lanceurs a la racine du dossier livre.
+- Permettre un chemin `data` stable, y compris sur un autre disque.
+- Fournir un script de mise a jour qui remplace le programme sans recopier la base.
+- Garder les tests separes de la base reelle.
+- Documenter le pas a pas de test utilisateur.
+
+## V1.25.7 - Acces reseau local
 
 - Autoriser un acces LAN controle.
 - Verifier les protections Host, Origin, session et role.
 - Tester depuis un autre appareil du reseau avant toute ouverture routeur.
 
-## V1.25.7 - Veo et videos de matchs
+## V1.25.8 - Veo et videos de matchs
 
 - Qualifier les liens publics Veo.
 - Ajouter un modele de reference video rattache a equipe, date, adversaire et competition.

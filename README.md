@@ -4,8 +4,8 @@ Application locale de gestion du club, avec sauvegardes serveur, veille publique
 
 ## Etat actuel
 
-- Version courante : `V1.25.5`
-- Derniere version stable validee : `V1.25.4`
+- Version courante : `V1.25.6`
+- Derniere version stable validee : `V1.25.5`
 - Serveur local Python : authentification, revisions, depots de sauvegarde, veille, PDF, convocations, premieres API SQL metier
 - Ecran Licencies : lecture serveur SQL/API en mode `/gestion`, repli local en HTML autonome
 - Ecran Equipes : lecture serveur SQL/API en mode `/gestion`, repli local en HTML autonome
@@ -15,10 +15,10 @@ Application locale de gestion du club, avec sauvegardes serveur, veille publique
 
 ## Demarrage Windows
 
-Depuis la racine du depot :
+Depuis la racine du dossier :
 
 ```bat
-scripts\windows\DEMARRER_SERVEUR.cmd
+DEMARRER_SERVEUR.cmd
 ```
 
 Puis ouvrir :
@@ -30,8 +30,29 @@ http://127.0.0.1:8765/
 ## Tests Windows
 
 ```bat
-scripts\windows\LANCER_TESTS.cmd
+LANCER_TESTS.cmd
 ```
+
+## Mise a jour simple Windows
+
+Conservez un dossier stable, par exemple `D:\GestionClub`. Votre base reste dans `D:\GestionClub\data\club.sqlite3`.
+
+Pour tester une nouvelle version :
+
+1. Decompresser le nouveau zip dans un dossier temporaire.
+2. Lancer `METTRE_A_JOUR.cmd` depuis ce dossier temporaire.
+3. Indiquer le dossier stable, par exemple `D:\GestionClub`.
+4. Relancer `D:\GestionClub\DEMARRER_SERVEUR.cmd`.
+
+Le script de mise a jour remplace les fichiers programme et conserve le dossier `data` de la cible.
+
+Si vous voulez placer les donnees sur un autre disque, definir une fois :
+
+```bat
+setx FCLC_DATA_DIR "E:\FC_LA_COUR_DATA"
+```
+
+Puis rouvrir une invite de commande. Le serveur utilisera `E:\FC_LA_COUR_DATA\club.sqlite3`.
 
 ## Organisation
 
@@ -42,7 +63,7 @@ scripts\windows\LANCER_TESTS.cmd
 | `tests/` | Tests automatises |
 | `vendor/` | Dependances embarquees necessaires hors pip, dont pypdf |
 | `docs/` | Architecture, roadmap, validations et notes de version |
-| `scripts/windows/` | Lanceurs Windows |
+| `scripts/windows/` | Lanceurs Windows internes |
 | `data/` | Base locale creee a l'execution, ignoree par Git |
 | `releases/` | Archives construites localement, ignorees par Git |
 

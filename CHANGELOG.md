@@ -1,5 +1,14 @@
 # Changelog
 
+## V1.25.4
+
+- Branchement progressif de l'ecran Licencies sur l'API serveur quand le client est servi par `/gestion`.
+- Ajout d'un indicateur de source des donnees : base locale ou serveur SQL/API.
+- Chargement de la liste via `/api/state/members?limit=500`, avec repli local si le serveur est indisponible.
+- Chargement de la fiche complete via `/api/state/members/{id}` avant ouverture du detail.
+- Sauvegardes completes acceptees jusqu'a `V1.25.4`.
+- Tests serveur portes a 25 controles.
+
 ## V1.25.3
 
 - Debut de la migration module par module vers SQL/API.

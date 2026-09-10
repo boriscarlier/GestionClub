@@ -4,9 +4,10 @@ Application locale de gestion du club, avec sauvegardes serveur, veille publique
 
 ## Etat actuel
 
-- Version courante : `V1.25.3`
-- Derniere version stable validee : `V1.25.1`
+- Version courante : `V1.25.4`
+- Derniere version stable validee : `V1.25.3`
 - Serveur local Python : authentification, revisions, depots de sauvegarde, veille, PDF, convocations, premieres API SQL metier
+- Ecran Licencies : lecture serveur SQL/API en mode `/gestion`, repli local en HTML autonome
 - Client principal : `client/FC_LA_COUR_Manager.html`
 - Donnees reelles : conservees hors depot dans `data/`
 - Tests automatises : suite `unittest`

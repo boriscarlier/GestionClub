@@ -43,7 +43,7 @@ Livraison V1.25.2 :
 
 ## V1.25.3 - Socle SQL/API des licencies
 
-Etat : en developpement.
+Etat : stable technique.
 
 - Creer les premiers services serveur separes.
 - Synchroniser les licencies de la derniere sauvegarde vers SQLite.
@@ -51,13 +51,23 @@ Etat : en developpement.
 - Proteger la reprise des anciennes bases par migration douce au demarrage.
 - Garder la sauvegarde complete comme filet de securite.
 
-## V1.25.4 - Acces reseau local
+## V1.25.4 - Lecture des licencies depuis l'API serveur
+
+Etat : en developpement.
+
+- Utiliser `/api/state/members` pour alimenter l'ecran Licencies en mode serveur.
+- Conserver le mode HTML autonome avec les donnees locales.
+- Charger le detail complet d'un licencie via `/api/state/members/{id}` avant affichage.
+- Afficher clairement la source utilisee par l'ecran.
+- Garder les exports, filtres et selections existants.
+
+## V1.25.5 - Acces reseau local
 
 - Autoriser un acces LAN controle.
 - Verifier les protections Host, Origin, session et role.
 - Tester depuis un autre appareil du reseau avant toute ouverture routeur.
 
-## V1.25.5 - Veo et videos de matchs
+## V1.25.6 - Veo et videos de matchs
 
 - Qualifier les liens publics Veo.
 - Ajouter un modele de reference video rattache a equipe, date, adversaire et competition.

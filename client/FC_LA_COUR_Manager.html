@@ -2904,7 +2904,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 <button class="ghost" onclick="resetMemberFilters()">Réinitialiser</button>
 </div>
 <div class="member-selection-bar">
-<div><strong id="memberResultCount">0</strong> résultat(s) • <strong id="memberSelectedCount">0</strong> sélectionné(s)</div>
+<div><strong id="memberResultCount">0</strong> résultat(s) • <strong id="memberSelectedCount">0</strong> sélectionné(s)<div class="tiny" id="memberDataSource">Source : base locale</div></div>
 <div style="display:flex;gap:8px;flex-wrap:wrap">
 <button class="ghost" onclick="selectVisibleMembers()">Sélectionner les résultats</button>
 <button class="ghost" onclick="clearMemberSelection()">Effacer sélection</button>
@@ -4345,7 +4345,7 @@ Technique / Régionale : ...
 <!-- V1.22.0 Prototype autonome : SheetJS externe retiré. Import CSV disponible hors ligne. -->
 <script>
 // V1.22.7.1 — Correctifs vérifiés par le banc de test, septembre 2026.
-const QA_BUILD='V1.25.3';
+const QA_BUILD='V1.25.4';
 let cmsFilter='all';
 let qaSpace='public';
 let qaDraftOwner=null;
@@ -6745,6 +6745,59 @@ function renderDiscipline(){
 
 let selectedMemberIds=[];
 let currentMemberId=null;
+let serverMembersState={loaded:false,loading:false,error:'',items:[],total:0,revision:0,requestedAt:0};
+
+function serverMembersEnabled(){
+ return !!(window.FC_LA_COUR_SERVER_BRIDGE&&window.FC_LA_COUR_SERVER_BRIDGE.mode==='server-bridge'&&location.protocol!=='file:');
+}
+async function serverMembersApi(path){
+ const response=await fetch(path,{credentials:'same-origin',cache:'no-store',headers:{'Accept':'application/json'}});
+ const data=await response.json();
+ if(!response.ok)throw new Error(data.error||'Lecture serveur refusée.');
+ return data;
+}
+function memberSourceRows(){
+ return serverMembersEnabled()&&serverMembersState.loaded?serverMembersState.items:(state.members||[]);
+}
+function updateMemberDataSource(){
+ const node=document.getElementById('memberDataSource');if(!node)return;
+ if(!serverMembersEnabled()){node.textContent='Source : base locale';return;}
+ if(serverMembersState.loading){node.textContent='Source : serveur SQL/API · chargement...';return;}
+ if(serverMembersState.error){node.textContent='Source : base locale · serveur indisponible : '+serverMembersState.error;return;}
+ if(serverMembersState.loaded){node.textContent='Source : serveur SQL/API · révision '+(serverMembersState.revision||'—')+' · '+serverMembersState.total+' licencié(s)';return;}
+ node.textContent='Source : serveur SQL/API · en attente';
+}
+async function refreshServerMembers(force=false){
+ if(!serverMembersEnabled()||serverMembersState.loading)return false;
+ if(serverMembersState.loaded&&!force&&Date.now()-serverMembersState.requestedAt<30000)return true;
+ serverMembersState.loading=true;serverMembersState.error='';updateMemberDataSource();
+ try{
+  const [summary,listing]=await Promise.all([
+   serverMembersApi('/api/state/summary'),
+   serverMembersApi('/api/state/members?limit=500')
+  ]);
+  serverMembersState={loaded:true,loading:false,error:'',items:listing.members||[],total:listing.total||0,revision:summary.revision||0,requestedAt:Date.now()};
+  return true;
+ }catch(e){
+  serverMembersState.loading=false;serverMembersState.loaded=false;serverMembersState.items=[];serverMembersState.total=0;serverMembersState.error=e.message||String(e);
+  return false;
+ }finally{
+  updateMemberDataSource();
+ }
+}
+async function ensureServerMemberDetail(id){
+ if(!serverMembersEnabled())return null;
+ const current=(state.members||[]).find(m=>m.id===id&&m.sourcePayloadLoaded);
+ if(current)return current;
+ const data=await serverMembersApi('/api/state/members/'+encodeURIComponent(id));
+ const payload=data.member?.payload||data.member;
+ if(!payload||!payload.id)return null;
+ payload.sourcePayloadLoaded=true;
+ const idx=(state.members||[]).findIndex(m=>m.id===payload.id);
+ if(idx>=0)state.members[idx]={...state.members[idx],...payload};
+ else state.members.push(payload);
+ return payload;
+}
 
 function memberSearchText(m){
  return norm([
@@ -6761,7 +6814,7 @@ function filteredMembers(){
  const account=typeof currentAdminAccount==='function'?currentAdminAccount():null;
  const unrestricted=!(state.accounts||[]).length;
  const canDiscipline=unrestricted || (typeof accountCanSeeSensitive==='function'&&accountCanSeeSensitive(account,'discipline'));
- return (state.members||[]).filter(m=>{
+ return memberSourceRows().filter(m=>{
   const risks=canDiscipline?memberDisciplineRisk(m):[];
   const susp=canDiscipline?isMemberSuspended(m):false;
   if(q && !memberSearchText(m).includes(q))return false;
@@ -6779,9 +6832,10 @@ function fillMemberFilters(){
  if(!cats||!types||!lics)return;
  const oldC=cats.value,oldT=types.value,oldL=lics.value;
  const uniq=a=>[...new Set(a.filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),'fr'));
- cats.innerHTML='<option value="">Toutes catégories</option>'+uniq(state.members.map(m=>m.category)).map(v=>`<option ${v===oldC?'selected':''}>${v}</option>`).join('');
- types.innerHTML='<option value="">Tous types</option>'+uniq(state.members.map(m=>m.type||m.licenseType)).map(v=>`<option ${v===oldT?'selected':''}>${v}</option>`).join('');
- lics.innerHTML='<option value="">Tous statuts licence</option>'+uniq(state.members.map(m=>m.license||m.status)).map(v=>`<option ${v===oldL?'selected':''}>${v}</option>`).join('');
+ const rows=memberSourceRows();
+ cats.innerHTML='<option value="">Toutes catégories</option>'+uniq(rows.map(m=>m.category)).map(v=>`<option ${v===oldC?'selected':''}>${v}</option>`).join('');
+ types.innerHTML='<option value="">Tous types</option>'+uniq(rows.map(m=>m.type||m.licenseType)).map(v=>`<option ${v===oldT?'selected':''}>${v}</option>`).join('');
+ lics.innerHTML='<option value="">Tous statuts licence</option>'+uniq(rows.map(m=>m.license||m.status)).map(v=>`<option ${v===oldL?'selected':''}>${v}</option>`).join('');
 }
 function toggleMemberSelection(id,checked){
  if(checked&&!selectedMemberIds.includes(id))selectedMemberIds.push(id);
@@ -6796,7 +6850,7 @@ function selectVisibleMembers(){selectedMemberIds=[...new Set([...selectedMember
 function clearMemberSelection(){selectedMemberIds=[];renderMembers()}
 function toggleAllMembers(checked){if(checked)selectVisibleMembers();else{const visible=new Set(filteredMembers().map(m=>m.id));selectedMemberIds=selectedMemberIds.filter(id=>!visible.has(id));renderMembers()}}
 function emailSelectedMembers(){
- const emails=[...new Set((state.members||[]).filter(m=>selectedMemberIds.includes(m.id)).map(m=>m.email).filter(Boolean))];
+ const emails=[...new Set(memberSourceRows().filter(m=>selectedMemberIds.includes(m.id)).map(m=>m.email).filter(Boolean))];
  if(!emails.length)return toast('Licenciés','Aucune adresse email dans la sélection.');
  window.location.href='mailto:'+emails.map(encodeURIComponent).join(',');
 }
@@ -6812,6 +6866,8 @@ function resetMemberFilters(){
 
 function renderMembers(){
  const tbody=document.getElementById('memberRows');if(!tbody)return;
+ if(serverMembersEnabled()&&!serverMembersState.loaded&&!serverMembersState.loading)refreshServerMembers().then(()=>renderMembers());
+ updateMemberDataSource();
  fillMemberFilters();
 
  const list=filteredMembers();
@@ -6861,11 +6917,12 @@ function siblingLicenses(member){
 }
 function fmt(v){return v===null||v===undefined||v===''?'—':escapeHtml(String(v));}
 function kvHtml(pairs){return pairs.map(([k,v])=>`<div>${escapeHtml(k)}</div><div>${fmt(v)}</div>`).join('');}
-function openMemberDetail(id,event){
+async function openMemberDetail(id,event){
  if(event&&event.target&&event.target.closest('input,button,a'))return;
  currentMemberId=id;
  memberBlockEditState.clear();
  try{
+  await ensureServerMemberDetail(id);
   goTo('memberdetail');
   renderMemberDetail();
  }catch(err){
@@ -8870,6 +8927,7 @@ function goTo(page){
  const title=document.getElementById('pageTitle');
  if(title)title.textContent=ADMIN_PAGE_TITLES[page]||page;
  if(page==='dashboard'&&typeof renderDashboard==='function')renderDashboard();
+ if(page==='members'&&typeof refreshServerMembers==='function')refreshServerMembers().then(()=>typeof renderMembers==='function'&&renderMembers());
  if(page==='memberdetail'&&currentMemberId&&typeof renderMemberDetail==='function')renderMemberDetail();
  if(page==='visual'&&typeof renderVisualFields==='function'){renderVisualFields();if(typeof generateVisual==='function')generateVisual();}
  if(page==='import'){if(typeof updateExpectedColumns==='function')updateExpectedColumns();if(typeof renderImportHistory==='function')renderImportHistory();}

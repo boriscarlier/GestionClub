@@ -12,13 +12,39 @@ jobs:
   package:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout exact V1.25.10 release commit
+      - name: Checkout corrected V1.25.10 branch
         uses: actions/checkout@v4
         with:
-          ref: 97718432357c960156ffecc42eb9ac5fb96b4a4f
           fetch-depth: 0
-      - name: Build release ZIP
-        run: git archive --format=zip --prefix=FC_LA_COUR_GestionClub/ -o FC_LA_COUR_GestionClub_V1.25.10_release.zip 97718432357c960156ffecc42eb9ac5fb96b4a4f
+      - name: Normalize and validate Manager HTML
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('client/FC_LA_COUR_Manager.html')
+          text = path.read_text(encoding='utf-8')
+          rules = [
+              (r"const QA_BUILD='V\d+\.\d+\.\d+(?:\.\d+)?';", "const QA_BUILD='V1.25.10';"),
+              (r'(Diagnostic &amp; partage — )V\d+\.\d+\.\d+(?:\.\d+)?', r'\g<1>V1.25.10'),
+              (r'(Paquet serveur )V\d+\.\d+\.\d+(?:\.\d+)?', r'\g<1>V1.25.10'),
+              (r'(Données &amp; sauvegarde — )V\d+\.\d+\.\d+(?:\.\d+)?', r'\g<1>V1.25.10'),
+          ]
+          for pattern, replacement in rules:
+              text, count = re.subn(pattern, replacement, text, count=1)
+              if count != 1:
+                  raise SystemExit(f'Pattern Manager introuvable: {pattern}')
+          path.write_text(text, encoding='utf-8')
+          path.read_text(encoding='utf-8')
+          PY
+      - name: Run automated tests
+        run: PYTHONPATH=server:vendor:tests python scripts/run_tests_compact.py
+      - name: Build corrected release ZIP
+        run: |
+          mkdir -p package/FC_LA_COUR_GestionClub
+          rsync -a --exclude '.git' --exclude 'data' --exclude 'releases' --exclude '__pycache__' ./ package/FC_LA_COUR_GestionClub/
+          cd package
+          zip -qr ../FC_LA_COUR_GestionClub_V1.25.10_release.zip FC_LA_COUR_GestionClub
       - name: Upload release ZIP
         uses: actions/upload-artifact@v4
         with:

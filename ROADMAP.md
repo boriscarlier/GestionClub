@@ -158,15 +158,15 @@ Etat : termine, garde-fous automatises verts.
 
 ### V1.25.12-B - Extraction des ressources embarquees
 
-Etat : en cours, sans bascule runtime.
+Etat : extraction passive terminee, validation CI finale en cours.
 
 - [x] Extraire le gros `CLUB_LOGO_DATA_URI` PNG vers `client/assets/brand/club-logo.png`.
-- [x] Verifier la ressource par SHA-256, taille et dimensions, et conserver le fallback Base64 actif dans le monolithe.
+- [x] Verifier la ressource par SHA-256, taille et dimensions : `92 264` octets, `576x507`, SHA-256 `f1152a3cb6601bb95a90f5e362119e0bde45b8da9f4bafe5dd256bba028fb6bd`.
 - [x] Indexer l'asset dans `docs/MANAGER_ASSETS_INDEX.json` avec `runtime_active: false`.
 - [x] Tester que le PNG versionne dans GitHub est identique octet pour octet au PNG embarque.
-- [ ] Introduire une desserte statique controlee de `client/assets/` et verifier le meme contenu par HTTP.
-- [ ] Basculer le logo vers l'asset externe dans une etape isolee avec fallback/rollback.
-- [ ] Revalider le rendu sous Windows/local/LAN avant suppression du Base64 embarque.
+- [x] Introduire une desserte statique controlee `/assets/brand/club-logo.png` et verifier son contenu par HTTP.
+- [x] Conserver le monolithe canonique strictement intact : son Base64 devient le fallback/legacy de reference et n'est pas modifie pendant la refactorisation.
+- [ ] Faire utiliser l'asset externe uniquement par les nouvelles pages multi-pages lorsqu'elles seront creees.
 
 ### V1.25.12-C - Socle commun CSS
 

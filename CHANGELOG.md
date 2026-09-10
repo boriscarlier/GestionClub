@@ -7,9 +7,9 @@
 - Conservation des donnees reelles hors Git via `data/` ignore.
 - Adaptation des chemins serveur pour servir le client depuis `client/`.
 - Adaptation des scripts Windows au nouveau rangement.
+- Ajout du contexte metier de reprise dans `docs/BUSINESS_INTENT.md` et `docs/HANDOFF_NEXT_CHAT.md`.
 
 ## V1.24.5
 
 - Derniere archive serveur importee comme base stable.
 - Tests serveur, veille, import manuel, PDF et convocations valides avant restructuration.
-

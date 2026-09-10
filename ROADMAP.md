@@ -13,6 +13,8 @@
 - Charger la revision serveur active.
 - Ajouter une action explicite d'enregistrement serveur.
 - Conserver un mode de secours local.
+- Refuser le demarrage sur donnees demo lorsqu'une revision serveur existe.
+- Tester les conflits entre deux sessions navigateur.
 
 ## V1.25.2 - Donnees communes
 
@@ -26,3 +28,8 @@
 - Verifier les protections Host, Origin, session et role.
 - Tester depuis un autre appareil du reseau avant toute ouverture routeur.
 
+## V1.25.4 - Veo et videos de matchs
+
+- Qualifier les liens publics Veo.
+- Ajouter un modele de reference video rattache a equipe, date, adversaire et competition.
+- Prevoir une integration par lien avant toute connexion compte.

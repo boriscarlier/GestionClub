@@ -43,7 +43,15 @@ scripts\windows\LANCER_TESTS.cmd
 | `data/` | Base locale creee a l'execution, ignoree par Git |
 | `releases/` | Archives construites localement, ignorees par Git |
 
+## Reprise du contexte metier
+
+Avant de reprendre le developpement dans un nouveau chat ou avec un nouveau contributeur, lire :
+
+- `docs/BUSINESS_INTENT.md`
+- `docs/HANDOFF_NEXT_CHAT.md`
+- `ARCHITECTURE.md`
+- `ROADMAP.md`
+
 ## Regle de developpement
 
 Chaque evolution doit garder les donnees du club hors code source, ajouter ou mettre a jour les tests utiles, puis documenter le resultat dans `CHANGELOG.md` et `docs/releases/`.
-

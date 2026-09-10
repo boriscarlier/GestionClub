@@ -1,0 +1,27 @@
+name: Package V1.25.10 physical test
+
+on:
+  push:
+    branches:
+      - package/v1.25.10-physical-test
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact V1.25.10 release commit
+        uses: actions/checkout@v4
+        with:
+          ref: 97718432357c960156ffecc42eb9ac5fb96b4a4f
+          fetch-depth: 0
+      - name: Build release ZIP
+        run: git archive --format=zip --prefix=FC_LA_COUR_GestionClub/ -o FC_LA_COUR_GestionClub_V1.25.10_release.zip 97718432357c960156ffecc42eb9ac5fb96b4a4f
+      - name: Upload release ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: FC_LA_COUR_GestionClub_V1.25.10_release
+          path: FC_LA_COUR_GestionClub_V1.25.10_release.zip
+          compression-level: 0

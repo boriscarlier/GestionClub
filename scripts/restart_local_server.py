@@ -1,12 +1,12 @@
-"""Arrete uniquement une instance FC LA COUR qui ecoute deja sur le port local."""
+"""Arrete uniquement une instance FC LA COUR qui ecoute deja sur le port demande."""
 import http.client
 import os
-import re
 import subprocess
 import sys
 import time
 
 DEFAULT_PORT = 8765
+SIGNATURES = ('FCLaCour/', 'FCLaCour-LAN/')
 
 
 def is_fc_la_cour_server(port=DEFAULT_PORT):
@@ -17,7 +17,7 @@ def is_fc_la_cour_server(port=DEFAULT_PORT):
         response.read(512)
         signature = response.getheader('Server', '')
         connection.close()
-        return signature.startswith('FCLaCour/')
+        return signature.startswith(SIGNATURES)
     except OSError:
         return False
 
@@ -53,12 +53,11 @@ def listening_pids(port=DEFAULT_PORT):
 def wait_until_free(port=DEFAULT_PORT, timeout=5):
     deadline = time.time() + timeout
     while time.time() < deadline:
-        if not is_fc_la_cour_server(port):
-            try:
-                with __import__('socket').create_connection(('127.0.0.1', port), timeout=0.3):
-                    pass
-            except OSError:
-                return True
+        try:
+            with __import__('socket').create_connection(('127.0.0.1', port), timeout=0.3):
+                pass
+        except OSError:
+            return True
         time.sleep(0.2)
     return False
 
@@ -86,7 +85,7 @@ def main(argv=None):
         if result.returncode != 0:
             print('ERREUR : impossible d\'arreter le PID %s.' % pid)
             return 5
-        print('Ancienne instance FC LA COUR arretee : PID %s.' % pid)
+        print('Instance FC LA COUR arretee : PID %s, port %s.' % (pid, port))
     if not wait_until_free(port):
         print('ERREUR : le port %s reste occupe apres arret.' % port)
         return 6

@@ -58,7 +58,7 @@ jobs:
           node-version: '22'
       - name: Install test-only browser
         run: |
-          npm install --prefix "$RUNNER_TEMP/fclc-browser" playwright@1.62.1
+          npm install --prefix "$RUNNER_TEMP/fclc-browser" playwright@1.62.1 pngjs@7.0.0
           node "$RUNNER_TEMP/fclc-browser/node_modules/playwright/cli.js" install --with-deps chromium
       - name: Compare legacy and modular pages
         run: NODE_PATH="$RUNNER_TEMP/fclc-browser/node_modules" node scripts/check_modular_browser.cjs

@@ -1,5 +1,14 @@
 # Changelog
 
+## V1.25.8
+
+- Correction du numero de version affiche sur la page d'accueil serveur.
+- Le titre HTML et le bandeau principal affichent maintenant `V1.25.8`.
+- Correction d'une balise `option` invalide dans le filtre des sources de veille.
+- Ajout d'un test automatise pour bloquer le retour de l'ancien libelle `V1.25.1`.
+- Sauvegardes completes acceptees jusqu'a `V1.25.8`.
+- Tests serveur portes a 32 controles.
+
 ## V1.25.7
 
 - `METTRE_A_JOUR.cmd` cible par defaut `D:\FC_LA_COUR_GestionClub`.

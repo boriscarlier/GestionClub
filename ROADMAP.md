@@ -83,20 +83,28 @@ Etat : stable technique.
 
 ## V1.25.7 - Mise a jour Windows en un geste
 
-Etat : en developpement.
+Etat : stable technique.
 
 - Utiliser `D:\FC_LA_COUR_GestionClub` comme dossier stable par defaut.
 - Ne plus redemander le chemin lors d'une mise a jour standard.
 - Lancer les tests automatiquement apres copie.
 - Demarrer le serveur automatiquement si les tests passent.
 
-## V1.25.8 - Acces reseau local
+## V1.25.8 - Correction de l'accueil serveur
+
+Etat : en developpement.
+
+- Aligner le numero de version visible sur la page d'accueil serveur.
+- Corriger les petites anomalies HTML reperees sur cette page.
+- Ajouter un test pour eviter le retour d'un ancien numero visible.
+
+## V1.25.9 - Acces reseau local
 
 - Autoriser un acces LAN controle.
 - Verifier les protections Host, Origin, session et role.
 - Tester depuis un autre appareil du reseau avant toute ouverture routeur.
 
-## V1.25.9 - Veo et videos de matchs
+## V1.25.10 - Veo et videos de matchs
 
 - Qualifier les liens publics Veo.
 - Ajouter un modele de reference video rattache a equipe, date, adversaire et competition.

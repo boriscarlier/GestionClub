@@ -4,8 +4,8 @@ Application locale de gestion du club, avec sauvegardes serveur, veille publique
 
 ## Etat actuel
 
-- Version courante : `V1.25.7`
-- Derniere version stable validee : `V1.25.6`
+- Version courante : `V1.25.8`
+- Derniere version stable validee : `V1.25.7`
 - Serveur local Python : authentification, revisions, depots de sauvegarde, veille, PDF, convocations, premieres API SQL metier
 - Ecran Licencies : lecture serveur SQL/API en mode `/gestion`, repli local en HTML autonome
 - Ecran Equipes : lecture serveur SQL/API en mode `/gestion`, repli local en HTML autonome

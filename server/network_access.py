@@ -3,12 +3,24 @@ import socket
 from urllib.parse import urlsplit
 
 
+LOCAL_IPV4_NETWORKS = tuple(
+    ipaddress.ip_network(value)
+    for value in (
+        '127.0.0.0/8',
+        '10.0.0.0/8',
+        '172.16.0.0/12',
+        '192.168.0.0/16',
+        '169.254.0.0/16',
+    )
+)
+
+
 def is_lan_address(value):
     try:
         address = ipaddress.ip_address(value)
     except ValueError:
         return False
-    return address.version == 4 and (address.is_loopback or address.is_private or address.is_link_local)
+    return address.version == 4 and any(address in network for network in LOCAL_IPV4_NETWORKS)
 
 
 def discover_lan_hosts():

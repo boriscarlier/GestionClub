@@ -98,9 +98,23 @@ class ServerTests(unittest.TestCase):
         s=self.login();revision=self.deposit(s)[1]['revision']
         code,r,_=self.request('/api/gestion/bootstrap',session=s)
         self.assertEqual(code,200)
-        self.assertEqual(r['serverBuild'],'V1.25.1')
+        self.assertEqual(r['serverBuild'],'V1.25.2')
         self.assertEqual(r['mode'],'server-bridge')
         self.assertEqual(r['latest']['revision'],revision)
         self.assertEqual(r['latest']['backup'],self.p)
+    def test_20_gestion_bridge_actions_are_visible(self):
+        s=self.login();code,raw,_=self.raw_request('/gestion',session=s)
+        self.assertEqual(code,200)
+        self.assertIn(b'Enregistrer sur serveur',raw)
+        self.assertIn(b'Telecharger revision serveur',raw)
+        self.assertIn(b'/api/snapshot',raw)
+        self.assertIn(b'expectedRevision:state.revision',raw)
+    def test_21_current_manager_backup_version_accepted(self):
+        s=self.login();self.p['build']='V1.25.2'
+        code,r,_=self.deposit(s)
+        self.assertEqual(code,201)
+        self.assertGreaterEqual(r['revision'],1)
+        out=self.request('/api/snapshot',session=s)[1]['backup']
+        self.assertEqual(out['build'],'V1.25.2')
 
 if __name__=='__main__':unittest.main(verbosity=2)

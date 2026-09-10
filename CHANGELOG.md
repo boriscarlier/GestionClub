@@ -1,5 +1,14 @@
 # Changelog
 
+## V1.25.2
+
+- V1.25.1 marquee comme stable.
+- Ajout d'un bouton "Enregistrer sur serveur" dans le client complet servi par `/gestion`.
+- Ajout d'un bouton de telechargement de la derniere revision serveur dans le bandeau du client complet.
+- Le depot depuis le client complet utilise `/api/session`, `/api/status` et `/api/snapshot` avec jeton CSRF, revision attendue et confirmation explicite.
+- Sauvegardes completes acceptees jusqu'a `V1.25.2`.
+- Tests serveur portes a 21 controles, suite totale attendue a 77 controles.
+
 ## V1.25.1
 
 - Ajout de la route protegee `/gestion` pour ouvrir le client complet depuis le serveur local.

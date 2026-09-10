@@ -9,7 +9,7 @@
 
 ## V1.25.1 - Ouverture de Gestion Club depuis le serveur
 
-Etat : en cours de validation.
+Etat : stable.
 
 - Ajouter une route protegee pour le client complet.
 - Charger la revision serveur active.
@@ -27,9 +27,19 @@ Livraison calme V1.25.1 :
 
 ## V1.25.2 - Donnees communes
 
+Etat : en developpement.
+
 - Remplacer progressivement les ecritures navigateur directes par des appels serveur.
 - Traiter membres, equipes, licences et comptes en priorite.
 - Ajouter des tests de concurrence multi-sessions.
+
+Livraison V1.25.2 :
+
+- bouton explicite "Enregistrer sur serveur" injecte dans le client complet servi par `/gestion` ;
+- telechargement de la derniere revision serveur depuis le meme bandeau ;
+- controle de session, CSRF, revision attendue et confirmation avant creation d'une revision ;
+- sauvegardes completes du client acceptees jusqu'a V1.25.2 ;
+- les ecritures champ par champ restent un choix d'architecture a trancher plus tard.
 
 ## V1.25.3 - Acces reseau local
 

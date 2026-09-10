@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-for item in (ROOT, ROOT / 'server', ROOT / 'vendor', ROOT / 'tests'):
+for item in (ROOT, ROOT / 'server', ROOT / 'vendor', ROOT / 'tests', ROOT / 'scripts'):
     value = str(item)
     if value not in sys.path:
         sys.path.insert(0, value)
@@ -16,6 +16,7 @@ MODULES = (
     'tests.test_pdf_watch',
     'tests.test_convocations',
     'tests.test_lan_server',
+    'tests.test_windows_runtime',
 )
 
 

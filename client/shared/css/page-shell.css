@@ -137,3 +137,63 @@ h1 {
     margin-top: 14px;
   }
 }
+
+.toolbar-line {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.search-field {
+  display: grid;
+  gap: 6px;
+  min-width: min(320px, 100%);
+  color: #4a5948;
+  font-weight: 700;
+}
+
+.search-field input {
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid var(--fclc-border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font: inherit;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.data-table th,
+.data-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--fclc-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.data-table th {
+  color: #4a5948;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+
+@media (max-width: 720px) {
+  .toolbar-line {
+    display: block;
+  }
+
+  .search-field {
+    margin-top: 12px;
+  }
+}

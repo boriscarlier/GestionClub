@@ -109,17 +109,29 @@ Etat : stable technique.
 
 ## V1.25.10 - Tests Windows en affichage compact
 
-Etat : stable technique.
+Etat : stable Windows via correctif final V1.25.10.2, valide le 10/09/2026.
 
 - Afficher une progression courte `N / X` pendant les tests.
 - Conserver les details en cas d'echec.
 - Garder le bilan final visible pour diagnostic.
+- Corriger la journalisation Windows et valider mise a jour, tests et serveur sur l'installation reelle.
 
 ## V1.25.11 - Acces reseau local
 
-- Autoriser un acces LAN controle.
-- Verifier les protections Host, Origin, session et role.
-- Tester depuis un autre appareil du reseau avant toute ouverture routeur.
+Etat : en developpement depuis la base stable V1.25.10.2.
+
+- [x] Ajouter un mode LAN explicite sans modifier le mode local par defaut.
+- [x] Ecouter sur `0.0.0.0` uniquement avec le lanceur LAN dedie.
+- [x] Restreindre les hôtes serveur aux IPv4 privees detectees/autorisees.
+- [x] Refuser les clients hors reseau local.
+- [x] Verifier que `Origin` correspond exactement au `Host` utilise.
+- [x] Conserver sessions, CSRF et roles `admin`, `editor`, `reader`.
+- [x] Ajouter les tests LAN aux suites standard et compacte Windows.
+- [ ] Tester la mise a jour Windows avec les donnees reelles preservees.
+- [ ] Tester depuis un deuxieme appareil du meme reseau local.
+- [ ] Valider l'eventuelle autorisation Windows Firewall sans ouverture du routeur.
+
+Aucune redirection du port 8765 sur le routeur ne fait partie de V1.25.11.
 
 ## V1.25.12 - Veo et videos de matchs
 

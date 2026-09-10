@@ -32,6 +32,25 @@ def initialize(db):
     CREATE INDEX IF NOT EXISTS idx_members_license ON members(license_number);
     CREATE INDEX IF NOT EXISTS idx_members_person ON members(person_number);
     CREATE INDEX IF NOT EXISTS idx_members_name ON members(last_name, first_name);
+
+    CREATE TABLE IF NOT EXISTS teams(
+      id TEXT PRIMARY KEY,
+      revision INTEGER NOT NULL,
+      name TEXT,
+      competition TEXT,
+      team_group TEXT,
+      coach TEXT,
+      assistant TEXT,
+      manager TEXT,
+      ground TEXT,
+      training TEXT,
+      public INTEGER NOT NULL DEFAULT 0,
+      roster_public INTEGER NOT NULL DEFAULT 0,
+      payload TEXT NOT NULL
+    );
+    CREATE INDEX IF NOT EXISTS idx_teams_revision ON teams(revision);
+    CREATE INDEX IF NOT EXISTS idx_teams_name ON teams(name);
+    CREATE INDEX IF NOT EXISTS idx_teams_group ON teams(team_group);
     ''')
 
 def text_value(row, *keys):
@@ -86,14 +105,57 @@ def sync_members(db, revision, backup):
         ))
     return len(rows)
 
+def team_summary(row):
+    return {
+        'id': text_value(row, 'id'),
+        'name': text_value(row, 'name'),
+        'competition': text_value(row, 'competition'),
+        'group': text_value(row, 'group'),
+        'coach': text_value(row, 'coach'),
+        'assistant': text_value(row, 'assistant'),
+        'manager': text_value(row, 'manager'),
+        'ground': text_value(row, 'ground'),
+        'training': text_value(row, 'training'),
+        'public': bool(row.get('public')) if isinstance(row, dict) else False,
+        'rosterPublic': bool(row.get('rosterPublic')) if isinstance(row, dict) else False
+    }
+
+def sync_teams(db, revision, backup):
+    rows = backup.get('state', {}).get('teams', [])
+    db.execute('DELETE FROM teams')
+    for row in rows:
+        summary = team_summary(row)
+        db.execute('''
+        INSERT INTO teams(
+          id,revision,name,competition,team_group,coach,assistant,manager,
+          ground,training,public,roster_public,payload
+        ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)
+        ''', (
+            summary['id'], revision, summary['name'], summary['competition'],
+            summary['group'], summary['coach'], summary['assistant'], summary['manager'],
+            summary['ground'], summary['training'], 1 if summary['public'] else 0,
+            1 if summary['rosterPublic'] else 0,
+            json.dumps(row, ensure_ascii=False, separators=(',', ':'))
+        ))
+    return len(rows)
+
+def sync_all(db, revision, backup):
+    return {
+        'members': sync_members(db, revision, backup),
+        'teams': sync_teams(db, revision, backup)
+    }
+
 def bootstrap_latest(db):
-    existing = db.execute('SELECT count(*) FROM members').fetchone()[0]
-    if existing:
+    existing = {
+        'members': db.execute('SELECT count(*) FROM members').fetchone()[0],
+        'teams': db.execute('SELECT count(*) FROM teams').fetchone()[0]
+    }
+    if all(existing.values()):
         return existing
     row = db.execute('SELECT id,payload FROM revisions ORDER BY id DESC LIMIT 1').fetchone()
     if not row:
-        return 0
-    return sync_members(db, row['id'], json.loads(row['payload']))
+        return existing
+    return sync_all(db, row['id'], json.loads(row['payload']))
 
 def row_to_member(row, include_payload=False):
     data = {
@@ -121,10 +183,11 @@ def row_to_member(row, include_payload=False):
 def summary(db):
     rev = db.execute('SELECT id,club FROM revisions ORDER BY id DESC LIMIT 1').fetchone()
     member_count = db.execute('SELECT count(*) FROM members').fetchone()[0]
+    team_count = db.execute('SELECT count(*) FROM teams').fetchone()[0]
     return {
         'revision': rev['id'] if rev else 0,
         'club': rev['club'] if rev else None,
-        'counts': {'members': member_count}
+        'counts': {'members': member_count, 'teams': team_count}
     }
 
 def members(db, params):
@@ -152,3 +215,49 @@ def member(db, ident):
     if not row:
         return None
     return row_to_member(row, include_payload=True)
+
+def row_to_team(row, include_payload=False):
+    data = {
+        'id': row['id'],
+        'revision': row['revision'],
+        'name': row['name'] or '',
+        'competition': row['competition'] or '',
+        'group': row['team_group'] or '',
+        'coach': row['coach'] or '',
+        'assistant': row['assistant'] or '',
+        'manager': row['manager'] or '',
+        'ground': row['ground'] or '',
+        'training': row['training'] or '',
+        'public': bool(row['public']),
+        'rosterPublic': bool(row['roster_public'])
+    }
+    if include_payload:
+        data['payload'] = json.loads(row['payload'])
+    return data
+
+def teams(db, params):
+    q = str(params.get('q', [''])[0]).strip().lower()
+    limit_raw = str(params.get('limit', ['100'])[0])
+    offset_raw = str(params.get('offset', ['0'])[0])
+    if not limit_raw.isdigit() or not offset_raw.isdigit():
+        raise ValueError('Pagination invalide.')
+    limit = min(max(int(limit_raw), 1), 500)
+    offset = max(int(offset_raw), 0)
+    args = []
+    where = ''
+    if q:
+        like = '%' + q + '%'
+        where = '''WHERE lower(coalesce(name,'')||' '||coalesce(competition,'')||' '||
+                   coalesce(team_group,'')||' '||coalesce(coach,'')||' '||
+                   coalesce(assistant,'')||' '||coalesce(manager,'')||' '||
+                   coalesce(ground,'')) LIKE ?'''
+        args.append(like)
+    total = db.execute('SELECT count(*) FROM teams ' + where, args).fetchone()[0]
+    rows = db.execute('SELECT * FROM teams ' + where + ' ORDER BY name,id LIMIT ? OFFSET ?', args + [limit, offset]).fetchall()
+    return {'total': total, 'limit': limit, 'offset': offset, 'teams': [row_to_team(r) for r in rows]}
+
+def team(db, ident):
+    row = db.execute('SELECT * FROM teams WHERE id=?', (ident,)).fetchone()
+    if not row:
+        return None
+    return row_to_team(row, include_payload=True)

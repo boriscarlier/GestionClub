@@ -2972,6 +2972,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 <div class="field"><label>Groupe</label><select id="adminTeamGroupFilter" onchange="renderAdminTeams()"><option value="">Tous les groupes</option></select></div>
 <button class="ghost" onclick="resetAdminTeamFilters()">Réinitialiser</button>
 </div>
+<div class="tiny" id="teamDataSource" style="margin-top:10px">Source : base locale</div>
 </div>
 <div class="team-grid" id="intraTeams" style="margin-top:20px"></div>
 </div>
@@ -4345,7 +4346,7 @@ Technique / Régionale : ...
 <!-- V1.22.0 Prototype autonome : SheetJS externe retiré. Import CSV disponible hors ligne. -->
 <script>
 // V1.22.7.1 — Correctifs vérifiés par le banc de test, septembre 2026.
-const QA_BUILD='V1.25.4';
+const QA_BUILD='V1.25.5';
 let cmsFilter='all';
 let qaSpace='public';
 let qaDraftOwner=null;
@@ -8944,6 +8945,8 @@ function goTo(page){
 
  if(page==='matches'&&typeof renderMatchList==='function')renderMatchList();
 
+ if(page==='teams'&&typeof refreshServerTeams==='function')refreshServerTeams().then(()=>typeof renderAdminTeams==='function'&&renderAdminTeams());
+
  if(page==='teamdetailadmin'&&typeof renderAdminTeamDetail==='function')renderAdminTeamDetail();
 
  if(page==='opponents'&&typeof renderOpponentClubs==='function')renderOpponentClubs();
@@ -9211,8 +9214,9 @@ let currentAdminTeamId=null;
 function adminTeamById(id){
  return (state.teams||[]).find(t=>t.id===id)||null;
 }
-function openAdminTeamDetail(id){
+async function openAdminTeamDetail(id){
  if(!currentAdminCan('teams','view')){toast('Accès refusé','Accès aux équipes non autorisé.');return;}
+ await ensureServerTeamDetail(id);
  const t=adminTeamById(id);
  if(!t){toast('Équipe','Équipe introuvable.');return;}
  currentAdminTeamId=id;
@@ -12251,6 +12255,58 @@ function teamPlayerCount(team){
 function teamMatchCount(team){
  return (state.matches||[]).filter(m=>norm(m.team||m.sourceTeam||'')===norm(team.name||'')).length;
 }
+let serverTeamsState={loaded:false,loading:false,error:'',items:[],total:0,revision:0,requestedAt:0};
+function serverTeamsEnabled(){
+ return !!(window.FC_LA_COUR_SERVER_BRIDGE&&window.FC_LA_COUR_SERVER_BRIDGE.mode==='server-bridge'&&location.protocol!=='file:');
+}
+async function serverTeamsApi(path){
+ const response=await fetch(path,{credentials:'same-origin',cache:'no-store',headers:{'Accept':'application/json'}});
+ const data=await response.json();
+ if(!response.ok)throw new Error(data.error||'Lecture serveur refusée.');
+ return data;
+}
+function teamSourceRows(){
+ return serverTeamsEnabled()&&serverTeamsState.loaded?serverTeamsState.items:(state.teams||[]);
+}
+function updateTeamDataSource(){
+ const node=document.getElementById('teamDataSource');if(!node)return;
+ if(!serverTeamsEnabled()){node.textContent='Source : base locale';return;}
+ if(serverTeamsState.loading){node.textContent='Source : serveur SQL/API · chargement...';return;}
+ if(serverTeamsState.error){node.textContent='Source : base locale · serveur indisponible : '+serverTeamsState.error;return;}
+ if(serverTeamsState.loaded){node.textContent='Source : serveur SQL/API · révision '+(serverTeamsState.revision||'—')+' · '+serverTeamsState.total+' équipe(s)';return;}
+ node.textContent='Source : serveur SQL/API · en attente';
+}
+async function refreshServerTeams(force=false){
+ if(!serverTeamsEnabled()||serverTeamsState.loading)return false;
+ if(serverTeamsState.loaded&&!force&&Date.now()-serverTeamsState.requestedAt<30000)return true;
+ serverTeamsState.loading=true;serverTeamsState.error='';updateTeamDataSource();
+ try{
+  const [summary,listing]=await Promise.all([
+   serverTeamsApi('/api/state/summary'),
+   serverTeamsApi('/api/state/teams?limit=500')
+  ]);
+  serverTeamsState={loaded:true,loading:false,error:'',items:listing.teams||[],total:listing.total||0,revision:summary.revision||0,requestedAt:Date.now()};
+  return true;
+ }catch(e){
+  serverTeamsState.loading=false;serverTeamsState.loaded=false;serverTeamsState.items=[];serverTeamsState.total=0;serverTeamsState.error=e.message||String(e);
+  return false;
+ }finally{
+  updateTeamDataSource();
+ }
+}
+async function ensureServerTeamDetail(id){
+ if(!serverTeamsEnabled())return null;
+ const current=(state.teams||[]).find(t=>t.id===id&&t.sourcePayloadLoaded);
+ if(current)return current;
+ const data=await serverTeamsApi('/api/state/teams/'+encodeURIComponent(id));
+ const payload=data.team?.payload||data.team;
+ if(!payload||!payload.id)return null;
+ payload.sourcePayloadLoaded=true;
+ const idx=(state.teams||[]).findIndex(t=>t.id===payload.id);
+ if(idx>=0)state.teams[idx]={...state.teams[idx],...payload};
+ else state.teams.push(payload);
+ return payload;
+}
 function resetAdminTeamFilters(){
  const q=document.getElementById('adminTeamSearch');if(q)q.value='';
  const g=document.getElementById('adminTeamGroupFilter');if(g)g.value='';
@@ -12258,7 +12314,9 @@ function resetAdminTeamFilters(){
 }
 function renderAdminTeams(){
  const root=document.getElementById('intraTeams');if(!root)return;
- const teams=Array.isArray(state.teams)?state.teams:[];
+ if(serverTeamsEnabled()&&!serverTeamsState.loaded&&!serverTeamsState.loading)refreshServerTeams().then(()=>renderAdminTeams());
+ updateTeamDataSource();
+ const teams=teamSourceRows();
 
  const groupSelect=document.getElementById('adminTeamGroupFilter');
  if(groupSelect){

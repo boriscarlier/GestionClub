@@ -16,7 +16,7 @@ class ServerTests(unittest.TestCase):
         cls.srv.shutdown();cls.srv.server_close();cls.thread.join();cls.temp.cleanup()
     def setUp(self):
         with closing(server.connect(self.path)) as db,db:
-            db.execute('DELETE FROM attempts');db.execute('DELETE FROM sessions');db.execute('DELETE FROM revisions')
+            db.execute('DELETE FROM attempts');db.execute('DELETE FROM sessions');db.execute('DELETE FROM revisions');db.execute('DELETE FROM members');db.execute('DELETE FROM teams')
         self.p={'format':'FC_LA_COUR_FULL_BACKUP','schemaVersion':1,'build':'V1.23.3','state':{'members':[{'id':'fiction-only','name':'FICTIF'}],'teams':[],'matches':[],'accounts':[],'clubProfile':{'official':{'affiliation':'000000'}}},'lineups':{}}
     def request(self,path,method='GET',data=None,session=None,origin=None,host=None,csrf=True):
         port=self.srv.server_port;conn=http.client.HTTPConnection('127.0.0.1',port,timeout=10)
@@ -98,7 +98,7 @@ class ServerTests(unittest.TestCase):
         s=self.login();revision=self.deposit(s)[1]['revision']
         code,r,_=self.request('/api/gestion/bootstrap',session=s)
         self.assertEqual(code,200)
-        self.assertEqual(r['serverBuild'],'V1.25.4')
+        self.assertEqual(r['serverBuild'],'V1.25.5')
         self.assertEqual(r['mode'],'server-bridge')
         self.assertEqual(r['latest']['revision'],revision)
         self.assertEqual(r['latest']['backup'],self.p)
@@ -110,12 +110,12 @@ class ServerTests(unittest.TestCase):
         self.assertIn(b'/api/snapshot',raw)
         self.assertIn(b'expectedRevision:state.revision',raw)
     def test_21_current_manager_backup_version_accepted(self):
-        s=self.login();self.p['build']='V1.25.4'
+        s=self.login();self.p['build']='V1.25.5'
         code,r,_=self.deposit(s)
         self.assertEqual(code,201)
         self.assertGreaterEqual(r['revision'],1)
         out=self.request('/api/snapshot',session=s)[1]['backup']
-        self.assertEqual(out['build'],'V1.25.4')
+        self.assertEqual(out['build'],'V1.25.5')
     def test_22_members_synced_to_sql_and_listed_by_api(self):
         s=self.login()
         self.p['state']['members']=[
@@ -154,8 +154,37 @@ class ServerTests(unittest.TestCase):
     def test_25_gestion_members_api_bridge_is_visible(self):
         s=self.login();code,raw,_=self.raw_request('/gestion',session=s)
         self.assertEqual(code,200)
-        self.assertIn(b'V1.25.4',raw)
+        self.assertIn(b'V1.25.5',raw)
         self.assertIn(b'/api/state/members?limit=500',raw)
         self.assertIn(b'Source : serveur SQL/API',raw)
+    def test_26_teams_synced_to_sql_and_listed_by_api(self):
+        s=self.login()
+        self.p['state']['teams']=[
+            {'id':'t-u11','name':'U11','competition':'Plateau','group':'Jeunes','coach':'Coach A','ground':'Stade des Jacques','public':True,'rosterPublic':False},
+            {'id':'t-r3','name':'Seniors 1','competition':'R3','group':'Seniors','coach':'Coach B','ground':'Stade principal','public':False,'rosterPublic':False}
+        ]
+        revision=self.deposit(s)[1]['revision']
+        code,summary,_=self.request('/api/state/summary',session=s)
+        self.assertEqual(code,200)
+        self.assertEqual(summary['revision'],revision)
+        self.assertEqual(summary['counts']['teams'],2)
+        code,listing,_=self.request('/api/state/teams?q=r3',session=s)
+        self.assertEqual(code,200)
+        self.assertEqual(listing['total'],1)
+        self.assertEqual(listing['teams'][0]['id'],'t-r3')
+        self.assertEqual(listing['teams'][0]['name'],'Seniors 1')
+    def test_27_team_detail_api_returns_source_payload(self):
+        s=self.login()
+        self.p['state']['teams']=[{'id':'t-u7','name':'U7','competition':'Animation','extra':{'kept':True}}]
+        self.deposit(s)
+        code,r,_=self.request('/api/state/teams/t-u7',session=s)
+        self.assertEqual(code,200)
+        self.assertEqual(r['team']['payload']['extra']['kept'],True)
+        self.assertEqual(self.request('/api/state/teams/missing',session=s)[0],404)
+    def test_28_gestion_teams_api_bridge_is_visible(self):
+        s=self.login();code,raw,_=self.raw_request('/gestion',session=s)
+        self.assertEqual(code,200)
+        self.assertIn(b'/api/state/teams?limit=500',raw)
+        self.assertIn(b'teamDataSource',raw)
 
 if __name__=='__main__':unittest.main(verbosity=2)

@@ -53,7 +53,7 @@ Etat : stable technique.
 
 ## V1.25.4 - Lecture des licencies depuis l'API serveur
 
-Etat : en developpement.
+Etat : stable technique.
 
 - Utiliser `/api/state/members` pour alimenter l'ecran Licencies en mode serveur.
 - Conserver le mode HTML autonome avec les donnees locales.
@@ -61,13 +61,23 @@ Etat : en developpement.
 - Afficher clairement la source utilisee par l'ecran.
 - Garder les exports, filtres et selections existants.
 
-## V1.25.5 - Acces reseau local
+## V1.25.5 - Lecture des equipes depuis l'API serveur
+
+Etat : en developpement.
+
+- Synchroniser les equipes vers SQLite avec leur fiche source complete.
+- Exposer `/api/state/teams` et `/api/state/teams/{id}`.
+- Alimenter l'ecran Equipes depuis le serveur en mode `/gestion`.
+- Conserver le repli local du HTML autonome.
+- Garder les compteurs sportifs calcules cote client pendant cette etape.
+
+## V1.25.6 - Acces reseau local
 
 - Autoriser un acces LAN controle.
 - Verifier les protections Host, Origin, session et role.
 - Tester depuis un autre appareil du reseau avant toute ouverture routeur.
 
-## V1.25.6 - Veo et videos de matchs
+## V1.25.7 - Veo et videos de matchs
 
 - Qualifier les liens publics Veo.
 - Ajouter un modele de reference video rattache a equipe, date, adversaire et competition.

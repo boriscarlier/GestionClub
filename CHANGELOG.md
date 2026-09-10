@@ -1,5 +1,15 @@
 # Changelog
 
+## V1.25.5
+
+- Ajout d'une table SQL `teams` synchronisee depuis chaque sauvegarde complete deposee.
+- Ajout des API `/api/state/teams` et `/api/state/teams/{id}`.
+- Extension de `/api/state/summary` avec le compteur des equipes.
+- Branchement progressif de l'ecran Equipes sur l'API serveur en mode `/gestion`.
+- Repli local conserve pour le HTML autonome.
+- Sauvegardes completes acceptees jusqu'a `V1.25.5`.
+- Tests serveur portes a 28 controles.
+
 ## V1.25.4
 
 - Branchement progressif de l'ecran Licencies sur l'API serveur quand le client est servi par `/gestion`.

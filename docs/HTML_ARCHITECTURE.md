@@ -8,7 +8,8 @@ Fichier canonique conserve pendant toute la migration :
 
 - `client/FC_LA_COUR_Manager.html`
 - taille : `1 143 051` octets
-- SHA256 : `64def65ec261d3da05d855896484c4deb79da407`
+- Git blob SHA : `64def65ec261d3da05d855896484c4deb79da407`
+- SHA-256 du contenu : `5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c`
 - encodage : UTF-8 strict
 
 Le monolithe reste executable et sert de reference de comparaison jusqu'a validation physique complete de l'architecture multi-pages.
@@ -17,9 +18,9 @@ Le monolithe reste executable et sert de reference de comparaison jusqu'a valida
 
 Une extraction n'est acceptee que si :
 
-1. le Manager canonique de depart passe le controle SHA/UTF-8 ;
+1. le Manager canonique de depart passe le controle SHA-256/UTF-8 ;
 2. tous les octets sont couverts par un manifeste ordonne ;
-3. chaque bloc possede son propre SHA256 ;
+3. chaque bloc possede son propre SHA-256 ;
 4. la recomposition est identique octet pour octet au fichier canonique ;
 5. tous les tests historiques restent verts ;
 6. la nouvelle page est testee avant de devenir le chemin principal ;
@@ -29,7 +30,7 @@ Une extraction n'est acceptee que si :
 
 - `scripts/index_manager_html.py` : index structurel du monolithe.
 - `scripts/decompose_manager.py` : decomposition sans perte sur les frontieres `style` / `script` / fragments HTML.
-- `scripts/rebuild_manager.py` : recomposition avec verification de continuite, taille et SHA.
+- `scripts/rebuild_manager.py` : recomposition avec verification de continuite, taille et SHA-256.
 - `tests/test_html_decomposition.py` : garde-fous automatiques sur le vrai Manager stable.
 - `.github/workflows/html-decomposition.yml` : produit un artefact d'inspection sans modifier l'application.
 

@@ -12,8 +12,19 @@ permissions:
 
 jobs:
   unittest:
+    name: ${{ matrix.module }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        module:
+          - test_server
+          - test_watch
+          - test_manual_watch
+          - test_pdf_watch
+          - test_convocations
+          - test_lan_server
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,5 +32,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Run test suite
-        run: ./scripts/run_tests.sh
+      - name: Run module
+        env:
+          PYTHONPATH: ${{ github.workspace }}/server:${{ github.workspace }}/vendor:${{ github.workspace }}/tests
+        run: python3 -m unittest -v tests.${{ matrix.module }}

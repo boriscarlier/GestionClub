@@ -43,7 +43,8 @@ refactor_branch: refactor/v1.25.12-html-decomposition
 canonical_manager:
   path: client/FC_LA_COUR_Manager.html
   bytes: 1143051
-  sha256: 64def65ec261d3da05d855896484c4deb79da407
+  git_blob_sha: 64def65ec261d3da05d855896484c4deb79da407
+  content_sha256: 5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c
 validation_required:
   - monolithe_canonique_inchange
   - utf8_strict

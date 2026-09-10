@@ -1,4 +1,4 @@
-"""Runtime FC LA COUR Gestion Club V1.25.11.1 base sur le noyau V1.25.10.2 valide."""
+"""Runtime FC LA COUR Gestion Club V1.25.12 base sur V1.25.11.1 stable."""
 import argparse
 import getpass
 import re
@@ -7,11 +7,13 @@ from contextlib import closing
 from pathlib import Path
 
 import server
+import video_api
 
-VERSION = 'V1.25.11.1'
+VERSION = 'V1.25.12'
 VERSION_BYTES = VERSION.encode('utf-8')
-MAX_BACKUP_VERSION = (1, 25, 11, 1)
+MAX_BACKUP_VERSION = (1, 25, 12, 0)
 _BASE_HANDLER = server.Handler
+_BASE_INITIALIZE = server.initialize
 
 
 def validate(payload):
@@ -44,8 +46,13 @@ def validate(payload):
     return club
 
 
+def initialize(path):
+    _BASE_INITIALIZE(path)
+    video_api.initialize(path)
+
+
 class CurrentHandler(_BASE_HANDLER):
-    server_version = 'FCLaCour/1.25.11.1'
+    server_version = 'FCLaCour/1.25.12'
 
     def send(self, status, value, cookie=None, mime='application/json; charset=utf-8', csp=None):
         if isinstance(value, bytes) and mime.startswith('text/html'):
@@ -55,8 +62,14 @@ class CurrentHandler(_BASE_HANDLER):
             value['serverBuild'] = VERSION
         return super().send(status, value, cookie=cookie, mime=mime, csp=csp)
 
+    def route(self):
+        if video_api.is_video_path(self.path):
+            return video_api.route(self)
+        return super().route()
+
 
 server.validate = validate
+server.initialize = initialize
 server.Handler = CurrentHandler
 
 

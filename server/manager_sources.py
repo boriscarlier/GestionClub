@@ -48,7 +48,12 @@ window.addEventListener('DOMContentLoaded', function(){
 });
 </script>
 '''.replace('REQUESTED_PAGE', requested)
-    return html.replace('</body>', script+'</body>')
+    # Embedded export templates also contain </body>; only the document's
+    # final closing tag is an insertion point.
+    before, closing, after = html.rpartition('</body>')
+    if not closing:
+        raise ValueError('Missing document body')
+    return before + script + closing + after
 
 
 def compose(root):

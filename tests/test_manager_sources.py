@@ -17,6 +17,13 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class SourceCompositionTests(unittest.TestCase):
+    def test_route_script_does_not_modify_embedded_export_templates(self):
+        html = '<body><script>const template="</body>";</script></body></html>'
+        result = manager_sources.select_page(html, {'id': 'public-coach', 'space': 'public'})
+        self.assertTrue(result.startswith('<body><script>const template="</body>";</script>'))
+        self.assertEqual(result.count('const requested='), 1)
+        self.assertTrue(result.endswith('</body></html>'))
+
     def test_source_generation_is_reproducible(self):
         manifest = build(check=True)
         self.assertEqual(len(manifest['pages']), 70)

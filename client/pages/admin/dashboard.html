@@ -4,13 +4,53 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dashboard - FC LA COUR Gestion Club</title>
-  <meta http-equiv="refresh" content="0; url=/gestion#dashboard">
+  <link rel="stylesheet" href="../../shared/css/page-shell.css">
 </head>
-<body>
-  <main>
-    <h1>Dashboard</h1>
-    <p>Page en cours de decomposition. Le Manager stable reste la reference active.</p>
-    <p><a href="/gestion#dashboard">Ouvrir le dashboard dans le Manager stable</a></p>
+<body data-page-status="extracted_shadow" data-legacy-target="/gestion#dashboard">
+  <main class="page-shell">
+    <header class="page-header">
+      <div>
+        <p class="page-kicker">Administration</p>
+        <h1>Dashboard</h1>
+      </div>
+      <nav class="page-actions" aria-label="Actions dashboard">
+        <a class="button-link primary" href="/gestion#dashboard">Retour Manager stable</a>
+        <a class="button-link" href="../README.md">Index des pages</a>
+      </nav>
+    </header>
+
+    <p class="status-banner" data-dashboard-status>
+      Chargement de la synthese serveur...
+    </p>
+
+    <section class="grid-metrics" aria-label="Synthese Gestion Club">
+      <article class="metric-card">
+        <p class="metric-label">Licencies</p>
+        <p class="metric-value" data-summary-count="members">...</p>
+      </article>
+      <article class="metric-card">
+        <p class="metric-label">Equipes</p>
+        <p class="metric-value" data-summary-count="teams">...</p>
+      </article>
+      <article class="metric-card">
+        <p class="metric-label">Matchs</p>
+        <p class="metric-value" data-summary-count="matches">...</p>
+      </article>
+      <article class="metric-card">
+        <p class="metric-label">Comptes</p>
+        <p class="metric-value" data-summary-count="accounts">...</p>
+      </article>
+    </section>
+
+    <section class="details-panel" aria-label="Etat serveur">
+      <h2>Etat de la revision</h2>
+      <p>Utilisateur : <strong data-dashboard-user>Non connecte</strong></p>
+      <p>Revision serveur : <strong data-dashboard-revision>0</strong></p>
+      <p>Affiliation club : <strong data-dashboard-club>Non renseigne</strong></p>
+      <p>Statut de migration : <strong>extracted_shadow</strong></p>
+    </section>
   </main>
+
+  <script src="../../shared/js/dashboard-summary.js" defer></script>
 </body>
 </html>

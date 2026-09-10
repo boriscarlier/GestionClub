@@ -158,11 +158,15 @@ Etat : termine, garde-fous automatises verts.
 
 ### V1.25.12-B - Extraction des ressources embarquees
 
-Etat : prochaine etape.
+Etat : en cours, sans bascule runtime.
 
-- [ ] Extraire en premier le gros `CLUB_LOGO_DATA_URI` PNG vers `client/assets/`.
-- [ ] Verifier la ressource par SHA et conserver le fallback tant que la bascule n'est pas validee.
-- [ ] Revalider le rendu et tous les tests avant suppression de la donnee embarquee.
+- [x] Extraire le gros `CLUB_LOGO_DATA_URI` PNG vers `client/assets/brand/club-logo.png`.
+- [x] Verifier la ressource par SHA-256, taille et dimensions, et conserver le fallback Base64 actif dans le monolithe.
+- [x] Indexer l'asset dans `docs/MANAGER_ASSETS_INDEX.json` avec `runtime_active: false`.
+- [x] Tester que le PNG versionne dans GitHub est identique octet pour octet au PNG embarque.
+- [ ] Introduire une desserte statique controlee de `client/assets/` et verifier le meme contenu par HTTP.
+- [ ] Basculer le logo vers l'asset externe dans une etape isolee avec fallback/rollback.
+- [ ] Revalider le rendu sous Windows/local/LAN avant suppression du Base64 embarque.
 
 ### V1.25.12-C - Socle commun CSS
 

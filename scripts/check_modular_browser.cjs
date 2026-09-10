@@ -9,7 +9,7 @@ fs.mkdirSync(out,{recursive:true});
 const server=spawn(process.env.PYTHON||'python3',['scripts/test_modular_browser_server.py']);
 server.stderr.pipe(process.stderr);
 let browser;
-const report={pages:[],css:[],errors:[]};
+const report={pages:[],directRoutes:[],css:[],errors:[]};
 
 function comparePixels(left,right){
   const a=PNG.sync.read(left),b=PNG.sync.read(right);
@@ -72,7 +72,11 @@ async function select(page,target){
       page.on('pageerror',e=>report.errors.push({route,message:e.message}));
       await page.clock.setFixedTime(new Date('2026-09-10T12:00:00Z'));
       await page.goto(base+route,{waitUntil:'networkidle'});
-      if(!storage)storage=await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)));
+      if(!storage){
+        // Seed BOTH renderers from the same fully initialized fictitious state.
+        storage=await page.evaluate(()=>{localStorage.setItem(KEY,JSON.stringify(state));return Object.fromEntries(Object.entries(localStorage));});
+        await page.reload({waitUntil:'networkidle'});
+      }
       await page.addStyleTag({content:'*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important}'});
     }
     if(!report.css.length){
@@ -98,11 +102,28 @@ async function select(page,target){
         throw Error('Visual difference: '+target.id+' at '+viewport.width);
       }
     }
+    if(viewport.width===1440){
+      const direct=await contexts[1].newPage();
+      direct.on('pageerror',e=>report.errors.push({route:'direct',message:e.message}));
+      await direct.clock.setFixedTime(new Date('2026-09-10T12:00:00Z'));
+      await direct.addInitScript(()=>{
+        sessionStorage.setItem('fclc_admin_account','demo_account_admin');
+        localStorage.setItem('fclc_coach_member','demo_member_coach');
+        localStorage.setItem('fclc_portal_member','demo_member_adherent');
+      });
+      for(const target of manifest.pages){
+        await direct.goto(base+'/gestion-modulaire/'+target.space+'/'+target.id,{waitUntil:'networkidle'});
+        const active=await direct.evaluate(id=>!!document.getElementById(id)?.classList.contains('active'),target.id);
+        report.directRoutes.push({id:target.id,active});
+        if(!active)throw Error('Direct route did not activate '+target.id);
+      }
+      await direct.close();
+    }
     for(const context of contexts)await context.close();
   }
   // Any baseline error is an explicit blocker; do not silently call it a pass.
   if(report.errors.length)throw Error('Browser errors: '+JSON.stringify(report.errors));
-  console.log('Visual parity: '+report.pages.length+' checks passed');
+  console.log('Visual parity: '+report.pages.length+' checks passed; '+report.directRoutes.length+' direct routes active');
 })().catch(e=>{console.error(e);report.failure=e.message;process.exitCode=1;}).finally(async()=>{
   fs.writeFileSync(out+'/report.json',JSON.stringify(report,null,2));
   if(browser)await browser.close();server.kill();clearTimeout(timer);

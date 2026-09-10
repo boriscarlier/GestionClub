@@ -127,6 +127,20 @@ class ModularHTTPTests(unittest.TestCase):
             self.assertEqual(self.request('/gestion-modulaire',cookie)[0],503)
             self.assertEqual(self.request('/gestion-legacy',cookie)[0],200)
 
+    def test_modular_document_through_lan_gateway(self):
+        import lan_server
+        gateway=lan_server.make_lan_gateway(0,self.srv.server_port,extra_hosts=['192.168.50.10'])
+        thread=threading.Thread(target=gateway.serve_forever,daemon=True);thread.start()
+        try:
+            cookie=self.login()
+            conn=http.client.HTTPConnection('127.0.0.1',gateway.server_port,timeout=20)
+            conn.request('GET','/gestion-modulaire',headers={'Cookie':cookie})
+            response=conn.getresponse();raw=response.read();conn.close()
+            self.assertEqual(response.status,200)
+            self.assertEqual(raw,self.request('/gestion-legacy',cookie)[1])
+        finally:
+            gateway.shutdown();gateway.server_close();thread.join()
+
 
 if __name__=='__main__':
     unittest.main()

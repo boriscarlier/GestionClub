@@ -5,7 +5,7 @@ cd /d "%~dp0"
 set "SOURCE=%CD%"
 set "TARGET=%~1"
 if "%TARGET%"=="" (
-  set /p TARGET=Chemin du dossier Gestion Club a mettre a jour :
+  set "TARGET=D:\FC_LA_COUR_GestionClub"
 )
 if "%TARGET%"=="" (
   echo Mise a jour annulee : aucun dossier cible.
@@ -29,5 +29,14 @@ if %ERRORLEVEL% GEQ 8 (
   pause
   exit /b 1
 )
-echo Mise a jour terminee. Lancez "%TARGET_FULL%\DEMARRER_SERVEUR.cmd".
+echo Mise a jour terminee.
+echo Lancement des tests depuis "%TARGET_FULL%".
+call "%TARGET_FULL%\LANCER_TESTS.cmd"
+if errorlevel 1 (
+  echo Tests en echec. Le serveur n'est pas demarre automatiquement.
+  pause
+  exit /b 1
+)
+echo Tests valides. Demarrage du serveur.
+call "%TARGET_FULL%\DEMARRER_SERVEUR.cmd"
 pause

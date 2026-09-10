@@ -1,5 +1,14 @@
 # Changelog
 
+## V1.25.7
+
+- `METTRE_A_JOUR.cmd` cible par defaut `D:\FC_LA_COUR_GestionClub`.
+- La mise a jour ne redemande plus le chemin quand aucun argument n'est fourni.
+- Apres copie, le script lance `LANCER_TESTS.cmd`.
+- Si les tests passent, le script lance `DEMARRER_SERVEUR.cmd`.
+- Sauvegardes completes acceptees jusqu'a `V1.25.7`.
+- Tests serveur maintenus a 31 controles avec verification du parcours Windows.
+
 ## V1.25.6
 
 - Ajout de lanceurs Windows a la racine : `DEMARRER_SERVEUR.cmd` et `LANCER_TESTS.cmd`.

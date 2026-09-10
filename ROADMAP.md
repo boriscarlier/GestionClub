@@ -73,7 +73,7 @@ Etat : stable technique.
 
 ## V1.25.6 - Installation et mises a jour Windows simplifiees
 
-Etat : en developpement.
+Etat : stable technique.
 
 - Ajouter des lanceurs a la racine du dossier livre.
 - Permettre un chemin `data` stable, y compris sur un autre disque.
@@ -81,13 +81,22 @@ Etat : en developpement.
 - Garder les tests separes de la base reelle.
 - Documenter le pas a pas de test utilisateur.
 
-## V1.25.7 - Acces reseau local
+## V1.25.7 - Mise a jour Windows en un geste
+
+Etat : en developpement.
+
+- Utiliser `D:\FC_LA_COUR_GestionClub` comme dossier stable par defaut.
+- Ne plus redemander le chemin lors d'une mise a jour standard.
+- Lancer les tests automatiquement apres copie.
+- Demarrer le serveur automatiquement si les tests passent.
+
+## V1.25.8 - Acces reseau local
 
 - Autoriser un acces LAN controle.
 - Verifier les protections Host, Origin, session et role.
 - Tester depuis un autre appareil du reseau avant toute ouverture routeur.
 
-## V1.25.8 - Veo et videos de matchs
+## V1.25.9 - Veo et videos de matchs
 
 - Qualifier les liens publics Veo.
 - Ajouter un modele de reference video rattache a equipe, date, adversaire et competition.

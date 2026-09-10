@@ -98,7 +98,7 @@ class ServerTests(unittest.TestCase):
         s=self.login();revision=self.deposit(s)[1]['revision']
         code,r,_=self.request('/api/gestion/bootstrap',session=s)
         self.assertEqual(code,200)
-        self.assertEqual(r['serverBuild'],'V1.25.6')
+        self.assertEqual(r['serverBuild'],'V1.25.7')
         self.assertEqual(r['mode'],'server-bridge')
         self.assertEqual(r['latest']['revision'],revision)
         self.assertEqual(r['latest']['backup'],self.p)
@@ -110,12 +110,12 @@ class ServerTests(unittest.TestCase):
         self.assertIn(b'/api/snapshot',raw)
         self.assertIn(b'expectedRevision:state.revision',raw)
     def test_21_current_manager_backup_version_accepted(self):
-        s=self.login();self.p['build']='V1.25.6'
+        s=self.login();self.p['build']='V1.25.7'
         code,r,_=self.deposit(s)
         self.assertEqual(code,201)
         self.assertGreaterEqual(r['revision'],1)
         out=self.request('/api/snapshot',session=s)[1]['backup']
-        self.assertEqual(out['build'],'V1.25.6')
+        self.assertEqual(out['build'],'V1.25.7')
     def test_22_members_synced_to_sql_and_listed_by_api(self):
         s=self.login()
         self.p['state']['members']=[
@@ -154,7 +154,7 @@ class ServerTests(unittest.TestCase):
     def test_25_gestion_members_api_bridge_is_visible(self):
         s=self.login();code,raw,_=self.raw_request('/gestion',session=s)
         self.assertEqual(code,200)
-        self.assertIn(b'V1.25.6',raw)
+        self.assertIn(b'V1.25.7',raw)
         self.assertIn(b'/api/state/members?limit=500',raw)
         self.assertIn(b'Source : serveur SQL/API',raw)
     def test_26_teams_synced_to_sql_and_listed_by_api(self):
@@ -211,6 +211,9 @@ class ServerTests(unittest.TestCase):
         self.assertIn('scripts\\windows\\LANCER_TESTS.cmd',tests)
         self.assertIn('robocopy',update)
         self.assertIn('"data"',update)
+        self.assertIn('d:\\fc_la_cour_gestionclub',update)
+        self.assertIn('lancer_tests.cmd',update)
+        self.assertIn('demarrer_serveur.cmd',update)
     def test_31_windows_start_script_preserves_data_path(self):
         root=Path(__file__).resolve().parents[1]
         text=(root/'scripts/windows/DEMARRER_SERVEUR.cmd').read_text(encoding='utf-8')

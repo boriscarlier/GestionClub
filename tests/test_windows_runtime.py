@@ -82,6 +82,37 @@ raise SystemExit(1)
         self.assertEqual(restart_local_server.parse_listening_pids(sample, 8765), [4321])
         self.assertEqual(restart_local_server.parse_listening_pids(sample, 8766), [9876])
 
+    def test_07_current_runtime_serves_new_version(self):
+        code = r'''
+import http.client
+import tempfile
+import threading
+from pathlib import Path
+import current_server
+import server
+with tempfile.TemporaryDirectory() as temp:
+    path=Path(temp)/'runtime.sqlite3'
+    srv=server.make_server(path,0)
+    thread=threading.Thread(target=srv.serve_forever,daemon=True)
+    thread.start()
+    try:
+        port=srv.server_port
+        conn=http.client.HTTPConnection('127.0.0.1',port,timeout=5)
+        conn.request('GET','/',headers={'Host':'127.0.0.1:'+str(port)})
+        response=conn.getresponse(); raw=response.read(); conn.close()
+        assert response.status == 200
+        assert b'V1.25.11.1' in raw
+        assert b'Serveur V1.25.10' not in raw
+        print('runtime-version-ok')
+    finally:
+        srv.shutdown(); srv.server_close(); thread.join()
+'''
+        env = os.environ.copy()
+        env['PYTHONPATH'] = os.pathsep.join([str(ROOT / 'server'), str(ROOT / 'vendor')])
+        result = subprocess.run([sys.executable, '-c', code], cwd=ROOT, env=env, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('runtime-version-ok', result.stdout)
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

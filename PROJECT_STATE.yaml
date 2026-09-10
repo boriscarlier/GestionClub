@@ -17,7 +17,7 @@ current_focus:
   - confort_installation_windows
   - mises_a_jour_sans_recopie_data
   - tests_automatises
-  - fiabilisation_logs_windows
+  - acces_reseau_local_controle
 stable_versions:
   - V1.25.1
   - V1.25.2
@@ -28,9 +28,10 @@ stable_versions:
   - V1.25.7
   - V1.25.8
   - V1.25.9
-candidate_version: V1.25.10.2
-validation_required:
-  - mise_a_jour_serveur_windows_reelle
-  - tests_compacts
-  - generation_log_en_cas_echec
-  - demarrage_serveur_sans_double_instance
+  - V1.25.10.2
+last_physical_validation:
+  version: V1.25.10.2
+  date: 2026-09-10
+  platform: Windows
+  result: tests_passed_server_online
+next_version: V1.25.11

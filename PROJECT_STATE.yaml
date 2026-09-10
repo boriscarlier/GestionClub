@@ -1,0 +1,15 @@
+project: FC LA COUR Gestion Club
+version: V1.25.0-dev
+base_imported: V1.24.5
+runtime:
+  language: Python
+  client: HTML JavaScript CSS
+  database: SQLite
+storage:
+  real_data: data/
+  tracked_in_git: false
+current_focus:
+  - depot_github
+  - architecture_client_serveur
+  - tests_automatises
+

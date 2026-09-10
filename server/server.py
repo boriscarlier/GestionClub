@@ -94,7 +94,7 @@ def add_user(path, name, password, role):
         db.execute('INSERT INTO users VALUES(?,?,?,?)', (name, salt, password_hash(password, salt), role))
 
 def manager_page():
-    html = (CLIENT_ROOT / 'FC_LA_COUR_Manager.html').read_text(encoding='utf-8')
+    html = (CLIENT_ROOT / 'FC_LA_COUR_Manager.html').read_bytes().decode('utf-8', errors='replace')
     marker = '<body'
     pos = html.find(marker)
     if pos < 0:

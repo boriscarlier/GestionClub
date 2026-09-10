@@ -1,0 +1,52 @@
+/* ===== Petit mobile ===== */
+@media (max-width:430px){
+ .grid.stats,
+ .stats-dashboard-grid,
+ .sport-health-grid,
+ .coach-player-stats-grid,
+ .coach-training-stats{
+  grid-template-columns:1fr;
+ }
+ .page,
+ .public-page,
+ .portal-page,
+ .coach-page{
+  padding-left:10px;
+  padding-right:10px;
+ }
+ .card,
+ .coach-card,
+ .portal-card{
+  border-radius:12px;
+  padding:12px;
+ }
+ .topbar h2,
+ .intra-hero h3,
+ .public-hero h1,
+ .coach-card h3{
+  line-height:1.15;
+ }
+ button,
+ .button,
+ .nav button,
+ .public-nav button,
+ .coach-nav button,
+ .portal-nav button,
+ input,
+ select{
+  min-height:44px;
+ }
+ .sport-health-bar-row{
+  grid-template-columns:82px minmax(0,1fr) 38px;
+  gap:6px;
+ }
+ .match-card,
+ .coach-match,
+ .coach-player,
+ .coach-contact{
+  max-width:100%;
+ }
+}
+
+
+

@@ -170,6 +170,11 @@ Etat : extraction passive terminee, validation CI finale en cours.
 
 ### V1.25.12-C - Socle commun CSS
 
+Extraction source et cartographie realisees : 114 unites dans l'ordre original.
+Voir `docs/MANAGER_CSS_INDEX.md`. Pas de reordonnancement ni suppression de surcharges.
+La route optionnelle `/gestion-modulaire` les assemble dans les cinq styles originaux.
+La validation visuelle est encore requise avant de declarer la phase finalisee.
+
 C1 : extraction passive du prefixe commun (tokens, base, composants), controles locaux 11/11.
 Les fichiers ne sont pas actifs dans `/gestion`. La phase C reste en cours.
 C2 : cartographier les surcharges et styles responsive avant activation et comparaison visuelle.
@@ -181,11 +186,21 @@ Voir `client/shared/css/README.md`.
 
 ### V1.25.12-D - Socle commun JavaScript
 
+Extraction source realisee : 663 unites verifiees syntaxiquement, dont les services communs.
+Voir `docs/MANAGER_JS_SERVICES.md`. Les scripts classiques sont recomposes sans changer leur portee.
+Ce n'est pas une conversion en ES modules autonomes ; aucune nouvelle logique metier dupliquee.
+
 - [ ] Extraire les services communs : etat, stockage, API, sauvegarde, session et utilitaires.
 - [ ] Definir des modules stables sous `client/shared/js/`.
 - [ ] Interdire les duplications de logique metier entre pages.
 
 ### V1.25.12-E - Pages fonctionnelles
+
+70 templates extraits, inclusions imbriquees et routes optionnelles raccordees.
+Voir `docs/MANAGER_COMPOSED_PAGES.md` et `client/pages/README.md`.
+Les 70 routes passent les controles HTTP ; le document modulaire de base est identique au legacy.
+139 tests Python passes localement. Comparaison navigateur en attente de CI.
+La validation interactive/visuelle reste ouverte : ne pas declarer E terminee sans son resultat.
 
 - [ ] Creer les pages uniquement a partir de la cartographie reelle du Manager.
 - [ ] Fournir une navigation/index unique et un referencement clair dans GitHub.

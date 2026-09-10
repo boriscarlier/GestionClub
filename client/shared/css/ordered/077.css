@@ -1,0 +1,5 @@
+/* ===== V1.21.18.11 : PREPARATION FMI FFF ===== */
+.coach-fmi-box{margin:10px 0;padding:10px 12px;border:1px dashed var(--line);border-radius:10px}
+.coach-fmi-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.coach-fmi-deadline{font-weight:700}
+

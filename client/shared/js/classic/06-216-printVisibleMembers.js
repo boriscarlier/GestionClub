@@ -1,0 +1,3 @@
+function printVisibleMembers(){window.print()}
+
+

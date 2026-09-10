@@ -1,0 +1,18 @@
+<div class="page" id="continuity">
+<div class="card continuity-panel">
+<h2>Données &amp; sauvegarde — V1.24.5</h2>
+<p id="continuityCurrent"></p><p id="continuityLocation"></p>
+<h3>Passer à une nouvelle version</h3>
+<ol><li>Dans la version qui contient vos licenciés réels, téléchargez une sauvegarde complète et vérifiez le fichier obtenu.</li><li>Conservez le nom <strong>FC_LA_COUR_Manager.html</strong>, le même dossier et le même profil Brave pour les prochaines mises à jour.</li><li>Si la nouvelle version affiche une base vide ou de démonstration, choisissez votre sauvegarde ci-dessous, comparez les effectifs et confirmez la restauration.</li></ol>
+<p>Le navigateur ne permet pas à cette page de récupérer automatiquement la base d’un autre fichier ou profil. Le fichier licences.xlsx et les captures Footclubs ne sont pas des sauvegardes complètes.</p>
+<button onclick="FCLCContinuity.exportBackup()">Télécharger la sauvegarde complète</button>
+<p id="continuityDownloadState"></p>
+<h3>Examiner puis restaurer une sauvegarde</h3>
+<label for="continuityFile">Choisir la sauvegarde complète JSON</label><input id="continuityFile" type="file" accept=".json,application/json">
+<p id="continuityStatus" role="status" aria-live="polite"></p>
+<div id="continuityPreview" class="continuity-preview" tabindex="0" aria-label="Comparaison de la sauvegarde"></div>
+<label class="continuity-confirm"><input id="continuityConfirm" type="checkbox" disabled> J’ai vérifié l’aperçu et je confirme le remplacement de la base actuelle par cette sauvegarde, y compris les comptes, licenciés, matchs et compositions.</label>
+<button id="continuityRestore" disabled onclick="FCLCContinuity.restore()">Restaurer la sauvegarde choisie</button>
+<p>Une copie de récupération de la base actuelle est conservée avant le remplacement. La restauration vous déconnecte : reconnectez-vous avec un compte de la sauvegarde restaurée.</p>
+<button onclick="FCLCContinuity.recovery()">Télécharger la copie avant la dernière restauration</button>
+</div></div>

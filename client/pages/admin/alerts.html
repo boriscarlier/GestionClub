@@ -1,0 +1,17 @@
+<div class="page" id="alerts">
+<div class="intra-hero"><div><div class="kicker">● Supervision</div><h3>Centre des alertes</h3><p>Vue unique des alertes administratives, réglementaires, disciplinaires, matchs, licences et documents.</p></div><button class="primary" onclick="runAutomationEngine();renderAlertCenter()">Actualiser</button></div>
+<div class="auto-grid" style="margin-top:18px">
+<div class="auto-card"><span class="tiny">Critiques</span><strong id="alertCritical">0</strong></div>
+<div class="auto-card"><span class="tiny">À traiter</span><strong id="alertWarning">0</strong></div>
+<div class="auto-card"><span class="tiny">Informations</span><strong id="alertInfo">0</strong></div>
+<div class="auto-card"><span class="tiny">Total</span><strong id="alertTotal">0</strong></div>
+</div>
+<div class="card" style="margin-top:18px">
+<div class="member-tools" style="grid-template-columns:2fr 1fr 1fr">
+<input id="alertQuery" oninput="renderAlertCenter()" placeholder="Rechercher une alerte..."/>
+<select id="alertSeverity" onchange="renderAlertCenter()"><option value="">Toutes gravités</option><option value="critical">Critique</option><option value="warning">À traiter</option><option value="info">Information</option></select>
+<select id="alertKind" onchange="renderAlertCenter()"><option value="">Tous domaines</option><option value="automation">Automatisation</option><option value="administrative">Administratif</option><option value="regulatory">Réglementaire</option></select>
+</div>
+<div class="auto-list" id="alertCenterList"></div>
+</div>
+</div>

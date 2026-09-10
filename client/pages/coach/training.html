@@ -1,0 +1,22 @@
+<section class="coach-page" id="coach-training">
+<div class="coach-card">
+<h3>Entraînements &amp; présences</h3>
+<div class="coach-training-form">
+<div class="field wide"><label>Intitulé</label><input id="coachTrainingTitle" value="Entraînement"/></div>
+<div class="field"><label>Date</label><input id="coachTrainingDate" type="date"/></div>
+<div class="field"><label>Heure</label><input id="coachTrainingTime" type="time" value="17:00"/></div>
+<div class="field"><label>Lieu</label><input id="coachTrainingPlace" value="Stade des Jacques"/></div>
+<button class="primary" onclick="coachCreateTrainingSession()" type="button">+ Ajouter</button>
+</div>
+<div class="coach-training-stats">
+<div class="coach-training-stat"><div class="tiny">Séances enregistrées</div><strong id="coachTrainingSessionCount">0</strong></div>
+<div class="coach-training-stat"><div class="tiny">Présences</div><strong id="coachTrainingPresenceCount">0</strong></div>
+<div class="coach-training-stat"><div class="tiny">Absences</div><strong id="coachTrainingAbsenceCount">0</strong></div>
+<div class="coach-training-stat"><div class="tiny">Taux moyen</div><strong id="coachTrainingRate">—</strong></div>
+</div>
+<h4>Séances</h4>
+<div id="coachTrainingList"></div>
+<div id="coachTrainingAttendancePanel" style="margin-top:14px"></div>
+<div class="coach-training-history-table" style="margin-top:14px"><h4>Suivi de présence par joueur</h4><div id="coachTrainingPlayerStats"></div></div>
+</div>
+</section>

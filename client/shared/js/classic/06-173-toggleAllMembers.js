@@ -1,0 +1,1 @@
+function toggleAllMembers(checked){if(checked)selectVisibleMembers();else{const visible=new Set(filteredMembers().map(m=>m.id));selectedMemberIds=selectedMemberIds.filter(id=>!visible.has(id));renderMembers()}}

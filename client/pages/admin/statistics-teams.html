@@ -1,0 +1,19 @@
+<div class="page" id="statistics-teams">
+<div class="intra-hero"><div><div class="kicker">● V1.15.6</div><h3>Statistiques sportives par équipe</h3><p>Bilan calculé à partir des matchs importés.</p></div><button class="secondary" onclick="goTo('statistics')">← Retour</button></div>
+<div class="field"><label>Équipe</label><select id="stTeamSelect" onchange="renderStatisticsTeams()"></select></div>
+<div class="stats-dashboard-grid" style="margin-top:14px">
+<div class="stats-kpi"><div class="stat-label">Joués</div><div class="value" id="stPlayed">0</div></div>
+<div class="stats-kpi"><div class="stat-label">Restants</div><div class="value" id="stRemaining">0</div></div>
+<div class="stats-kpi"><div class="stat-label">V / N / D</div><div class="value" id="stWND">0 / 0 / 0</div></div>
+<div class="stats-kpi"><div class="stat-label">Taux de victoire</div><div class="value" id="stWinRate">0%</div></div>
+<div class="stats-kpi"><div class="stat-label">Buts pour</div><div class="value" id="stGF">0</div></div>
+<div class="stats-kpi"><div class="stat-label">Buts contre</div><div class="value" id="stGA">0</div></div>
+<div class="stats-kpi"><div class="stat-label">Différence</div><div class="value" id="stGD">0</div></div>
+<div class="stats-kpi"><div class="stat-label">Série actuelle</div><div class="value" id="stStreak">—</div></div>
+</div>
+<div class="stats-section-grid">
+<div class="card"><h3 style="margin-top:0">5 derniers matchs calculables</h3><div id="stLast5"></div></div>
+<div class="card"><h3 style="margin-top:0">Domicile / extérieur</h3><div class="stats-health" id="stHomeAway"></div></div>
+</div>
+<div class="card" style="margin-top:14px"><h3 style="margin-top:0">Calendrier restant</h3><div id="stRemainingList"></div></div>
+</div>

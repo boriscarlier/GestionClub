@@ -1,0 +1,13 @@
+/* ===== V1.14.18 : IMPORT FICHE CLUB FFF ===== */
+.club-fff-import{margin-top:16px;border:1px solid var(--border);border-radius:16px;padding:16px;background:var(--panel2)}
+.club-fff-import-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.club-fff-import-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.club-fff-import-field{border:1px solid var(--border);border-radius:12px;padding:11px;background:var(--panel)}
+.club-fff-import-field .label{font-size:11px;color:var(--muted);margin-bottom:4px}
+.club-fff-import-result{margin-top:12px}
+.club-fff-import-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.club-fff-import-status{margin-top:8px;font-size:12px;color:var(--muted)}
+@media(max-width:850px){.club-fff-import-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.club-fff-import-grid{grid-template-columns:1fr}}
+
+

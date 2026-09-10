@@ -1,0 +1,20 @@
+/* ===== V1.14 : ESPACE ADHERENT ===== */
+.member-portal{max-width:1180px;margin:0 auto;padding:24px}
+.portal-shell{display:grid;grid-template-columns:250px 1fr;gap:18px}
+.portal-side{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:14px;height:max-content;position:sticky;top:18px}
+.portal-side button{width:100%;text-align:left;margin:4px 0}
+.portal-main{display:grid;gap:16px}
+.portal-card{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:18px}
+.portal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.portal-kpi{padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--panel2)}
+.portal-match{padding:13px;border:1px solid var(--border);border-radius:13px;background:var(--panel2)}
+.portal-doc{padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--panel2)}
+.portal-payment{padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--panel2)}
+.portal-message{padding:12px;border-left:3px solid var(--green);background:var(--panel2);border-radius:10px}
+.portal-login{max-width:520px;margin:30px auto;background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:22px}
+.portal-page{display:none}.portal-page.active{display:block}
+.portal-id{display:flex;gap:12px;align-items:center}.portal-avatar{width:58px;height:58px;border-radius:16px;background:linear-gradient(135deg,var(--green),var(--yellow));display:grid;place-items:center;color:#071008;font-weight:900}
+.portal-actions{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:900px){.portal-shell{grid-template-columns:1fr}.portal-side{position:static}.portal-grid{grid-template-columns:1fr}}
+
+

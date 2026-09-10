@@ -1,0 +1,13 @@
+/* ===== V1.21.7 : STABILISATION PLANNING ===== */
+.planning-toolbar{display:grid;grid-template-columns:1fr 220px 220px auto;gap:10px;align-items:end}
+.planning-official-list{display:grid;gap:9px}
+.planning-official-match{padding:12px;border:1px solid var(--line);border-radius:12px;cursor:pointer}
+.planning-event-editor{display:none;margin-top:14px}
+.planning-event-editor.show{display:block}
+.planning-editor-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.plan-event{cursor:pointer}
+.plan-event .plan-actions{display:flex;gap:6px;margin-top:6px}
+@media(max-width:900px){.planning-toolbar,.planning-editor-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.planning-toolbar,.planning-editor-grid{grid-template-columns:1fr}}
+
+

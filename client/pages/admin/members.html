@@ -1,0 +1,36 @@
+<div class="page" id="members">
+<div class="stats-return-bar" id="statsReturn-members"><button class="ghost" onclick="returnToStatistics()">← Retour aux statistiques</button><span class="tiny">Détail : Licenciés</span></div>
+<div class="intra-hero">
+<div><div class="kicker">● Administration</div><h3>Licenciés</h3><p>Recherche, sélection et consultation complète des licenciés importés depuis le fichier de référence.</p></div>
+<button class="primary" id="memberAddBtn" onclick="openMemberModal()">+ Ajouter</button>
+</div>
+<div class="member-tools">
+<input id="memberSearch" oninput="renderMembers()" placeholder="Rechercher : nom, licence, numéro personne, email, téléphone..."/>
+<select id="memberCategoryFilter" onchange="renderMembers()"><option value="">Toutes catégories</option></select>
+<select id="memberTypeFilter" onchange="renderMembers()"><option value="">Tous types</option></select>
+<select id="memberLicenseFilter" onchange="renderMembers()"><option value="">Tous statuts licence</option></select>
+<select id="memberDisciplineFilter" onchange="renderMembers()">
+<option value="">Toutes disciplines</option>
+<option value="alert">Avec alerte discipline</option>
+<option value="suspended">Suspendus / à contrôler</option>
+<option value="none">Sans alerte discipline</option>
+</select>
+<button class="ghost" onclick="resetMemberFilters()">Réinitialiser</button>
+</div>
+<div class="member-selection-bar">
+<div><strong id="memberResultCount">0</strong> résultat(s) • <strong id="memberSelectedCount">0</strong> sélectionné(s)<div class="tiny" id="memberDataSource">Source : base locale</div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button class="ghost" onclick="selectVisibleMembers()">Sélectionner les résultats</button>
+<button class="ghost" onclick="clearMemberSelection()">Effacer sélection</button>
+<button class="secondary" onclick="emailSelectedMembers()">✉️ Mail groupé</button>
+<button class="ghost" onclick="exportVisibleMembersCsv()">⬇️ CSV filtré</button>
+<button class="ghost" onclick="printVisibleMembers()">🖨️ Imprimer liste</button>
+</div>
+</div>
+<div class="member-table-wrap">
+<table class="table">
+<thead><tr><th><input id="memberSelectAll" onchange="toggleAllMembers(this.checked)" type="checkbox"/></th><th>Nom</th><th>N° licence</th><th>Type</th><th>Catégorie</th><th>Statut</th><th>Téléphone</th><th>Email</th><th>Discipline</th></tr></thead>
+<tbody id="memberRows"></tbody>
+</table>
+</div>
+</div>

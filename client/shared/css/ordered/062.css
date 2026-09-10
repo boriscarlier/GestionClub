@@ -1,0 +1,9 @@
+/* ===== V1.21.10 : DOCUMENTS & CONTROLES ===== */
+.doc-control-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.doc-club-reference{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center}
+.doc-club-reference img{width:76px;height:76px;object-fit:contain}
+.control-toolbar{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;align-items:end}
+.control-source-note{padding:9px 11px;border:1px dashed var(--line);border-radius:10px;margin-top:10px}
+@media(max-width:760px){.control-toolbar{grid-template-columns:1fr 1fr}.doc-club-reference{grid-template-columns:1fr}}
+@media(max-width:520px){.control-toolbar{grid-template-columns:1fr}}
+

@@ -1,0 +1,5 @@
+/* ===== V1.21.18.3 : PERIMETRE CATEGORIE + MUTATION ===== */
+.member-mutation-controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:end}
+.member-mutation-state{margin-top:10px;padding:9px 11px;border:1px dashed var(--line);border-radius:10px}
+@media(max-width:700px){.member-mutation-controls{grid-template-columns:1fr}}
+

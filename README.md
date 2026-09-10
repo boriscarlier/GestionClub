@@ -15,6 +15,15 @@ Application locale de gestion du club, avec sauvegardes serveur, veille publique
 - Donnees reelles : conservees hors depot dans `data/`
 - Tests automatises : suite `unittest`
 
+## Sources modulaires V1.25.12 — validation en cours
+
+Le lancement habituel et `/gestion` restent inchanges.
+Apres connexion au serveur, `/gestion-modulaire` assemble les sources CSS, JavaScript et les 70 templates.
+`/gestion-legacy` conserve la reference de comparaison.
+Index : `docs/MANAGER_CSS_INDEX.md`, `docs/MANAGER_JS_SERVICES.md`, `docs/MANAGER_COMPOSED_PAGES.md`.
+Les templates ne sont pas des HTML autonomes ; voir `client/pages/README.md`.
+139 tests Python locaux passes. Validation navigateur/Windows avant bascule par defaut.
+
 ## Demarrage Windows local
 
 Depuis la racine du dossier :

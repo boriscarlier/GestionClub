@@ -1,0 +1,7 @@
+/* ===== V1.21.6.2 : EDITION COMPLETE DES MATCHS ===== */
+.match-edit-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.match-delete-confirm{display:none;margin-top:12px;padding:14px;border:1px solid rgba(220,38,38,.35);border-radius:12px;background:rgba(220,38,38,.08)}
+.match-delete-confirm.show{display:block}
+@media(max-width:850px){.match-edit-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.match-edit-grid{grid-template-columns:1fr}}
+

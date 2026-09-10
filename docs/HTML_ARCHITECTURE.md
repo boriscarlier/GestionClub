@@ -1,5 +1,14 @@
 # Architecture HTML — V1.25.12
 
+## Avancement C/D/E
+
+Sources separees : 114 CSS, 663 unites JavaScript classiques, 70 templates de page.
+Assemblage verifie par `server/manager_sources.py`, sans modification des octets du Manager.
+Entree optionnelle `/gestion-modulaire` ; `/gestion` et `/gestion-legacy` restent les references.
+Index techniques : `MANAGER_CSS_INDEX.md`, `MANAGER_JS_SERVICES.md`, `MANAGER_COMPOSED_PAGES.md`.
+L'assemblage conserve toute la structure DOM et la portee des scripts, donc pas encore de chargement a la demande ni d'ES modules.
+Les tests Python et les 70 routes passent ; validation visuelle CI en attente avant cloture des phases.
+
 ## Base de reference
 
 La decomposition repart exclusivement de la version stable `V1.25.11.1`.

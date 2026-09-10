@@ -1,0 +1,8 @@
+/* V1.05 CMS */
+.cms-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.cms-tabs button{border:1px solid var(--border);background:var(--panel2);color:var(--muted);border-radius:999px;padding:8px 11px}
+.cms-tabs button.active{color:#fff;border-color:var(--green)}
+.cms-card{padding:15px;border:1px solid var(--border);border-radius:14px;background:var(--panel2);margin-bottom:10px}
+.cms-meta{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0}
+.cms-actions{display:flex;gap:7px;flex-wrap:wrap}
+

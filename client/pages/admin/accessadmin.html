@@ -1,0 +1,13 @@
+<div class="page" id="accessadmin">
+<div class="intra-hero"><div><div class="kicker">● V1.20.9</div><h3>Administration des accès</h3><p>Vue consolidée des utilisateurs, rôles, périmètres et état des accès.</p></div><button class="primary" onclick="openAccountEditor()">+ Compte</button></div>
+<div class="grid stats">
+<div class="card"><div class="stat-label">Utilisateurs actifs</div><div class="stat-value" id="aaActive">0</div></div>
+<div class="card"><div class="stat-label">Sans rôle</div><div class="stat-value" id="aaNoRole">0</div></div>
+<div class="card"><div class="stat-label">Sans périmètre explicite</div><div class="stat-value" id="aaNoScope">0</div></div>
+<div class="card"><div class="stat-label">Désactivés</div><div class="stat-value" id="aaDisabled">0</div></div>
+</div>
+<div class="card" style="margin-top:14px">
+<div class="reset-actions"><button class="ghost" onclick="goTo('accounts')">Comptes</button><button class="ghost" onclick="goTo('permissions')">Permissions</button><button class="ghost" onclick="goTo('auditlog')">Journal</button></div>
+<div class="member-table-wrap" style="margin-top:12px"><table class="table"><thead><tr><th>Utilisateur</th><th>Statut</th><th>Rôles</th><th>Périmètre</th><th>Dernière connexion</th><th></th></tr></thead><tbody id="aaRows"></tbody></table></div>
+</div>
+</div>

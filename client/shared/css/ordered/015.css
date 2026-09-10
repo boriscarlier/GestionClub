@@ -1,0 +1,11 @@
+/* ===== V1.14 : IMPORT DISCIPLINE ===== */
+.disc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.disc-card{padding:15px;border:1px solid var(--border);border-radius:14px;background:var(--panel2)}
+.disc-list{display:grid;gap:10px}
+.disc-item{padding:13px;border:1px solid var(--border);border-radius:13px;background:var(--panel2)}
+.disc-alert{border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.06)}
+.disc-link{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+@media(max-width:900px){.disc-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.disc-grid{grid-template-columns:1fr}}
+
+

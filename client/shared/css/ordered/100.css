@@ -1,0 +1,17 @@
+/* ===== V1.21.19.9 : AUDIT RESPONSIVE FINAL ===== */
+@media(max-width:1024px){
+ body.admin-sidebar-open{overflow:hidden}
+ #intranetApp .sidebar{overscroll-behavior:contain}
+ #publicApp .mobile-menu,
+ #coachApp .coach-side,
+ #portalApp .portal-side{overscroll-behavior:contain}
+}
+@media(max-width:768px){
+ .brand{min-width:0}
+ .brand>div:last-child{min-width:0}
+ .brand h1,.brand span{overflow-wrap:anywhere}
+ .badge{max-width:100%;white-space:normal}
+ .actions>*{max-width:100%}
+}
+
+

@@ -1,0 +1,1 @@
+function clearMemberSelection(){selectedMemberIds=[];renderMembers()}

@@ -1,0 +1,13 @@
+/* ===== V1.14 : CONSEQUENCES REGLEMENTAIRES DISCIPLINE ===== */
+.rule-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.rule-card{padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--panel2)}
+.rule-card.danger{border-color:rgba(239,68,68,.45);background:rgba(239,68,68,.07)}
+.rule-card.warn{border-color:rgba(243,200,66,.4);background:rgba(243,200,66,.06)}
+.rule-card.ok{border-color:rgba(57,211,83,.3);background:rgba(57,211,83,.05)}
+.consequence{padding:10px 12px;border-radius:11px;margin-top:8px;border:1px solid var(--border);background:var(--panel)}
+.consequence.automatic{border-color:rgba(239,68,68,.45)}
+.consequence.pending{border-color:rgba(243,200,66,.45)}
+.reg-ref{font-size:10px;color:var(--muted);margin-top:5px}
+@media(max-width:900px){.rule-grid{grid-template-columns:1fr}}
+
+

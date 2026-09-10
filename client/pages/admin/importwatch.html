@@ -1,0 +1,66 @@
+<div class="page" id="importwatch">
+<div class="stats-return-bar" id="statsReturn-importwatch"><button class="ghost" onclick="returnToStatistics()">← Retour aux statistiques</button><span class="tiny">Détail : Importations &amp; suivi</span></div>
+<div class="intra-hero">
+<div>
+<div class="kicker">● Qualité des données</div>
+<h3>Importations &amp; suivi</h3>
+<p>Point d’entrée unique pour importer, contrôler la fraîcheur des données, consulter l’historique et suivre aussi la fiche officielle Footclubs du club gestionnaire.</p>
+</div>
+<button class="secondary" onclick="renderImportWatch()">↻ Actualiser le contrôle</button>
+</div>
+<div class="grid stats">
+<div class="card"><div class="stat-label">Sources suivies</div><div class="stat-value" id="importWatchTotal">0</div></div>
+<div class="card"><div class="stat-label">À jour</div><div class="stat-value" id="importWatchOk">0</div></div>
+<div class="card"><div class="stat-label">À surveiller</div><div class="stat-value" id="importWatchWarn">0</div></div>
+<div class="card"><div class="stat-label">Obsolètes</div><div class="stat-value" id="importWatchStale">0</div></div>
+</div>
+<div class="card">
+<h3 style="margin-top:0">Seuils de fraîcheur</h3>
+<p class="tiny">Chaque seuil correspond au nombre de jours maximal conseillé entre deux mises à jour. Les valeurs sont modifiables.</p>
+<div class="import-watch-settings">
+<div class="field"><label>Licenciés</label><input id="freshMembers" min="1" onchange="saveImportFreshnessSettings()" type="number" value="30"/></div>
+<div class="field"><label>Matchs</label><input id="freshMatches" min="1" onchange="saveImportFreshnessSettings()" type="number" value="14"/></div>
+<div class="field"><label>Dossiers / Discipline</label><input id="freshDiscipline" min="1" onchange="saveImportFreshnessSettings()" type="number" value="14"/></div>
+<div class="field"><label>Annuaire clubs</label><input id="freshOpponents" min="1" onchange="saveImportFreshnessSettings()" type="number" value="90"/></div>
+<div class="field"><label>Fiche club Footclubs</label><input id="freshClubProfile" min="1" onchange="saveImportFreshnessSettings()" type="number" value="180"/></div>
+</div>
+</div>
+<div class="card" id="publicWatchEntry"><h3>Veille du club — Ligue et mairie</h3><p>Suivre les liens publics, les formations, les associations, le FC LA COUR et les Jacques. Le serveur conserve la veille et son historique.</p><p><a href="http://127.0.0.1:8765/#veille" target="_blank" rel="noopener noreferrer">Ouvrir la veille du club</a></p><p class="tiny">Lancez DEMARRER_SERVEUR.cmd du paquet V1.24.3, puis connectez-vous avec votre compte serveur. La collecte programmée nécessite que le PC reste éveillé et le serveur lancé. Les PDF déposés sont analysés dans la veille serveur ; Gmail reste non connecté.</p></div>
+<div class="import-watch-grid" id="importWatchGrid" style="margin-top:16px"></div><div class="card fff-section" id="fffImportSummary"><h3>Sources FFF</h3><p>Collectes officielles et comparaison avant intégration.</p><button class="ghost" onclick="goTo('fffcontrol')">Ouvrir Sources FFF</button></div>
+<div class="card" style="margin-top:16px">
+<h3 style="margin-top:0">Règles de suivi</h3>
+<div class="tiny">Les quatre bases opérationnelles (Licenciés, Matchs, Discipline, Clubs adverses) peuvent être réinitialisées puis réimportées. La fiche club Footclubs est une source de paramétrage : elle est suivie pour sa fraîcheur mais n’est pas effacée par la réinitialisation des bases importées.</div>
+</div>
+<div class="reset-procedure">
+<h3>Réinitialiser les bases importées</h3>
+<p class="tiny">Cette procédure efface uniquement les données issues des imports. Les paramètres du site, la structure des équipes, les réglages, les documents modèles et le Paramétrage du club / fiche Footclubs sont conservés.</p>
+<div id="resetImportModeBanner"></div>
+<div class="reset-steps">
+<div class="reset-step"><div class="reset-step-num">1</div><div><strong>Sauvegarde de sécurité</strong><div class="tiny">Création d’une copie JSON de l’état actuel avant toute suppression.</div></div></div>
+<div class="reset-step"><div class="reset-step-num">2</div><div><strong>Réinitialisation</strong><div class="tiny">Suppression des licenciés, matchs, dossiers disciplinaires et clubs adverses importés.</div></div></div>
+<div class="reset-step"><div class="reset-step-num">3</div><div><strong>Contrôle</strong><div class="tiny">Le registre des imports passe en état « Réimportation requise ».</div></div></div>
+<div class="reset-step"><div class="reset-step-num">4</div><div><strong>Réimportation guidée</strong><div class="tiny">Réimporter les fichiers dans l’ordre conseillé : Licenciés → Matchs → Dossiers / Discipline → Annuaire clubs.</div></div></div>
+</div>
+<div class="reset-checklist">
+<label class="reset-check"><input id="resetConfirmImportedData" type="checkbox"/> Je confirme vouloir supprimer les données actuellement importées.</label>
+<label class="reset-check"><input id="resetConfirmBackup" type="checkbox"/> Je comprends qu’une sauvegarde JSON sera générée avant la remise à zéro.</label>
+</div>
+<div class="reset-actions">
+<button class="secondary" id="btnBackupImportedData" type="button">💾 Télécharger une sauvegarde</button>
+<button class="ghost" onclick="restoreLastImportResetBackup()" type="button">↩ Restaurer la dernière sauvegarde interne</button>
+<button class="danger" id="btnResetImportedData" type="button">⚠️ Réinitialiser les bases importées</button>
+</div>
+<div class="tiny" id="resetImportStatus" style="margin-top:10px"></div>
+<div class="reset-final-confirm" id="resetFinalConfirm">
+<strong>⚠️ Confirmation finale</strong>
+<div class="tiny" style="margin-top:6px">
+    Les données importées suivantes vont être effacées : licenciés, matchs, dossiers disciplinaires et clubs adverses.
+    Les paramètres et la structure du site seront conservés.
+   </div>
+<div class="reset-final-actions">
+<button class="danger" id="btnResetImportedDataFinal" type="button">Confirmer définitivement la réinitialisation</button>
+<button class="ghost" id="btnCancelImportedDataReset" type="button">Annuler</button>
+</div>
+</div>
+</div>
+</div>

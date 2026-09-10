@@ -1,0 +1,9 @@
+/* ===== V1.21.9.5 : SECTIONS REPLIABLES FICHE CLUB ===== */
+.club-sheet-section{padding-top:0}
+.club-sheet-toggle{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;background:transparent;border:0;padding:12px 0;text-align:left;cursor:pointer;color:inherit}
+.club-sheet-toggle strong{font-size:15px}
+.club-sheet-toggle .chevron{transition:transform .18s ease}
+.club-sheet-section.closed .club-sheet-toggle .chevron{transform:rotate(-90deg)}
+.club-sheet-section.closed .club-sheet-content{display:none}
+.club-sheet-section.priority .club-sheet-toggle strong::after{content:" • prioritaire";font-size:11px;font-weight:700;opacity:.6}
+

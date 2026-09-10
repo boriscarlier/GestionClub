@@ -1,0 +1,14 @@
+/* ===== V1.14.24 : SUIVI DE FRAICHEUR DES IMPORTS ===== */
+.import-watch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.import-watch-card{border:1px solid var(--border);border-radius:14px;padding:14px;background:var(--panel2)}
+.import-watch-card.ok{border-color:rgba(57,211,83,.45)}
+.import-watch-card.warn{border-color:rgba(243,200,66,.5)}
+.import-watch-card.stale{border-color:rgba(239,68,68,.55);background:rgba(239,68,68,.05)}
+.import-watch-meta{display:grid;gap:4px;margin-top:8px}
+.import-watch-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.import-watch-settings{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.import-age{font-weight:800}
+@media(max-width:900px){.import-watch-grid{grid-template-columns:1fr 1fr}.import-watch-settings{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.import-watch-grid,.import-watch-settings{grid-template-columns:1fr}}
+
+

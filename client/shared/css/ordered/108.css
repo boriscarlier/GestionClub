@@ -1,0 +1,51 @@
+/* V1.22.7.1 — Affichage isolé par espace et correctifs tactiles */
+:root{--line:var(--border);--card:var(--panel)}
+[hidden]{display:none!important}
+body[data-app-space="coach"] #publicApp>header,
+body[data-app-space="coach"] #sharedPublicFooter,
+body[data-app-space="member"] #sharedPublicFooter{display:none!important}
+#qaAdminShade{position:fixed;inset:0;background:#0009;z-index:1190;border:0;border-radius:0}
+#coachApp #coachMobileTeamSelect{color:var(--text);background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:8px 12px}
+#coachApp .coach-mobile-more-trigger{color:var(--text);background:var(--panel2);border:1px solid var(--border)}
+#coachApp .coach-mobile-sheet-grid button{color:var(--text)}
+#coachApp .coach-mobile-more-sheet:not(.open){visibility:hidden;pointer-events:none}
+#coachApp .coach-mobile-more-sheet.open{visibility:visible}
+#coachApp .coach-grid .coach-kpi:last-child{grid-column:1/-1}
+#coachApp .coach-kpi strong{overflow-wrap:anywhere}
+#coachApp .coach-counter-note{max-width:100%}
+#memberdetail .member-kv:has(>.member-block-edit-grid){display:block}
+#memberdetail .member-block-edit-grid{width:100%}
+#coachApp .coach-callup{min-width:0;gap:10px;flex-wrap:wrap}
+#coachApp .coach-callup label{min-width:0;display:flex;align-items:center;gap:10px}
+#coachApp .coach-callup input{min-width:22px;min-height:22px}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+@media(max-width:1024px){
+ body[data-app-space="coach"] .prototype-tester-dock{bottom:calc(86px + env(safe-area-inset-bottom));right:8px}
+ body[data-app-space="coach"] .prototype-tester-toggle{min-width:54px;padding:8px;font-size:12px}
+ #coachApp .coach-mobile-topbar{z-index:1250}
+ #coachApp .coach-mobile-bottom-nav{z-index:1300}
+ #coachApp .coach-mobile-more-backdrop{z-index:1340}
+ #coachApp .coach-mobile-more-sheet{z-index:1350}
+ #public-coach>.container{width:100%;margin:0;padding:0}
+ #coachApp .coach-mobile-team-row{grid-template-columns:auto minmax(0,1fr)}
+ #coachApp .coach-main{min-width:0}
+ #intranetApp .sidebar{background:var(--panel);z-index:1200}
+ #intranetApp .intra-main{margin-left:0}
+ .prototype-tester-panel{max-height:calc(100dvh - 180px);overflow:auto}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+@media print{.prototype-tester-dock,.coach-mobile-bottom-nav,.coach-mobile-topbar,.sidebar,.topbar{display:none!important}}
+@media(max-width:1024px){#intranetApp .sidebar{transform:none!important}#intranetApp .sidebar.mobile-open{left:0!important}}
+@media(min-width:1025px){#intranetApp .sidebar{transform:none!important;left:0!important}}
+@media(max-width:1024px){
+ #public-coach{padding:0!important}
+ #public-coach>.coach-portal{width:100%;max-width:100%;padding:0;margin:0}
+ #coachApp .coach-main{display:block!important;overflow:visible!important}
+ #coachApp .coach-page{min-width:0;width:100%}
+ #coachApp .coach-kpi strong{display:block;margin-top:5px}
+ #coachApp .coach-training-history-table{min-width:0;max-width:100%}
+ #coachApp .coach-mobile-team-row{grid-template-columns:auto minmax(0,1fr)}
+}
+@media(max-width:390px){#coachApp .coach-mobile-team-row{grid-template-columns:minmax(0,1fr)!important}}
+.prototype-tester-toggle{background:var(--panel2);color:var(--text);border:1px solid var(--border)}
+

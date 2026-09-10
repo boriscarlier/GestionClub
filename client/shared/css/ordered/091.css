@@ -1,0 +1,73 @@
+/* ===== Mobile ===== */
+@media (max-width:768px){
+ body{
+  font-size:15px;
+ }
+ .intra-main,
+ .public-main,
+ .portal-main,
+ .coach-main{
+  padding-left:0;
+  padding-right:0;
+ }
+ .page,
+ .public-page,
+ .portal-page,
+ .coach-page{
+  padding-left:12px;
+  padding-right:12px;
+ }
+ .topbar,
+ .public-header,
+ .coach-header,
+ .portal-header{
+  padding-left:12px;
+  padding-right:12px;
+ }
+ .intra-hero,
+ .public-hero{
+  padding:16px;
+ }
+ .grid.stats,
+ .stats-dashboard-grid,
+ .sport-health-grid,
+ .coach-player-stats-grid,
+ .coach-training-stats{
+  grid-template-columns:1fr 1fr;
+ }
+ .card,
+ .coach-card,
+ .portal-card{
+  padding:14px;
+ }
+ .section-head,
+ .coach-player-stats-head,
+ .topbar{
+  gap:10px;
+  flex-wrap:wrap;
+ }
+ .reset-actions,
+ .actions,
+ .coach-fmi-actions,
+ .coach-attendance-actions{
+  flex-wrap:wrap;
+ }
+ .reset-actions button,
+ .actions button,
+ .coach-fmi-actions button{
+  min-height:44px;
+ }
+ .sport-health-bar-row{
+  grid-template-columns:100px minmax(0,1fr) 42px;
+ }
+ .coach-training-form{
+  grid-template-columns:1fr;
+ }
+ .coach-training-form .wide{
+  grid-column:auto;
+ }
+ .coach-player-history{
+  grid-template-columns:1fr;
+ }
+}
+

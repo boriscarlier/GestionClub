@@ -1,0 +1,10 @@
+/* ===== V1.22.2 : SCENARIOS DE TEST GUIDES ===== */
+.prototype-scenario-progress{margin:14px 0;padding:12px;border-radius:12px;background:var(--panel2)}
+.prototype-scenario-card{border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:10px}
+.prototype-scenario-card.done{opacity:.72}
+.prototype-scenario-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.prototype-scenario-steps{margin:10px 0 0;padding-left:20px}
+.prototype-scenario-steps li{margin:6px 0}
+.prototype-scenario-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+
+

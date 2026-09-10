@@ -1,0 +1,10 @@
+
+#footclubsui .fcu-diff-scroll{overflow:auto;max-width:100%;margin:12px 0;border:1px solid var(--border);border-radius:10px}
+#footclubsui .fcu-diff-scroll table{border-collapse:collapse;width:100%;min-width:680px}
+#footclubsui .fcu-diff-scroll th,#footclubsui .fcu-diff-scroll td{padding:10px;border-bottom:1px solid var(--border);text-align:left;white-space:pre-wrap;overflow-wrap:anywhere}
+#footclubsui .fcu-diff-scroll th{background:var(--panel2)}
+#footclubsui #fcuReconcile details{margin-top:18px}#footclubsui #fcuReconcile summary{cursor:pointer;min-height:44px;padding:10px 0}
+#footclubsui #fcuContactHistory label{display:block;margin:10px 0}#footclubsui #fcuCompareStatus{margin:12px 0;font-weight:600}
+#footclubsui #fcuWorkingSeason{max-width:160px;color:inherit;background:var(--panel2);border:1px solid var(--border);padding:10px;border-radius:8px}
+#footclubsui input[type="checkbox"]{width:20px;height:20px;vertical-align:middle;accent-color:#ffd84a}
+#footclubsui #fcuContactHistory p{overflow-wrap:anywhere}

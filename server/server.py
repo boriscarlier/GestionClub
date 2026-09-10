@@ -93,8 +93,9 @@ def add_user(path, name, password, role):
     with closing(connect(path)) as db, db:
         db.execute('INSERT INTO users VALUES(?,?,?,?)', (name, salt, password_hash(password, salt), role))
 
-def manager_page():
-    html = (CLIENT_ROOT / 'FC_LA_COUR_Manager.html').read_text(encoding='utf-8')
+def manager_page(html=None):
+    if html is None:
+        html = (CLIENT_ROOT / 'FC_LA_COUR_Manager.html').read_text(encoding='utf-8')
     marker = '<body'
     pos = html.find(marker)
     if pos < 0:
@@ -239,9 +240,22 @@ class Handler(BaseHTTPRequestHandler):
                 raise Problem(403,'Jeton de session invalide.')
             if path == '/api/session' and self.command == 'GET':
                 return self.send(200,{'user':user['user'],'role':user['role'],'csrf':user['csrf']})
-            if path == '/gestion' and self.command == 'GET':
+            if path in ('/gestion', '/gestion-legacy') and self.command == 'GET':
                 csp = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
                 return self.send(200, manager_page(), mime='text/html; charset=utf-8', csp=csp)
+            if (path == '/gestion-modulaire' or path.startswith('/gestion-modulaire/')) and self.command == 'GET':
+                import manager_sources
+                try:
+                    page = manager_sources.page_for_route(PROJECT_ROOT, path)
+                    html = manager_sources.compose(PROJECT_ROOT).decode('utf-8')
+                    if page is not None:
+                        html = manager_sources.select_page(html, page)
+                except KeyError:
+                    raise Problem(404, 'Page modulaire inconnue.')
+                except (OSError, ValueError):
+                    raise Problem(503, 'Sources modulaires invalides. Utiliser /gestion-legacy.')
+                csp = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
+                return self.send(200, manager_page(html), mime='text/html; charset=utf-8', csp=csp)
             if path == '/api/gestion/bootstrap' and self.command == 'GET':
                 row=db.execute('SELECT id,created,actor,club,payload FROM revisions ORDER BY id DESC LIMIT 1').fetchone()
                 latest = None if not row else {'revision':row['id'],'created':row['created'],'actor':row['actor'],'club':row['club'],'backup':json.loads(row['payload'])}

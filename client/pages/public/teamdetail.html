@@ -1,0 +1,38 @@
+<div class="public-page" id="public-teamdetail">
+<section class="page-hero-public"><div class="container">
+<div class="breadcrumbs"><button onclick="showPublicPage('public-home')">Accueil</button><span>›</span><button onclick="showPublicPage('public-teams')">Nos équipes</button><span>›</span><span id="crumbTeamName">Équipe</span></div>
+<div class="team-identity">
+<div class="team-big-logo" style="background:transparent"><img alt="Logo FC LA COUR" class="club-logo-img club-logo-lg" data-club-logo=""/></div>
+<div><div class="kicker" id="teamCompetitionKicker">● Compétition</div><h2 id="teamDetailName">Équipe</h2><p id="teamDetailSubtitle">Fiche équipe publique</p></div>
+</div>
+</div></section>
+<section class="section"><div class="container">
+<div class="backbar"><button class="secondary" onclick="showPublicPage('public-teams')">← Retour aux équipes</button><span class="badge green" id="teamPublicBadge">PUBLIQUE</span></div>
+<div class="team-detail-grid">
+<div>
+<div class="card">
+<h3 style="margin-top:0">Staff</h3>
+<div class="staff-grid" id="teamStaffGrid"></div>
+</div>
+<div class="card" style="margin-top:18px">
+<h3 style="margin-top:0">Effectif public</h3>
+<div class="roster-grid" id="teamRosterGrid"></div>
+</div>
+</div>
+<div>
+<div class="card">
+<h3 style="margin-top:0">Compétition</h3>
+<div id="teamCompetitionBox"></div>
+</div>
+<div class="card" style="margin-top:18px">
+<h3 style="margin-top:0">Classement</h3>
+<table class="rank-table"><thead><tr><th>#</th><th>Équipe</th><th>Pts</th></tr></thead><tbody id="teamRankingBody"></tbody></table>
+</div>
+</div>
+</div>
+<div class="card" style="margin-top:18px">
+<h3 style="margin-top:0">Calendrier &amp; résultats</h3>
+<div class="fixture-list" id="teamFixtures"></div>
+</div>
+</div></section>
+</div>

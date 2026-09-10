@@ -1,0 +1,20 @@
+<div class="page" id="admincheck">
+<div class="intra-hero"><div><div class="kicker">● Conformité licences</div><h3>Contrôle administratif</h3><p>Détection automatique des dossiers incomplets ou à régulariser à partir des données importées.</p></div><button class="secondary" onclick="renderAdministrativeChecks()">Actualiser les contrôles</button></div>
+<div class="admin-check-grid" style="margin-top:18px">
+<div class="admin-check-card"><span class="tiny">Anomalies</span><strong id="checkTotal">0</strong></div>
+<div class="admin-check-card"><span class="tiny">Critiques</span><strong id="checkCritical">0</strong></div>
+<div class="admin-check-card"><span class="tiny">Médical / photo</span><strong id="checkMedical">0</strong></div>
+<div class="admin-check-card"><span class="tiny">Paiements</span><strong id="checkPayment">0</strong></div>
+<div class="admin-check-card"><span class="tiny">Mineurs / représentants</span><strong id="checkGuardian">0</strong></div>
+</div>
+<div class="card" style="margin-top:18px">
+<div class="control-source-note tiny">Les contrôles sont calculés uniquement à partir des données effectivement présentes dans les fiches licenciés. Une absence de donnée est signalée comme information à vérifier, pas comme constat définitif d’irrégularité.</div>
+<div class="control-toolbar" style="margin-top:12px">
+<input id="checkQuery" oninput="renderAdministrativeChecks()" placeholder="Rechercher un licencié ou une anomalie..."/>
+<select id="checkSeverity" onchange="renderAdministrativeChecks()"><option value="">Toutes gravités</option><option value="critical">Critique</option><option value="warning">À traiter</option><option value="info">Information</option></select>
+<select id="checkKind" onchange="renderAdministrativeChecks()"><option value="">Tous contrôles</option><option value="medical">Médical / photo</option><option value="payment">Paiement</option><option value="contact">Coordonnées</option><option value="guardian">Représentant légal</option><option value="license">Licence</option><option value="transfer">Mutation / changement</option></select>
+<button class="ghost" onclick="resetAdministrativeCheckFilters()">Réinitialiser</button>
+</div>
+<div class="admin-issues" id="administrativeIssues"></div>
+</div>
+</div>

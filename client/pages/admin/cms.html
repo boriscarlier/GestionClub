@@ -1,0 +1,11 @@
+<div class="page" id="cms">
+<div class="intra-hero"><div><div class="kicker">● Contenus publics</div><h3>Actualités &amp; CMS</h3><p>Créer, valider, programmer et mettre en avant les actualités du site public.</p></div><button class="primary" onclick="createCmsArticle()">+ Nouvel article</button></div>
+<div class="cms-tabs" style="margin-top:20px">
+<button class="active" onclick="setCmsFilter('all',this)">Tous</button>
+<button onclick="setCmsFilter('Brouillon',this)">Brouillons</button>
+<button onclick="setCmsFilter('À valider',this)">À valider</button>
+<button onclick="setCmsFilter('Programmé',this)">Programmés</button>
+<button onclick="setCmsFilter('Publié',this)">Publiés</button>
+</div>
+<div class="card"><div id="cmsList"></div></div>
+</div>

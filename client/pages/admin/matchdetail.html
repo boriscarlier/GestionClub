@@ -1,0 +1,55 @@
+<div class="page" id="matchdetail">
+<div class="intra-hero">
+<div><div class="kicker">● Fiche match</div><h3 id="matchDetailTitle">Détail du match</h3><p id="matchDetailSubtitle">Informations sportives et administratives.</p></div>
+<button class="secondary" onclick="goTo('matches')">← Retour aux matchs</button>
+</div>
+<div class="card" style="margin-top:20px">
+<div class="match-detail-grid" id="matchDetailGrid"></div>
+<div class="match-detail-links" id="matchDetailLinks"></div>
+</div>
+<div class="card" style="margin-top:16px">
+<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+<div><h3 style="margin:0">Informations du match</h3><div class="tiny">Modifier ou compléter les informations de la rencontre.</div></div>
+<button class="primary" id="matchSaveInfoBtn" onclick="saveMatchDetailInfo()">Enregistrer les modifications</button>
+</div>
+<div class="match-edit-grid" style="margin-top:14px">
+<div class="field"><label>Date</label><input id="matchEditDate" type="date"/></div>
+<div class="field"><label>Heure</label><input id="matchEditTime" type="time"/></div>
+<div class="field"><label>Équipe FC LA COUR</label><select id="matchEditTeam"></select></div>
+<div class="field"><label>Adversaire</label><input id="matchEditOpponent"/></div>
+<div class="field"><label>Type de rencontre</label><select id="matchEditCompetitionType"><option>Championnat</option><option>Coupe</option><option>Match amical</option><option>Autre</option></select></div>
+<div class="field"><label>Compétition</label><input id="matchEditCompetition"/></div>
+<div class="field"><label>Domicile / extérieur</label><select id="matchEditHomeAway"><option value="">Non renseigné</option><option>Domicile</option><option>Extérieur</option></select></div>
+<div class="field"><label>Lieu / installation</label><input id="matchEditPlace"/></div>
+<div class="field"><label>Ville</label><input id="matchEditCity"/></div>
+<div class="field"><label>Statut</label><select id="matchEditStatus"><option>À venir</option><option>Terminé</option><option>Reporté</option><option>Annulé</option></select></div>
+<div class="field"><label>N° match</label><input id="matchEditNumber"/></div>
+<div class="field"><label>Phase / tour</label><input id="matchEditPhase"/></div>
+</div>
+</div>
+<div class="card" style="margin-top:16px">
+<h3 style="margin-top:0">Score</h3>
+<div class="tiny" id="matchScoreState" style="margin-bottom:12px"></div>
+<div class="match-score-editor">
+<div class="field"><label>FC LA COUR</label><input id="matchDetailFcScore" inputmode="numeric" min="0" step="1" type="number"/></div>
+<div class="field"><label>Adversaire</label><input id="matchDetailOppScore" inputmode="numeric" min="0" step="1" type="number"/></div>
+<button class="primary" id="matchSaveScoreBtn" onclick="saveMatchDetailScore()">Enregistrer le score</button>
+</div>
+</div>
+<div class="card" style="margin-top:16px">
+<h3 style="margin-top:0">Données importées / source</h3>
+<div class="match-source-box tiny" id="matchSourceData"></div>
+</div>
+<div class="match-detail-actions">
+<button class="ghost" onclick="goTo('matches')">← Retour</button>
+<button class="danger" id="matchDeleteBtn" onclick="requestDeleteCurrentMatch()">🗑️ Supprimer ce match</button>
+</div>
+<div class="match-delete-confirm" id="matchDeleteConfirm">
+<strong>Confirmer la suppression de ce match ?</strong>
+<div class="tiny" id="matchDeleteConfirmLabel" style="margin:6px 0 12px"></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button class="danger" onclick="confirmDeleteCurrentMatch()">Supprimer définitivement</button>
+<button class="ghost" onclick="cancelDeleteCurrentMatch()">Annuler</button>
+</div>
+</div>
+</div>

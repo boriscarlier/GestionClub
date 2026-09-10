@@ -1,0 +1,18 @@
+<div class="page" id="transfer"><div class="card continuity-panel">
+<h2>Comparer avant transfert — V1.23.3</h2><details><summary>Tests regroupés — données fictives</summary><p>Ce contrôle vérifie les règles de comparaison. Il ne modifie pas la base et ne remplace pas un essai de navigation ou de restauration dans Brave.</p><button onclick="FCLCTransfer.runChecks()">Lancer les tests regroupés</button><div id="transferChecks" role="status" aria-live="polite"></div></details>
+<p>Sélectionnez une sauvegarde complète Gestion Club pour comparer son contenu avec la base actuelle. La lecture ne remplace aucune donnée.</p>
+<details><summary>Option : utiliser une sauvegarde de référence commune</summary>
+<p>Choisissez d’abord une sauvegarde prise avant les modifications des deux bases, puis le fichier à comparer ci-dessous. Si vous ne disposez pas de cette référence, gardez la comparaison habituelle à deux bases.</p>
+<label for="transferReference">Sauvegarde de référence JSON</label><input id="transferReference" type="file" accept=".json,application/json">
+<p id="transferReferenceStatus" role="status">Sans référence : comparaison entre deux bases.</p>
+<p>L’application ne peut pas prouver que cette sauvegarde est l’ancêtre des deux bases. « À arbitrer » signifie que la fiche entière a changé différemment des deux côtés, relativement à votre référence.</p></details>
+<label for="transferFile">Sauvegarde complète JSON à comparer</label><input id="transferFile" type="file" accept=".json,application/json">
+<p id="transferStatus" role="status" aria-live="polite"></p><div id="transferResult" class="continuity-preview" tabindex="0" aria-label="Comparaison avant transfert"></div>
+<button id="transferExport" disabled onclick="FCLCTransfer.download()">Exporter le bilan sans coordonnées</button>
+<button onclick="FCLCTransfer.clear()">Effacer la comparaison</button>
+<h3>Lire les différences</h3><p>« Différentes » désigne les fiches portant le même identifiant interne dont le contenu a changé. Deux identifiants différents ne sont pas rapprochés automatiquement, même si les noms se ressemblent.</p>
+<p>Sans une version de référence commune, ce contrôle ne peut pas déterminer quelle valeur est la plus récente. Une fiche absente du fichier n’est jamais considérée comme une demande de suppression.</p>
+<p>Le bilan exporté contient les comptes de différences, les états de contrôle et les libellés prédéfinis des champs concernés. Il ne contient pas les noms, coordonnées ou identifiants individuels et ne permet pas de restaurer la base.</p>
+<p>Pour transférer la base entière après vérification, utilisez la sauvegarde complète originale dans <strong>Données &amp; sauvegarde</strong>. Cette opération remplace la base ; elle ne fusionne pas les modifications de deux postes.</p>
+<button onclick="FCLCContinuity.open()">Ouvrir Données &amp; sauvegarde</button>
+</div></div>

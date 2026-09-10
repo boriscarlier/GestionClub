@@ -1,0 +1,11 @@
+/* ===== V1.14 : CONTROLE ADMINISTRATIF ===== */
+.admin-check-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.admin-check-card{padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--panel2)}
+.admin-issues{display:grid;gap:9px}
+.admin-issue{padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--panel2);display:grid;grid-template-columns:1.4fr 1fr 2fr auto;gap:10px;align-items:center}
+.issue-critical{border-color:rgba(239,68,68,.45)}
+.issue-warning{border-color:rgba(243,200,66,.4)}
+.issue-info{border-color:rgba(59,130,246,.35)}
+@media(max-width:1000px){.admin-check-grid{grid-template-columns:repeat(2,1fr)}.admin-issue{grid-template-columns:1fr}}
+
+

@@ -1,0 +1,8 @@
+/* ===== V1.14.15 : RECHERCHE INTERNET LOGOS ADVERSES ===== */
+.logo-web-search{display:grid;grid-template-columns:1.2fr auto;gap:10px;align-items:end;margin-top:12px}
+.logo-web-preview{display:flex;align-items:center;gap:12px;margin-top:10px;padding:10px;border:1px dashed var(--border);border-radius:12px}
+.logo-web-preview img{width:72px;height:72px;object-fit:contain;background:#fff;border-radius:10px;padding:4px}
+.logo-source{font-size:11px;color:var(--muted);overflow-wrap:anywhere}
+@media(max-width:650px){.logo-web-search{grid-template-columns:1fr}}
+
+

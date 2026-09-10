@@ -1,0 +1,5 @@
+/* ===== V1.21.7.1 : ACTIONS EXPLICITES PLANNING ===== */
+.plan-event-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.plan-event-actions button{padding:5px 8px;font-size:.75rem}
+.conflict-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+

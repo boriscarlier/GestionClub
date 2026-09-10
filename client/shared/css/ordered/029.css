@@ -1,0 +1,14 @@
+/* ===== V1.14.9 : FICHE DETAIL EQUIPE ===== */
+#intraTeams .team-card{cursor:pointer;transition:transform .15s ease,background .15s ease}
+#intraTeams .team-card:hover{transform:translateY(-1px);background:rgba(255,255,255,.03)}
+.team-detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.team-detail-card{border:1px solid var(--border);border-radius:14px;padding:14px;background:var(--panel2)}
+.team-detail-card .label{font-size:12px;color:var(--muted);margin-bottom:5px}
+.team-detail-card .value{font-weight:700;overflow-wrap:anywhere}
+.team-detail-section{margin-top:16px}
+.team-detail-list{display:grid;gap:8px}
+.team-detail-item{border:1px solid var(--border);border-radius:12px;padding:12px;background:var(--panel2)}
+@media(max-width:850px){.team-detail-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.team-detail-grid{grid-template-columns:1fr}}
+
+

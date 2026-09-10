@@ -1,0 +1,15 @@
+/* ===== V1.20.1 : COMPTES UTILISATEURS ===== */
+.account-toolbar{display:grid;grid-template-columns:1fr 220px 220px auto;gap:10px;align-items:end}
+.account-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.account-card{border:1px solid var(--border);border-radius:14px;padding:14px;background:var(--panel2);cursor:pointer}
+.account-card.disabled{opacity:.62}
+.account-card-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.account-meta{display:grid;gap:4px;margin-top:10px}
+.account-status{font-size:12px;font-weight:800}
+.account-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.account-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.account-link-member{padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--panel2)}
+@media(max-width:950px){.account-grid{grid-template-columns:1fr 1fr}.account-toolbar{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.account-grid,.account-detail-grid,.account-toolbar{grid-template-columns:1fr}}
+
+

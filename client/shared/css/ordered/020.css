@@ -1,0 +1,16 @@
+/* ===== V1.14 : CONTROLE REGLEMENTAIRE ===== */
+.reg-check-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.reg-check-card{padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--panel2)}
+.reg-issues{display:grid;gap:9px}
+.reg-issue{padding:13px;border:1px solid var(--border);border-radius:13px;background:var(--panel2)}
+.reg-issue.block{border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.07)}
+.reg-issue.warn{border-color:rgba(243,200,66,.45);background:rgba(243,200,66,.06)}
+.reg-issue .top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.reg-rule{font-size:10px;color:var(--muted);margin-top:6px}
+.eligibility{padding:10px;border-radius:11px;margin-top:8px;border:1px solid var(--border)}
+.eligibility.block{border-color:rgba(239,68,68,.45)}
+.eligibility.warn{border-color:rgba(243,200,66,.4)}
+.eligibility.ok{border-color:rgba(57,211,83,.35)}
+@media(max-width:900px){.reg-check-grid{grid-template-columns:repeat(2,1fr)}}
+
+

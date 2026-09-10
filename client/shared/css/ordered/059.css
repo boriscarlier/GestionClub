@@ -1,0 +1,5 @@
+/* ===== V1.21.9.4 : FICHE CLUB A LA DEMANDE ===== */
+.opponent-editor-shell{display:none;margin-top:18px}
+.opponent-editor-shell.show{display:block}
+.opponent-editor-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+

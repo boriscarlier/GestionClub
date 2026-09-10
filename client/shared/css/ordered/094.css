@@ -1,0 +1,41 @@
+/* ===== V1.21.19.3 : PORTAIL EDUCATEURS RESPONSIVE ===== */
+@media(max-width:1024px){
+ #coachApp .coach-shell{display:block}
+ #coachApp .coach-side{
+  position:sticky;top:0;z-index:1000;width:100%;max-width:100%;
+  display:flex;align-items:center;gap:7px;overflow-x:auto;
+  padding:10px 12px;border-radius:0;-webkit-overflow-scrolling:touch
+ }
+ #coachApp .coach-side .portal-id{min-width:190px;flex:0 0 auto}
+ #coachApp .coach-side hr{display:none}
+ #coachApp .coach-side .field{min-width:170px;flex:0 0 auto;margin:0}
+ #coachApp .coach-side>button{flex:0 0 auto;white-space:nowrap;min-height:44px}
+ #coachApp .coach-main{width:100%;padding:12px}
+ #coachApp .coach-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ #coachApp .member-tools{grid-template-columns:1fr 1fr!important}
+ #coachApp .coach-player{grid-template-columns:minmax(0,1fr) auto!important}
+}
+@media(max-width:768px){
+ #coachApp .coach-main{padding:10px}
+ #coachApp .coach-grid{grid-template-columns:1fr 1fr}
+ #coachApp .member-tools{grid-template-columns:1fr!important}
+ #coachApp .coach-lineup{grid-template-columns:1fr}
+ #coachApp .coach-listbox{max-height:none}
+ #coachApp .coach-player{grid-template-columns:1fr!important}
+ #coachApp .coach-player>div:last-child,
+ #coachApp .coach-player .actions{justify-content:flex-start}
+ #coachApp .coach-fmi-actions button{width:100%}
+ #coachApp .coach-training-form{grid-template-columns:1fr}
+ #coachApp .coach-attendance-actions button{flex:1 1 calc(50% - 6px)}
+ #coachApp .coach-player-stats-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:430px){
+ #coachApp .coach-grid,
+ #coachApp .coach-player-stats-grid{grid-template-columns:1fr}
+ #coachApp .coach-side .portal-id{min-width:150px}
+ #coachApp .coach-side .portal-avatar{display:none}
+ #coachApp .coach-attendance-actions button{flex:1 1 100%}
+}
+
+
+

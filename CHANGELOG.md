@@ -2,6 +2,13 @@
 
 ## V1.25.12-dev
 
+- C/D/E : extraction source complete (114 CSS, 663 unites JS classiques, 70 templates imbriques).
+- Ajout d'un assembleur avec verification SHA-256 de chaque source, inclusions uniques et rejet des chemins hors client.
+- `/gestion-modulaire` et 70 routes explicites ajoutes derriere l'authentification existante ; `/gestion` reste inchange et `/gestion-legacy` disponible.
+- 139 tests Python passes localement, dont recomposition exacte, syntaxe JS, routes, authentification et repli sur incident.
+- Ajout d'un banc navigateur CI ; execution locale bloquee par absence de Chromium et echec de telechargement.
+- Pas de bascule F ni declaration de validation visuelle a ce stade.
+
 - C1 : extraction passive du prefixe CSS commun en trois fichiers (tokens, base, composants).
 - Extracteur reproductible et manifeste avec plages source / SHA-256 ; refus des fichiers divergents.
 - Six tests CSS ajoutes aux lanceurs Linux, Windows compact et CI.

@@ -1,0 +1,19 @@
+<div class="page" id="teams">
+<div class="stats-return-bar" id="statsReturn-teams"><button class="ghost" onclick="returnToStatistics()">← Retour aux statistiques</button><span class="tiny">Détail : Équipes</span></div>
+<div class="intra-hero"><div><div class="kicker">● Gestion sportive</div><h3>Équipes</h3><p>Vue consolidée des équipes, effectifs, encadrement et matchs associés.</p></div></div>
+<div class="team-admin-summary">
+<div class="card"><div class="stat-label">Équipes</div><div class="stat-value" id="teamCountTotal">0</div></div>
+<div class="card"><div class="stat-label">Joueurs rattachés</div><div class="stat-value" id="teamCountPlayers">0</div></div>
+<div class="card"><div class="stat-label">Matchs associés</div><div class="stat-value" id="teamCountMatches">0</div></div>
+<div class="card"><div class="stat-label">Fiches publiques</div><div class="stat-value" id="teamCountPublic">0</div></div>
+</div>
+<div class="card">
+<div class="team-admin-tools">
+<div class="field"><label>Recherche</label><input id="adminTeamSearch" oninput="renderAdminTeams()" placeholder="Équipe, compétition, éducateur..."/></div>
+<div class="field"><label>Groupe</label><select id="adminTeamGroupFilter" onchange="renderAdminTeams()"><option value="">Tous les groupes</option></select></div>
+<button class="ghost" onclick="resetAdminTeamFilters()">Réinitialiser</button>
+</div>
+<div class="tiny" id="teamDataSource" style="margin-top:10px">Source : base locale</div>
+</div>
+<div class="team-grid" id="intraTeams" style="margin-top:20px"></div>
+</div>

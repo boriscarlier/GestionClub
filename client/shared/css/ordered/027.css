@@ -1,0 +1,14 @@
+/* ===== V1.14.4 : DETAIL & GESTION DES MATCHS ===== */
+#matchRows tr{cursor:pointer;transition:background .15s ease}
+#matchRows tr:hover{background:rgba(255,255,255,.035)}
+.match-detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.match-detail-card{border:1px solid var(--border);border-radius:14px;padding:14px;background:var(--panel2)}
+.match-detail-card .label{font-size:12px;color:var(--muted);margin-bottom:5px}
+.match-detail-card .value{font-weight:700;overflow-wrap:anywhere}
+.match-detail-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.match-score-editor{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end}
+.match-source-box{max-height:260px;overflow:auto;border:1px solid var(--border);border-radius:12px;padding:12px;background:var(--panel2)}
+@media(max-width:850px){.match-detail-grid{grid-template-columns:1fr 1fr}.match-score-editor{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.match-detail-grid,.match-score-editor{grid-template-columns:1fr}}
+
+

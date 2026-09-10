@@ -1,0 +1,10 @@
+/* Grilles génériques */
+.grid,
+.stats-dashboard-grid,
+.stats-section-grid,
+.sport-health-grid,
+.coach-player-stats-grid,
+.coach-training-stats{
+ min-width:0;
+}
+

@@ -1,0 +1,12 @@
+/* ===== V1.14.13 : BASE LOGOS CLUBS ADVERSES ===== */
+.opponent-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.opponent-card{border:1px solid var(--border);border-radius:14px;padding:14px;background:var(--panel2);display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:center}
+.opponent-logo{width:56px;height:56px;object-fit:contain;border-radius:12px;background:#fff;padding:4px}
+.opponent-logo-placeholder{width:56px;height:56px;border-radius:12px;background:var(--green);color:#071008;display:grid;place-items:center;font-weight:900}
+.opponent-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.opponent-form{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr auto;gap:10px;align-items:end}
+.public-opponent-logo{width:48px;height:48px;object-fit:contain;border-radius:10px;background:#fff;padding:3px}
+@media(max-width:950px){.opponent-grid{grid-template-columns:1fr 1fr}.opponent-form{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.opponent-grid,.opponent-form{grid-template-columns:1fr}}
+
+

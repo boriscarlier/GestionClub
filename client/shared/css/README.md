@@ -3,6 +3,11 @@
 Extraction passive du préfixe commun du premier style du Manager canonique.
 Ces fichiers ne sont pas encore chargés par `/gestion`.
 
+Depuis C2, ils sont aussi references par `client/manager.sources.json` et assembles
+avec 111 autres unites CSS par la route optionnelle `/gestion-modulaire`.
+Le manifeste C1 ci-dessous reste le constat historique de l'extraction passive initiale.
+Cartographie complete : `docs/MANAGER_CSS_INDEX.md`.
+
 Ordre impératif :
 
 1. `01-tokens.css` : variables de thème.

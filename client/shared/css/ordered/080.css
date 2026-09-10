@@ -1,0 +1,19 @@
+/* ===== V1.21.18.18 : DASHBOARD PRESENCES & EFFECTIFS ===== */
+.sport-health-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
+.sport-health-card{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.sport-health-card .value{font-size:1.55rem;font-weight:800;margin-top:4px}
+.sport-health-bars{display:grid;gap:9px;margin-top:12px}
+.sport-health-bar-row{display:grid;grid-template-columns:150px 1fr 52px;gap:10px;align-items:center}
+.sport-health-track{height:10px;border-radius:999px;background:rgba(127,127,127,.14);overflow:hidden}
+.sport-health-fill{height:100%;background:currentColor}
+.sport-health-table{overflow-x:auto;margin-top:12px}
+.sport-health-table table{width:100%;border-collapse:collapse}
+.sport-health-table th,.sport-health-table td{padding:8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+@media(max-width:900px){
+ .sport-health-grid{grid-template-columns:1fr 1fr}
+ .sport-health-bar-row{grid-template-columns:110px 1fr 48px}
+}
+@media(max-width:520px){
+ .sport-health-grid{grid-template-columns:1fr}
+}
+

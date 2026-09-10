@@ -1,0 +1,16 @@
+/* ===== V1.14.19 : IMPORT ANNUAIRE CLUBS FFF MULTI-CLUBS ===== */
+.fff-import-mode{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.fff-import-mode button.active{outline:2px solid currentColor}
+.annuaire-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.annuaire-club-list{display:grid;gap:10px;margin-top:14px}
+.annuaire-club-card{border:1px solid var(--border);border-radius:14px;padding:14px;background:var(--panel)}
+.annuaire-club-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.annuaire-club-themes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.annuaire-theme{border:1px solid var(--border);border-radius:10px;padding:9px;background:var(--panel2)}
+.annuaire-theme .label{font-size:11px;color:var(--muted);margin-bottom:4px}
+.annuaire-match-select{min-width:260px}
+.annuaire-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+@media(max-width:850px){.annuaire-summary,.annuaire-club-themes{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.annuaire-summary,.annuaire-club-themes{grid-template-columns:1fr}}
+
+

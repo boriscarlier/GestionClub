@@ -1,0 +1,4 @@
+/* ===== V1.21.8.1 : CYCLE DE VIE DISCIPLINE PAR DATES ===== */
+.disc-lifecycle{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.disc-date-state{padding:7px 9px;border:1px solid var(--line);border-radius:9px}
+

@@ -1,0 +1,4 @@
+/* ===== V1.21.13 : STABILISATION COMPTES UTILISATEURS ===== */
+.account-card-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.account-warning{margin-top:8px;padding:7px 9px;border:1px dashed var(--line);border-radius:9px}
+

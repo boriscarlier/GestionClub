@@ -1,0 +1,15 @@
+/* Textes longs / identifiants */
+.card,
+.coach-card,
+.portal-card,
+.match-card,
+.team-card,
+.tiny,
+small,
+p,
+td,
+th{
+ overflow-wrap:anywhere;
+ word-break:normal;
+}
+

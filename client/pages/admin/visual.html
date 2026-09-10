@@ -1,0 +1,27 @@
+<div class="page" id="visual">
+<div class="intra-hero"><div><div class="kicker">● Production graphique</div><h3>Générateur graphique complet</h3><p>Création de visuels pour les matchs, résultats, anniversaires, partenaires et annonces du club, avec plusieurs formats d’export.</p></div></div>
+<div class="visual-templates" style="margin-top:20px">
+<div class="visual-template active" onclick="selectVisualTemplate('match',this)">⚽<br/>Match</div>
+<div class="visual-template" onclick="selectVisualTemplate('result',this)">🏆<br/>Résultat</div>
+<div class="visual-template" onclick="selectVisualTemplate('birthday',this)">🎂<br/>Anniversaire</div>
+<div class="visual-template" onclick="selectVisualTemplate('partner',this)">🤝<br/>Partenaire</div>
+<div class="visual-template" onclick="selectVisualTemplate('announcement',this)">📣<br/>Annonce</div>
+</div>
+<div class="visual-formatbar">
+<button class="active" onclick="selectVisualFormat('square',this)">1080×1080</button>
+<button onclick="selectVisualFormat('portrait',this)">1080×1350</button>
+<button onclick="selectVisualFormat('story',this)">1080×1920</button>
+<button onclick="selectVisualFormat('landscape',this)">1200×675</button>
+</div>
+<div class="card" style="margin-top:20px;margin-bottom:14px">
+<div class="tiny"><strong>Identité visuelle :</strong> Logo officiel du club utilisé automatiquement par le générateur. Il ne doit pas être remplacé par une variante non validée.</div>
+</div>
+<div class="grid cols-2" style="margin-top:20px">
+<div class="card">
+<div id="visualDynamicFields"></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="primary" onclick="generateVisual()">Générer</button><button class="secondary" onclick="saveVisual()">Enregistrer dans médiathèque</button><button class="ghost" onclick="exportVisual()">Exporter PNG</button></div>
+<div class="visual-help tiny">Conseil : la source match permet d’automatiser rapidement une affiche ou un visuel résultat ; les autres modèles servent aux communications du club.</div>
+</div>
+<div class="canvas-wrap"><canvas height="1080" id="canvas" width="1080"></canvas></div>
+</div>
+</div>

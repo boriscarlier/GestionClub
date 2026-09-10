@@ -1,0 +1,26 @@
+/* ===== V1.14 : PORTAIL EDUCATEURS ===== */
+.coach-portal{max-width:1250px;margin:0 auto;padding:24px}
+.coach-login{max-width:540px;margin:30px auto;background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:22px}
+.coach-shell{display:grid;grid-template-columns:250px 1fr;gap:18px}
+.coach-side{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:14px;height:max-content;position:sticky;top:18px}
+.coach-side button{width:100%;text-align:left;margin:4px 0}
+.coach-main{display:grid;gap:16px}
+.coach-card{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:18px}
+.coach-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.coach-kpi{padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--panel2)}
+.coach-page{display:none}.coach-page.active{display:block}
+.coach-roster{display:grid;gap:8px}
+.coach-player{padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--panel2);display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr auto;gap:10px;align-items:center}
+.coach-player.blocked{border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.06)}
+.coach-player.warn{border-color:rgba(243,200,66,.4);background:rgba(243,200,66,.05)}
+.coach-actions{display:flex;gap:8px;flex-wrap:wrap}
+.coach-match{padding:13px;border:1px solid var(--border);border-radius:13px;background:var(--panel2)}
+.coach-callup{padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--panel2)}
+.coach-lineup{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.coach-listbox{min-height:220px;border:1px solid var(--border);border-radius:13px;padding:10px;background:var(--panel2)}
+.coach-contact{padding:10px;border-bottom:1px solid var(--border)}
+.coach-contact:last-child{border-bottom:0}
+@media(max-width:950px){.coach-shell{grid-template-columns:1fr}.coach-side{position:static}.coach-grid{grid-template-columns:repeat(2,1fr)}.coach-player{grid-template-columns:1fr}.coach-lineup{grid-template-columns:1fr}}
+@media(max-width:650px){.coach-grid{grid-template-columns:1fr}}
+
+

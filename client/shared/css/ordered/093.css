@@ -1,0 +1,43 @@
+/* ===== V1.21.19.2 : SITE PUBLIC RESPONSIVE ===== */
+@media(max-width:1024px){
+ #publicApp header .container.public-nav{gap:12px}
+ #publicApp .pub-links{display:none}
+ #publicApp .mobile-toggle{display:inline-flex;align-items:center;justify-content:center;min-height:44px}
+ #publicApp .mobile-menu{
+  position:fixed;left:12px;right:12px;top:76px;z-index:1150;
+  max-height:calc(100vh - 92px);overflow:auto;border-radius:14px;
+  box-shadow:0 16px 44px rgba(0,0,0,.28)
+ }
+ #publicApp .mobile-menu button{width:100%;min-height:44px;text-align:left}
+ #publicApp .hero .container{padding-top:42px;padding-bottom:42px}
+ #publicApp .hero h2{font-size:clamp(2rem,8vw,4rem)}
+ #publicApp .home-match-columns{grid-template-columns:1fr}
+ #publicApp .team-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #publicApp footer .grid.cols-3{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+ #publicApp header{position:sticky;top:0;z-index:1100}
+ #publicApp header .brand h1{font-size:1rem}
+ #publicApp header .brand span{font-size:.72rem}
+ #publicApp header .logo{width:44px;height:44px}
+ #publicApp .hero .container{padding:32px 14px}
+ #publicApp .hero h2{font-size:clamp(1.8rem,10vw,3rem)}
+ #publicApp .hero p{max-width:100%}
+ #publicApp .section{padding-left:0;padding-right:0}
+ #publicApp .section .container,
+ #publicApp .page-hero-public .container{padding-left:14px;padding-right:14px}
+ #publicApp .section-head,
+ #publicApp .home-match-panel-head{align-items:flex-start;flex-direction:column}
+ #publicApp .team-grid{grid-template-columns:1fr}
+ #publicApp .public-list{grid-template-columns:1fr}
+ #publicApp footer .grid.cols-3{grid-template-columns:1fr}
+ #publicApp .public-match-list .match-card{padding:12px}
+}
+@media(max-width:430px){
+ #publicApp header .container.public-nav{padding-left:10px;padding-right:10px}
+ #publicApp .mobile-toggle{font-size:.88rem}
+ #publicApp .hero .container>div[style*="display:flex"] button{width:100%}
+}
+
+
+

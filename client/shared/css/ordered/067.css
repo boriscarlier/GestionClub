@@ -1,0 +1,9 @@
+/* ===== V1.21.14 : STABILISATION PERMISSIONS ===== */
+.permission-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.permission-summary-card{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+.permission-summary-card strong{display:block;font-size:20px;margin-top:4px}
+.permission-warning{padding:9px 11px;border:1px dashed var(--line);border-radius:10px;margin-top:10px}
+.permission-role-note{font-size:11px;opacity:.75}
+@media(max-width:850px){.permission-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.permission-summary-grid{grid-template-columns:1fr}}
+

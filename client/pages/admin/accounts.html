@@ -1,0 +1,29 @@
+<div class="page" id="accounts">
+<div class="intra-hero">
+<div>
+<div class="kicker">● V1.20.1 — Accès Administration</div>
+<h3>Comptes utilisateurs</h3>
+<p>Création et suivi des comptes qui pourront accéder à l’Administration. Les rôles et permissions détaillés seront ajoutés dans les versions suivantes.</p>
+</div>
+<button class="primary" onclick="openAccountEditor()">+ Nouveau compte</button>
+</div>
+<div class="card" style="margin-bottom:14px">
+<div class="tiny"><strong>Mode prototype :</strong> aucun mot de passe réel n’est enregistré. À l’ouverture de l’Administration, on sélectionne simplement un compte actif afin de tester ses permissions. L’authentification réelle sera ajoutée avec le backend sécurisé.</div>
+</div>
+<div class="grid stats">
+<div class="card"><div class="stat-label">Comptes</div><div class="stat-value" id="accountCountTotal">0</div></div>
+<div class="card"><div class="stat-label">Actifs</div><div class="stat-value" id="accountCountActive">0</div></div>
+<div class="card"><div class="stat-label">Désactivés</div><div class="stat-value" id="accountCountDisabled">0</div></div>
+<div class="card"><div class="stat-label">Rattachés à un licencié</div><div class="stat-value" id="accountCountLinked">0</div></div>
+</div>
+<div class="card">
+<div class="account-toolbar">
+<div class="field"><label>Recherche</label><input id="accountSearch" oninput="renderAccounts()" placeholder="Nom, email, fonction..."/></div>
+<div class="field"><label>Statut</label><select id="accountStatusFilter" onchange="renderAccounts()"><option value="">Tous</option><option value="active">Actifs</option><option value="disabled">Désactivés</option></select></div>
+<div class="field"><label>Fonction</label><select id="accountFunctionFilter" onchange="renderAccounts()"><option value="">Toutes fonctions</option></select></div>
+<button class="ghost" onclick="renderAccounts()">↻ Actualiser</button>
+</div>
+</div>
+<div class="account-grid" id="accountsGrid" style="margin-top:14px"></div>
+<div class="card" style="margin-top:14px"><h3 style="margin-top:0">Protection des données sensibles</h3><div class="tiny">Les coordonnées privées, représentants légaux, discipline et données financières sont désormais associés à des règles d’accès par rôle. Le filtrage réel sera appliqué par le backend en production ; cette version prépare et simule la politique d’accès.</div></div>
+</div>

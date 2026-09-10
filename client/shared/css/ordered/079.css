@@ -1,0 +1,14 @@
+/* ===== V1.21.18.16 : STATISTIQUES INDIVIDUELLES JOUEUR ===== */
+.coach-player-stats-panel{margin-top:14px}
+.coach-player-stats-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.coach-player-stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0}
+.coach-player-stat{padding:10px;border:1px solid var(--line);border-radius:10px}
+.coach-player-stat strong{display:block;font-size:1.35rem;margin-top:3px}
+.coach-player-history{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.coach-player-history-list{max-height:320px;overflow:auto}
+.coach-player-history-item{padding:8px 0;border-bottom:1px solid var(--line)}
+@media(max-width:800px){
+ .coach-player-stats-grid{grid-template-columns:1fr 1fr}
+ .coach-player-history{grid-template-columns:1fr}
+}
+

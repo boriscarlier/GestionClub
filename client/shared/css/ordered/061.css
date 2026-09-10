@@ -1,0 +1,9 @@
+/* ===== V1.21.9.7 : PARAMETRAGE DU CLUB GESTIONNAIRE ===== */
+.club-profile-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.club-profile-section{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.club-profile-import-status{padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-top:10px}
+.club-profile-history{display:grid;gap:8px}
+.club-profile-history-row{padding:9px 10px;border:1px solid var(--line);border-radius:10px}
+@media(max-width:850px){.club-profile-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.club-profile-grid{grid-template-columns:1fr}}
+

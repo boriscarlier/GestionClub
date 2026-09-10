@@ -1,0 +1,8 @@
+
+#intranetApp :focus-visible{outline:3px solid #ffd84a!important;outline-offset:3px}
+#intranetApp .intra-main,#footclubsui,#footclubsui [data-fcu-pane],#fcuSourceViewer,#fcuSelectionPreview{min-width:0;max-width:100%}
+#footclubsui [hidden]{display:none!important}
+#footclubsui .fcu-tabs [aria-selected="true"]{border-color:#ffd84a;box-shadow:inset 0 -3px #ffd84a}
+#footclubsui p,#footclubsui .tiny{overflow-wrap:anywhere}
+#footclubsui input[type="file"]{max-width:100%;min-width:0}
+@media(max-width:560px){#footclubsui .fcu-actions{flex-wrap:wrap}#footclubsui .fcu-actions>*{min-width:0;max-width:100%;box-sizing:border-box}#footclubsui button{white-space:normal;overflow-wrap:anywhere}#footclubsui input:not([type="checkbox"]),#footclubsui select{font-size:16px}#footclubsui .fcu-tabs{gap:8px}}

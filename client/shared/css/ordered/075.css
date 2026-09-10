@@ -1,0 +1,4 @@
+/* ===== V1.21.18.7 : VERIFICATION DISCIPLINAIRE EDUCATEUR ===== */
+.coach-discipline-box{margin-top:6px;padding:7px 9px;border:1px dashed var(--line);border-radius:9px}
+.coach-discipline-box .actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+

@@ -1,0 +1,24 @@
+<div class="page" id="accessaudit">
+<div class="intra-hero"><div><div class="kicker">● V1.20.10</div><h3>Audit des accès &amp; préparation backend</h3><p>Contrôle de cohérence avant passage à une authentification serveur réelle.</p></div><button class="secondary" onclick="renderAccessAudit()">↻ Relancer l’audit</button></div>
+<div style="margin-bottom:14px"><button class="ghost" onclick="goTo('auditlog')">🧾 Ouvrir le journal des actions</button></div>
+<div class="grid stats">
+<div class="card"><div class="stat-label">Contrôles</div><div class="stat-value" id="auditCheckCount">0</div></div>
+<div class="card"><div class="stat-label">Conformes</div><div class="stat-value" id="auditCheckOk">0</div></div>
+<div class="card"><div class="stat-label">À corriger</div><div class="stat-value" id="auditCheckWarn">0</div></div>
+</div>
+<div class="card" style="margin-top:14px"><h3 style="margin-top:0">Contrôles</h3><div class="stats-health" id="accessAuditChecks"></div></div>
+<div class="card" style="margin-top:14px">
+<h3 style="margin-top:0">Modèle backend préparé</h3>
+<div class="tiny">Entités prévues : <strong>users</strong>, <strong>roles</strong>, <strong>permissions</strong>, <strong>user_roles</strong>, <strong>user_scopes</strong>, <strong>sessions</strong>, <strong>audit_log</strong>. Les mots de passe du prototype ne sont pas stockés comme mécanisme d’authentification réel.</div>
+</div>
+<div class="card" style="margin-top:14px">
+<h3 style="margin-top:0">Points obligatoires avant production</h3>
+<div class="stats-health">
+<div class="stats-health-row"><span>Hachage fort des mots de passe côté serveur</span><span class="badge yellow">Backend requis</span></div>
+<div class="stats-health-row"><span>Sessions sécurisées / expiration / révocation</span><span class="badge yellow">Backend requis</span></div>
+<div class="stats-health-row"><span>Contrôle des permissions côté API</span><span class="badge yellow">Backend requis</span></div>
+<div class="stats-health-row"><span>Journal serveur infalsifiable</span><span class="badge yellow">Backend requis</span></div>
+<div class="stats-health-row"><span>Gestion RGPD et minimisation des données</span><span class="badge yellow">V1.70</span></div>
+</div>
+</div>
+</div>

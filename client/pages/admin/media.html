@@ -1,0 +1,10 @@
+<div class="page" id="media">
+<div class="intra-hero"><div><div class="kicker">● Ressources</div><h3>Médiathèque avancée</h3><p>Photos et vidéos classées par saison, équipe, événement et album, avec contrôle des droits de publication.</p></div><button class="primary" onclick="addMediaDemo()">+ Ajouter média démo</button></div>
+<div class="media-toolbar">
+<input id="mediaQuery" oninput="renderAdvancedMedia()" placeholder="Rechercher..."/>
+<select id="mediaTeamFilter" onchange="renderAdvancedMedia()"><option value="">Toutes équipes</option></select>
+<select id="mediaVisibilityFilter" onchange="renderAdvancedMedia()"><option value="">Tous statuts</option><option value="public">Public</option><option value="private">Interne</option></select>
+</div>
+<div class="card"><h3 style="margin-top:0">Albums</h3><div class="album-grid" id="albumGrid"></div></div>
+<div class="media-grid" id="mediaGrid" style="margin-top:20px"></div>
+</div>

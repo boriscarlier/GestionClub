@@ -31,6 +31,7 @@ jobs:
           - test_manager_page_index
           - test_manager_assets
           - test_manager_css
+          - test_manager_sources
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -42,3 +43,28 @@ jobs:
         env:
           PYTHONPATH: ${{ github.workspace }}/server:${{ github.workspace }}/vendor:${{ github.workspace }}/tests:${{ github.workspace }}/scripts
         run: python3 -m unittest -v tests.${{ matrix.module }}
+
+  modular-browser:
+    name: Modular browser parity
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install test-only browser
+        run: |
+          npm install --prefix "$RUNNER_TEMP/fclc-browser" playwright@1.62.1
+          node "$RUNNER_TEMP/fclc-browser/node_modules/playwright/cli.js" install --with-deps chromium
+      - name: Compare legacy and modular pages
+        run: NODE_PATH="$RUNNER_TEMP/fclc-browser/node_modules" node scripts/check_modular_browser.cjs
+      - name: Keep comparison report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: modular-browser-report
+          path: releases/modular-qa/

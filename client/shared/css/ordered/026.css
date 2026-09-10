@@ -1,0 +1,15 @@
+/* ===== V1.14.3 FIX1 : LOGO OFFICIEL OPTIMISE ===== */
+.club-logo-img{display:block;object-fit:contain}
+.brand .logo.club-logo-holder{background:transparent!important;border:none!important;padding:0!important;width:auto!important;height:auto!important;box-shadow:none!important}
+.brand .logo.club-logo-holder img{width:58px;height:58px}
+.club-logo-sm{width:30px;height:30px}
+.club-logo-md{width:44px;height:44px}
+.club-logo-lg{width:82px;height:82px}
+.match-with-logo{display:flex;align-items:center;gap:10px}
+.match-with-logo .match-copy{min-width:0}
+.official-letterhead{display:flex;align-items:center;gap:16px;padding:14px 16px;border:1px solid var(--border);border-radius:18px;background:var(--panel2);margin-bottom:16px}
+.official-letterhead .meta{display:grid;gap:4px}
+.club-logo-card{display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:center}
+@media(max-width:700px){.club-logo-card{grid-template-columns:1fr}.brand .logo.club-logo-holder img{width:50px;height:50px}}
+
+

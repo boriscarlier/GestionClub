@@ -1,0 +1,7 @@
+/* Sécurité globale contre les débordements */
+html,body{max-width:100%;overflow-x:hidden}
+*,*::before,*::after{box-sizing:border-box}
+img,svg,video,canvas{max-width:100%;height:auto}
+input,select,textarea,button{max-width:100%}
+table{max-width:100%}
+

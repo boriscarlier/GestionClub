@@ -1,0 +1,8 @@
+/* ===== V1.21.6 : STABILISATION MATCHS ===== */
+.match-summary-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:12px;margin:14px 0}
+.match-summary-grid .card{cursor:pointer}
+.match-detail-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+@media(max-width:950px){.match-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.match-summary-grid{grid-template-columns:1fr}}
+
+

@@ -39,12 +39,21 @@ last_physical_validation:
   result: tests_passed_server_online_lan_access_confirmed
   lan_endpoint: http://192.168.1.3:8766/
 candidate_version: V1.25.12-dev
-refactor_branch: refactor/v1.25.12-html-decomposition
+refactor_branch: refactor/v1.25.12-c1-shared-css
 refactor_phase:
   completed:
     - V1.25.12-A
     - V1.25.12-B_passive
-  current: V1.25.12-C
+  current: V1.25.12-E_visual_validation_pending
+  source_extraction:
+    css_units: 114
+    javascript_classic_units: 663
+    page_templates: 70
+    python_tests_local: 139
+    canonical_byte_equality: true
+    default_route_changed: false
+    optional_route: /gestion-modulaire
+    fallback_route: /gestion-legacy
 canonical_manager:
   path: client/FC_LA_COUR_Manager.html
   bytes: 1143051

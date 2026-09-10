@@ -1,0 +1,17 @@
+<div class="page" id="readiness"><div class="card continuity-panel">
+<h2>Diagnostic &amp; partage — V1.24.5</h2>
+<div class="notice"><h3>Paquet serveur V1.24.5</h3><p>Le paquet ZIP comprend DEMARRER_SERVEUR.cmd : il démarre un dépôt de sauvegardes versionnées sur cet ordinateur, avec des comptes serveur distincts. L’application métier reste enregistrée dans Brave. Dépôt et récupération utilisent vos sauvegardes complètes JSON ; aucune synchronisation automatique.</p><p>Après lancement du serveur : <a href="http://127.0.0.1:8765" target="_blank" rel="noopener noreferrer">Ouvrir les sauvegardes serveur</a>.</p><p>Le serveur doit être lancé depuis le paquet extrait. Ce HTML seul ne suffit pas à le démarrer. Les essais sur un autre ordinateur et le déploiement HTTPS restent à préparer.</p></div>
+<p>Ce contrôle lit la base actuelle sans la modifier. Il permet de repérer les problèmes d’identifiants avant une restauration ou un futur transfert.</p>
+<button onclick="FCLCReadiness.render()">Actualiser le diagnostic</button>
+<button onclick="FCLCReadiness.download()">Exporter le diagnostic sans coordonnées</button>
+<div id="readinessResult" class="continuity-preview" role="status" aria-live="polite" tabindex="0" aria-label="Résultats du diagnostic"></div>
+<h3>Ce qui fonctionne aujourd’hui</h3>
+<p>Les données restent dans ce navigateur. Les sauvegardes JSON permettent un transfert manuel avec remplacement explicite. Les captures Footclubs et le compagnon FFF ne synchronisent pas la base entre dirigeants.</p>
+<h3>Étapes vers le partage</h3>
+<ol><li><strong>V1.23.0 — Diagnostic local :</strong> collections, identifiants et cohérence de la base affichée avec son enregistrement. Livré dans cette version.</li>
+<li><strong>V1.23.1 — Contrat de transfert :</strong> comparaison des sauvegardes par identifiants, contrôle des versions et bilan des différences. Livré ; fusion automatique exclue.</li>
+<li><strong>V1.24 — Service de stockage :</strong> dépôt local de sauvegardes versionnées et comptes serveur livrés dans un paquet séparé. Connexion directe des écrans métier et hébergement partagé à développer.</li>
+<li><strong>V1.30 — Essai sur deux postes :</strong> tester les modifications simultanées, les sauvegardes et la récupération avant utilisation partagée. À développer.</li></ol>
+<p>Le partage réel n’est pas activé. Les comptes de ce prototype restent des contrôles locaux d’interface.</p>
+<button onclick="FCLCContinuity.open()">Ouvrir Données &amp; sauvegarde</button>
+</div></div>

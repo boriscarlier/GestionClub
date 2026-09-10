@@ -1,0 +1,12 @@
+/* ===== V1.08 : GENERATEUR GRAPHIQUE COMPLET ===== */
+.visual-templates{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.visual-template{padding:13px;border:1px solid var(--border);border-radius:13px;background:var(--panel2);cursor:pointer;text-align:center;font-size:13px}
+.visual-template.active{border-color:var(--green);color:#fff;box-shadow:inset 0 0 0 1px rgba(57,211,83,.2)}
+.visual-formatbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.visual-formatbar button{border:1px solid var(--border);background:var(--panel2);color:var(--muted);border-radius:999px;padding:8px 11px}
+.visual-formatbar button.active{border-color:var(--green);color:#fff}
+.visual-help{margin-top:12px;padding:12px;border:1px solid var(--border);background:var(--panel2);border-radius:12px}
+@media(max-width:950px){.visual-templates{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:650px){.visual-templates{grid-template-columns:1fr 1fr}}
+
+

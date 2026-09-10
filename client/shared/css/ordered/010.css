@@ -1,0 +1,9 @@
+/* V1.06 Mediatheque avancee */
+.media-toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+.media-toolbar input,.media-toolbar select{background:var(--panel2);border:1px solid var(--border);color:#fff;border-radius:12px;padding:10px 11px}
+.album-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.album{padding:16px;border:1px solid var(--border);border-radius:15px;background:var(--panel2)}
+.media-selected{outline:2px solid var(--green)}
+@media(max-width:900px){.album-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.album-grid{grid-template-columns:1fr}}
+

@@ -238,4 +238,37 @@ class ServerTests(unittest.TestCase):
         self.assertIn('Statut tests :',compact)
         self.assertIn('self.current',compact)
 
+    def test_34_shadow_dashboard_requires_session_and_serves_page(self):
+        self.assertEqual(self.raw_request('/pages/admin/dashboard.html')[0],401)
+        s=self.login();code,raw,headers=self.raw_request('/pages/admin/dashboard.html',session=s)
+        self.assertEqual(code,200)
+        self.assertIn(b'data-page-status="extracted_shadow"',raw)
+        self.assertIn(b'/gestion#dashboard',raw)
+        self.assertIn(b'../../shared/js/dashboard-summary.js',raw)
+        self.assertIn("frame-ancestors 'none'",headers['Content-Security-Policy'])
+        self.assertNotIn("'unsafe-inline'",headers['Content-Security-Policy'])
+    def test_35_shadow_shared_assets_require_session_and_are_served(self):
+        self.assertEqual(self.raw_request('/shared/css/page-shell.css')[0],401)
+        s=self.login()
+        code,raw,headers=self.raw_request('/shared/css/page-shell.css',session=s)
+        self.assertEqual(code,200)
+        self.assertIn('text/css',headers['Content-Type'])
+        self.assertIn(b'page-shell',raw)
+        code,raw,headers=self.raw_request('/shared/js/dashboard-summary.js',session=s)
+        self.assertEqual(code,200)
+        self.assertIn('text/javascript',headers['Content-Type'])
+        self.assertIn(b'/api/state/summary',raw)
+    def test_36_shadow_routes_reject_traversal(self):
+        s=self.login()
+        self.assertEqual(self.raw_request('/pages/../FC_LA_COUR_Manager.html',session=s)[0],404)
+        self.assertEqual(self.raw_request('/shared/../FC_LA_COUR_Manager.html',session=s)[0],404)
+        self.assertEqual(self.raw_request('/pages/admin/dashboard.exe',session=s)[0],404)
+    def test_37_gestion_still_available_after_shadow_route(self):
+        s=self.login()
+        self.assertEqual(self.raw_request('/pages/admin/dashboard.html',session=s)[0],200)
+        code,raw,_=self.raw_request('/gestion',session=s)
+        self.assertEqual(code,200)
+        self.assertIn(b'FC_LA_COUR_SERVER_BRIDGE',raw)
+        self.assertIn(b'FC LA COUR Manager',raw)
+
 if __name__=='__main__':unittest.main(verbosity=2)

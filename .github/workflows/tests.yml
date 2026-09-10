@@ -25,6 +25,7 @@ jobs:
           - test_pdf_watch
           - test_convocations
           - test_lan_server
+          - test_windows_runtime
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,5 +35,5 @@ jobs:
           python-version: '3.11'
       - name: Run module
         env:
-          PYTHONPATH: ${{ github.workspace }}/server:${{ github.workspace }}/vendor:${{ github.workspace }}/tests
+          PYTHONPATH: ${{ github.workspace }}/server:${{ github.workspace }}/vendor:${{ github.workspace }}/tests:${{ github.workspace }}/scripts
         run: python3 -m unittest -v tests.${{ matrix.module }}

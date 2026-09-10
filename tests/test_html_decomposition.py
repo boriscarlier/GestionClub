@@ -9,7 +9,8 @@ import rebuild_manager
 
 ROOT = Path(__file__).resolve().parents[1]
 MANAGER = ROOT / 'client' / 'FC_LA_COUR_Manager.html'
-EXPECTED_SHA256 = '64def65ec261d3da05d855896484c4deb79da407'
+EXPECTED_SHA256 = '5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c'
+EXPECTED_GIT_BLOB_SHA = '64def65ec261d3da05d855896484c4deb79da407'
 EXPECTED_BYTES = 1_143_051
 
 
@@ -33,6 +34,7 @@ class HtmlDecompositionTests(unittest.TestCase):
             self.assertEqual(sha256, EXPECTED_SHA256)
             self.assertEqual(size, EXPECTED_BYTES)
             self.assertEqual(count, manifest['parts_count'])
+            self.assertEqual(manifest['source_git_blob_sha'], EXPECTED_GIT_BLOB_SHA)
             self.assertEqual(output.read_bytes(), before)
         self.assertEqual(MANAGER.read_bytes(), before)
 

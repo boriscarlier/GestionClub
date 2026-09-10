@@ -26,6 +26,7 @@ jobs:
           - test_convocations
           - test_lan_server
           - test_windows_runtime
+          - test_video_refs
     steps:
       - name: Checkout
         uses: actions/checkout@v4

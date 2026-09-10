@@ -9,12 +9,21 @@
 
 ## V1.25.1 - Ouverture de Gestion Club depuis le serveur
 
+Etat : en cours de validation.
+
 - Ajouter une route protegee pour le client complet.
 - Charger la revision serveur active.
 - Ajouter une action explicite d'enregistrement serveur.
 - Conserver un mode de secours local.
 - Refuser le demarrage sur donnees demo lorsqu'une revision serveur existe.
 - Tester les conflits entre deux sessions navigateur.
+
+Livraison calme V1.25.1 :
+
+- route `/gestion` protegee ;
+- API de bootstrap serveur ;
+- client complet visible depuis le serveur avec bandeau de mode ;
+- ecritures fines du client reportees a V1.25.2 pour eviter une fusion trop large.
 
 ## V1.25.2 - Donnees communes
 

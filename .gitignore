@@ -4,7 +4,7 @@ __pycache__/
 .mypy_cache/
 
 data/
-releases/
+/releases/
 *.sqlite3
 *.db
 *.log
@@ -15,4 +15,3 @@ releases/
 
 .DS_Store
 Thumbs.db
-

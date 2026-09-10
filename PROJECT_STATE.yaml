@@ -1,5 +1,5 @@
 project: FC LA COUR Gestion Club
-version: V1.25.0-dev
+version: V1.25.1
 base_imported: V1.24.5
 runtime:
   language: Python
@@ -9,7 +9,6 @@ storage:
   real_data: data/
   tracked_in_git: false
 current_focus:
-  - depot_github
   - architecture_client_serveur
+  - client_complet_depuis_serveur
   - tests_automatises
-

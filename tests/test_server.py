@@ -26,6 +26,14 @@ class ServerTests(unittest.TestCase):
             if csrf:headers['X-CSRF-Token']=session[1]
         conn.request(method,path,None if data is None else json.dumps(data),headers);r=conn.getresponse();raw=r.read();cookie=r.getheader('Set-Cookie');status=r.status;ctype=r.getheader('Content-Type','');conn.close()
         return status,json.loads(raw) if 'json' in ctype else raw,cookie
+    def raw_request(self,path,method='GET',data=None,session=None):
+        port=self.srv.server_port;conn=http.client.HTTPConnection('127.0.0.1',port,timeout=10)
+        headers={'Host':f'127.0.0.1:{port}','Origin':f'http://127.0.0.1:{port}','Content-Type':'application/json'}
+        if session:
+            headers['Cookie']=session[0]
+            if method!='GET':headers['X-CSRF-Token']=session[1]
+        conn.request(method,path,None if data is None else json.dumps(data),headers);r=conn.getresponse();raw=r.read();headers=dict(r.getheaders());status=r.status;conn.close()
+        return status,raw,headers
     def login(self,name='administrator'):
         code,r,cookie=self.request('/api/login','POST',{'name':name,'password':'Fiction-only-password-123'});self.assertEqual(code,200)
         self.assertIn('HttpOnly',cookie);self.assertIn('SameSite=Strict',cookie)
@@ -79,5 +87,20 @@ class ServerTests(unittest.TestCase):
         s=self.login()
         with closing(server.connect(self.path)) as db,db:db.execute('UPDATE sessions SET expires=0')
         self.assertEqual(self.request('/api/status',session=s)[0],401)
+    def test_18_gestion_requires_session_and_serves_manager(self):
+        self.assertEqual(self.raw_request('/gestion')[0],401)
+        s=self.login();code,raw,headers=self.raw_request('/gestion',session=s)
+        self.assertEqual(code,200)
+        self.assertIn(b'FC_LA_COUR_SERVER_BRIDGE',raw)
+        self.assertIn(b'FC LA COUR Manager',raw)
+        self.assertIn("'unsafe-inline'",headers['Content-Security-Policy'])
+    def test_19_gestion_bootstrap_latest_revision(self):
+        s=self.login();revision=self.deposit(s)[1]['revision']
+        code,r,_=self.request('/api/gestion/bootstrap',session=s)
+        self.assertEqual(code,200)
+        self.assertEqual(r['serverBuild'],'V1.25.1')
+        self.assertEqual(r['mode'],'server-bridge')
+        self.assertEqual(r['latest']['revision'],revision)
+        self.assertEqual(r['latest']['backup'],self.p)
 
 if __name__=='__main__':unittest.main(verbosity=2)

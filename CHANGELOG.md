@@ -1,5 +1,13 @@
 # Changelog
 
+## V1.25.1
+
+- Ajout de la route protegee `/gestion` pour ouvrir le client complet depuis le serveur local.
+- Ajout de `/api/gestion/bootstrap` pour exposer le contexte serveur et la derniere revision active.
+- Ajout d'un bandeau serveur dans le client complet afin de distinguer le mode servi par le serveur du mode HTML autonome.
+- Ajout d'un bouton "Ouvrir Gestion Club complet" dans l'administration serveur.
+- Tests serveur portes a 19 controles, suite totale attendue a 75 controles.
+
 ## V1.25.0-dev
 
 - Preparation d'un depot GitHub exploitable inspire de la structure Neo Toolkit.

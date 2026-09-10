@@ -1,4 +1,4 @@
-"""FC LA COUR V1.24.5: sauvegardes et veille publique, accès local uniquement."""
+"""FC LA COUR V1.25.1: sauvegardes, veille publique et porte Gestion Club serveur."""
 import argparse, getpass, hashlib, hmac, json, re, secrets, sqlite3, time
 from contextlib import closing
 from http.cookies import SimpleCookie
@@ -30,7 +30,7 @@ def validate(p):
     if not re.fullmatch(r'V\d+\.\d+\.\d+(?:\.\d+)?', str(p.get('build', ''))):
         raise Problem(400, 'Version de sauvegarde non reconnue.')
     v = tuple(map(int, p['build'][1:].split('.')))
-    if v + (0,) * (4-len(v)) > (1,24,5,0):
+    if v + (0,) * (4-len(v)) > (1,25,1,0):
         raise Problem(400, 'Sauvegarde plus récente que ce serveur.')
     s = p.get('state')
     if not isinstance(s, dict):
@@ -81,18 +81,39 @@ def add_user(path, name, password, role):
     with closing(connect(path)) as db, db:
         db.execute('INSERT INTO users VALUES(?,?,?,?)', (name, salt, password_hash(password, salt), role))
 
+def manager_page():
+    html = (CLIENT_ROOT / 'FC_LA_COUR_Manager.html').read_text(encoding='utf-8')
+    marker = '<body'
+    pos = html.find(marker)
+    if pos < 0:
+        return html.encode('utf-8')
+    end = html.find('>', pos)
+    if end < 0:
+        return html.encode('utf-8')
+    banner = """
+<div id="serverBridgeBanner" style="position:sticky;top:0;z-index:99999;background:#102516;color:#fffbe6;border-bottom:2px solid #2ecc71;padding:10px 16px;font:14px/1.35 system-ui,Segoe UI,sans-serif">
+  Gestion Club servi par le serveur local V1.25.1. Les donnees reelles restent dans la base serveur ; les modifications du client complet seront raccordees par etapes.
+  <a href="/" style="color:#9df7b9;margin-left:12px">Retour administration serveur</a>
+</div>
+<script>
+window.FC_LA_COUR_SERVER_BRIDGE={build:"V1.25.1",mode:"server-bridge",bootstrapUrl:"/api/gestion/bootstrap"};
+</script>
+"""
+    return (html[:end+1] + banner + html[end+1:]).encode('utf-8')
+
 class Handler(BaseHTTPRequestHandler):
-    server_version = 'FCLaCour/1.24.5'
+    server_version = 'FCLaCour/1.25.1'
     sys_version = ''
     def log_message(self, *args):
         pass
     def setup(self):
         super().setup()
         self.connection.settimeout(20)
-    def send(self, status, value, cookie=None, mime='application/json; charset=utf-8'):
+    def send(self, status, value, cookie=None, mime='application/json; charset=utf-8', csp=None):
         raw = value if isinstance(value, bytes) else encode(value).encode()
         self.send_response(status)
-        for k,v in {'Content-Type':mime, 'Content-Length':str(len(raw)), 'Cache-Control':'no-store', 'X-Content-Type-Options':'nosniff', 'X-Frame-Options':'DENY', 'Referrer-Policy':'no-referrer', 'Content-Security-Policy':"default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"}.items():
+        policy = csp or "default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
+        for k,v in {'Content-Type':mime, 'Content-Length':str(len(raw)), 'Cache-Control':'no-store', 'X-Content-Type-Options':'nosniff', 'X-Frame-Options':'DENY', 'Referrer-Policy':'no-referrer', 'Content-Security-Policy':policy}.items():
             self.send_header(k,v)
         if cookie:
             self.send_header('Set-Cookie', cookie)
@@ -167,6 +188,13 @@ class Handler(BaseHTTPRequestHandler):
                 raise Problem(403,'Jeton de session invalide.')
             if path == '/api/session' and self.command == 'GET':
                 return self.send(200,{'user':user['user'],'role':user['role'],'csrf':user['csrf']})
+            if path == '/gestion' and self.command == 'GET':
+                csp = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
+                return self.send(200, manager_page(), mime='text/html; charset=utf-8', csp=csp)
+            if path == '/api/gestion/bootstrap' and self.command == 'GET':
+                row=db.execute('SELECT id,created,actor,club,payload FROM revisions ORDER BY id DESC LIMIT 1').fetchone()
+                latest = None if not row else {'revision':row['id'],'created':row['created'],'actor':row['actor'],'club':row['club'],'backup':json.loads(row['payload'])}
+                return self.send(200,{'serverBuild':'V1.25.1','mode':'server-bridge','user':user['user'],'role':user['role'],'latest':latest})
             if path.startswith('/api/watch'):
                 params=parse_qs(urlsplit(self.path).query)
                 if self.command == 'GET':

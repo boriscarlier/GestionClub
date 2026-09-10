@@ -1,6 +1,7 @@
 project: FC LA COUR Gestion Club
-version: V1.25.10.2
+version: V1.25.11-dev
 base_imported: V1.24.5
+base_stable: V1.25.10.2
 runtime:
   language: Python
   client: HTML JavaScript CSS
@@ -13,11 +14,10 @@ storage:
     - FCLC_DATA_PATH
     - FCLC_DATA_DIR
 current_focus:
-  - architecture_client_serveur
-  - confort_installation_windows
-  - mises_a_jour_sans_recopie_data
-  - tests_automatises
   - acces_reseau_local_controle
+  - protections_host_origin
+  - conservation_sessions_roles_csrf
+  - compatibilite_mode_local
 stable_versions:
   - V1.25.1
   - V1.25.2
@@ -34,4 +34,10 @@ last_physical_validation:
   date: 2026-09-10
   platform: Windows
   result: tests_passed_server_online
-next_version: V1.25.11
+candidate_version: V1.25.11-dev
+validation_required:
+  - tests_automatises_lan
+  - test_depuis_second_appareil_du_lan
+  - verification_host_origin_session_role_csrf
+  - verification_mode_local_inchange
+  - verification_data_reelle_non_modifiee

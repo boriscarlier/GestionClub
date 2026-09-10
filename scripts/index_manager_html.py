@@ -71,7 +71,6 @@ def build_index(path: Path):
         'teamDataSource',
         'memberDataSource',
         'Source : serveur SQL/API',
-        'const BUILD=',
         'const QA_BUILD=',
     ]
     for needle in wanted:

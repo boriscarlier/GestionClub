@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>FC LA COUR — Vidéos de matchs</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/videos.css">
+  <script src="/videos.js" defer></script>
+</head>
+<body>
+<main>
+  <header>
+    <span>FC LA COUR · V1.25.12</span>
+    <h1>Vidéos de matchs</h1>
+    <p>Références vidéo rattachées aux équipes et aux matchs du club.</p>
+  </header>
+
+  <div class="toolbar">
+    <a class="buttonlike" href="/">Retour au serveur</a>
+    <a class="buttonlike" href="/gestion">Gestion Club complet</a>
+    <strong id="videoIdentity"></strong>
+  </div>
+
+  <p class="notice">V1.25.12 enregistre uniquement les références et métadonnées. Le fichier vidéo reste chez son fournisseur. Pour Veo, utilisez un lien de match partagé depuis <code>app.veo.co</code>.</p>
+  <p id="videoMessage" role="status" aria-live="polite"></p>
+
+  <section id="videoWriter">
+    <h2>Ajouter une vidéo</h2>
+    <form id="videoForm">
+      <label>Lien vidéo
+        <input id="videoUrl" type="url" required maxlength="2048" placeholder="https://app.veo.co/matches/..."></label>
+      <label>Titre
+        <input id="videoTitle" maxlength="200" placeholder="FC LA COUR - Adversaire"></label>
+      <label>Équipe
+        <select id="videoTeam"><option value="">Non renseignée</option></select></label>
+      <label>Identifiant du match
+        <input id="videoMatch" maxlength="120" placeholder="Identifiant Gestion Club"></label>
+      <label>Date
+        <input id="videoDate" type="date"></label>
+      <label>Adversaire
+        <input id="videoOpponent" maxlength="160"></label>
+      <label>Compétition
+        <input id="videoCompetition" maxlength="160"></label>
+      <label>Visibilité du lien
+        <select id="videoVisibility">
+          <option value="unknown">À vérifier</option>
+          <option value="public">Public</option>
+          <option value="private">Privé</option>
+        </select></label>
+      <button id="videoSave" type="submit">Enregistrer la référence</button>
+    </form>
+  </section>
+
+  <section>
+    <div class="toolbar">
+      <h2>Références enregistrées</h2>
+      <button id="videoRefresh" type="button">Actualiser</button>
+    </div>
+    <form id="videoFilters" class="video-filters">
+      <label>Équipe
+        <select id="videoFilterTeam"><option value="">Toutes les équipes</option></select></label>
+      <label>Recherche
+        <input id="videoQuery" type="search" maxlength="200" placeholder="Titre, adversaire, compétition"></label>
+      <button type="submit">Filtrer</button>
+    </form>
+    <div id="videoList"></div>
+  </section>
+
+  <footer>Les droits d’accès et de diffusion des vidéos restent ceux du fournisseur et du club. Aucun téléchargement automatique n’est effectué.</footer>
+</main>
+</body>
+</html>

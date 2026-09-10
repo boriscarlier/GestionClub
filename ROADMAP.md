@@ -138,9 +138,57 @@ Etat : stable via V1.25.11.1, valide physiquement le 10/09/2026.
 Validation physique : acces LAN confirme via `http://192.168.1.3:8766/`.
 Aucune redirection du port 8766 sur le routeur ne fait partie de V1.25.11.
 
-## V1.25.12 - Veo et videos de matchs
+## V1.25.12 - Decomposition HTML et architecture multi-pages
 
-Etat : prochaine version.
+Etat : en developpement depuis V1.25.11.1 stable.
+
+Objectif : remplacer progressivement le monolithe par une architecture HTML indexee, lisible et extensible, sans regression fonctionnelle ni perte de donnees.
+
+### V1.25.12-A - Inventaire et reconstruction sans perte
+
+- [x] Figer le Manager canonique V1.25.11.1 : `1 143 051` octets, SHA256 `64def65ec261d3da05d855896484c4deb79da407`.
+- [x] Ajouter un decomposeur binaire deterministe des blocs HTML/style/script.
+- [x] Ajouter un recomposeur qui exige une identite octet pour octet.
+- [x] Ajouter les tests de continuite, SHA, UTF-8 et alteration de bloc.
+- [x] Ajouter une CI dediee qui produit un artefact d'inspection sans modifier l'application.
+- [ ] Generer et inspecter l'index structurel et le manifeste de decomposition.
+- [ ] Etablir la cartographie des pages fonctionnelles a partir des IDs et ancres reels.
+
+### V1.25.12-B - Extraction des ressources embarquees
+
+- [ ] Extraire en premier les gros `data:*;base64` vers `client/assets/`.
+- [ ] Verifier chaque ressource par SHA et conserver un fallback tant que la bascule n'est pas validee.
+- [ ] Revalider le rendu et tous les tests avant suppression des donnees embarquees.
+
+### V1.25.12-C - Socle commun CSS
+
+- [ ] Extraire les styles globaux vers `client/shared/css/`.
+- [ ] Distinguer styles communs et styles propres a chaque page.
+- [ ] Conserver la compatibilite avec `/gestion` pendant la migration.
+
+### V1.25.12-D - Socle commun JavaScript
+
+- [ ] Extraire les services communs : etat, stockage, API, sauvegarde, session et utilitaires.
+- [ ] Definir des modules stables sous `client/shared/js/`.
+- [ ] Interdire les duplications de logique metier entre pages.
+
+### V1.25.12-E - Pages fonctionnelles
+
+- [ ] Creer les pages uniquement a partir de la cartographie reelle du Manager.
+- [ ] Fournir une navigation/index unique et un referencement clair dans GitHub.
+- [ ] Migrer une page a la fois avec tests et fallback legacy.
+- [ ] Ne supprimer le monolithe qu'apres validation de toutes les pages equivalentes.
+
+### V1.25.12-F - Bascule et nettoyage
+
+- [ ] Faire de l'architecture multi-pages le chemin principal.
+- [ ] Conserver temporairement `/gestion-legacy` pour comparaison/rollback.
+- [ ] Valider sous Windows, serveur local et passerelle LAN.
+- [ ] Archiver puis retirer le monolithe uniquement apres validation physique complete.
+
+## V1.25.13 - Veo et videos de matchs
+
+Etat : reporte apres stabilisation de l'architecture multi-pages.
 
 - Qualifier les liens publics Veo.
 - Ajouter un modele de reference video rattache a equipe, date, adversaire et competition.

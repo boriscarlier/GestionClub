@@ -31,6 +31,8 @@ class WindowsRuntimeTests(unittest.TestCase):
         self.assertIn('server\\current_server.py start', text)
         self.assertIn('V1.26.1', text)
         self.assertNotIn('server\\server.py start', text)
+        runtime = (ROOT / 'server/current_server.py').read_text(encoding='utf-8')
+        self.assertIn("webbrowser.open('http://127.0.0.1:8765/')", runtime)
 
     def test_04_current_runtime_accepts_its_backup_version(self):
         code = r'''

@@ -3,6 +3,7 @@ import argparse
 import getpass
 import re
 import secrets
+import webbrowser
 from contextlib import closing
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -111,6 +112,7 @@ def main():
     srv.watch.start()
     print('Base de donnees : ' + str(args.data))
     print('CLUB EXEMPLE ' + VERSION + ' — http://127.0.0.1:8765 — Ctrl+C pour arrêter.')
+    webbrowser.open('http://127.0.0.1:8765/')
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

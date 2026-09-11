@@ -1,123 +1,72 @@
-project: CLUB EXEMPLE Gestion Club
-version: V1.25.13-dev
-base_imported: V1.25.12.3
-base_stable: V1.25.12.3
+project: Gestion Club
+version: V1.26-dev
+base_stable: V1.25.13.17
+base_archive: GestionClub_V1.25.13.17_Windows_test_bandeau_admin.zip
+base_archive_sha256: 52644db27f7d40abd6a43c86d6ab43491271266e47a4d12ce4bda31b5b1af6aa
+base_validation:
+  tests_ok: 163
+  tests_skipped: 1
+  status: stable_archived
+  date: 2026-09-11
 runtime:
   language: Python
   client: HTML JavaScript CSS
   database: SQLite
-storage:
-  real_data: data/
-  default_windows_path: D:\GestionClub\FC_LA_COUR_GestionClub
-  tracked_in_git: false
-  configurable_paths:
-    - GESTION_CLUB_DATA_PATH
-    - GESTION_CLUB_DATA_DIR
-current_focus:
-  - decomposition_html_sans_perte
-  - indexation_structurelle_monolithe
-  - recomposition_binaire_deterministe
-  - architecture_multi_pages
-  - extraction_progressive_assets_css_js
-  - maintien_fallback_monolithe
 stable_versions:
-  - V1.25.1
-  - V1.25.2
-  - V1.25.3
-  - V1.25.4
-  - V1.25.5
-  - V1.25.6
-  - V1.25.7
-  - V1.25.8
-  - V1.25.9
-  - V1.25.10.2
-  - V1.25.12.3
-last_physical_validation:
-  version: V1.25.12.3
-  date: 2026-09-10
-  platform: Windows + second LAN device
-  result: tests_passed_server_online_lan_access_confirmed
-  lan_endpoint: http://192.168.1.3:8766/
-candidate_version: V1.25.13-dev
-refactor_branch: main
-refactor_phase:
-  completed:
-    - V1.25.12-A
-    - V1.25.12-B_passive
-  current: V1.25.13-profils-utilisateurs-roadmap
-  source_extraction:
-    css_units: 114
-    javascript_classic_units: 663
-    page_templates: 70
-    python_tests_local: 146
-    browser_parity_current_candidate: 210
-    direct_routes_browser_validation: 70_passed
-    canonical_byte_equality: true
-    default_route_changed: false
-    optional_route: /gestion-modulaire
-    fallback_route: /gestion-legacy
-canonical_manager:
-  path: client/GESTION_CLUB_Manager.html
-  bytes: 1055861
-  git_blob_sha: 60b57d2e780eda2c8fc20fe1921fdb85f3a69ec9
-  content_sha256: d77a2506d8975684624002a9fe5310fecd326ff944dba6f478d1e00546b1dd63
-structure_inventory:
-  raw_parts: 41
-  fragment_parts: 21
-  style_parts: 5
-  script_parts: 15
-  functional_units: 70
-  admin_units: 44
-  public_units: 13
-  coach_units: 7
-  member_units: 6
-assets:
-  club_logo:
-    path: client/assets/brand/club-logo.png
-    bytes: 26046
-    width: 576
-    height: 507
-    sha256: 3dfedc639bf7dcf78e7810c945e03aff10a4fcd0763581c7f3ed0fe894ec53b6
-    source_constant: CLUB_LOGO_DATA_URI
-    runtime_active: false
-    fallback_embedded: true
+  - V1.25.13.17
+current_cycle:
+  version: V1.26
+  status: start_dev
+  title: architecture_base_donnees_comptes_permissions_synchronisation
+  rule: ne_pas_modifier_le_socle_fonctionnel_V1.25.13.17_sans_migration_et_tests
+current_focus:
+  - clarifier_arborescence_base_donnees
+  - separer_donnees_par_domaine
+  - separer_donnees_par_club
+  - preparer_multi_club
+  - supprimer_risque_fichier_data_unique
+  - rattacher_licences_comptes_fiches_au_club_actif
+  - synchronisation_licences_vers_comptes_serveur
+  - gestion_massive_comptes_permissions
+v1_26_priorities:
+  - definir_modele_de_donnees_canonique
+  - definir_identifiants_stables_club_personne_licence_compte_equipe
+  - definir_relations_et_contraintes_SQL
+  - definir_strategie_migration_depuis_V1.25.13.17
+  - definir_sauvegarde_restauration_par_club_et_par_domaine
+  - detecter_doublons_fiches_incompletes_conflits_avant_creation_compte
+  - creer_comptes_licencies_manquants_sans_ecraser_existants
+  - creer_comptes_educateurs_manquants_sans_ecraser_existants
+  - refaire_systeme_comptes_permissions_pour_300_plus_comptes
+account_screen_target:
+  tabs:
+    - administrateurs
+    - educateurs
+    - licencies
+    - comptes_incomplets
+    - comptes_desactives
+  search:
+    - nom
+    - prenom
+    - numero_licence
+    - identifiant
+  filters:
+    - role
+    - categorie
+    - equipe
+    - statut
+    - fiche_liee
+  bulk_actions: true
+deferred:
+  - dyndns
+  - serveur_public
+  - exposition_internet
 validation_required:
-  - monolithe_canonique_inchange
-  - utf8_strict
-  - decomposition_couvre_100_pourcent_octets
-  - recomposition_identique_octet_pour_octet
-  - tests_existants_verts
-  - extraction_progressive_par_etapes
-  - fallback_gestion_legacy_conserve_jusqua_validation_pages
-next_priority_feature: profils_utilisateurs_et_licences
-next_deferred_feature: Veo_et_videos_de_match
-
-latest_candidate_validation:
-  commit: da92eace26678658e618766b10ad393f0350d451
-  actions_run: 34582498767
-  result: success
-  physical_windows: pending
-
-profile_roadmap:
-  target_version: V1.25.13
-  priority: creation_licences_utilisateurs
-  profiles:
-    administrateur:
-      access: gestion_club_complete
-      purpose: developpement_parametrage_controle_global
-    educateur:
-      access: outils_gestion_club_et_licences
-      restrictions:
-        - pas_de_recuperation_informations_site_public
-        - pas_edition_informations_site_public
-      purpose: suivi_licences_et_equipes
-    licencie_joueur:
-      access: informations_personnelles
-      actions:
-        - consulter_ses_informations
-        - envoyer_ses_informations_a_son_educateur
-  validation:
-    - droits_profiles_testes
-    - donnees_site_public_protegees
-    - partage_joueur_vers_educateur_explicite
-    - fallback_admin_conserve
+  - aucune_regression_fonctionnelle_V1.25.13.17
+  - migration_reversible
+  - donnees_existantes_preservees
+  - contraintes_multi_club_testees
+  - comptes_et_licences_strictement_scopes_par_club
+  - sauvegardes_testees
+  - restauration_testee
+  - tests_windows_et_serveur_verts

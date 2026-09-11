@@ -6141,9 +6141,1639 @@ function runImport(){
 function renderImportHistory(){
  const el=document.getElementById('importHistory');if(!el)return;
  const h=state.importHistory||[];
- el.innerHTML=h.length?h.slice(0,20).map(x=>`<div class="import-history-item"><strong>${x.file}</strong><div class="tiny">${x.date} • ${x.target} • ${x.strategy} • lus ${x.read}, +${x.added}, maj ${x.updated}, ignorés ${x.skipped}</div></div>`).join(''):'<div class="tiny">Aucun import enregistr�
-... 94744 bytes omitted ...
-;if(!rulesEl)return;
+ el.innerHTML=h.length?h.slice(0,20).map(x=>`<div class="import-history-item"><strong>${x.file}</strong><div class="tiny">${x.date} • ${x.target} • ${x.strategy} • lus ${x.read}, +${x.added}, maj ${x.updated}, ignorés ${x.skipped}</div></div>`).join(''):'<div class="tiny">Aucun import enregistré.</div>';
+}
+function clearImport(){
+ importWorkbook=null;importRawRows=[];importRows=[];importFileName='';unifiedSpecialFile=null;unifiedSpecialPrepared=false;window.__unifiedDisciplineRows=null;window.__unifiedDisciplineHeaders=null;
+ const f=document.getElementById('importFile');if(f)f.value='';
+ document.getElementById('importSheet').innerHTML='<option value="">—</option>';
+ document.getElementById('importFileStatus').className='import-status warn';document.getElementById('importFileStatus').textContent='Aucun fichier chargé.';
+ document.getElementById('importPreviewHead').innerHTML='';document.getElementById('importPreviewBody').innerHTML='';document.getElementById('importPreviewInfo').textContent='Charge un fichier pour afficher les premières lignes.';
+ setImportStep(1);
+}
+function downloadImportTemplate(){
+ const target=document.getElementById('importTarget').value,schema=importSchemas[target];
+ const headers=schema.fields.map(f=>f.label);
+ const sample={
+  members:['1234567890','88000000','DUPONT','Jean','01/01/2010','M','U17','U17 (- 17 ans)','Active','Renouvellement','Libre','0000000000','jean@example.com','50','50','50','En totalité','Espèces','Nom Parent','0000000000','parent@example.com'],
+  teams:['Seniors 1','R3','seniors','Nom éducateur','Nom adjoint','Nom dirigeant','Stade Municipal','Mardi 18h30','Oui'],
+  matches:['05/09/2026','18:00','Seniors 1','Adversaire','Stade Municipal','','','À venir'],
+  planning:['Samedi','18:00','120','match','Match Seniors 1','Seniors 1','Stade Municipal','Oui'],
+  posts:['Titre actualité','Texte de l’actualité','Vie du club','Brouillon','Non','Site;Facebook;Instagram']
+ }[target];
+ const esc=v=>`"${String(v??'').replace(/"/g,'""')}"`;
+ const csv='\ufeff'+headers.map(esc).join(';')+'\n'+sample.map(esc).join(';')+'\n';
+ const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`GESTION_CLUB_modele_${target}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+
+
+const officialLrfDocs2026=[
+ {id:'guide',title:'Guide pratique — Licences 2026',category:'Guide',pages:8,url:'https://example.invalid/ligue/wp-content/uploads/sites/116/2025/12/Guide-Pratique-LICENCES-LRF-2026-RUPHINE.pdf',desc:'Guide pratique LRF : calendrier, procédures, catégories d’âge et démarches licences.'},
+ {id:'reglement2026',title:'Règlement LRF — Saison 2026',category:'Règlement',pages:'PDF',url:'https://example.invalid/ligue/wp-content/uploads/sites/116/bsk-pdf-manager/1b7695746a49a59d422a4b9bb50581d1.pdf',desc:'Règlement officiel LRF 2026. Document de référence pour les compétitions, licences, qualifications, discipline et procédures applicables à la saison.'},
+ {id:'player',title:'Demande de licence — Joueur / Dirigeant / Volontaire',category:'Licence',pages:1,url:'https://example.invalid/ligue/wp-content/uploads/sites/116/2025/12/DEMANDE-DE-LICENCE-JOUEURS-DIRIGEANTS-VOLONTAIRES-2026.pdf',desc:'Bordereau officiel 2026 joueur, dirigeant et volontaire.'},
+ {id:'educator',title:'Demande de licence — Éducateur',category:'Éducateur',pages:1,url:'https://example.invalid/ligue/wp-content/uploads/sites/116/2025/12/DEMANDE-DE-LICENCE-EDUCATEURS-2026.pdf',desc:'Bordereau officiel 2026 pour éducateur.'},
+ {id:'referee',title:'Demande de licence — Arbitre',category:'Licence',pages:1,url:'https://example.invalid/ligue/wp-content/uploads/sites/116/2025/12/DEMANDE-DE-LICENCE-ARBITRES-2026.pdf',desc:'Bordereau officiel 2026 pour arbitre.'},
+ {id:'upgrade',title:'Dossier de surclassement — Article 73.2',category:'Surclassement',pages:4,url:'https://example.invalid/ligue/wp-content/uploads/sites/116/2025/12/DOSSIER-SURCLASSEMENT-ARTICLE-73.2-2026.pdf',desc:'Dossier officiel pour demande de surclassement au titre de l’article 73.2.'},
+ {id:'117d',title:'Accord du club quitté — Article 117/d',category:'Mutation',pages:1,url:'https://example.invalid/ligue/wp-content/uploads/sites/116/2025/12/ACCORD-DU-CLUB-pour-le-117.d.pdf',desc:'Accord du club quitté pour application de l’article 117/d des règlements FFF.'},
+ {id:'honor',title:'Attestation d’honorabilité — Éducateurs',category:'Éducateur',pages:1,url:'https://example.invalid/ligue/wp-content/uploads/sites/116/2025/12/Attestation-honorabilite-educateur-2026.pdf',desc:'Attestation d’honorabilité officielle destinée aux éducateurs.'},
+ {id:'medical',title:'Certificat médical — Renouvellement',category:'Médical',pages:1,url:'https://example.invalid/ligue/wp-content/uploads/sites/116/2025/12/certificat_medical-Renouvellement-Licences-2026.pdf',desc:'Modèle de certificat médical à utiliser dans le cadre d’un renouvellement.'},
+ {id:'healthAdult',title:'Questionnaire de santé — Majeur',category:'Médical',pages:1,url:'https://example.invalid/ligue/wp-content/uploads/sites/116/2025/12/questionnaise-sante-MAJEUR-li__2026-1.pdf',desc:'Questionnaire de santé officiel destiné aux licenciés majeurs.'},
+ {id:'healthMinor',title:'Questionnaire de santé — Mineur',category:'Médical',pages:2,url:'https://example.invalid/ligue/wp-content/uploads/sites/116/2025/12/questionnaise-sante-MINEUR-min-_-2026.pdf',desc:'Questionnaire de santé officiel destiné aux licenciés mineurs.'}
+];
+let selectedOfficialDocs=[];
+
+function renderOfficialDocs(){
+ const grid=document.getElementById('officialDocsGrid');if(!grid)return;
+ const q=norm(document.getElementById('docQuery')?.value||'');
+ const cat=document.getElementById('docCategoryFilter')?.value||'';
+ const docs=officialLrfDocs2026.filter(d=>(!q||norm(d.title+' '+d.desc+' '+d.category).includes(q))&&(!cat||d.category===cat));
+ grid.innerHTML=docs.map(d=>`<div class="doc-card ${selectedOfficialDocs.includes(d.id)?'selected':''}">
+  <label class="doc-check"><input type="checkbox" ${selectedOfficialDocs.includes(d.id)?'checked':''} onchange="toggleOfficialDoc('${d.id}',this.checked)"><div><h4>${d.title}</h4><div class="doc-meta"><span class="badge green">${d.category}</span><span class="badge">${typeof d.pages==='number' ? d.pages+' page'+(d.pages>1?'s':'') : d.pages}</span></div></div></label>
+  <p class="tiny">${d.desc}</p>
+  <div class="doc-actions">
+   <button class="secondary" onclick="openOfficialDoc('${d.id}')">Ouvrir</button>
+   <button class="ghost" onclick="printOfficialDoc('${d.id}')">Imprimer</button>
+   <button class="ghost" onclick="emailOfficialDoc('${d.id}')">Envoyer par mail</button>
+  </div>
+ </div>`).join('');
+ renderDocSelectionSummary();
+}
+function toggleOfficialDoc(id,val){
+ if(val&&!selectedOfficialDocs.includes(id))selectedOfficialDocs.push(id);
+ if(!val)selectedOfficialDocs=selectedOfficialDocs.filter(x=>x!==id);
+ renderOfficialDocs();
+}
+function selectAllOfficialDocs(){selectedOfficialDocs=officialLrfDocs2026.map(d=>d.id);renderOfficialDocs()}
+function clearOfficialDocsSelection(){selectedOfficialDocs=[];renderOfficialDocs()}
+function officialDocById(id){return officialLrfDocs2026.find(d=>d.id===id)}
+function openOfficialDoc(id){const d=officialDocById(id);if(d)window.open(d.url,'_blank')}
+function printOfficialDoc(id){
+ const d=officialDocById(id);if(!d)return;
+ window.open(d.url,'_blank');
+ toast('Document','Le PDF officiel est ouvert : utilise la commande Imprimer du navigateur.');
+}
+function renderDocRecipients(){
+ const sel=document.getElementById('docMemberRecipient');if(!sel)return;
+ const current=sel.value;
+ const people=(state.members||[]).filter(m=>m.email).sort((a,b)=>(a.last||'').localeCompare(b.last||''));
+ sel.innerHTML='<option value="">Choisir un licencié</option>'+people.map(m=>`<option value="${m.id}" ${current===m.id?'selected':''}>${m.last||''} ${m.first||''} — ${m.email}</option>`).join('');
+}
+function fillDocRecipientEmail(){
+ const id=document.getElementById('docMemberRecipient')?.value;
+ const m=(state.members||[]).find(x=>x.id===id);
+ if(m&&document.getElementById('docRecipientEmail'))document.getElementById('docRecipientEmail').value=m.email||'';
+}
+function renderDocSelectionSummary(){
+ const el=document.getElementById('docSelectionSummary');if(!el)return;
+ const docs=selectedOfficialDocs.map(officialDocById).filter(Boolean);
+ el.innerHTML=docs.length?docs.map(d=>`<div>• ${d.title}</div>`).join(''):'Aucun document sélectionné.';
+}
+function mailtoForDocs(docs,email){
+ const subject=encodeURIComponent('CLUB EXEMPLE — Documents licences LRF 2026');
+ const body=encodeURIComponent('Bonjour,\n\nVous trouverez ci-dessous les documents officiels LRF 2026 demandés :\n\n'+docs.map(d=>'• '+d.title+'\n'+d.url).join('\n\n')+'\n\nCordialement,\nCLUB EXEMPLE');
+ return `mailto:${encodeURIComponent(email||'')}?subject=${subject}&body=${body}`;
+}
+function emailOfficialDoc(id){
+ const d=officialDocById(id);if(!d)return;
+ const email=document.getElementById('docRecipientEmail')?.value||'';
+ window.location.href=mailtoForDocs([d],email);
+}
+function emailSelectedOfficialDocs(){
+ const docs=selectedOfficialDocs.map(officialDocById).filter(Boolean);
+ if(!docs.length)return toast('Documents','Sélectionne au moins un document.');
+ const email=document.getElementById('docRecipientEmail')?.value||'';
+ window.location.href=mailtoForDocs(docs,email);
+}
+function openSelectedOfficialDocs(){
+ const docs=selectedOfficialDocs.map(officialDocById).filter(Boolean);
+ if(!docs.length)return toast('Documents','Sélectionne au moins un document.');
+ docs.forEach((d,i)=>setTimeout(()=>window.open(d.url,'_blank'),i*180));
+ toast('Documents','Les PDF officiels sélectionnés sont ouverts pour impression.');
+}
+
+
+function disciplineHeaderIndex(headers,name){
+ const n=norm(name);return headers.findIndex(h=>norm(h)===n);
+}
+function disciplineValue(row,headers,name){
+ const i=disciplineHeaderIndex(headers,name);return i>=0?(row[i]??''):'';
+}
+function linkDisciplineToMember(rec){
+ const pn=norm(rec.personNumber);
+ const candidates=(state.members||[]).filter(m=>norm(m.personNumber)===pn);
+ rec.memberIds=candidates.map(m=>m.id);
+ rec.licenseNumbers=[...new Set(candidates.map(m=>String(m.licenseNumber||'').trim()).filter(Boolean))];
+ rec.primaryMemberId=rec.memberIds[0]||null;
+ return rec;
+}
+function linkDisciplineToMatch(rec){
+ const mn=norm(rec.matchNumber);
+ const m=(state.matches||[]).find(x=>norm(x.matchNumber)===mn);
+ rec.matchId=m?m.id:null;
+ rec.team=m?m.team:rec.team;
+ return rec;
+}
+function normalizeDisciplineRow(row,headers){
+ const g=n=>disciplineValue(row,headers,n);
+ const rec={
+  dossierNumber:String(g('Numéro dossier_2')||g('Numéro dossier_1')||'').trim(),
+  dossierDate:normalizeDateCell(g('Date dossier_2')||g('Date dossier_1')),
+  dossierType:String(g('Type dossier_2')||g('Type dossier_1')||'').trim(),
+  subject:String(g('Sujet dossier_2')||g('Sujet dossier_1')||'').trim(),
+  status:String(g('Statut dossier')||'').trim(),
+  yellowCards:safeNumber(g('Nbre cartons jaunes'))||0,
+  redCard:boolVal(g('Carton rouge')),
+  offMatch:boolVal(g('Hors match')),
+  commission:String(g('Nom commission_2')||g('Nom commission_1')||'').trim(),
+  meetingDate:normalizeDateCell(g('Date réunion_2')||g('Date réunion_1')),
+  reason:String(g('Libellé motif_2')||g('Libellé motif_1')||'').trim(),
+  decision:String(g('Libellé décision_2')||g('Libellé décision_1')||'').trim(),
+  effectDate:normalizeDateCell(g("Date d'effet_2")||g("Date d'effet_1")),
+  endDate:normalizeDateCell(g('Date de fin')),
+  recurrenceEndDate:normalizeDateCell(g('Date fin récidive')),
+  clubNumber:String(g('Numéro de club_2')||g('Numéro de club_1')||'').trim(),
+  clubName:String(g('Nom de club_2')||g('Nom de club_1')||'').trim(),
+  competition:String(g('Compétition')||'').trim(),
+  phase:String(g('Phase')||'').trim(),
+  team:String(g('Nom équipe')||'').trim(),
+  matchNumber:String(g('Numéro match')||'').trim(),
+  matchDate:normalizeDateCell(g('Date match')),
+  personNumber:String(g('Numéro personne')||'').trim(),
+  personName:String(g('Nom, prénom personne')||'').trim(),
+  role:String(g('Rôle')||'').trim(),
+  licenseType:String(g('Libellé type licence')||'').trim(),
+  subcategory:String(g('Libellé sous catégorie')||'').trim(),
+  total:safeNumber(g('Somme totale')),
+  sourceFormat:'DISCIPLINE_REFERENCE_V1',
+  sourceData:{}
+ };
+ headers.forEach((h,i)=>rec.sourceData[String(h||('col_'+i))]=row[i]??'');
+ linkDisciplineToMember(rec);linkDisciplineToMatch(rec);
+ rec.isActive=norm(rec.status)==='actif' || (!!rec.endDate && new Date(rec.endDate+'T23:59:59')>=new Date());
+ rec.id='d_'+(rec.dossierNumber||Math.random().toString(36).slice(2));
+ return rec;
+}
+async function handleDisciplineFile(event){
+ const file=event.target.files&&event.target.files[0];if(!file)return;
+ const box=document.getElementById('disciplineImportStatus');
+ try{
+  if(!window.XLSX)throw new Error('Lecteur Excel indisponible.');
+  const ab=await file.arrayBuffer(),wb=XLSX.read(ab,{cellDates:true});
+  const ws=wb.Sheets[wb.SheetNames[0]];
+  const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:'',raw:false,dateNF:'yyyy-mm-dd'});
+  if(!rows.length)throw new Error('Fichier vide.');
+  const headers=rows[0].map(String);
+  const required=['Type dossier_2','Statut dossier','Numéro dossier_2','Numéro match','Numéro personne','Nom, prénom personne'];
+  const missing=required.filter(x=>disciplineHeaderIndex(headers,x)<0);
+  if(missing.length)throw new Error('Colonnes manquantes : '+missing.join(', '));
+
+  const imported=rows.slice(1).filter(r=>r&&r.some(v=>String(v??'').trim()!=='')).map(r=>normalizeDisciplineRow(r,headers));
+  let added=0,updated=0;
+  imported.forEach(rec=>{
+   const existing=(state.discipline||[]).find(x=>String(x.dossierNumber)===String(rec.dossierNumber));
+   if(existing){Object.assign(existing,rec);updated++;}
+   else{state.discipline.push(rec);added++;}
+  });
+
+  recordImport('discipline',{
+   filename:file.name||'Dossiers discipline',
+   itemCount:(state.discipline||[]).length,
+   source:'Import Dossiers / Discipline',
+   note:`${imported.length} dossier(s) lus, ${added} ajout(s), ${updated} mise(s) à jour`
+  });
+
+  save();
+  if(typeof renderImportWatch==='function')renderImportWatch();
+  const linkedMembers=imported.filter(r=>r.licenseNumbers&&r.licenseNumbers.length).length;
+  const linkedMatches=imported.filter(r=>r.matchId).length;
+  box.className='import-status ok';
+  box.innerHTML=`<strong>Import terminé</strong><div class="tiny">${imported.length} dossier(s) • ${added} ajouté(s) • ${updated} mis à jour • ${linkedMembers} rattaché(s) à une licence • ${linkedMatches} rattaché(s) à un match.</div>`;
+  renderDiscipline();
+  setTimeout(()=>{
+   goTo('importwatch');
+   if(typeof renderImportWatch==='function')renderImportWatch();
+  },150);
+ if(currentMemberId)renderMemberDetail();
+ }catch(err){
+  box.className='import-status err';box.textContent='Erreur : '+(err.message||err);
+ }
+}
+function memberById(id){return (state.members||[]).find(m=>m.id===id)}
+// matchById : définition unique dans le module Matchs.
+
+function parseDateSafe(value){
+ if(value===null||value===undefined||value==='')return null;
+ if(value instanceof Date)return Number.isNaN(+value)?null:new Date(value.getFullYear(),value.getMonth(),value.getDate(),12);
+ const text=String(value).trim();let m=text.match(/^(\d{4})-(\d{2})-(\d{2})(?:$|T)/),y,mo,d;
+ if(m){[,y,mo,d]=m;}else{m=text.match(/^(\d{1,2})[/.\-](\d{1,2})[/.\-](\d{4})$/);if(!m)return null;[,d,mo,y]=m;}
+ const result=new Date(Number(y),Number(mo)-1,Number(d),12);
+ return result.getFullYear()===Number(y)&&result.getMonth()===Number(mo)-1&&result.getDate()===Number(d)?result:null;
+}
+function samePractice(a,b){
+ const aa=norm(a.competition||a.phase||''),bb=norm(b.competition||b.phase||'');
+ if(!aa||!bb)return true;
+ return aa===bb || (a.team&&b.team&&norm(a.team)===norm(b.team));
+}
+function yellowWindowAlert(dossier){
+ const all=(state.discipline||[]).filter(d=>
+   norm(d.personNumber)===norm(dossier.personNumber) &&
+   (d.yellowCards||0)>0 &&
+   d.matchDate
+ ).sort((a,b)=>String(a.matchDate).localeCompare(String(b.matchDate)));
+
+ if(all.length<3)return null;
+
+ for(let i=0;i<all.length;i++){
+  const selected=[];
+  for(let j=i;j<all.length;j++){
+   if(!samePractice(all[i],all[j]))continue;
+   const d1=parseDateSafe(all[i].matchDate),d2=parseDateSafe(all[j].matchDate);
+   if(!d1||!d2)continue;
+   const days=(d2-d1)/86400000;
+   if(days<=92){
+    // Each warning must have occurred on a different match.
+    const matchKey=String(all[j].matchNumber||all[j].matchDate);
+    if(!selected.some(x=>String(x.matchNumber||x.matchDate)===matchKey)){
+      selected.push(all[j]);
+    }
+    const warnings=selected.reduce((s,x)=>s+Math.max(1,Number(x.yellowCards||0)),0);
+    if(selected.length>=3 && warnings>=3){
+      return {
+       type:'pending',
+       title:'Suspension 1 match à confirmer',
+       text:'Seuil de 3 avertissements sur 3 matchs différents dans une période ≤ 3 mois détecté. La suspension devient officielle après décision de l’organe disciplinaire.',
+       ref:'FFF Annexe 2, art. 1.3 / LRF art. 51',
+       matches:selected.slice(0,3).map(x=>x.matchNumber||x.matchDate)
+      };
+    }
+   }
+  }
+ }
+ return null;
+}
+function disciplineConsequences(d){
+ const out=[];
+
+ if(d.redCard){
+  out.push({
+   type:'pending',
+   title:'Exclusion — décision à vérifier',
+   text:'Une exclusion est enregistrée dans les données. Vérifier le dossier officiel avant de conclure à une durée ou à une nature de sanction.',
+   ref:'Donnée importée — contrôle administratif requis'
+  });
+ }
+
+ if(Number(d.yellowCards||0)>0){
+  out.push({
+   type:'pending',
+   title:`${Number(d.yellowCards||0)} avertissement(s) enregistré(s)`,
+   text:'Information issue du dossier importé. Aucun cumul n’est transformé automatiquement en suspension.',
+   ref:'Donnée importée'
+  });
+ }
+
+ if(d.decision){
+  out.push({
+   type:'automatic',
+   title:'Décision disciplinaire enregistrée',
+   text:String(d.decision)+(d.effectDate?` — effet : ${formatDisciplineDate(d.effectDate)}`:'')+(d.endDate?` → ${formatDisciplineDate(d.endDate)}`:''),
+   ref:'Décision présente dans le dossier importé'
+  });
+ }
+ return out;
+}
+function memberDisciplineRisk(member){return disciplineForMember(member).flatMap(d=>disciplineConsequences(d));}
+function isMemberSuspended(member){
+ return disciplineForMember(member).some(d=>{
+  if(!/suspension/i.test(String(d.decision||'')))return false;
+  const today=disciplineToday(),start=disciplineDateOnly(d.effectDate),end=disciplineDateOnly(d.endDate);
+  if(start&&end&&end<start)return false;
+  if(end&&end<today)return false;
+  if(start&&start>today)return false;
+  if(start)return true;
+  return d.isActive===true;
+ });
+}
+
+
+
+function formatDisciplineDate(value){
+ if(!value)return '—';
+
+ // Already formatted DD/MM/YYYY
+ const s=String(value).trim();
+ const fr=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+ if(fr)return `${fr[1].padStart(2,'0')}/${fr[2].padStart(2,'0')}/${fr[3]}`;
+
+ // ISO or parseable date
+ const d=parseDateSafe(value);
+ if(!d || Number.isNaN(d.getTime()))return escapeHtml(s);
+
+ const dd=String(d.getDate()).padStart(2,'0');
+ const mm=String(d.getMonth()+1).padStart(2,'0');
+ const yyyy=d.getFullYear();
+ return `${dd}/${mm}/${yyyy}`;
+}
+
+function formatDisciplineDateTime(value){
+ if(!value)return '—';
+ const d=new Date(value);
+ if(Number.isNaN(d.getTime()))return formatDisciplineDate(value);
+ const dd=String(d.getDate()).padStart(2,'0');
+ const mm=String(d.getMonth()+1).padStart(2,'0');
+ const yyyy=d.getFullYear();
+ const hh=String(d.getHours()).padStart(2,'0');
+ const mi=String(d.getMinutes()).padStart(2,'0');
+ return `${dd}/${mm}/${yyyy} ${hh}:${mi}`;
+}
+
+function disciplineDateOnly(value){
+ if(!value)return null;
+ const d=parseDateSafe(value);
+ if(!d || Number.isNaN(d.getTime()))return null;
+ return new Date(d.getFullYear(),d.getMonth(),d.getDate());
+}
+
+function disciplineToday(){
+ const n=new Date();
+ return new Date(n.getFullYear(),n.getMonth(),n.getDate());
+}
+
+function disciplineLifecycle(d){
+ const today=disciplineToday();
+ const effect=disciplineDateOnly(d.effectDate);
+ const end=disciplineDateOnly(d.endDate);
+
+ const imported=norm([d.importedStatus,d.status,d.state].filter(Boolean).join(' '));
+ const hasOfficialDecision=!!String(d.decision||'').trim();
+ const officialClosed=
+  imported.includes('clos') ||
+  imported.includes('termine') || imported.includes('terminé') ||
+  imported.includes('archive') ||
+  imported.includes('valide') || imported.includes('validé');
+
+ if(effect && end && end < effect){
+  return {
+   code:'check',
+   label:'À contrôler',
+   active:false,
+   closureType:'',
+   reason:'Date de fin antérieure à la date d’effet.'
+  };
+ }
+
+ // Clôture officielle : priorité si le statut importé indique explicitement la clôture.
+ if(officialClosed && hasOfficialDecision){
+  return {
+   code:'closed_official',
+   label:'Clos — Ligue',
+   active:false,
+   closureType:'official',
+   reason:'Dossier clôturé officiellement selon le statut/décision importé(e).'
+  };
+ }
+
+ // Clôture automatique uniquement par dépassement de la date de fin.
+ if(end && end < today){
+  return {
+   code:'closed_expired',
+   label:'Clos — échéance dépassée',
+   active:false,
+   closureType:'expired',
+   reason:`Date de fin dépassée : ${formatDisciplineDate(d.endDate)}. Cette clôture est calculée par l’application et ne vaut pas décision de la Ligue.`
+  };
+ }
+
+ if(effect && effect > today){
+  return {
+   code:'future',
+   label:'À venir',
+   active:false,
+   closureType:'',
+   reason:`Prend effet le ${formatDisciplineDate(d.effectDate)}.`
+  };
+ }
+
+ if(effect && (!end || end >= today)){
+  return {
+   code:'active',
+   label:'Actif',
+   active:true,
+   closureType:'',
+   reason:end?`Actif jusqu’au ${formatDisciplineDate(d.endDate)}.`:`Actif depuis le ${formatDisciplineDate(d.effectDate)}.`
+  };
+ }
+
+ if(!effect && end && end >= today){
+  return {
+   code:'check',
+   label:'À contrôler',
+   active:false,
+   closureType:'',
+   reason:`Date de fin renseignée (${formatDisciplineDate(d.endDate)}) sans date d’effet exploitable.`
+  };
+ }
+
+ if(officialClosed){
+  return {
+   code:'closed_official',
+   label:'Clos — Ligue',
+   active:false,
+   closureType:'official',
+   reason:'Statut de clôture présent dans les données importées.'
+  };
+ }
+
+ if(d.isActive===true || imported.includes('actif')){
+  return {code:'active',label:'Actif',active:true,closureType:'',reason:'Statut actif présent dans les données importées.'};
+ }
+
+ return {
+  code:'check',
+  label:'À contrôler',
+  active:false,
+  closureType:'',
+  reason:'Dates d’effet et de fin insuffisantes pour reclasser automatiquement le dossier.'
+ };
+}
+
+function syncDisciplineLifecycle(){
+ let changed=false;
+ (state.discipline||[]).forEach(d=>{
+  if(d.importedStatus===undefined){
+   d.importedStatus=d.status||d.state||'';
+   changed=true;
+  }
+
+  const lc=disciplineLifecycle(d);
+  const nextStatus=lc.label;
+  const nextActive=lc.active;
+
+  if(d.status!==nextStatus){
+   d.status=nextStatus;
+   changed=true;
+  }
+  if(d.isActive!==nextActive){
+   d.isActive=nextActive;
+   changed=true;
+  }
+
+  const shouldAutoClose=lc.code==='closed_expired';
+  if(shouldAutoClose && !d.closedAutomatically){
+   d.closedAutomatically=true;
+   d.closedAt=new Date().toISOString();
+   changed=true;
+  }
+  if(!shouldAutoClose && d.closedAutomatically){
+   d.closedAutomatically=false;
+   d.closedAt='';
+   changed=true;
+  }
+
+  d.closureType=lc.closureType||'';
+  d.lifecycleCode=lc.code;
+  d.lifecycleReason=lc.reason;
+ });
+
+ if(changed)save();
+}
+
+function disciplineIsClosed(d){
+ const code=disciplineLifecycle(d).code;
+ return code==='closed_official'||code==='closed_expired';
+}
+function disciplineMemberForCase(d){
+ if(Array.isArray(d.memberIds)&&d.memberIds.length){
+  const found=(state.members||[]).find(m=>d.memberIds.includes(m.id));if(found)return found;
+ }
+ if(d.personNumber)return (state.members||[]).find(m=>norm(m.personNumber||'')===norm(d.personNumber||''))||null;
+ const licenses=d.licenseNumbers||[];
+ return (state.members||[]).find(m=>licenses.includes(m.licenseNumber))||null;
+}
+function disciplineMatchForCase(d){
+ if(d.matchId){const found=matchById(d.matchId);if(found)return found;}
+ if(d.matchNumber)return (state.matches||[]).find(m=>String(m.matchNumber||'')===String(d.matchNumber||''))||null;
+ return null;
+}
+function resetDisciplineFilters(){
+ ['disciplineQuery','disciplineStatusFilter','disciplineAlertFilter'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+ renderDiscipline();
+}
+function renderDiscipline(){
+ const list=document.getElementById('disciplineList');if(!list)return;
+ syncDisciplineLifecycle();
+ const account=typeof currentAdminAccount==='function'?currentAdminAccount():null;
+ const unrestricted=!(state.accounts||[]).length;
+ const canDiscipline=unrestricted || (typeof accountCanSeeSensitive==='function'&&accountCanSeeSensitive(account,'discipline'));
+
+ if(!canDiscipline){
+  list.innerHTML='<div class="card"><strong>Accès restreint</strong><div class="tiny">Ce compte ne peut pas consulter les données disciplinaires.</div></div>';
+  return;
+ }
+
+ const all=state.discipline||[];
+ const q=norm(document.getElementById('disciplineQuery')?.value||'');
+ const status=document.getElementById('disciplineStatusFilter')?.value||'';
+ const alert=document.getElementById('disciplineAlertFilter')?.value||'';
+
+ const filtered=all.filter(d=>{
+  const member=disciplineMemberForCase(d),match=disciplineMatchForCase(d);
+  if(q&&!norm([d.personName,d.dossierNumber,d.matchNumber,(d.licenseNumbers||[]).join(' '),d.decision,d.reason,member?.first,member?.last,match?.team,match?.opponent].join(' ')).includes(q))return false;
+  const lc=disciplineLifecycle(d);
+  if(status && lc.code!==status)return false;
+  if(alert==='decision'&&!d.decision)return false;
+  if(alert==='red'&&!d.redCard)return false;
+  if(alert==='yellow'&&!(Number(d.yellowCards||0)>0))return false;
+  if(alert==='unlinked'&&(member||match))return false;
+  return true;
+ });
+
+ const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+ set('discCount',all.length);
+ set('discActive',all.filter(d=>disciplineLifecycle(d).code==='active').length);
+ set('discFuture',all.filter(d=>disciplineLifecycle(d).code==='future').length);
+ set('discClosedOfficial',all.filter(d=>disciplineLifecycle(d).code==='closed_official').length);
+ set('discClosedExpired',all.filter(d=>disciplineLifecycle(d).code==='closed_expired').length);
+ set('discCheck',all.filter(d=>disciplineLifecycle(d).code==='check').length);
+ set('discPeople',new Set(all.map(d=>d.personNumber).filter(Boolean)).size);
+ set('discMatches',new Set(all.map(d=>d.matchNumber).filter(Boolean)).size);
+
+ list.innerHTML=filtered.length?filtered.map(d=>{
+  const member=disciplineMemberForCase(d),match=disciplineMatchForCase(d);
+  const lic=(d.licenseNumbers||[]).join(', ')||member?.licenseNumber||'Non liée';
+  const consequences=disciplineConsequences(d);
+  const lifecycle=disciplineLifecycle(d);
+  const closed=['closed_official','closed_expired'].includes(lifecycle.code);
+  const linked=!!member||!!match;
+  return `<div class="disc-item ${lifecycle.code==='active'?'disc-alert':''}">
+   <strong>${escapeHtml(d.personName||(`${member?.last||''} ${member?.first||''}`.trim())||'Personne')} — dossier ${escapeHtml(d.dossierNumber||'—')}</strong>
+   <div class="tiny">${escapeHtml(d.competition||'—')} • Date des faits / match : ${formatDisciplineDate(d.matchDate)}</div>
+   <div class="disc-lifecycle">
+    <span class="badge ${lifecycle.code==='closed_official'?'green':lifecycle.code==='closed_expired'?'blue':lifecycle.code==='active'?'red':lifecycle.code==='future'?'blue':'yellow'}">${escapeHtml(lifecycle.label)}</span>
+    <span class="badge">Effet : ${formatDisciplineDate(d.effectDate)}</span>
+    <span class="badge">Fin : ${formatDisciplineDate(d.endDate)}</span>
+   </div>
+   <div class="disc-date-state tiny">${escapeHtml(lifecycle.reason)}</div>
+   ${lifecycle.closureType==='official'?'<div class="tiny" style="margin-top:6px"><strong>Origine de clôture :</strong> décision/statut officiel importé.</div>':lifecycle.closureType==='expired'?'<div class="tiny" style="margin-top:6px"><strong>Origine de clôture :</strong> calcul automatique sur date de fin dépassée.</div>':''}
+   ${d.importedStatus?`<div class="tiny" style="margin-top:6px">Statut importé d’origine : <strong>${escapeHtml(d.importedStatus)}</strong></div>`:''}
+   <div class="doc-meta" style="margin-top:7px">
+    ${d.redCard?'<span class="badge red">Carton rouge enregistré</span>':''}
+    ${Number(d.yellowCards||0)>0?`<span class="badge yellow">${Number(d.yellowCards||0)} avertissement(s)</span>`:''}
+    <span class="badge">${escapeHtml(d.role||'—')}</span>
+    ${lifecycle.code==='active'?'<span class="badge red">EN COURS</span>':lifecycle.code==='future'?'<span class="badge blue">À VENIR</span>':lifecycle.code==='closed_official'?'<span class="badge green">CLOS PAR LA LIGUE</span>':lifecycle.code==='closed_expired'?'<span class="badge blue">CLOS PAR ÉCHÉANCE</span>':'<span class="badge yellow">À CONTRÔLER</span>'}
+    ${d.decision?'<span class="badge blue">Décision enregistrée</span>':''}
+   </div>
+   <p class="tiny">
+    <strong>Date des faits / match :</strong> ${formatDisciplineDate(d.matchDate)}<br>
+    <strong>Motif :</strong> ${escapeHtml(d.reason||'—')}<br>
+    <strong>Décision :</strong> ${escapeHtml(d.decision||'Aucune décision renseignée')}<br>
+    <strong>Date d’effet :</strong> ${formatDisciplineDate(d.effectDate)}<br>
+    <strong>Date de fin :</strong> ${formatDisciplineDate(d.endDate)}
+    ${d.closedAt?`<br><strong>Date de reclassement/clôture automatique :</strong> ${formatDisciplineDateTime(d.closedAt)}`:''}
+   </p>
+   ${consequences.map(c=>`<div class="consequence ${c.type}"><strong>${c.type==='automatic'?'📄':'⚠️'} ${escapeHtml(c.title)}</strong><div class="tiny">${escapeHtml(c.text)}</div><div class="reg-ref">${escapeHtml(c.ref)}</div></div>`).join('')}
+   <div class="disc-link"><span class="badge green">Licence(s) : ${escapeHtml(lic)}</span><span class="badge blue">Match : ${escapeHtml(d.matchNumber||'—')}</span>${match?`<span class="badge">${escapeHtml(matchTeamName(match)||'')} / ${escapeHtml(matchOpponentName(match)||'')}</span>`:''}</div>
+   ${!linked?'<div class="disc-data-warning tiny">⚠️ Ce dossier n’est pas complètement rattaché à un licencié ou à un match.</div>':''}
+   <div class="disc-actions">
+    ${member?`<button class="ghost" onclick="openMemberDetail('${member.id}')">Voir le licencié</button>`:''}
+    ${match?`<button class="ghost" onclick="openMatchDetail('${match.id}')">Voir le match</button>`:''}
+   </div>
+  </div>`;
+ }).join(''):'<div class="tiny">Aucun dossier correspondant aux filtres.</div>';
+}
+
+
+let selectedMemberIds=[];
+let currentMemberId=null;
+let serverMembersState={loaded:false,loading:false,error:'',items:[],total:0,revision:0,requestedAt:0};
+
+function serverMembersEnabled(){
+ return !!(window.GESTION_CLUB_SERVER_BRIDGE&&window.GESTION_CLUB_SERVER_BRIDGE.mode==='server-bridge'&&location.protocol!=='file:');
+}
+async function serverMembersApi(path){
+ const response=await fetch(path,{credentials:'same-origin',cache:'no-store',headers:{'Accept':'application/json'}});
+ const data=await response.json();
+ if(!response.ok)throw new Error(data.error||'Lecture serveur refusée.');
+ return data;
+}
+function memberSourceRows(){
+ return serverMembersEnabled()&&serverMembersState.loaded?serverMembersState.items:(state.members||[]);
+}
+function updateMemberDataSource(){
+ const node=document.getElementById('memberDataSource');if(!node)return;
+ if(!serverMembersEnabled()){node.textContent='Source : base locale';return;}
+ if(serverMembersState.loading){node.textContent='Source : serveur SQL/API · chargement...';return;}
+ if(serverMembersState.error){node.textContent='Source : base locale · serveur indisponible : '+serverMembersState.error;return;}
+ if(serverMembersState.loaded){node.textContent='Source : serveur SQL/API · révision '+(serverMembersState.revision||'—')+' · '+serverMembersState.total+' licencié(s)';return;}
+ node.textContent='Source : serveur SQL/API · en attente';
+}
+async function refreshServerMembers(force=false){
+ if(!serverMembersEnabled()||serverMembersState.loading)return false;
+ if(serverMembersState.loaded&&!force&&Date.now()-serverMembersState.requestedAt<30000)return true;
+ serverMembersState.loading=true;serverMembersState.error='';updateMemberDataSource();
+ try{
+  const [summary,listing]=await Promise.all([
+   serverMembersApi('/api/state/summary'),
+   serverMembersApi('/api/state/members?limit=500')
+  ]);
+  serverMembersState={loaded:true,loading:false,error:'',items:listing.members||[],total:listing.total||0,revision:summary.revision||0,requestedAt:Date.now()};
+  return true;
+ }catch(e){
+  serverMembersState.loading=false;serverMembersState.loaded=false;serverMembersState.items=[];serverMembersState.total=0;serverMembersState.error=e.message||String(e);
+  return false;
+ }finally{
+  updateMemberDataSource();
+ }
+}
+async function ensureServerMemberDetail(id){
+ if(!serverMembersEnabled())return null;
+ const current=(state.members||[]).find(m=>m.id===id&&m.sourcePayloadLoaded);
+ if(current)return current;
+ const data=await serverMembersApi('/api/state/members/'+encodeURIComponent(id));
+ const payload=data.member?.payload||data.member;
+ if(!payload||!payload.id)return null;
+ payload.sourcePayloadLoaded=true;
+ const idx=(state.members||[]).findIndex(m=>m.id===payload.id);
+ if(idx>=0)state.members[idx]={...state.members[idx],...payload};
+ else state.members.push(payload);
+ return payload;
+}
+
+function memberSearchText(m){
+ return norm([
+  m.first,m.last,m.fullName,m.licenseNumber,m.personNumber,m.type,m.licenseType,m.category,m.subcategory,
+  m.status,m.license,m.phone,m.mobile,m.homePhone,m.email,m.otherEmail,m.clubName
+ ].filter(Boolean).join(' '));
+}
+function filteredMembers(){
+ const q=norm(document.getElementById('memberSearch')?.value||'');
+ const cat=document.getElementById('memberCategoryFilter')?.value||'';
+ const type=document.getElementById('memberTypeFilter')?.value||'';
+ const lic=document.getElementById('memberLicenseFilter')?.value||'';
+ const disc=document.getElementById('memberDisciplineFilter')?.value||'';
+ const account=typeof currentAdminAccount==='function'?currentAdminAccount():null;
+ const unrestricted=!(state.accounts||[]).length;
+ const canDiscipline=unrestricted || (typeof accountCanSeeSensitive==='function'&&accountCanSeeSensitive(account,'discipline'));
+ return memberSourceRows().filter(m=>{
+  const risks=canDiscipline?memberDisciplineRisk(m):[];
+  const susp=canDiscipline?isMemberSuspended(m):false;
+  if(q && !memberSearchText(m).includes(q))return false;
+  if(cat && String(m.category||'')!==cat)return false;
+  if(type && String(m.type||m.licenseType||'')!==type)return false;
+  if(lic && String(m.license||m.status||'')!==lic)return false;
+  if(disc==='alert' && !risks.length)return false;
+  if(disc==='suspended' && !susp)return false;
+  if(disc==='none' && risks.length)return false;
+  return true;
+ });
+}
+function fillMemberFilters(){
+ const cats=document.getElementById('memberCategoryFilter'),types=document.getElementById('memberTypeFilter'),lics=document.getElementById('memberLicenseFilter');
+ if(!cats||!types||!lics)return;
+ const oldC=cats.value,oldT=types.value,oldL=lics.value;
+ const uniq=a=>[...new Set(a.filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),'fr'));
+ const rows=memberSourceRows();
+ cats.innerHTML='<option value="">Toutes catégories</option>'+uniq(rows.map(m=>m.category)).map(v=>`<option ${v===oldC?'selected':''}>${v}</option>`).join('');
+ types.innerHTML='<option value="">Tous types</option>'+uniq(rows.map(m=>m.type||m.licenseType)).map(v=>`<option ${v===oldT?'selected':''}>${v}</option>`).join('');
+ lics.innerHTML='<option value="">Tous statuts licence</option>'+uniq(rows.map(m=>m.license||m.status)).map(v=>`<option ${v===oldL?'selected':''}>${v}</option>`).join('');
+}
+function toggleMemberSelection(id,checked){
+ if(checked&&!selectedMemberIds.includes(id))selectedMemberIds.push(id);
+ if(!checked)selectedMemberIds=selectedMemberIds.filter(x=>x!==id);
+ renderMembers();
+ renderAdministrativeChecks();
+ renderRegulatoryChecks();
+ renderAutomation();
+ renderAlertCenter();
+}
+function selectVisibleMembers(){selectedMemberIds=[...new Set([...selectedMemberIds,...filteredMembers().map(m=>m.id)])];renderMembers()}
+function clearMemberSelection(){selectedMemberIds=[];renderMembers()}
+function toggleAllMembers(checked){if(checked)selectVisibleMembers();else{const visible=new Set(filteredMembers().map(m=>m.id));selectedMemberIds=selectedMemberIds.filter(id=>!visible.has(id));renderMembers()}}
+function emailSelectedMembers(){
+ const emails=[...new Set(memberSourceRows().filter(m=>selectedMemberIds.includes(m.id)).map(m=>m.email).filter(Boolean))];
+ if(!emails.length)return toast('Licenciés','Aucune adresse email dans la sélection.');
+ window.location.href='mailto:'+emails.map(encodeURIComponent).join(',');
+}
+
+function resetMemberFilters(){
+ ['memberSearch','memberCategoryFilter','memberTypeFilter','memberLicenseFilter','memberDisciplineFilter'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el)el.value='';
+ });
+ clearMemberSelection();
+ renderMembers();
+}
+
+function renderMembers(){
+ const tbody=document.getElementById('memberRows');if(!tbody)return;
+ if(serverMembersEnabled()&&!serverMembersState.loaded&&!serverMembersState.loading)refreshServerMembers().then(()=>renderMembers());
+ updateMemberDataSource();
+ fillMemberFilters();
+
+ const list=filteredMembers();
+ const resultCount=document.getElementById('memberResultCount');
+ const selectedCount=document.getElementById('memberSelectedCount');
+ if(resultCount)resultCount.textContent=list.length;
+ if(selectedCount)selectedCount.textContent=selectedMemberIds.length;
+
+ const allBox=document.getElementById('memberSelectAll');
+ if(allBox)allBox.checked=list.length>0&&list.every(m=>selectedMemberIds.includes(m.id));
+
+ const addBtn=document.getElementById('memberAddBtn');
+ if(addBtn)addBtn.style.display=currentAdminCan('members','create')?'':'none';
+
+ const account=typeof currentAdminAccount==='function'?currentAdminAccount():null;
+ const unrestricted=!(state.accounts||[]).length;
+ const canContact=unrestricted || (typeof accountCanSeeSensitive==='function'&&accountCanSeeSensitive(account,'contact'));
+ const canDiscipline=unrestricted || (typeof accountCanSeeSensitive==='function'&&accountCanSeeSensitive(account,'discipline'));
+
+ tbody.innerHTML=list.map(m=>{
+  const risks=canDiscipline?memberDisciplineRisk(m):[];
+  const susp=canDiscipline?isMemberSuspended(m):false;
+  const selected=selectedMemberIds.includes(m.id);
+  const phone=canContact?(m.phone||m.mobile||'—'):'Accès restreint';
+  const email=canContact?(m.email||'—'):'Accès restreint';
+  const discipline=canDiscipline
+   ? (susp?'<span class="badge red">Suspendu</span>':risks.length?'<span class="badge yellow">Alerte</span>':'<span class="badge green">RAS</span>')
+   : '<span class="badge">Restreint</span>';
+
+  return `<tr class="member-row ${selected?'selected':''}" onclick="openMemberDetail('${m.id}',event)">
+   <td onclick="event.stopPropagation()"><input type="checkbox" ${selected?'checked':''} onchange="toggleMemberSelection('${m.id}',this.checked)"></td>
+   <td><strong>${escapeHtml(`${m.last||''} ${m.first||''}`.trim())}</strong><div class="tiny">N° personne : ${escapeHtml(m.personNumber||'—')}</div></td>
+   <td>${escapeHtml(m.licenseNumber||'—')}</td>
+   <td>${escapeHtml(m.type||m.licenseType||'—')}</td>
+   <td>${escapeHtml(m.category||m.subcategory||'—')}</td>
+   <td><span class="badge ${norm(m.license||m.status)==='active'||norm(m.license)==='validee'?'green':'yellow'}">${escapeHtml(m.license||m.status||'—')}</span></td>
+   <td>${escapeHtml(phone)}</td>
+   <td>${escapeHtml(email)}</td>
+   <td>${discipline}</td>
+  </tr>`;
+ }).join('')||'<tr><td colspan="9">Aucun licencié correspondant.</td></tr>';
+}
+function siblingLicenses(member){
+ if(!member)return [];
+ const person=String(member.personNumber??'').trim();
+ return (state.members||[]).filter(m=>m.id===member.id||(person&&String(m.personNumber??'').trim()===person));
+}
+function fmt(v){return v===null||v===undefined||v===''?'—':escapeHtml(String(v));}
+function kvHtml(pairs){return pairs.map(([k,v])=>`<div>${escapeHtml(k)}</div><div>${fmt(v)}</div>`).join('');}
+async function openMemberDetail(id,event){
+ if(event&&event.target&&event.target.closest('input,button,a'))return;
+ currentMemberId=id;
+ memberBlockEditState.clear();
+ try{
+  await ensureServerMemberDetail(id);
+  goTo('memberdetail');
+  renderMemberDetail();
+ }catch(err){
+  console.error('Erreur fiche licencié',err);
+  toast('Fiche licencié','Erreur : '+(err.message||err));
+ }
+}
+
+function memberOfficialStamp(m){
+ return {
+  code:String(m.stampCode||'').trim(),
+  label:String(m.stampLabel||'').trim(),
+  startDate:normalizeDateCell(m.stampStartDate||''),
+  endDate:normalizeDateCell(m.stampEndDate||'')
+ };
+}
+function memberMutationInfo(m){
+ const stamp=memberOfficialStamp(m),noStampData=![stamp.code,stamp.label,stamp.startDate,stamp.endDate].some(Boolean);
+ const history=norm([m.history,m.clubHistory,m.historyClub,m.historique,m.historiqueClub,m.previousStatus,m.formerClubHistory,m.clubChangeNature,m.sourceData?.['Historique'],m.sourceData?.['Historique club']].filter(Boolean).join(' '));
+ const explicitlyNotMutated=/\b(?:non|pas)[ -]+mut(?:e|ee|ation)\b/.test(history);
+ const nature=norm([stamp.code,stamp.label,m.clubChangeNature,m.requestNature,m.transferNature].filter(Boolean).join(' ')).replace(/\b(?:non|pas)[ -]+mut(?:e|ee|ation)\b/g,'');
+ const hasMutation=!explicitlyNotMutated&&(/mutation|\bmute\b|changement de club/.test(nature));
+ const fingerprint=qaMutationSignature(m);
+ const verifiedByDefault=noStampData||explicitlyNotMutated;
+ const verified=verifiedByDefault||((m.mutationVerified===true||m.mutationVerified==='verified')&&m.mutationVerificationMode!=='automatic'&&m.mutationVerificationFingerprint===fingerprint);
+ return {hasStamp:!noStampData,hasMutation,...stamp,explicitlyNotMutated,noStampData,verifiedByDefault,verified,verifiedAt:m.mutationVerifiedAt||'',fingerprint};
+}
+function renderMemberMutationInfo(m){
+ const imported=document.getElementById('memberStampImportedBlock');
+ const verified=document.getElementById('memberMutationVerified');
+ const stateBox=document.getElementById('memberMutationState');
+ if(!imported||!verified||!stateBox)return;
+
+ const info=memberMutationInfo(m);
+ if(!info.hasStamp&&!info.hasMutation){
+  imported.innerHTML='';
+  stateBox.innerHTML='';
+  return;
+ }
+
+ imported.innerHTML=kvHtml([
+  ['Cachet code',info.code],
+  ['Cachet libellé',info.label],
+  ['Cachet date de début',info.startDate?formatDisciplineDate(info.startDate):'—'],
+  ['Cachet date de fin',info.endDate?formatDisciplineDate(info.endDate):'—']
+ ]);
+
+ verified.value=info.verified?'verified':'pending';
+
+ // Les cas "aucun cachet" et "non muté" sont automatiquement considérés vérifiés.
+ if(info.verifiedByDefault){
+  verified.disabled=true;
+ }else{
+  verified.disabled=!currentAdminCan('members','edit');
+ }
+
+ if(info.explicitlyNotMutated){
+  stateBox.innerHTML='<span class="badge green">VÉRIFIÉ — NON MUTÉ</span> <span>L’historique du licencié indique explicitement « non muté ».</span>';
+ }else if(info.noStampData){
+  stateBox.innerHTML='<span class="badge green">VÉRIFIÉ — AUCUN CACHET</span> <span>Aucun code, libellé, date de début ni date de fin n’est renseigné : aucune mutation n’est signalée.</span>';
+ }else if(info.hasMutation && !info.startDate){
+  stateBox.innerHTML='<span class="badge red">MUTATION — DATE À CONTRÔLER</span> <span>Le cachet indique une mutation mais aucune date de début n’est disponible.</span>';
+ }else if(info.hasMutation && !info.verified){
+  const period=[info.startDate?formatDisciplineDate(info.startDate):'—',info.endDate?formatDisciplineDate(info.endDate):'—'].join(' → ');
+  stateBox.innerHTML=`<span class="badge yellow">MUTATION À VÉRIFIER</span> <span>Période importée : ${period}.</span>`;
+ }else if(info.hasMutation){
+  const period=[info.startDate?formatDisciplineDate(info.startDate):'—',info.endDate?formatDisciplineDate(info.endDate):'—'].join(' → ');
+  stateBox.innerHTML=`<span class="badge green">MUTATION VÉRIFIÉE</span> <span>Période importée : ${period}${info.verifiedAt?' • vérifié le '+formatDisciplineDateTime(info.verifiedAt):''}.</span>`;
+ }else{
+  stateBox.innerHTML=`<span class="badge green">CACHET VÉRIFIÉ</span> <span>${escapeHtml(info.code||'—')} • ${escapeHtml(info.label||'—')}</span>`;
+ }
+}
+function saveMemberMutationInfo(){
+ const m=(state.members||[]).find(x=>x.id===currentMemberId);if(!m)return;
+ if(!qaCanEditBlock('identity'))return toast('Accès refusé','Vérification non autorisée.');
+ const infoBefore=memberMutationInfo(m);
+
+ if(infoBefore.verifiedByDefault){
+  m.mutationVerificationMode='automatic';
+  m.mutationVerified=true;
+  m.mutationVerifiedAt=m.mutationVerifiedAt||new Date().toISOString();
+  localStorage.setItem(KEY,JSON.stringify(state));
+  renderMemberMutationInfo(m);
+  return;
+ }
+
+ if(!currentAdminCan('members','edit')){
+  toast('Accès refusé','Modification de la vérification mutation non autorisée.');
+  renderMemberMutationInfo(m);
+  return;
+ }
+
+ const verification=document.getElementById('memberMutationVerified')?.value||'pending';
+ m.mutationVerificationMode='manual';
+ m.mutationVerificationFingerprint=qaMutationSignature(m);
+ m.mutationVerified=verification==='verified';
+ m.mutationVerifiedAt=m.mutationVerified?new Date().toISOString():'';
+ m.updatedAt=new Date().toISOString();
+ localStorage.setItem(KEY,JSON.stringify(state));
+
+ const info=memberMutationInfo(m);
+ if(typeof logAdminAction==='function'){
+  logAdminAction('Licenciés','Vérification cachet',`${m.last||''} ${m.first||''} • ${info.code||'sans code'} • ${info.label||'sans libellé'} • ${verification}`);
+ }
+
+ renderMemberDetail();
+ if(typeof renderRegulatoryChecks==='function')renderRegulatoryChecks();
+ toast('Cachet licence',m.mutationVerified?'Cachet marqué vérifié.':'Cachet remis à vérifier.');
+}
+
+
+const memberBlockEditState=new Set();
+
+function memberEditAttr(value){
+ return escapeHtml(value==null?'':String(value));
+}
+function memberEditField(id,label,value,type='text',extra=''){
+ return `<div class="field"><label>${escapeHtml(label)}</label><input id="${id}" type="${type}" value="${memberEditAttr(value)}" ${extra}></div>`;
+}
+function memberEditSelect(id,label,value,options){
+ return `<div class="field"><label>${escapeHtml(label)}</label><select id="${id}">${options.map(opt=>{
+  const val=typeof opt==='string'?opt:opt.value;
+  const text=typeof opt==='string'?opt:opt.label;
+  return `<option value="${memberEditAttr(val)}" ${String(value??'')===String(val)?'selected':''}>${escapeHtml(text)}</option>`;
+ }).join('')}</select></div>`;
+}
+function toggleMemberBlockEdit(block){
+ if(!qaCanEditBlock(block))return toast('Accès refusé','Modification des licenciés non autorisée.');
+ qaCaptureMemberDrafts();
+ if(memberBlockEditState.has(block))memberBlockEditState.delete(block);
+ else memberBlockEditState.add(block);
+ renderMemberDetail();
+}
+function cancelMemberBlockEdit(block){
+ memberBlockEditState.delete(block);delete qaMemberDrafts[block];
+ renderMemberDetail();
+}
+function memberValue(id){
+ const el=document.getElementById(id);
+ return el?String(el.value??'').trim():'';
+}
+function memberNumberOrNull(id){
+ const v=memberValue(id);
+ if(v==='')return null;
+ const n=Number(String(v).replace(',','.'));
+ return Number.isFinite(n)?n:null;
+}
+function renderMemberBlockButtons(){
+ document.querySelectorAll('#memberdetail .member-block-edit-btn').forEach(btn=>{
+  const block=btn.dataset.memberEdit;
+  btn.textContent=memberBlockEditState.has(block)?'Annuler':'Modifier';
+  btn.classList.toggle('secondary',memberBlockEditState.has(block));
+ });
+}
+function saveMemberBlock(block){
+ if(!qaCanEditBlock(block))return toast('Accès refusé','Modification des licenciés non autorisée.');
+ const m=(state.members||[]).find(x=>x.id===currentMemberId);if(!m)return;
+ if(!qaValidateMemberBlock(block))return;
+ const before=JSON.parse(JSON.stringify(m));
+ const now=new Date().toISOString();
+
+ if(block==='identity'){
+  m.personNumber=memberValue('editMemberPersonNumber');
+  m.licenseNumber=memberValue('editMemberLicenseNumber');
+  m.title=memberValue('editMemberTitle');
+  m.birthDate=memberValue('editMemberBirthDate');
+  m.birthPlace=memberValue('editMemberBirthPlace');
+  m.sex=memberValue('editMemberSex');
+  m.nationality=memberValue('editMemberNationality');
+  m.photoStatus=memberValue('editMemberPhotoStatus');
+  m.medicalValidity=memberValue('editMemberMedicalValidity');
+ }
+ if(block==='contact'){
+  m.phone=memberValue('editMemberPhone');
+  m.mobile=m.phone;
+  m.homePhone=memberValue('editMemberHomePhone');
+  m.workPhone=memberValue('editMemberWorkPhone');
+  m.email=memberValue('editMemberEmail');
+  m.otherEmail=memberValue('editMemberOtherEmail');
+  m.address=memberValue('editMemberAddress');
+ }
+ if(block==='finance'){
+  m.priceApplied=memberNumberOrNull('editMemberPriceApplied');
+  m.clubPrice=memberNumberOrNull('editMemberClubPrice');
+  m.paymentAmount=memberNumberOrNull('editMemberPaymentAmount');
+  m.paymentState=memberValue('editMemberPaymentState');
+  m.paymentDate=memberValue('editMemberPaymentDate');
+  m.paymentMode=memberValue('editMemberPaymentMode');
+  m.paymentLabel=memberValue('editMemberPaymentLabel');
+ }
+ if(block==='license'){
+  m.licenseNumber=memberValue('editMemberLicenseMain');
+  m.licenseType=memberValue('editMemberLicenseType');
+  m.type=m.licenseType;
+  m.category=memberValue('editMemberCategory');
+  m.subcategory=memberValue('editMemberSubcategory');
+  m.status=memberValue('editMemberLicenseStatus');
+  m.license=m.status;
+  m.roles=memberValue('editMemberRoles').split(/[,;|]/).map(x=>x.trim()).filter(Boolean);
+ }
+ if(block==='guardian'){
+  m.guardian1Name=memberValue('editMemberGuardian1Name');
+  m.guardianName=m.guardian1Name;
+  m.guardian1Mobile=memberValue('editMemberGuardian1Mobile');
+  m.guardianPhone=m.guardian1Mobile;
+  m.guardian1Email=memberValue('editMemberGuardian1Email');
+  m.guardianEmail=m.guardian1Email;
+  m.guardian2Name=memberValue('editMemberGuardian2Name');
+  m.guardian2Mobile=memberValue('editMemberGuardian2Mobile');
+  m.guardian2Email=memberValue('editMemberGuardian2Email');
+ }
+ m.updatedAt=now;
+ try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){Object.keys(m).forEach(k=>delete m[k]);Object.assign(m,before);toast('Non enregistré','Stockage indisponible.');return;}
+ if(typeof logAdminAction==='function')logAdminAction('Licenciés','Modification bloc',`${m.last||''} ${m.first||''} • ${block}`);
+ memberBlockEditState.delete(block);delete qaMemberDrafts[block];
+ renderMemberDetail();
+ if(typeof renderMembers==='function')renderMembers();
+ toast('Licencié','Bloc enregistré.');
+}
+function saveMemberDisciplineBlock(){
+ const m=(state.members||[]).find(x=>x.id===currentMemberId);if(!m)return;
+ if(!qaCanEditBlock('discipline'))return toast('Accès refusé','Modification des licenciés non autorisée.');
+ if(!qaValidateMemberBlock('discipline'))return;
+ const ds=disciplineForMember(m);
+ ds.forEach((d,index)=>{
+  d.dossierNumber=memberValue(`editDiscNumber_${index}`);
+  d.status=memberValue(`editDiscStatus_${index}`);
+  d.matchNumber=memberValue(`editDiscMatchNumber_${index}`);
+  d.matchDate=memberValue(`editDiscMatchDate_${index}`);
+  d.reason=memberValue(`editDiscReason_${index}`);
+  d.decision=memberValue(`editDiscDecision_${index}`);
+  d.effectDate=memberValue(`editDiscEffectDate_${index}`);
+  d.endDate=memberValue(`editDiscEndDate_${index}`);
+  d.updatedAt=new Date().toISOString();
+ });
+ localStorage.setItem(KEY,JSON.stringify(state));
+ if(typeof logAdminAction==='function')logAdminAction('Licenciés','Modification discipline',`${m.last||''} ${m.first||''} • ${ds.length} dossier(s)`);
+ memberBlockEditState.delete('discipline');
+ renderMemberDetail();
+ if(typeof renderDiscipline==='function')renderDiscipline();
+ toast('Discipline','Dossier(s) enregistré(s).');
+}
+function renderMemberIdentityEditor(m){
+ return `<div class="member-block-edit-grid">
+  ${memberEditField('editMemberPersonNumber','N° personne',m.personNumber)}
+  ${memberEditField('editMemberLicenseNumber','N° licence',m.licenseNumber)}
+  ${memberEditField('editMemberTitle','Civilité',m.title)}
+  ${memberEditField('editMemberBirthDate','Date de naissance',normalizeDateCell(m.birthDate),'date')}
+  ${memberEditField('editMemberBirthPlace','Lieu de naissance',m.birthPlace)}
+  ${memberEditField('editMemberSex','Sexe',m.sex)}
+  ${memberEditField('editMemberNationality','Nationalité',m.nationality)}
+  ${memberEditField('editMemberPhotoStatus','Statut photo',m.photoStatus)}
+  ${memberEditField('editMemberMedicalValidity','Certificat médical N+1',m.medicalValidity)}
+ </div><div class="member-block-edit-actions"><button class="primary" onclick="saveMemberBlock('identity')">Enregistrer</button><button class="ghost" onclick="cancelMemberBlockEdit('identity')">Annuler</button></div>`;
+}
+function renderMemberContactEditor(m){
+ return `<div class="member-block-edit-grid">
+  ${memberEditField('editMemberPhone','Téléphone',m.phone||m.mobile,'tel')}
+  ${memberEditField('editMemberHomePhone','Téléphone domicile',m.homePhone,'tel')}
+  ${memberEditField('editMemberWorkPhone','Téléphone travail',m.workPhone,'tel')}
+  ${memberEditField('editMemberEmail','Email principal',m.email,'email')}
+  ${memberEditField('editMemberOtherEmail','Email autre',m.otherEmail,'email')}
+  ${memberEditField('editMemberAddress','Adresse',m.address||[m.addressExtra,m.street,m.locality,m.postalCode,m.postOffice,m.country].filter(Boolean).join(', '))}
+ </div><div class="member-block-edit-actions"><button class="primary" onclick="saveMemberBlock('contact')">Enregistrer</button><button class="ghost" onclick="cancelMemberBlockEdit('contact')">Annuler</button></div>`;
+}
+function renderMemberFinanceEditor(m){
+ return `<div class="member-block-edit-grid">
+  ${memberEditField('editMemberPriceApplied','Prix appliqué',m.priceApplied,'number','step="0.01" min="0"')}
+  ${memberEditField('editMemberClubPrice','Prix club',m.clubPrice,'number','step="0.01" min="0"')}
+  ${memberEditField('editMemberPaymentAmount','Montant règlement',m.paymentAmount,'number','step="0.01" min="0"')}
+  ${memberEditField('editMemberPaymentState','État règlement',m.paymentState)}
+  ${memberEditField('editMemberPaymentDate','Date règlement',normalizeDateCell(m.paymentDate),'date')}
+  ${memberEditField('editMemberPaymentMode','Mode règlement',m.paymentMode)}
+  ${memberEditField('editMemberPaymentLabel','Libellé',m.paymentLabel)}
+ </div><div class="member-block-edit-actions"><button class="primary" onclick="saveMemberBlock('finance')">Enregistrer</button><button class="ghost" onclick="cancelMemberBlockEdit('finance')">Annuler</button></div>`;
+}
+function renderMemberLicenseEditor(m){
+ return `<div class="member-block-edit-grid">
+  ${memberEditField('editMemberLicenseMain','N° licence',m.licenseNumber)}
+  ${memberEditField('editMemberLicenseType','Type de licence',m.licenseType||m.type)}
+  ${memberEditField('editMemberCategory','Catégorie',m.category)}
+  ${memberEditField('editMemberSubcategory','Sous-catégorie',m.subcategory)}
+  ${memberEditField('editMemberLicenseStatus','Statut licence',m.status||m.license)}
+  ${memberEditField('editMemberRoles','Rôles',Array.isArray(m.roles)?m.roles.join(', '):(m.roles||''))}
+ </div><div class="tiny" style="margin-top:8px">Séparer plusieurs rôles par une virgule.</div><div class="member-block-edit-actions"><button class="primary" onclick="saveMemberBlock('license')">Enregistrer</button><button class="ghost" onclick="cancelMemberBlockEdit('license')">Annuler</button></div>`;
+}
+function renderMemberGuardianEditor(m){
+ return `<div class="member-block-edit-grid">
+  ${memberEditField('editMemberGuardian1Name','Représentant 1',m.guardian1Name||m.guardianName)}
+  ${memberEditField('editMemberGuardian1Mobile','Mobile repr. 1',m.guardian1Mobile||m.guardianPhone,'tel')}
+  ${memberEditField('editMemberGuardian1Email','Email repr. 1',m.guardian1Email||m.guardianEmail,'email')}
+  ${memberEditField('editMemberGuardian2Name','Représentant 2',m.guardian2Name)}
+  ${memberEditField('editMemberGuardian2Mobile','Mobile repr. 2',m.guardian2Mobile,'tel')}
+  ${memberEditField('editMemberGuardian2Email','Email repr. 2',m.guardian2Email,'email')}
+ </div><div class="member-block-edit-actions"><button class="primary" onclick="saveMemberBlock('guardian')">Enregistrer</button><button class="ghost" onclick="cancelMemberBlockEdit('guardian')">Annuler</button></div>`;
+}
+function renderMemberDisciplineEditor(m,ds){
+ if(!ds.length)return `<div class="tiny">Aucun dossier disciplinaire lié à ce licencié. La création d’un nouveau dossier reste gérée dans le module Discipline.</div><div class="member-block-edit-actions"><button class="ghost" onclick="cancelMemberBlockEdit('discipline')">Fermer</button></div>`;
+ return ds.map((d,index)=>`<div class="member-discipline-edit-card">
+  <strong>Dossier ${escapeHtml(d.dossierNumber||String(index+1))}</strong>
+  <div class="member-block-edit-grid" style="margin-top:10px">
+   ${memberEditField(`editDiscNumber_${index}`,'N° dossier',d.dossierNumber)}
+   ${memberEditField(`editDiscStatus_${index}`,'Statut',d.status)}
+   ${memberEditField(`editDiscMatchNumber_${index}`,'N° match',d.matchNumber)}
+   ${memberEditField(`editDiscMatchDate_${index}`,'Date match',normalizeDateCell(d.matchDate),'date')}
+   ${memberEditField(`editDiscReason_${index}`,'Motif',d.reason)}
+   ${memberEditField(`editDiscDecision_${index}`,'Décision',d.decision)}
+   ${memberEditField(`editDiscEffectDate_${index}`,'Date effet',normalizeDateCell(d.effectDate),'date')}
+   ${memberEditField(`editDiscEndDate_${index}`,'Date fin',normalizeDateCell(d.endDate),'date')}
+  </div>
+ </div>`).join('')+`<div class="member-block-edit-actions"><button class="primary" onclick="saveMemberDisciplineBlock()">Enregistrer</button><button class="ghost" onclick="cancelMemberBlockEdit('discipline')">Annuler</button></div>`;
+}
+
+
+function memberEuropeanDate(value){
+ if(value===null||value===undefined||String(value).trim()==='')return '—';
+ return formatDisciplineDate(value);
+}
+function memberBirthDateObject(v){return parseDateSafe(v);}
+function memberIsMinorNow(m){
+ const birth=parseDateSafe(m?.birthDate);
+ if(!birth||birth>new Date())return m?.isMinor===true;
+ const now=new Date();let age=now.getFullYear()-birth.getFullYear();
+ if(now.getMonth()<birth.getMonth()||(now.getMonth()===birth.getMonth()&&now.getDate()<birth.getDate()))age--;
+ return age<18;
+}
+function memberHasGuardianInfo(m){
+ return !![
+  m.guardian1Name,m.guardianName,m.guardian1Mobile,m.guardianPhone,m.guardian1Email,m.guardianEmail,
+  m.guardian2Name,m.guardian2Mobile,m.guardian2Email
+ ].some(v=>String(v??'').trim()!=='');
+}
+function memberHasLicenseInfo(m){
+ const licenses=siblingLicenses(m)||[];
+ if(licenses.length)return licenses.some(x=>[
+  x.licenseNumber,x.licenseType,x.type,x.subcategory,x.category,x.status,x.license,
+  Array.isArray(x.roles)?x.roles.join(' '):x.roles
+ ].some(v=>String(v??'').trim()!==''));
+ return !![
+  m.licenseNumber,m.licenseType,m.type,m.category,m.subcategory,m.status,m.license,
+  Array.isArray(m.roles)?m.roles.join(' '):m.roles
+ ].some(v=>String(v??'').trim()!=='');
+}
+function memberHasHistoryInfo(m){
+ return !![
+  m.clubName,m.clubNumber,m.requestNature,m.clubChangeNature,m.formerClub,m.formerClubSeason,
+  m.registrationDate,m.licenseIssueDate,m.nextStatus
+ ].some(v=>String(v??'').trim()!=='');
+}
+function memberSetPanelVisibility(id,show){
+ const el=document.getElementById(id);
+ if(el)el.style.display=show?'':'none';
+}
+
+function renderMemberDetail(){
+ qaCaptureMemberDrafts();
+ const m=(state.members||[]).find(x=>x.id===currentMemberId);if(!m)return;
+ const account=typeof currentAdminAccount==='function'?currentAdminAccount():null;
+ const unrestricted=!(state.accounts||[]).length;
+ const canContact=unrestricted || (typeof accountCanSeeSensitive==='function'&&accountCanSeeSensitive(account,'contact'));
+ const canGuardians=unrestricted || (typeof accountCanSeeSensitive==='function'&&accountCanSeeSensitive(account,'guardians'));
+ const canFinance=unrestricted || (typeof accountCanSeeSensitive==='function'&&accountCanSeeSensitive(account,'finance'));
+ const canDiscipline=unrestricted || (typeof accountCanSeeSensitive==='function'&&accountCanSeeSensitive(account,'discipline'));
+
+ const panelAccess=[
+  ['memberContactPanel',canContact],
+  ['memberFinancePanel',canFinance]
+ ];
+ panelAccess.forEach(([id,allowed])=>{
+  const el=document.getElementById(id);
+  if(el)el.style.display=allowed?'':'none';
+ });
+ const initials=((m.first||'').slice(0,1)+(m.last||'').slice(0,1)).toUpperCase()||'LC';
+ document.getElementById('memberAvatar').textContent=initials;
+ document.getElementById('memberDetailName').textContent=`${m.first||''} ${m.last||''}`.trim()||'Licencié';
+ const risks=canDiscipline?memberDisciplineRisk(m):[],susp=canDiscipline?isMemberSuspended(m):false,elig=memberEligibilityStatus(m);
+ renderMemberMutationInfo(m);
+ const emailBtn=document.querySelector('#memberdetail .member-detail-actions button[onclick="emailCurrentMember()"]');
+ if(emailBtn)emailBtn.style.display=canContact?'':'none';
+ document.getElementById('memberDetailBadges').innerHTML=[
+  m.licenseNumber?`<span class="badge green">Licence ${fmt(m.licenseNumber)}</span>`:'',
+  `<span class="badge">${fmt(m.category)}</span>`,
+  `<span class="badge">${fmt(m.type||m.licenseType)}</span>`,
+  memberMutationInfo(m).explicitlyNotMutated?'<span class="badge green">NON MUTÉ — VÉRIFIÉ</span>':memberMutationInfo(m).hasMutation?`<span class="badge ${memberMutationInfo(m).verified?'green':'yellow'}">MUTATION ${memberMutationInfo(m).verified?'VÉRIFIÉE':'À VÉRIFIER'}</span>`:(memberMutationInfo(m).noStampData?'<span class="badge green">AUCUN CACHET — VÉRIFIÉ</span>':memberMutationInfo(m).hasStamp?'<span class="badge green">CACHET LICENCE</span>':''),
+  canDiscipline?(susp?'<span class="badge red">SUSPENSION / CONTRÔLE</span>':risks.length?'<span class="badge yellow">ALERTE DISCIPLINE</span>':'<span class="badge green">DISCIPLINE RAS</span>'):'<span class="badge">DISCIPLINE RESTREINTE</span>', `<span class="badge ${elig.status==='block'?'red':elig.status==='warn'?'yellow':'green'}">${elig.label}</span>`
+ ].filter(Boolean).join('');
+
+ document.getElementById('memberIdentityBlock').innerHTML=memberBlockEditState.has('identity')?renderMemberIdentityEditor(m):kvHtml([
+  ['N° personne',m.personNumber],['N° licence',m.licenseNumber],['Civilité',m.title],['Date de naissance',memberEuropeanDate(m.birthDate)],['Lieu de naissance',m.birthPlace],
+  ['Sexe',m.sex],['Nationalité',m.nationality],['Statut photo',m.photoStatus],['Certificat médical N+1',m.medicalValidity]
+ ]);
+ document.getElementById('memberContactBlock').innerHTML=memberBlockEditState.has('contact')?renderMemberContactEditor(m):kvHtml([
+  ['Téléphone',m.phone||m.mobile],['Téléphone domicile',m.homePhone],['Téléphone travail',m.workPhone],['Email principal',m.email],['Email autre',m.otherEmail],
+  ['Adresse',m.address||[m.addressExtra,m.street,m.locality,m.postalCode,m.postOffice,m.country].filter(Boolean).join(', ')]
+ ]);
+ const licenses=siblingLicenses(m);
+ document.getElementById('memberLicensesBlock').innerHTML=memberBlockEditState.has('license')?renderMemberLicenseEditor(m):licenses.map(x=>`<div class="member-license-card"><strong>${x.licenseNumber||'Licence'}</strong><div class="tiny">${fmt(x.licenseType||x.type)} • ${fmt(x.subcategory||x.category)} • ${fmt(x.status||x.license)}</div>${x.roles&&x.roles.length?`<div class="tiny">Rôles : ${x.roles.join(', ')}</div>`:''}</div>`).join('');
+ document.getElementById('memberFinanceBlock').innerHTML=memberBlockEditState.has('finance')?renderMemberFinanceEditor(m):kvHtml([
+  ['Prix appliqué',m.priceApplied!=null?m.priceApplied+' €':'—'],['Prix club',m.clubPrice!=null?m.clubPrice+' €':'—'],['Montant règlement',m.paymentAmount!=null?m.paymentAmount+' €':'—'],
+  ['État règlement',m.paymentState],['Date règlement',memberEuropeanDate(m.paymentDate)],['Mode règlement',m.paymentMode],['Libellé',m.paymentLabel]
+ ]);
+ document.getElementById('memberGuardianBlock').innerHTML=memberBlockEditState.has('guardian')?renderMemberGuardianEditor(m):kvHtml([
+  ['Représentant 1',m.guardian1Name||m.guardianName],['Mobile repr. 1',m.guardian1Mobile||m.guardianPhone],['Email repr. 1',m.guardian1Email||m.guardianEmail],
+  ['Représentant 2',m.guardian2Name],['Mobile repr. 2',m.guardian2Mobile],['Email repr. 2',m.guardian2Email]
+ ]);
+ const ds=disciplineForMember(m);
+ document.getElementById('memberDisciplineBlock').innerHTML=memberBlockEditState.has('discipline')?renderMemberDisciplineEditor(m,ds):(ds.length?ds.map(d=>`<div class="member-disc-card"><strong>Dossier ${fmt(d.dossierNumber)} — ${fmt(d.status)}</strong><div class="tiny">${memberEuropeanDate(d.matchDate)} • match ${fmt(d.matchNumber)}</div><div class="tiny"><strong>Motif :</strong> ${fmt(d.reason)}<br><strong>Décision :</strong> ${fmt(d.decision)}<br><strong>Effet :</strong> ${memberEuropeanDate(d.effectDate)} → ${memberEuropeanDate(d.endDate)}</div>${disciplineConsequences(d).map(c=>`<div class="consequence ${c.type}"><strong>${c.title}</strong><div class="tiny">${c.text}</div></div>`).join('')}</div>`).join(''):'<div class="tiny">Aucun dossier disciplinaire lié.</div>');
+ document.getElementById('memberHistoryBlock').innerHTML=kvHtml([
+  ['Club actuel',m.clubName],['N° club',m.clubNumber],['Nature demande',m.requestNature],['Changement de club',m.clubChangeNature],['Club quitté',m.formerClub],['Saison club quitté',m.formerClubSeason],
+  ['Enregistrement',memberEuropeanDate(m.registrationDate)],['Date édition licence',memberEuropeanDate(m.licenseIssueDate)],['Statut suivant',m.nextStatus]
+ ]);
+ const mutationInfo=memberMutationInfo(m);
+ const showMutation=!!(mutationInfo.hasStamp||mutationInfo.hasMutation);
+ const showDiscipline=canDiscipline&&ds.length>0;
+ const showGuardian=canGuardians&&(memberIsMinorNow(m)||!parseDateSafe(m.birthDate))&&memberHasGuardianInfo(m);
+ const showLicenses=memberHasLicenseInfo(m);
+ const showHistory=memberHasHistoryInfo(m);
+
+ memberSetPanelVisibility('memberGuardianPanel',showGuardian);
+ memberSetPanelVisibility('memberDisciplinePanel',showDiscipline);
+ memberSetPanelVisibility('memberMutationPanel',showMutation);
+ memberSetPanelVisibility('memberLicensePanel',showLicenses);
+ memberSetPanelVisibility('memberHistoryPanel',showHistory);
+
+ // Un bloc masqué ne doit pas rester en mode édition.
+ if(!showGuardian)memberBlockEditState.delete('guardian');
+ if(!showDiscipline)memberBlockEditState.delete('discipline');
+ if(!showLicenses)memberBlockEditState.delete('license');
+
+ const sourceCount=m.sourceData?Object.keys(m.sourceData).length:0;
+ document.getElementById('memberSourceSummary').innerHTML=`${sourceCount} champ(s) source conservé(s) pour cette ligne de licence.`;
+ if(m.sourceRows?.length)document.getElementById('memberSourceSummary').innerHTML+=`<p>${m.sourceRows.length} ligne(s) source conservée(s).</p>`;
+ if(m.officialStamps?.length)document.getElementById('memberSourceSummary').innerHTML+='<h4>Cachets officiels capturés</h4>'+m.officialStamps.map(s=>'<p>'+[s.code,s.label,s.startDate?'Début : '+s.startDate:'',s.endDate?'Fin : '+s.endDate:''].filter(Boolean).map(escapeHtml).join(' · ')+'</p>').join('');
+ renderMemberDocuments(m);
+ const canEditMember=currentAdminCan('members','edit');
+ const editAccess={
+  identity:canEditMember,
+  contact:canEditMember&&canContact,
+  license:canEditMember&&showLicenses,
+  finance:canEditMember&&canFinance,
+  guardian:canEditMember&&showGuardian,
+  discipline:canEditMember&&showDiscipline
+ };
+ document.querySelectorAll('#memberdetail .member-block-edit-btn').forEach(btn=>{
+  btn.style.display=editAccess[btn.dataset.memberEdit]?'':'none';
+ });
+ renderMemberBlockButtons();
+ qaRestoreMemberDrafts();
+}
+function emailCurrentMember(){
+ if(!currentAdminCan('members','view'))return toast('Accès refusé','Accès licenciés non autorisé.');
+ const account=typeof currentAdminAccount==='function'?currentAdminAccount():null;
+ const unrestricted=!(state.accounts||[]).length;
+ if(!unrestricted && !(typeof accountCanSeeSensitive==='function'&&accountCanSeeSensitive(account,'contact')))
+  return toast('Accès refusé','Accès aux coordonnées non autorisé.');
+ const m=(state.members||[]).find(x=>x.id===currentMemberId);
+ if(!m||!m.email)return toast('Licencié','Aucune adresse email.');
+ window.location.href='mailto:'+encodeURIComponent(m.email);
+}
+function printCurrentMember(){window.print()}
+
+
+function relevantDocsForMember(m){
+ const docs=[];
+ const type=norm(m.type||m.licenseType),cat=norm(m.category||m.subcategory);
+ if(type.includes('arbitre')) docs.push('referee');
+ else if(type.includes('educateur')) docs.push('educator','honor');
+ else docs.push('player');
+ if(m.isMinor) docs.push('healthMinor'); else docs.push('healthAdult');
+ if(m.medicalValidity && !/oui|valide|validee|validée/i.test(String(m.medicalValidity))) docs.push('medical');
+ if(norm(m.clubChangeNature).includes('mutation') || norm(m.requestNature).includes('changement')) docs.push('117d');
+ return [...new Set(docs)];
+}
+function renderMemberDocuments(m){
+ const el=document.getElementById('memberDocumentsBlock'); if(!el)return;
+ const ids=relevantDocsForMember(m);
+ const docs=ids.map(officialDocById).filter(Boolean);
+ el.innerHTML=docs.length?docs.map(d=>`<div class="member-doc"><strong>${d.title}</strong><div class="tiny">${d.category}</div><div class="member-quick-actions"><button class="ghost" onclick="openOfficialDoc('${d.id}')">Ouvrir</button><button class="ghost" onclick="emailOfficialDoc('${d.id}')">Envoyer</button></div></div>`).join(''):'<div class="tiny">Aucun document automatiquement associé.</div>';
+}
+function openDocsForCurrentMember(){
+ const m=(state.members||[]).find(x=>x.id===currentMemberId); if(!m)return;
+ selectedOfficialDocs=relevantDocsForMember(m); goTo('documents'); renderOfficialDocs(); renderDocRecipients();
+ const sel=document.getElementById('docMemberRecipient'); if(sel){sel.value=m.id; fillDocRecipientEmail();}
+}
+function emailDocsForCurrentMember(){
+ const m=(state.members||[]).find(x=>x.id===currentMemberId); if(!m)return;
+ const docs=relevantDocsForMember(m).map(officialDocById).filter(Boolean);
+ if(!docs.length)return toast('Documents','Aucun document associé.');
+ window.location.href=mailtoForDocs(docs,m.email||m.guardianEmail||'');
+}
+function exportVisibleMembersCsv(){
+ const list=filteredMembers();
+ const headers=['Nom','Prénom','N° personne','N° licence','Type','Catégorie','Statut','Téléphone','Email','Paiement','Discipline'];
+ const rows=list.map(m=>[m.last,m.first,m.personNumber,m.licenseNumber,m.type||m.licenseType,m.category||m.subcategory,m.license||m.status,m.phone||m.mobile,m.email,m.paymentState,isMemberSuspended(m)?'Suspendu':memberDisciplineRisk(m).length?'Alerte':'RAS']);
+ const esc=v=>`"${String(v??'').replace(/"/g,'""')}"`;
+ const csv='\ufeff'+[headers,...rows].map(r=>r.map(esc).join(';')).join('\n');
+ const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');
+ a.href=URL.createObjectURL(blob);a.download='GESTION_CLUB_licencies_filtres.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function printVisibleMembers(){window.print()}
+
+
+function administrativeIssuesForMember(m){
+ const issues=[];
+ const add=(kind,severity,title,detail)=>issues.push({memberId:m.id,kind,severity,title,detail,name:`${m.last||''} ${m.first||''}`.trim(),license:m.licenseNumber||''});
+ const status=norm(m.license||m.status);
+ if(!m.licenseNumber)add('license','critical','Numéro de licence manquant','Impossible d’identifier réglementairement cette licence.');
+ if(!m.email && !m.phone && !m.mobile)add('contact','warning','Coordonnées absentes','Ni email ni téléphone personnel n’est renseigné.');
+ if(m.isMinor && !(m.guardian1Name||m.guardianName))add('guardian','critical','Représentant légal manquant','Un licencié mineur ne dispose pas de représentant légal renseigné.');
+ if(m.isMinor && !(m.guardian1Email||m.guardianEmail||m.guardian1Mobile||m.guardianPhone))add('guardian','warning','Contact représentant incomplet','Aucun email ou téléphone du représentant légal principal.');
+ if(m.photoStatus && /manquant|refus|invalide|non/i.test(norm(m.photoStatus)))add('medical','warning','Photo à contrôler',m.photoStatus);
+ if(m.medicalValidity && /non|expire|expir|invalide/i.test(norm(m.medicalValidity)))add('medical','critical','Certificat médical à régulariser',m.medicalValidity);
+ if(!m.medicalValidity)add('medical','info','Information médicale non renseignée','Aucune valeur de validité N+1 importée.');
+ if(m.paymentState && !/total|regle|réglé|paye|payé/i.test(norm(m.paymentState)))add('payment','warning','Règlement incomplet',`${m.paymentState}${m.paymentAmount!=null?' • '+m.paymentAmount+' €':''}`);
+ if(!m.paymentState)add('payment','info','État de règlement absent','Aucun état de règlement importé.');
+ if(m.clubChangeNature || /changement|mutation/i.test(norm(m.requestNature)))add('transfer','warning','Changement de club / mutation à contrôler',m.clubChangeNature||m.requestNature);
+ if(status && /bloque|refuse|incomplet|attente/i.test(status))add('license','critical','Statut licence à traiter',m.license||m.status);
+ return issues;
+}
+function allAdministrativeIssues(){return (state.members||[]).flatMap(administrativeIssuesForMember)}
+
+function resetAdministrativeCheckFilters(){
+ ['checkQuery','checkSeverity','checkKind'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+ renderAdministrativeChecks();
+}
+function resetRegulatoryCheckFilters(){
+ ['regQuery','regSeverity','regKind','regReviewStatus'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+ renderRegulatoryChecks();
+}
+function openDocumentsForIssue(kind){
+ const map={medical:'medical',guardian:'',license:'player',transfer:'117d',upgrade:'upgrade',discipline:'reglement2026',contact:'',payment:''};
+ const id=map[kind]||'';
+ if(id&&typeof openOfficialDoc==='function'){openOfficialDoc(id);return;}
+ goTo('documents');
+}
+
+function renderAdministrativeChecks(){
+ const el=document.getElementById('administrativeIssues');if(!el)return;
+ const all=allAdministrativeIssues(),q=norm(document.getElementById('checkQuery')?.value||''),sev=document.getElementById('checkSeverity')?.value||'',kind=document.getElementById('checkKind')?.value||'';
+ const list=all.filter(i=>(!q||norm(i.name+' '+i.license+' '+i.title+' '+i.detail).includes(q))&&(!sev||i.severity===sev)&&(!kind||i.kind===kind));
+ document.getElementById('checkTotal').textContent=all.length;
+ document.getElementById('checkCritical').textContent=all.filter(i=>i.severity==='critical').length;
+ document.getElementById('checkMedical').textContent=all.filter(i=>i.kind==='medical').length;
+ document.getElementById('checkPayment').textContent=all.filter(i=>i.kind==='payment').length;
+ document.getElementById('checkGuardian').textContent=all.filter(i=>i.kind==='guardian').length;
+ el.innerHTML=list.length?list.map(i=>`<div class="admin-issue issue-${i.severity}">
+  <div><strong>${i.name}</strong><div class="tiny">Licence ${i.license||'—'}</div></div>
+  <div><span class="badge ${i.severity==='critical'?'red':i.severity==='warning'?'yellow':'blue'}">${i.severity==='critical'?'CRITIQUE':i.severity==='warning'?'À TRAITER':'INFO'}</span></div>
+  <div><strong>${i.title}</strong><div class="tiny">${i.detail||''}</div></div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap"><button class="ghost" onclick="openMemberDetail('${i.memberId}')">Ouvrir fiche</button><button class="ghost" onclick="openDocumentsForIssue('${i.kind}')">Document utile</button></div>
+ </div>`).join(''):'<div class="tiny">Aucune anomalie correspondant aux filtres.</div>';
+}
+
+
+function ageOnDate(birth,dateStr){
+ const b=parseDateSafe(birth),d=parseDateSafe(dateStr)||new Date();if(!b)return null;
+ let age=d.getFullYear()-b.getFullYear();
+ const md=d.getMonth()-b.getMonth(); if(md<0||(md===0&&d.getDate()<b.getDate()))age--;
+ return age;
+}
+
+function regulatoryReviewKey(issue){
+ return `${issue.memberId||''}|${issue.kind||''}|${issue.title||''}`;
+}
+function regulatoryReviewForIssue(issue){
+ const key=regulatoryReviewKey(issue);
+ return (state.regulatoryReviewState||{})[key]||{status:'pending',note:'',updatedAt:''};
+}
+function setRegulatoryReviewStatus(memberId,kind,title,status){
+ if(!state.regulatoryReviewState)state.regulatoryReviewState={};
+ const key=`${memberId||''}|${kind||''}|${title||''}`;
+ const current=state.regulatoryReviewState[key]||{};
+ state.regulatoryReviewState[key]={
+  ...current,
+  status,
+  updatedAt:new Date().toISOString()
+ };
+ localStorage.setItem(KEY,JSON.stringify(state));
+ renderRegulatoryChecks();
+}
+function setRegulatoryReviewNote(memberId,kind,title,note){
+ if(!state.regulatoryReviewState)state.regulatoryReviewState={};
+ const key=`${memberId||''}|${kind||''}|${title||''}`;
+ const current=state.regulatoryReviewState[key]||{status:'pending'};
+ state.regulatoryReviewState[key]={
+  ...current,
+  note:String(note||'').trim(),
+  updatedAt:new Date().toISOString()
+ };
+ localStorage.setItem(KEY,JSON.stringify(state));
+}
+function regulatoryIssueDateState(issue){
+ const today=disciplineToday(),start=disciplineDateOnly(issue.effectDate),end=disciplineDateOnly(issue.endDate);
+ if((issue.effectDate&&!start)||(issue.endDate&&!end)||(start&&end&&end<start))return {expired:false,invalid:true,label:'Dates incohérentes ou invalides'};
+ if(end&&end<today)return {expired:true,invalid:false,label:`Échu le ${formatDisciplineDate(issue.endDate)}`};
+ if(start&&start>today)return {expired:false,invalid:false,label:`À venir le ${formatDisciplineDate(issue.effectDate)}`};
+ return {expired:false,invalid:false,label:start||end?'Période en cours / à vérifier':''};
+}
+function closeExpiredRegulatoryReviews(){
+ let changed=false;
+ allRegulatoryIssues().forEach(issue=>{
+  const ds=regulatoryIssueDateState(issue);
+  if(!ds.expired)return;
+  const key=regulatoryReviewKey(issue);
+  const current=(state.regulatoryReviewState||{})[key]||{};
+  if(!['validated','closed'].includes(current.status)){
+   if(!state.regulatoryReviewState)state.regulatoryReviewState={};
+   state.regulatoryReviewState[key]={...current,status:'closed',updatedAt:new Date().toISOString(),autoClosed:true};
+   changed=true;
+  }
+ });
+ if(changed)localStorage.setItem(KEY,JSON.stringify(state));
+}
+
+function regulatoryIssuesForMember(m){
+ const issues=[];
+ const add=(kind,severity,title,detail,ref)=>issues.push({memberId:m.id,kind,severity,title,detail,ref,name:`${m.last||''} ${m.first||''}`.trim(),license:m.licenseNumber||''});
+ const status=norm(m.license||m.status);
+
+ if(!m.licenseNumber || /bloque|refuse|incomplet|attente|suspend/i.test(status)){
+   add('license','block','Licence non utilisable ou à confirmer',`Statut : ${m.license||m.status||'non renseigné'}`,'Règlement LRF 2026 — qualification/licence');
+ }
+ if(isMemberSuspended(m)){
+   const dossiers=disciplineForMember(m).filter(d=>isMemberSuspended(m));
+   const activeDossier=dossiers[0]||{};
+   const issue={memberId:m.id,kind:'discipline',severity:'block',title:'Suspension disciplinaire active',detail:'Le licencié ne doit pas être utilisé tant que la suspension n’est pas purgée.',ref:'Décision disciplinaire importée',name:`${m.last||''} ${m.first||''}`.trim(),license:m.licenseNumber||'',effectDate:activeDossier.effectDate||'',endDate:activeDossier.endDate||''};
+   issues.push(issue);
+ }else if(memberDisciplineRisk(m).length){
+   add('discipline','warn','Situation disciplinaire à vérifier','Une information disciplinaire importée nécessite un contrôle du dossier officiel avant la prochaine rencontre.','Dossier disciplinaire importé / règlement applicable');
+ }
+
+ const sub=norm(m.subcategory||m.category),age=ageOnDate(m.birthDate,new Date().toISOString().slice(0,10));
+ const youth=sub.match(/u(\d{1,2})/);
+ if(youth && age!==null){
+   const catAge=Number(youth[1]);
+   if(age>catAge) add('upgrade','warn','Catégorie / âge à contrôler',`Âge calculé : ${age} ans pour ${m.subcategory||m.category}.`,'Règlement LRF 2026 — catégories et surclassement');
+ }
+ const mutation=memberMutationInfo(m);
+ if(mutation.hasMutation && !mutation.verified){
+   if(!mutation.startDate){
+    add('transfer','warn','Cachet mutation — date de début à vérifier',
+      `Cachet : ${mutation.code||'—'} • ${mutation.label||'—'}. Aucune date de début exploitable n’est importée.`,
+      'Fichier licences — cachet / règlement LRF applicable');
+   }else{
+    issues.push({
+     memberId:m.id,kind:'transfer',severity:'warn',
+     title:'Cachet mutation — période à vérifier',
+     detail:`${mutation.code||'—'} • ${mutation.label||'—'} • ${formatDisciplineDate(mutation.startDate)} → ${mutation.endDate?formatDisciplineDate(mutation.endDate):'—'}`,
+     ref:'Fichier licences — cachet / règlement LRF applicable',
+     name:`${m.last||''} ${m.first||''}`.trim(),license:m.licenseNumber||'',
+     effectDate:mutation.startDate,endDate:mutation.endDate||''
+    });
+   }
+ }
+ return issues.map(i=>{
+  if(!i.effectDate)i.effectDate=m.effectDate||m.validFrom||m.startDate||'';
+  if(!i.endDate)i.endDate=m.endDate||m.validTo||m.expiryDate||m.expirationDate||'';
+  return i;
+ });
+}
+function allRegulatoryIssues(){return (state.members||[]).flatMap(regulatoryIssuesForMember)}
+function renderRegulatoryChecks(){
+ const el=document.getElementById('regulatoryIssues');if(!el)return;
+ closeExpiredRegulatoryReviews();
+ const all=allRegulatoryIssues();
+ const q=norm(document.getElementById('regQuery')?.value||'');
+ const sev=document.getElementById('regSeverity')?.value||'';
+ const kind=document.getElementById('regKind')?.value||'';
+ const reviewFilter=document.getElementById('regReviewStatus')?.value||'';
+
+ const enriched=all.map(i=>{
+  const review=regulatoryReviewForIssue(i);
+  const dateState=regulatoryIssueDateState(i);
+  return {...i,review,dateState};
+ });
+
+ const list=enriched.filter(i=>
+  (!q||norm(i.name+' '+i.license+' '+i.title+' '+i.detail+' '+i.ref+' '+(i.review.note||'')).includes(q)) &&
+  (!sev||i.severity===sev) &&
+  (!kind||i.kind===kind) &&
+  (!reviewFilter||i.review.status===reviewFilter)
+ );
+
+ document.getElementById('regTotal').textContent=all.length;
+ document.getElementById('regBlocks').textContent=all.filter(i=>i.severity==='block').length;
+ document.getElementById('regDiscipline').textContent=all.filter(i=>i.kind==='discipline').length;
+ document.getElementById('regLicense').textContent=all.filter(i=>i.kind==='license').length;
+ document.getElementById('regOther').textContent=all.filter(i=>['upgrade','transfer'].includes(i.kind)).length;
+
+ const statusLabel={pending:'À VÉRIFIER',checked:'VÉRIFIÉ',validated:'VALIDÉ',closed:'CLOS'};
+ el.innerHTML=list.length?list.map(i=>{
+  const keyArgs=`'${String(i.memberId).replace(/'/g,"\\'")}','${String(i.kind).replace(/'/g,"\\'")}','${String(i.title).replace(/'/g,"\\'")}'`;
+  const badgeClass=i.review.status==='validated'||i.review.status==='closed'?'green':i.review.status==='checked'?'blue':i.severity==='block'?'red':'yellow';
+  return `<div class="reg-issue ${i.severity}">
+   <div class="top">
+    <div><strong>${escapeHtml(i.name)}</strong><div class="tiny">Licence ${escapeHtml(i.license||'—')}</div></div>
+    <span class="badge ${badgeClass}">${statusLabel[i.review.status]||'À VÉRIFIER'}</span>
+   </div>
+   <div class="eligibility ${i.severity}">
+    <strong>${escapeHtml(i.title)}</strong>
+    <div class="tiny">${escapeHtml(i.detail)}</div>
+    <div class="reg-rule">${escapeHtml(i.ref)}</div>
+    ${i.effectDate||i.endDate?`<div class="reg-review-meta tiny"><strong>Période :</strong> ${i.effectDate?formatDisciplineDate(i.effectDate):'—'} → ${i.endDate?formatDisciplineDate(i.endDate):'—'}${i.dateState.label?` • ${escapeHtml(i.dateState.label)}`:''}</div>`:''}
+   </div>
+   <div class="reg-review-actions">
+    <select onchange="setRegulatoryReviewStatus(${keyArgs},this.value)">
+     <option value="pending" ${i.review.status==='pending'?'selected':''}>À vérifier</option>
+     <option value="checked" ${i.review.status==='checked'?'selected':''}>Vérifié</option>
+     <option value="validated" ${i.review.status==='validated'?'selected':''}>Validé</option>
+     <option value="closed" ${i.review.status==='closed'?'selected':''}>Clos</option>
+    </select>
+    <input value="${escapeHtml(i.review.note||'')}" placeholder="Note de vérification…" onchange="setRegulatoryReviewNote(${keyArgs},this.value)">
+   </div>
+   ${i.review.updatedAt?`<div class="tiny" style="margin-top:6px">Dernière mise à jour : ${formatDisciplineDateTime(i.review.updatedAt)}${i.review.autoClosed?' • clôture automatique sur échéance':''}</div>`:''}
+   <div class="member-quick-actions">
+    <button class="ghost" onclick="openMemberDetail('${i.memberId}')">Fiche licencié</button>
+    <button class="ghost" onclick="goTo('discipline')">Discipline</button>
+    <button class="ghost" onclick="openDocumentsForIssue('${i.kind}')">Document utile</button>
+    <button class="ghost" onclick="openOfficialDoc('reglement2026')">Règlement</button>
+   </div>
+  </div>`;
+ }).join(''):'<div class="tiny">Aucune situation réglementaire correspondant aux filtres.</div>';
+}
+function memberEligibilityStatus(m){
+ const issues=regulatoryIssuesForMember(m).filter(i=>{
+  const review=regulatoryReviewForIssue(i);
+  return !['validated','closed'].includes(review.status);
+ });
+ if(issues.some(i=>i.severity==='block'))return {status:'block',label:'NON ÉLIGIBLE / CONTRÔLE',issues};
+ if(issues.length)return {status:'warn',label:'À VÉRIFIER',issues};
+ return {status:'ok',label:'ÉLIGIBLE',issues:[]};
+}
+
+
+const defaultAutomationRules=[
+ {id:'match-created',name:'Nouveau match',kind:'match',enabled:true,severity:'info',desc:'Proposer la préparation du match et la communication associée.'},
+ {id:'match-result',name:'Résultat détecté',kind:'match',enabled:true,severity:'info',desc:'Proposer un visuel résultat et une publication.'},
+ {id:'match-change',name:'Match modifié / reporté',kind:'match',enabled:true,severity:'warning',desc:'Alerter en cas de report, changement d’horaire ou terrain.'},
+ {id:'discipline-red',name:'Carton rouge',kind:'discipline',enabled:true,severity:'warning',desc:'Signaler une exclusion et demander la vérification du dossier officiel.'},
+ {id:'discipline-yellow',name:'Avertissements',kind:'discipline',enabled:true,severity:'info',desc:'Signaler les avertissements enregistrés sans déduire automatiquement une sanction.'},
+ {id:'license-incomplete',name:'Licence incomplète',kind:'license',enabled:true,severity:'warning',desc:'Alerter sur les dossiers administratifs incomplets.'},
+ {id:'license-birthday',name:'Anniversaire',kind:'license',enabled:true,severity:'info',desc:'Proposer une communication anniversaire.'},
+ {id:'document-suggest',name:'Document à fournir',kind:'document',enabled:true,severity:'warning',desc:'Associer automatiquement les documents officiels adaptés.'}
+];
+function ensureAutomationDefaults(){
+ if(!state.automationRules||!state.automationRules.length)state.automationRules=JSON.parse(JSON.stringify(defaultAutomationRules));
+}
+function autoUid(prefix='a'){return prefix+'_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7)}
+function addAutomationProposal(p){
+ const key=p.key||`${p.ruleId}|${p.entityType}|${p.entityId}|${p.title}`;
+ if((state.automationProposals||[]).some(x=>x.key===key&&x.status!=='dismissed'))return;
+ state.automationProposals.unshift({id:autoUid('ap'),key,status:'pending',created:new Date().toISOString(),...p});
+}
+function addAutomationLog(text,type='info'){
+ state.automationLog.unshift({id:autoUid('al'),date:new Date().toLocaleString('fr-FR'),text,type});
+ state.automationLog=state.automationLog.slice(0,100);
+}
+function toggleAutomationRule(id,enabled){
+ ensureAutomationDefaults();const r=state.automationRules.find(x=>x.id===id);if(r)r.enabled=enabled;save();renderAutomation();
+}
+function ruleEnabled(id){ensureAutomationDefaults();return !!state.automationRules.find(r=>r.id===id&&r.enabled)}
+function approveAutomationProposal(id){
+ const p=state.automationProposals.find(x=>x.id===id);if(!p)return;
+ p.status='approved'; addAutomationLog('Proposition validée : '+p.title,'ok'); save(); renderAutomation();
+}
+function dismissAutomationProposal(id){
+ const p=state.automationProposals.find(x=>x.id===id);if(!p)return;
+ p.status='dismissed'; addAutomationLog('Proposition ignorée : '+p.title,'info'); save(); renderAutomation();
+}
+function runAutomationEngine(){
+ ensureAutomationDefaults();
+ state.automationProposals=(state.automationProposals||[]).filter(p=>p.status==='approved'||p.status==='pending');
+ runMatchAutomations?.();
+ runDisciplineAutomations?.();
+ runLicenseAutomations?.();
+ runDocumentAutomations?.();
+ state.automationLastRun=new Date().toLocaleString('fr-FR');
+ addAutomationLog('Moteur d’automatisation exécuté.','ok');
+ save();renderAutomation();
+}
+
+function runMatchAutomations(){
+ const now=new Date();
+ (state.matches||[]).forEach(m=>{
+  if(ruleEnabled('match-created')){
+   addAutomationProposal({key:`matchprep:${m.id}`,ruleId:'match-created',entityType:'match',entityId:m.id,severity:'info',title:`Préparer ${m.team} - ${m.opponent}`,text:`Match prévu le ${m.date||'—'} à ${m.time||'—'}${m.place?' • '+m.place:''}.`,actionPage:'matches'});
+  }
+  if(ruleEnabled('match-result') && m.status==='Terminé'){
+   addAutomationProposal({key:`result:${m.id}:${m.homeScore}-${m.awayScore}`,ruleId:'match-result',entityType:'match',entityId:m.id,severity:'info',title:`Résultat à publier — ${m.team}`,text:`${m.team} ${m.homeScore} - ${m.awayScore} ${m.opponent}. Proposer visuel + publication multicanale.`,actionPage:'visual'});
+  }
+  if(ruleEnabled('match-change') && (m.rescheduleStatus||m.rescheduleDate)){
+   addAutomationProposal({key:`report:${m.id}:${m.rescheduleDate||m.rescheduleStatus}`,ruleId:'match-change',entityType:'match',entityId:m.id,severity:'warning',title:`Match reporté / rejoué — ${m.team}`,text:`${m.opponent} • ${m.rescheduleStatus||''} ${m.rescheduleDate||''}`.trim(),actionPage:'matches'});
+  }
+  if(ruleEnabled('match-change') && m.unresolvedTime){
+   addAutomationProposal({key:`timecheck:${m.id}`,ruleId:'match-change',entityType:'match',entityId:m.id,severity:'warning',title:`Horaire à confirmer — ${m.team}`,text:`Horaire source : ${m.rawTime||m.time||'non défini'}.`,actionPage:'matches'});
+  }
+ });
+}
+
+
+function runDisciplineAutomations(){
+ (state.discipline||[]).forEach(d=>{
+  if(ruleEnabled('discipline-red')&&d.redCard){
+   addAutomationProposal({key:`redcheck:${d.dossierNumber||d.id}`,ruleId:'discipline-red',entityType:'discipline',entityId:d.id,severity:'warning',title:`Exclusion à vérifier — ${d.personName||'Licencié'}`,text:`Carton rouge enregistré sur le match ${d.matchNumber||'—'}. Vérifier le dossier officiel avant toute conclusion sur la sanction.`,actionPage:'discipline'});
+  }
+  if(ruleEnabled('discipline-yellow')&&Number(d.yellowCards||0)>0){
+   addAutomationProposal({key:`yellowcheck:${d.dossierNumber||d.id}:${d.yellowCards}`,ruleId:'discipline-yellow',entityType:'discipline',entityId:d.id,severity:'info',title:`Avertissement(s) à suivre — ${d.personName||'Licencié'}`,text:`${Number(d.yellowCards||0)} avertissement(s) enregistré(s) dans ce dossier. Aucun calcul automatique de suspension.`,actionPage:'discipline'});
+  }
+  if(d.decision){
+   addAutomationProposal({key:`decision:${d.dossierNumber}:${d.decision}`,ruleId:'discipline-red',entityType:'discipline',entityId:d.id,severity:/suspension/i.test(String(d.decision))?'critical':'warning',title:`Décision disciplinaire enregistrée — ${d.personName||'Licencié'}`,text:`${d.decision}${d.effectDate?' • effet '+formatDisciplineDate(d.effectDate):''}${d.endDate?' → '+formatDisciplineDate(d.endDate):''}`,actionPage:'discipline'});
+  }
+ });
+}
+
+
+function birthdayThisWeek(m){
+ if(!m.birthDate)return false;
+ const b=new Date(m.birthDate+'T12:00:00');if(isNaN(b))return false;
+ const now=new Date(),target=new Date(now.getFullYear(),b.getMonth(),b.getDate(),12);
+ let diff=(target-now)/86400000;if(diff<-1)target.setFullYear(now.getFullYear()+1),diff=(target-now)/86400000;
+ return diff>=-0.5&&diff<=7.5;
+}
+function runLicenseAutomations(){
+ (state.members||[]).forEach(m=>{
+  if(ruleEnabled('license-incomplete')){
+   const issues=administrativeIssuesForMember(m).filter(i=>i.severity!=='info');
+   if(issues.length)addAutomationProposal({key:`admin:${m.id}:${issues.map(i=>i.kind).sort().join(',')}`,ruleId:'license-incomplete',entityType:'member',entityId:m.id,severity:issues.some(i=>i.severity==='critical')?'critical':'warning',title:`Dossier à régulariser — ${m.last||''} ${m.first||''}`,text:issues.map(i=>i.title).join(' • '),actionPage:'admincheck'});
+  }
+  if(ruleEnabled('license-birthday') && birthdayThisWeek(m)){
+   addAutomationProposal({key:`birthday:${m.id}:${new Date().getFullYear()}`,ruleId:'license-birthday',entityType:'member',entityId:m.id,severity:'info',title:`Anniversaire — ${m.first||''} ${m.last||''}`,text:`Date de naissance : ${m.birthDate}. Proposer un visuel anniversaire.`,actionPage:'visual'});
+  }
+ });
+}
+
+
+function runDocumentAutomations(){
+ if(!ruleEnabled('document-suggest'))return;
+ (state.members||[]).forEach(m=>{
+  const ids=relevantDocsForMember(m),docs=ids.map(officialDocById).filter(Boolean);
+  if(!docs.length)return;
+  const issues=administrativeIssuesForMember(m);
+  const relevant=issues.filter(i=>['medical','guardian','license','transfer'].includes(i.kind));
+  if(relevant.length){
+   addAutomationProposal({key:`docs:${m.id}:${ids.sort().join(',')}`,ruleId:'document-suggest',entityType:'member',entityId:m.id,severity:relevant.some(i=>i.severity==='critical')?'critical':'warning',title:`Documents à proposer — ${m.last||''} ${m.first||''}`,text:`${docs.map(d=>d.title).join(' • ')}`,actionPage:'documents'});
+  }
+ });
+}
+
+function renderAutomation(){
+ const rulesEl=document.getElementById('automationRules');if(!rulesEl)return;
  ensureAutomationDefaults();
  const props=(state.automationProposals||[]).filter(p=>p.status==='pending');
  document.getElementById('autoRulesCount').textContent=state.automationRules.filter(r=>r.enabled).length;

@@ -8,7 +8,6 @@ separe.
 """
 import argparse
 import json
-import shutil
 import sqlite3
 import sys
 import time

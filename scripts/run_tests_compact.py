@@ -20,6 +20,9 @@ MODULES = (
     'tests.test_html_decomposition',
     'tests.test_manager_page_index',
     'tests.test_manager_assets',
+    'tests.test_manager_css',
+    'tests.test_manager_sources',
+    'tests.test_installation',
 )
 
 

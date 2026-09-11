@@ -1,0 +1,46 @@
+/* ===== V1.21.19.7 : TABLEAUX, FORMULAIRES ET MODALES ===== */
+@media(max-width:1024px){
+ #intranetApp table,
+ #coachApp table,
+ #portalApp table{
+  width:max-content;min-width:100%
+ }
+ #intranetApp .card:has(> table),
+ #intranetApp .card:has(> .stats-detail-table),
+ #coachApp .coach-card:has(> table),
+ #portalApp .portal-card:has(> table){
+  overflow-x:auto;-webkit-overflow-scrolling:touch
+ }
+ .modal .field,
+ .modal-card .field,
+ .dialog .field{min-width:0}
+}
+@media(max-width:768px){
+ .modal,
+ .modal-card,
+ .dialog,
+ .editor-modal,
+ .admin-modal{
+  width:calc(100vw - 16px)!important;
+  max-width:calc(100vw - 16px)!important;
+  max-height:calc(100vh - 16px)!important;
+  margin:8px!important;
+  border-radius:14px!important;
+ }
+ .modal .grid,
+ .modal-card .grid,
+ .dialog .grid,
+ .editor-modal .grid,
+ .admin-modal .grid{
+  grid-template-columns:1fr!important
+ }
+ form .actions,
+ .modal .actions,
+ .modal-card .actions{
+  position:sticky;bottom:0;padding-top:8px;padding-bottom:8px;
+ }
+ textarea{min-height:110px}
+}
+
+
+

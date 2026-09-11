@@ -1,0 +1,14 @@
+/* V1.14 Import matchs LRF */
+.planning-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:9px}
+.plan-day{min-height:190px;border:1px solid var(--border);border-radius:15px;background:var(--panel2);padding:10px}
+.plan-day>strong{font-size:11px;color:var(--muted)}
+.plan-event{margin-top:8px;padding:9px;border-radius:11px;border:1px solid var(--border);background:var(--panel)}
+.plan-event.match{border-color:rgba(57,211,83,.25)}
+.plan-event.training{border-color:rgba(96,165,250,.25)}
+.plan-event.meeting{border-color:rgba(243,200,66,.25)}
+.plan-event.event{border-color:rgba(192,132,252,.25)}
+.conflict{border-color:rgba(239,68,68,.45)!important;background:rgba(239,68,68,.07)!important}
+.conflict-box{padding:13px;border:1px solid rgba(239,68,68,.35);border-radius:14px;background:rgba(239,68,68,.06);margin-bottom:10px}
+@media(max-width:1000px){.planning-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:650px){.planning-grid{grid-template-columns:1fr}}
+

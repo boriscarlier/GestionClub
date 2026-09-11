@@ -1,4 +1,4 @@
-"""Runtime FC LA COUR Gestion Club V1.25.11.1 base sur le noyau V1.25.10.2 valide."""
+"""Runtime CLUB EXEMPLE Gestion Club V1.25.11.1 base sur le noyau V1.25.10.2 valide."""
 import argparse
 import getpass
 import re
@@ -20,7 +20,7 @@ STATIC_ASSETS = {
 
 
 def validate(payload):
-    if not isinstance(payload, dict) or payload.get('format') != 'FC_LA_COUR_FULL_BACKUP' or payload.get('schemaVersion') != 1:
+    if not isinstance(payload, dict) or not re.fullmatch(r'(?:[A-Z][A-Z0-9]*_)+FULL_BACKUP', str(payload.get('format', ''))) or payload.get('schemaVersion') != 1:
         raise server.Problem(400, 'Choisir une sauvegarde complète Gestion Club.')
     build = str(payload.get('build', ''))
     if not re.fullmatch(r'V\d+\.\d+\.\d+(?:\.\d+)?', build):
@@ -50,7 +50,7 @@ def validate(payload):
 
 
 class CurrentHandler(_BASE_HANDLER):
-    server_version = 'FCLaCour/1.25.11.1'
+    server_version = 'GestionClub/1.25.11.1'
 
     def send(self, status, value, cookie=None, mime='application/json; charset=utf-8', csp=None):
         if isinstance(value, bytes) and mime.startswith('text/html'):
@@ -110,7 +110,7 @@ def main():
     srv=server.make_server(args.data)
     srv.watch.start()
     print('Base de donnees : ' + str(args.data))
-    print('FC LA COUR ' + VERSION + ' — http://127.0.0.1:8765 — Ctrl+C pour arrêter.')
+    print('CLUB EXEMPLE ' + VERSION + ' — http://127.0.0.1:8765 — Ctrl+C pour arrêter.')
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

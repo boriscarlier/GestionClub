@@ -1,0 +1,11 @@
+/* ===== V1.21.9.3 : FICHE CLUB COMPLETE FFF ===== */
+.club-sheet-section{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.club-sheet-section:first-child{border-top:0;padding-top:0}
+.club-sheet-section h4{margin:0 0 10px}
+.club-sheet-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.club-sheet-grid.cols2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.club-sheet-grid textarea{min-height:110px;resize:vertical}
+.club-sheet-note{padding:9px 11px;border:1px dashed var(--line);border-radius:10px;margin-bottom:10px}
+@media(max-width:850px){.club-sheet-grid,.club-sheet-grid.cols2{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.club-sheet-grid,.club-sheet-grid.cols2{grid-template-columns:1fr}}
+

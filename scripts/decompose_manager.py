@@ -7,11 +7,11 @@ import re
 import shutil
 from pathlib import Path
 
-SOURCE_DEFAULT = Path('client/FC_LA_COUR_Manager.html')
+SOURCE_DEFAULT = Path('client/GESTION_CLUB_Manager.html')
 OUTPUT_DEFAULT = Path('client/manager_parts')
-EXPECTED_SHA256 = '5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c'
-EXPECTED_GIT_BLOB_SHA = '64def65ec261d3da05d855896484c4deb79da407'
-EXPECTED_BYTES = 1_143_051
+EXPECTED_SHA256 = '03ddf8c3b0e82a081d12a19e0c2e42ac443511e97ace763ca35259de3fbc7fdd'
+EXPECTED_GIT_BLOB_SHA = None
+EXPECTED_BYTES = 1_055_846
 BLOCK_RE = re.compile(br'<(style|script)\b[^>]*>.*?</\1\s*>', re.IGNORECASE | re.DOTALL)
 
 
@@ -91,7 +91,7 @@ def decompose(source: Path, output_dir: Path, expected_sha256: str | None = EXPE
         raise SystemExit('Manager: decomposition incomplete (%s/%s octets).' % (covered, len(raw)))
 
     manifest = {
-        'format': 'FC_LA_COUR_MANAGER_DECOMPOSITION',
+        'format': 'GESTION_CLUB_MANAGER_DECOMPOSITION',
         'schema_version': 1,
         'source': str(source).replace('\\', '/'),
         'source_bytes': len(raw),

@@ -1,4 +1,4 @@
-# FC LA COUR — V1.24.5 — Fiches de convocation
+# CLUB EXEMPLE — V1.24.5 — Fiches de convocation
 
 Cette version ajoute une fiche préparatoire par PDF enregistré : joueurs sélectionnés, date, rendez-vous, début, fin, lieu et notes. Elle peut être enregistrée en brouillon ou marquée comme vérifiée. Les données restent sur le serveur ; aucun message ni événement de calendrier n’est envoyé.
 
@@ -7,7 +7,7 @@ Cette version ajoute une fiche préparatoire par PDF enregistré : joueurs séle
 1. Arrêtez le serveur avec **Ctrl+C**.
 2. Sauvegardez son dossier **data**, serveur arrêté.
 3. Extrayez le nouveau ZIP dans un dossier temporaire. Lancez **LANCER_TESTS.cmd** : résultat attendu **Ran 73 tests**, puis **OK**.
-4. Copiez tous les fichiers **et le dossier vendor** du nouveau paquet dans votre installation existante, par exemple **D:\FC_LA_COUR_Serveur_V1.24.1**. Remplacez les fichiers du programme et conservez **data**. Le dossier peut garder son ancien nom ; le programme affichera V1.24.5.
+4. Copiez tous les fichiers **et le dossier vendor** du nouveau paquet dans votre installation existante, par exemple **D:\GESTION_CLUB_Serveur_V1.24.1**. Remplacez les fichiers du programme et conservez **data**. Le dossier peut garder son ancien nom ; le programme affichera V1.24.5.
 5. Lancez **DEMARRER_SERVEUR.cmd** depuis cette installation. Connectez-vous dans Brave à **http://127.0.0.1:8765/** et faites **Ctrl+F5**.
 6. Vérifiez votre révision et vos informations précédentes. Si aucun nouveau dépôt n’a été effectué, votre référence reste 298 licenciés, 11 équipes et 0 match.
 
@@ -20,7 +20,7 @@ Si le lanceur demande un nouveau compte alors que vous en possédiez déjà un, 
 1. Ouvrez **Veille du club**, puis votre PDF dans la liste des documents.
 2. Cliquez sur **Ouvrir la fiche de convocation**.
 3. Dépliez **Dates repérées dans le PDF**. Vérifiez le contexte et cliquez sur **Utiliser cette date** pour celle de la convocation. Une date repérée peut aussi être une naissance ou une référence historique.
-4. Vérifiez les horaires proposés lorsque leurs libellés sont reconnus. Complétez le lieu et l’adresse en lisant le PDF original. Les horaires sont ceux de La Réunion ; cette première fiche couvre un événement sur une seule journée.
+4. Vérifiez les horaires proposés lorsque leurs libellés sont reconnus. Complétez le lieu et l’adresse en lisant le PDF original. Les horaires sont ceux de Territoire Exemple ; cette première fiche couvre un événement sur une seule journée.
 5. Vérifiez les joueurs cochés et décochez ceux qui ne doivent pas figurer dans votre fiche.
 6. Pour garder un **brouillon**, cliquez sur **Enregistrer la fiche** sans cocher la vérification. Les champs peuvent rester incomplets.
 7. Pour marquer la fiche **vérifiée**, complétez le titre, la date, les trois horaires et le lieu, choisissez au moins un joueur, cochez la vérification et enregistrez. Cela indique uniquement votre contrôle du PDF, pas une confirmation de présence du joueur.
@@ -61,7 +61,7 @@ Un aperçu n’enregistre rien. Le serveur relit le fichier à la confirmation e
 
 - Seul le texte extractible est lu. **Pas d’OCR** : un scan ou une page vide est signalé comme sans texte extractible. Cela ne signifie pas qu’il ne contient aucune information pertinente.
 - Une page peut être illisible ou tronquée. Le résultat le signale ; au plus 15 000 caractères sont conservés par page.
-- Les mentions sont détectées par mots-clés. Les joueurs sont relevés uniquement quand les en-têtes et les rectangles des cellules permettent de délimiter le groupe FC LA COUR. Les autres mises en page, notamment les tableaux sans bordures reconnues ou tournés, restent à vérifier manuellement. Un résultat sans joueur ne prouve pas leur absence. Aucun rapprochement automatique avec vos licenciés. Le texte brut peut rester dans un ordre différent de l’original.
+- Les mentions sont détectées par mots-clés. Les joueurs sont relevés uniquement quand les en-têtes et les rectangles des cellules permettent de délimiter le groupe CLUB EXEMPLE. Les autres mises en page, notamment les tableaux sans bordures reconnues ou tournés, restent à vérifier manuellement. Un résultat sans joueur ne prouve pas leur absence. Aucun rapprochement automatique avec vos licenciés. Le texte brut peut rester dans un ordre différent de l’original.
 - Les dates numériques jour/mois/année et les dates françaises avec année explicite sont repérées. Pas d’interprétation de « demain », des années manquantes ou de toutes les plages horaires.
 - Une date peut correspondre à une naissance, une échéance ou un événement passé. **Aucun événement n’est créé automatiquement**, aucune convocation n’est considérée comme validée par cette seule analyse.
 - L’analyse s’exécute dans un processus séparé, avec interruption après 12 secondes. Sous Windows, ce n’est pas un bac à sable complet ni une garantie de plafond mémoire.

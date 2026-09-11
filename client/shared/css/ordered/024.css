@@ -1,0 +1,8 @@
+/* ===== V1.14 : NAVIGATION PUBLIQUE SUR PORTAIL EDUCATEURS ===== */
+.public-page{position:relative;z-index:1}
+.public-page.active{display:block;position:relative;z-index:1}
+header,.topbar,.public-header,.site-header,.public-nav,nav{position:relative;z-index:50}
+.coach-portal,.member-portal{position:relative;z-index:1}
+.coach-login,.portal-login{position:relative;z-index:1}
+
+

@@ -1,0 +1,8 @@
+/* ===== V1.21.3 : DRILL-DOWN STATISTIQUES ===== */
+.stats-kpi.stats-drilldown{cursor:pointer;position:relative;transition:transform .15s ease,border-color .15s ease}
+.stats-kpi.stats-drilldown:hover{transform:translateY(-2px)}
+.stats-kpi.stats-drilldown::after{content:"→";position:absolute;right:12px;top:12px;font-weight:900;opacity:.55}
+.stats-return-bar{display:none;margin-bottom:12px}
+.stats-return-bar.show{display:flex;align-items:center;justify-content:space-between;gap:10px}
+
+

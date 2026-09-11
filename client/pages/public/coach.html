@@ -1,0 +1,94 @@
+<div class="public-page" id="public-coach">
+<div class="coach-portal">
+<div class="coach-login" id="coachLogin" onclick="event.stopPropagation()">
+<div class="kicker">● Portail éducateurs</div>
+<h2>Connexion éducateur</h2>
+<p>Accès limité aux équipes dont vous avez la responsabilité.</p>
+<div class="portal-security-note tiny"><strong>Mode prototype local :</strong> la licence et la date de naissance servent à identifier l’éducateur. Les droits d’équipe sont ensuite limités au périmètre autorisé.</div>
+<div class="demo-access-box">
+<strong>Accès de démonstration — Portail éducateurs</strong>
+<div class="tiny">Licence : <code>TEST-EDUC-001</code></div>
+<div class="tiny">Date de naissance : <code>10/02/1985</code></div>
+<div class="tiny">Périmètre principal : <strong>U15</strong> • accès complémentaire : <strong>U14</strong></div>
+<div class="demo-access-actions"><button class="ghost" onclick="fillCoachDemoAccess()">Remplir automatiquement</button></div>
+</div>
+<div class="field"><label>Numéro de licence</label><input id="coachLicenseInput" placeholder="Numéro de licence éducateur"/></div>
+<div class="field"><label>Date de naissance</label><input id="coachBirthInput" type="date"/></div>
+<button class="primary" onclick="coachLogin()" style="width:100%">Se connecter</button>
+<button class="ghost" onclick="showPublicPage('public-home')" style="width:100%;margin-top:8px">← Retour au site public</button>
+<div class="tiny" id="coachLoginMsg" style="margin-top:10px">Utilisez le numéro de licence et la date de naissance de l’éducateur.</div>
+</div>
+<div id="coachApp" style="display:none">
+<!-- V1.22.5 : navigation mobile-first du Portail éducateurs -->
+<header aria-label="En-tête Portail éducateurs" class="coach-mobile-topbar">
+<div class="coach-mobile-toprow">
+<div class="coach-mobile-person">
+<div class="coach-mobile-avatar" id="coachMobileAvatar">ED</div>
+<div class="coach-mobile-person-text">
+<strong id="coachMobilePageTitle">Tableau de bord</strong>
+<span id="coachMobileName">Éducateur</span>
+</div>
+</div>
+<button aria-label="Plus d’options" class="coach-mobile-more-trigger" onclick="toggleCoachMobileMore(true)" type="button">•••</button>
+</div>
+<div class="coach-mobile-team-row">
+<label for="coachMobileTeamSelect">Équipe active</label>
+<select id="coachMobileTeamSelect" onchange="coachChangeTeamFromMobile()"></select>
+</div>
+</header>
+<div class="coach-shell">
+<aside class="coach-side">
+<div class="portal-id">
+<div class="portal-avatar" id="coachAvatar">ED</div>
+<div><strong id="coachName">Éducateur</strong><div class="tiny" id="coachTeamLabel">Équipe</div><span class="badge blue portal-scope-badge" id="coachScopeLabel">Périmètre équipe</span></div>
+</div>
+<hr style="border-color:var(--border);margin:14px 0"/>
+<div class="field"><label>Équipe active</label><select id="coachTeamSelect" onchange="coachChangeTeam()"></select></div>
+<button class="ghost" onclick="coachGo('home')">🏠 Tableau de bord</button>
+<button class="ghost" onclick="coachGo('roster')">👥 Effectif</button>
+<button class="ghost" onclick="coachGo('matches')">⚽ Matchs</button>
+<button class="ghost" onclick="coachGo('callups')">📣 Convocations</button>
+<button class="ghost" onclick="coachGo('lineup')">🧩 Composition</button>
+<button class="ghost" onclick="coachGo('training')">🏃 Entraînements</button>
+<button class="ghost" onclick="coachGo('contacts')">📞 Contacts familles</button>
+<button class="ghost" onclick="coachLogout()">↩ Déconnexion</button>
+<button class="ghost" onclick="coachLogout();showPublicPage('public-home')">🌐 Retour au site</button>
+</aside>
+<main class="coach-main">
+<!--GESTION_SOURCE:client/pages/coach/home.html-->
+<!--GESTION_SOURCE:client/pages/coach/roster.html-->
+<!--GESTION_SOURCE:client/pages/coach/matches.html-->
+<!--GESTION_SOURCE:client/pages/coach/callups.html-->
+<!--GESTION_SOURCE:client/pages/coach/lineup.html-->
+<!--GESTION_SOURCE:client/pages/coach/training.html-->
+<!--GESTION_SOURCE:client/pages/coach/contacts.html-->
+</main>
+</div>
+<nav aria-label="Navigation éducateur mobile" class="coach-mobile-bottom-nav">
+<button data-coach-mobile-page="home" onclick="coachGo('home')" type="button"><span>🏠</span><small>Accueil</small></button>
+<button data-coach-mobile-page="roster" onclick="coachGo('roster')" type="button"><span>👥</span><small>Effectif</small></button>
+<button data-coach-mobile-page="matches" onclick="coachGo('matches')" type="button"><span>⚽</span><small>Matchs</small></button>
+<button data-coach-mobile-page="training" onclick="coachGo('training')" type="button"><span>🏃</span><small>Entraîn.</small></button>
+<button data-coach-mobile-page="more" onclick="toggleCoachMobileMore(true)" type="button"><span>☰</span><small>Plus</small></button>
+</nav>
+<div aria-hidden="true" class="coach-mobile-more-backdrop" id="coachMobileMoreBackdrop" onclick="toggleCoachMobileMore(false)"></div>
+<section aria-hidden="true" aria-label="Plus de fonctions éducateur" class="coach-mobile-more-sheet" id="coachMobileMoreSheet">
+<div class="coach-mobile-sheet-handle"></div>
+<div class="coach-mobile-sheet-head">
+<div><strong>Plus de fonctions</strong><div class="tiny">Portail éducateurs</div></div>
+<button class="ghost" onclick="toggleCoachMobileMore(false)" type="button">Fermer</button>
+</div>
+<div class="coach-mobile-sheet-grid">
+<button onclick="coachGo('callups')" type="button"><span>📣</span><strong>Convocations</strong></button>
+<button onclick="coachGo('lineup')" type="button"><span>🧩</span><strong>Composition</strong></button>
+<button onclick="coachGo('contacts')" type="button"><span>📞</span><strong>Contacts familles</strong></button>
+<button onclick="coachGo('home')" type="button"><span>🏠</span><strong>Tableau de bord</strong></button>
+</div>
+<div class="coach-mobile-sheet-secondary">
+<button class="ghost" onclick="coachLogout();showPublicPage('public-home')" type="button">🌐 Retour au site</button>
+<button class="ghost" onclick="coachLogout()" type="button">↩ Déconnexion</button>
+</div>
+</section>
+</div>
+</div>
+</div>

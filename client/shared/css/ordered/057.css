@@ -1,0 +1,9 @@
+/* ===== V1.21.9 : REORGANISATION CLUBS ADVERSES ===== */
+.opponent-section-title{display:flex;justify-content:space-between;gap:12px;align-items:flex-end;flex-wrap:wrap;margin-bottom:12px}
+.opponent-section-title h3{margin:0}
+.opponent-search-panel{border-left:4px solid var(--accent,#39d353)}
+.opponent-import-zone{margin-top:26px}
+.opponent-import-zone .club-fff-import{margin-top:0}
+.opponent-search-tools{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}
+@media(max-width:650px){.opponent-search-tools{grid-template-columns:1fr}}
+

@@ -2,10 +2,10 @@
 
 ## Reference
 
-- Source : `client/FC_LA_COUR_Manager.html`
-- Taille : `1143051` octets
-- Git blob SHA : `64def65ec261d3da05d855896484c4deb79da407`
-- SHA-256 contenu : `5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c`
+- Source : `client/GESTION_CLUB_Manager.html`
+- Taille : `1055846` octets
+- Git blob SHA : `None`
+- SHA-256 contenu : `03ddf8c3b0e82a081d12a19e0c2e42ac443511e97ace763ca35259de3fbc7fdd`
 - Statut : inventaire uniquement, aucune bascule runtime.
 
 ## Comptage
@@ -26,7 +26,7 @@ Le chemin cible est une destination de migration, pas encore un fichier actif. C
 
 | ID source | Libelle navigation | Titre detecte | Chemin cible | Statut |
 | --- | --- | --- | --- | --- |
-| `dashboard` | 🏠 Dashboard | FC LA COUR Manager | `client/pages/admin/dashboard.html` | `inventory_only` |
+| `dashboard` | 🏠 Dashboard | CLUB EXEMPLE Manager | `client/pages/admin/dashboard.html` | `inventory_only` |
 | `statistics` | 📊 Statistiques | Tableau de bord statistique | `client/pages/admin/statistics.html` | `inventory_only` |
 | `statistics-members` | — | Détail de la répartition des licenciés | `client/pages/admin/statistics-members.html` | `inventory_only` |
 | `statistics-members-advanced` | — | Statistiques licenciés avancées | `client/pages/admin/statistics-members-advanced.html` | `inventory_only` |
@@ -65,7 +65,7 @@ Le chemin cible est une destination de migration, pas encore un fichier actif. C
 | `auditlog` | 🧾 Journal des actions | Journal & audit | `client/pages/admin/auditlog.html` | `inventory_only` |
 | `accessadmin` | 🛂 Comptes & permissions | Administration des accès | `client/pages/admin/accessadmin.html` | `inventory_only` |
 | `accessaudit` | 🧪 Audit des accès | Audit des accès & préparation backend | `client/pages/admin/accessaudit.html` | `inventory_only` |
-| `automation` | 🤖 Automatisations | Automatisations FC LA COUR | `client/pages/admin/automation.html` | `inventory_only` |
+| `automation` | 🤖 Automatisations | Automatisations CLUB EXEMPLE | `client/pages/admin/automation.html` | `inventory_only` |
 | `alerts` | 🚨 Centre des alertes | Centre des alertes | `client/pages/admin/alerts.html` | `inventory_only` |
 | `clubsettings` | 🏟️ Paramétrage du club | Paramétrage du club | `client/pages/admin/clubsettings.html` | `inventory_only` |
 | `settings` | ⚙️ Paramètres | Configuration | `client/pages/admin/settings.html` | `inventory_only` |
@@ -75,7 +75,7 @@ Le chemin cible est une destination de migration, pas encore un fichier actif. C
 
 | ID source | Libelle navigation | Titre detecte | Chemin cible | Statut |
 | --- | --- | --- | --- | --- |
-| `public-home` | — | FC LA COUR UN CLUB, UN ÉCOSYSTÈME. | `client/pages/public/home.html` | `inventory_only` |
+| `public-home` | — | CLUB EXEMPLE UN CLUB, UN ÉCOSYSTÈME. | `client/pages/public/home.html` | `inventory_only` |
 | `public-coach` | — | Connexion éducateur | `client/pages/public/coach.html` | `inventory_only` |
 | `public-news` | — | Actualités | `client/pages/public/news.html` | `inventory_only` |
 | `public-programme` | — | Programme & résultats | `client/pages/public/programme.html` | `inventory_only` |
@@ -111,3 +111,4 @@ Le chemin cible est une destination de migration, pas encore un fichier actif. C
 | `portal-documents` | — | Mes documents | `client/pages/member/documents.html` | `inventory_only` |
 | `portal-payments` | — | Mes paiements | `client/pages/member/payments.html` | `inventory_only` |
 | `portal-messages` | — | Messages du club | `client/pages/member/messages.html` | `inventory_only` |
+

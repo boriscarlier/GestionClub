@@ -1,0 +1,15 @@
+/* Cibles tactiles communes */
+button,
+.button,
+.nav button,
+.public-nav button,
+.coach-nav button,
+.portal-nav button{
+ min-height:40px;
+}
+input,
+select,
+textarea{
+ min-height:40px;
+}
+

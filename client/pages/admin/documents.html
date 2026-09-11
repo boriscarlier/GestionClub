@@ -1,0 +1,57 @@
+<div class="page" id="documents">
+<div class="intra-hero">
+<div>
+<div class="kicker">● Référentiel officiel</div>
+<h3>Documents officiels LRF — Saison 2026</h3>
+<p>Documents officiels publiés par la Ligue Réunionnaise de Football pour les demandes de licences 2026.</p>
+</div>
+<button class="secondary" onclick="window.open('https://example.invalid/ligue/simple/licence-2026-documents/','_blank')">Voir la page LRF</button>
+</div>
+<div class="docs-toolbar">
+<input id="docQuery" oninput="renderOfficialDocs()" placeholder="Rechercher un document..."/>
+<select id="docCategoryFilter" onchange="renderOfficialDocs()">
+<option value="">Toutes catégories</option>
+<option value="Guide">Guide</option>
+<option value="Règlement">Règlement</option>
+<option value="Licence">Licences</option>
+<option value="Médical">Médical</option>
+<option value="Surclassement">Surclassement</option>
+<option value="Mutation">Mutation / changement de club</option>
+<option value="Éducateur">Éducateur</option>
+</select>
+<button class="ghost" onclick="selectAllOfficialDocs()">Tout sélectionner</button>
+<button class="ghost" onclick="clearOfficialDocsSelection()">Effacer sélection</button>
+</div>
+<div class="card">
+<div class="doc-send-box">
+<div>
+<h3 style="margin-top:0">Envoi par mail</h3>
+<div class="field"><label>Licencié / destinataire</label><select id="docMemberRecipient" onchange="fillDocRecipientEmail()"><option value="">Choisir un licencié</option></select></div>
+<div class="field"><label>Adresse e-mail</label><input id="docRecipientEmail" placeholder="destinataire@email.fr"/></div>
+</div>
+<div>
+<h3 style="margin-top:0">Documents sélectionnés</h3>
+<div class="tiny" id="docSelectionSummary">Aucun document sélectionné.</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+<button class="primary" onclick="emailSelectedOfficialDocs()">✉️ Préparer le mail</button>
+<button class="secondary" onclick="openSelectedOfficialDocs()">🖨️ Ouvrir pour impression</button>
+</div>
+<p class="tiny" style="margin-top:10px">L’envoi ouvre le logiciel de messagerie avec les liens officiels LRF. Aucun document n’est envoyé automatiquement sans action de l’utilisateur.</p>
+</div>
+</div>
+</div>
+<div class="docs-grid" id="officialDocsGrid" style="margin-top:18px"></div>
+<div class="card" style="margin-top:18px">
+<h3 style="margin-top:0">⚖️ Référence réglementaire 2026</h3>
+<p class="tiny">Le Règlement LRF 2026 est désormais intégré au référentiel documentaire. Il pourra servir de source de référence pour les futurs contrôles de qualification, mutations, surclassements, discipline et règles de compétition.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button class="primary" onclick="openOfficialDoc('reglement2026')">Ouvrir le règlement 2026</button>
+<button class="secondary" onclick="printOfficialDoc('reglement2026')">Imprimer</button>
+<button class="ghost" onclick="emailOfficialDoc('reglement2026')">Envoyer par mail</button>
+</div>
+</div>
+<div class="card" style="margin-top:18px">
+<h3 style="margin-top:0">Source officielle</h3>
+<p class="tiny">Référentiel : Ligue Réunionnaise de Football — « Licence 2026: Documents ». Les documents restent liés à leurs fichiers PDF officiels afin d’éviter d’utiliser une copie périmée.</p>
+</div>
+</div>

@@ -13,18 +13,18 @@ from unittest.mock import patch
 import server
 import watch
 
-ROOT='https://saintjoseph.re/'
+ROOT='https://example.invalid/mairie/'
 HTML='''<html><head><link rel="alternate" type="application/rss+xml" href="/feed"/></head><body>
-<a href="/actu?utm_source=test">Association FC LA COUR : formation aux Jacques</a>
-<a href="/actu#haut">Association FC LA COUR : formation aux Jacques</a>
+<a href="/actu?utm_source=test">Association CLUB EXEMPLE : formation au stade municipal</a>
+<a href="/actu#haut">Association CLUB EXEMPLE : formation au stade municipal</a>
 <a href="/document.pdf">Convocation à la réunion du comité — PDF</a>
 <a href="https://foreign.invalid/actu">Contenu extérieur à ne pas suivre</a>
 <a href="javascript:alert(1)">Lien exécutable à refuser</a>
 <script><a href="/script">Un faux titre dans un script</a></script></body></html>'''
-RSS='''<rss><channel><item><title>Association FC LA COUR : formation aux Jacques</title><link>https://saintjoseph.re/actu</link><description>&lt;b&gt;Démonstration fictive&lt;/b&gt; &lt;script&gt;alert(1)&lt;/script&gt;</description><pubDate>Mon, 01 Jan 2024 10:00:00 GMT</pubDate></item></channel></rss>'''
+RSS='''<rss><channel><item><title>Association CLUB EXEMPLE : formation au stade municipal</title><link>https://example.invalid/mairie/actu</link><description>&lt;b&gt;Démonstration fictive&lt;/b&gt; &lt;script&gt;alert(1)&lt;/script&gt;</description><pubDate>Mon, 01 Jan 2024 10:00:00 GMT</pubDate></item></channel></rss>'''
 def fetch(url,source):
     return (RSS,'application/rss+xml',url) if url.endswith('/feed') else (HTML,'text/html',url)
-def observation(title='Association FC LA COUR : formation aux Jacques',suffix='actu'):
+def observation(title='Association CLUB EXEMPLE : formation au stade municipal',suffix='actu'):
     return {'url':ROOT+suffix,'title':title,'origin_page':ROOT,'excerpt':'Exemple fictif','published':'2024-01-01'}
 
 class WatchTests(unittest.TestCase):
@@ -33,7 +33,7 @@ class WatchTests(unittest.TestCase):
     def tearDown(self): self.temp.cleanup()
     def test_url_scope_and_tracking(self):
         self.assertEqual(watch.safe_url('/actu?utm_source=x&b=2&a=1#fin','mairie'),ROOT+'actu?a=1&b=2')
-        for url in ['http://saintjoseph.re/x','https://saintjoseph.re.evil.invalid/x','https://user:pass@saintjoseph.re/x','https://127.0.0.1/x','https://saintjoseph.re:8443/x','javascript:alert(1)','https://saintjoseph.re/\\x']:
+        for url in ['http://example.invalid/mairie/x','https://example.invalid/mairie.evil.invalid/x','https://user:pass@example.invalid/mairie/x','https://127.0.0.1/x','https://example.invalid/mairie:8443/x','javascript:alert(1)','https://example.invalid/mairie/\\x']:
             with self.subTest(url=url),self.assertRaises(watch.WatchError):watch.safe_url(url,'mairie')
     def test_private_dns_and_redirect_denied(self):
         with patch.object(watch.socket,'getaddrinfo',return_value=[(2,1,6,'',('192.168.1.3',443))]),self.assertRaises(watch.WatchError):watch.ensure_public_host(ROOT)
@@ -51,9 +51,9 @@ class WatchTests(unittest.TestCase):
         self.assertEqual(watch.parse_feed(text,'mairie',ROOT)[0]['url'],ROOT+'formation')
         with self.assertRaises(watch.WatchError):watch.parse_feed('<!DOCTYPE rss [<!ENTITY e "x">]><rss/>','mairie',ROOT)
     def test_topic_labels(self):
-        topics=watch.topics_for('F.C. LA COUR et les Jacques : associations et formations')
-        self.assertTrue({'FC LA COUR','Les Jacques','Associations','Formations'}<=set(topics))
-        self.assertNotIn('Réunions',watch.topics_for('Ligue de football de La Réunion'))
+        topics=watch.topics_for('CLUB EXEMPLE et le quartier exemple : associations et formations')
+        self.assertTrue({'CLUB EXEMPLE','Quartier Exemple','Associations','Formations'}<=set(topics))
+        self.assertNotIn('Réunions',watch.topics_for('Ligue de football de Territoire Exemple'))
     def test_first_scan_dedup_no_absence_deletion(self):
         r=observation();self.assertEqual(watch.store_observations(self.path,'mairie',[r,r],100)['new'],1)
         self.assertEqual(watch.store_observations(self.path,'mairie',[r],200)['unchanged'],1)
@@ -78,7 +78,7 @@ class WatchTests(unittest.TestCase):
         self.assertEqual(watch.entries(self.path,{})['total'],0)
     def test_limits_filters_pagination(self):
         rows=[observation(suffix='article'+str(i)) for i in range(65)];watch.store_observations(self.path,'mairie',rows)
-        out=watch.entries(self.path,{'topic':['FC LA COUR'],'source':['mairie']});self.assertEqual(out['total'],65);self.assertEqual(len(out['items']),50)
+        out=watch.entries(self.path,{'topic':['CLUB EXEMPLE'],'source':['mairie']});self.assertEqual(out['total'],65);self.assertEqual(len(out['items']),50)
         self.assertEqual(len(watch.entries(self.path,{'offset':['50']})['items']),15)
         self.assertEqual(watch.entries(self.path,{'source':['lrf']})['total'],0)
         for params in [{'offset':['-1']},{'status':['bad']}]:

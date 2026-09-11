@@ -1,0 +1,45 @@
+<div class="page" id="discipline">
+<div class="stats-return-bar" id="statsReturn-discipline"><button class="ghost" onclick="returnToStatistics()">← Retour aux statistiques</button><span class="tiny">Détail : Discipline</span></div>
+<div class="intra-hero"><div><div class="kicker">● Suivi réglementaire</div><h3>Discipline du club</h3><p>Importer les dossiers disciplinaires LRF et les rattacher automatiquement aux licenciés, licences, équipes et matchs.</p></div><button class="primary" onclick="document.getElementById('disciplineFile').click()">+ Importer dossiers.xlsx</button></div>
+<input accept=".xlsx,.xls,.csv" id="disciplineFile" onchange="handleDisciplineFile(event)" style="display:none" type="file"/>
+<div class="disc-grid" style="margin-top:20px">
+<div class="disc-card"><span class="tiny">Dossiers</span><strong id="discCount">0</strong></div>
+<div class="disc-card"><span class="tiny">Actifs</span><strong id="discActive">0</strong></div>
+<div class="disc-card"><span class="tiny">À venir</span><strong id="discFuture">0</strong></div>
+<div class="disc-card"><span class="tiny">Clos — Ligue</span><strong id="discClosedOfficial">0</strong></div>
+<div class="disc-card"><span class="tiny">Clos — échéance</span><strong id="discClosedExpired">0</strong></div>
+<div class="disc-card"><span class="tiny">À contrôler</span><strong id="discCheck">0</strong></div>
+<div class="disc-card"><span class="tiny">Licenciés concernés</span><strong id="discPeople">0</strong></div>
+<div class="disc-card"><span class="tiny">Matchs liés</span><strong id="discMatches">0</strong></div>
+</div>
+<div class="card" style="margin-top:18px">
+<h3 style="margin-top:0">Import discipline</h3>
+<div class="import-status warn" id="disciplineImportStatus">Aucun fichier discipline importé dans cette session.</div>
+</div>
+<div class="card" style="margin-top:18px">
+<h3 style="margin-top:0">⚖️ Contrôle réglementaire</h3>
+<p class="tiny">Cette page restitue les dossiers importés et signale les situations à vérifier. Elle ne crée jamais une sanction à partir d’un carton ou d’un cumul : seule une décision officielle présente dans les données importées est affichée comme décision disciplinaire.</p>
+<div class="rule-grid">
+<div class="rule-card warn"><strong>🟨 Avertissements</strong><p class="tiny">Les cumuls peuvent être signalés comme points de contrôle. Ils ne sont pas transformés automatiquement en suspension.</p></div>
+<div class="rule-card danger"><strong>🟥 Exclusion</strong><p class="tiny">Une exclusion déclenche une alerte de vérification du dossier officiel. La durée ou la nature de la sanction n’est pas déduite par l’application.</p></div>
+<div class="rule-card"><strong>📄 Décision officielle</strong><p class="tiny">Une suspension ou autre sanction n’est considérée comme enregistrée que si elle figure explicitement dans le dossier importé.</p></div>
+</div>
+</div>
+<div class="card" style="margin-top:18px">
+<h3 style="margin-top:0">Dossiers disciplinaires</h3>
+<div class="discipline-toolbar">
+<div class="field"><label>Recherche</label><input id="disciplineQuery" oninput="renderDiscipline()" placeholder="Nom, licence, dossier, match..."/></div>
+<div class="field"><label>État</label><select id="disciplineStatusFilter" onchange="renderDiscipline()">
+<option value="">Tous</option>
+<option value="active">Actifs</option>
+<option value="future">À venir</option>
+<option value="closed_official">Clos — Ligue</option>
+<option value="closed_expired">Clos — échéance dépassée</option>
+<option value="check">À contrôler</option>
+</select></div>
+<div class="field"><label>Type de signalement</label><select id="disciplineAlertFilter" onchange="renderDiscipline()"><option value="">Tous</option><option value="decision">Décision enregistrée</option><option value="red">Exclusion / carton rouge</option><option value="yellow">Avertissement(s)</option><option value="unlinked">Non rattaché</option></select></div>
+<button class="ghost" onclick="resetDisciplineFilters()">Réinitialiser</button>
+</div>
+<div class="disc-list" id="disciplineList"></div>
+</div>
+</div>

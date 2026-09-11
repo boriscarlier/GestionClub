@@ -1,0 +1,10 @@
+/* Tableaux : le conteneur peut défiler sans faire déborder la page */
+.table-wrap,
+.table-responsive,
+.sport-health-table,
+.coach-training-history-table{
+ max-width:100%;
+ overflow-x:auto;
+ -webkit-overflow-scrolling:touch;
+}
+

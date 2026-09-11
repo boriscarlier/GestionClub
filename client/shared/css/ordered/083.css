@@ -1,0 +1,21 @@
+/* Contenus principaux */
+.public-main,
+.intra-main,
+.portal-main,
+.coach-main,
+#publicApp,
+#intranetApp,
+#portalApp,
+#coachApp{
+ min-width:0;
+}
+.card,
+.coach-card,
+.portal-card,
+.match-card,
+.team-card,
+.stats-kpi,
+.sport-health-card{
+ min-width:0;
+}
+

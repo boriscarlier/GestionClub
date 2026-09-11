@@ -1,0 +1,24 @@
+/* INTRANET */
+#intranetApp{min-height:100vh}
+.sidebar{width:278px;position:fixed;inset:0 auto 0 0;background:var(--bg);border-right:1px solid var(--border);padding:22px 18px;z-index:50}
+.sidebar .brand{padding:8px 10px 24px}
+.strip{height:4px;border-radius:999px;margin:0 10px 18px;background:linear-gradient(90deg,#111 0 25%,var(--green) 25% 50%,var(--yellow) 50% 75%,var(--red) 75% 100%)}
+.nav{display:flex;flex-direction:column;gap:7px}.nav button{border:1px solid transparent;background:transparent;color:var(--muted);padding:12px 14px;border-radius:13px;display:flex;gap:12px;align-items:center;text-align:left}.nav button:hover,.nav button.active{background:var(--panel2);color:var(--text);border-color:var(--border)}.nav button.active{box-shadow:inset 3px 0 0 var(--green)}
+.nav-icon{width:26px;height:26px;border-radius:9px;background:var(--panel3);display:grid;place-items:center}
+.sidefoot{position:absolute;left:18px;right:18px;bottom:18px;padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--panel);font-size:12px;color:var(--muted)}
+.intra-main{margin-left:278px;width:calc(100% - 278px)}
+.topbar{min-height:78px;position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--border);padding:12px 28px;display:flex;align-items:center;justify-content:space-between;z-index:20}
+.topbar h2{margin:0;font-size:19px}.topbar small{color:var(--muted)}
+.profile{border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:12px;padding:7px 11px;display:flex;gap:10px;align-items:center}
+.avatar{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--yellow),var(--red));color:#111;font-weight:850}
+.content{padding:28px}.page{display:none}.page.active{display:block}
+.intra-hero{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;padding:26px;border:1px solid var(--border);border-radius:22px;background:linear-gradient(135deg,rgba(57,211,83,.12),rgba(243,200,66,.03)),var(--panel);box-shadow:var(--shadow)}
+.intra-hero h3{font-size:29px;margin:0 0 8px}.intra-hero p{margin:0;color:var(--muted);max-width:760px;line-height:1.5}
+.stats{grid-template-columns:repeat(4,1fr);margin:20px 0}.stat-label{font-size:13px;color:var(--muted)}.stat-value{font-size:30px;font-weight:850;margin-top:6px}
+.media-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.media-card{border:1px solid var(--border);border-radius:18px;background:var(--panel);overflow:hidden}.media-preview{height:150px;display:grid;place-items:center;background:linear-gradient(135deg,#1f2f25,#101612);font-size:38px}.media-body{padding:14px}
+.channel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.channel{padding:16px;border:1px solid var(--border);background:var(--panel2);border-radius:16px}.channel .icon{font-size:28px}
+.canvas-wrap{display:flex;align-items:center;justify-content:center;background:#060907;border:1px solid var(--border);border-radius:18px;padding:18px;min-height:520px}canvas{max-width:100%;height:auto;border-radius:14px}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.62);display:none;align-items:center;justify-content:center;padding:20px;z-index:120}.modal-bg.show{display:flex}.modal{width:min(900px,100%);max-height:90vh;overflow:auto;background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:22px}.modal-head{display:flex;justify-content:space-between;gap:20px}.close{border:0;background:transparent;color:var(--muted);font-size:22px}
+@media(max-width:1180px){.pub-links{gap:10px}.pub-links button{font-size:11px}}@media(max-width:1050px){.pub-links{display:none}.team-grid,.media-grid,.channel-grid{grid-template-columns:repeat(2,1fr)}.match-grid,.news-grid,.cols-2{grid-template-columns:1fr}.sidebar{transform:translateX(-100%)}.intra-main{margin-left:0;width:100%}}
+@media(max-width:650px){.content{padding:18px}.stats,.cols-3,.cols-4,.team-grid,.media-grid,.channel-grid,.social-strip{grid-template-columns:1fr}.hero{padding:70px 0;min-height:auto}.section{padding:58px 0}.intra-hero{flex-direction:column;align-items:flex-start}.table{display:block;overflow-x:auto}}
+

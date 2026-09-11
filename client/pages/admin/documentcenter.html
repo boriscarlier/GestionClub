@@ -1,0 +1,93 @@
+<section class="page" id="documentcenter">
+<div class="page-head">
+<div><div class="kicker">● V1.14</div><h2>Documents &amp; administration</h2><p>Centre documentaire interne du CLUB EXEMPLE.</p></div>
+<button class="primary" onclick="openDocumentForm()">＋ Ajouter un document</button>
+</div>
+<div class="doc-center">
+<div class="card">
+<div class="kicker">● Référence du club</div>
+<h3>Identité officielle utilisée dans les documents</h3>
+<div class="doc-club-reference">
+<img alt="Logo officiel CLUB EXEMPLE" class="club-logo-img" data-club-logo=""/>
+<div>
+<strong id="docClubReferenceName">CLUB EXEMPLE</strong>
+<div class="tiny" id="docClubReferenceMeta">Paramétrage du club à vérifier.</div>
+<div class="doc-control-links">
+<button class="ghost" onclick="goTo('clubsettings')">🏟️ Paramétrage du club</button>
+<button class="ghost" onclick="goTo('documents')">📄 Documents LRF / FFF</button>
+<button class="ghost" onclick="goTo('admincheck')">✅ Contrôle administratif</button>
+<button class="ghost" onclick="goTo('regcheck')">⚖️ Contrôle réglementaire</button>
+</div>
+</div>
+</div>
+<div class="club-logo-card" style="margin-top:14px">
+<div><img alt="Logo officiel CLUB EXEMPLE" class="club-logo-img club-logo-lg" data-club-logo=""/></div>
+<div>
+<p>Logo de référence pour le site, l’Administration, les matchs et les communications officielles.</p>
+<div class="official-letterhead">
+<img alt="Logo CLUB EXEMPLE" class="club-logo-img club-logo-md" data-club-logo=""/>
+<div class="meta">
+<strong>CLUB EXEMPLE</strong>
+<span class="tiny">En-tête de communication officielle</span>
+<span class="tiny">Ville Exemple • Territoire Exemple</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="doc-stat-grid">
+<div class="doc-stat"><span class="tiny">Documents</span><strong id="docStatTotal">0</strong></div>
+<div class="doc-stat"><span class="tiny">Officiels LRF/FFF</span><strong id="docStatOfficial">0</strong></div>
+<div class="doc-stat"><span class="tiny">Documents club</span><strong id="docStatClub">0</strong></div>
+<div class="doc-stat"><span class="tiny">Archivés</span><strong id="docStatArchived">0</strong></div>
+</div>
+<div class="card">
+<div class="doc-toolbar">
+<div class="field"><label>Recherche</label><input id="docSearch" oninput="renderDocumentCenter()" placeholder="Titre, catégorie, saison, mot-clé..."/></div>
+<div class="field"><label>Catégorie</label><select id="centerDocCategoryFilter" onchange="renderDocumentCenter()">
+<option value="">Toutes</option>
+<option>LRF / FFF</option><option>Statuts</option><option>Règlement intérieur</option><option>Assurance</option>
+<option>Convention</option><option>Contrat</option><option>Courrier</option><option>Procès-verbal</option>
+<option>Modèle</option><option>Administratif</option><option>Archive</option>
+</select></div>
+<div class="field"><label>Saison</label><select id="centerDocSeasonFilter" onchange="renderDocumentCenter()"></select></div>
+<button class="ghost" onclick="resetDocumentFilters()">Réinitialiser</button>
+</div>
+</div>
+<div class="card">
+<div class="doc-category-nav" id="docCategoryQuick"></div>
+</div>
+<div class="card">
+<h3>Bibliothèque documentaire</h3>
+<div class="doc-grid" id="documentGrid"></div>
+</div>
+<div class="card">
+<h3>Historique &amp; archives</h3>
+<div class="doc-table-wrap">
+<table class="doc-table">
+<thead><tr><th>Date</th><th>Document</th><th>Catégorie</th><th>Saison</th><th>État</th><th>Actions</th></tr></thead>
+<tbody id="documentArchiveRows"></tbody>
+</table>
+</div>
+</div>
+<div class="card doc-upload" id="documentForm" style="display:none">
+<h3>Ajouter / enregistrer un document</h3>
+<div class="form-grid">
+<div class="field"><label>Titre</label><input id="docFormTitle"/></div>
+<div class="field"><label>Catégorie</label><select id="docFormCategory">
+<option>Administratif</option><option>Statuts</option><option>Règlement intérieur</option><option>Assurance</option>
+<option>Convention</option><option>Contrat</option><option>Courrier</option><option>Procès-verbal</option><option>Modèle</option><option>Archive</option>
+</select></div>
+<div class="field"><label>Saison</label><input id="docFormSeason" value="2026"/></div>
+<div class="field"><label>Date</label><input id="docFormDate" type="date"/></div>
+<div class="field"><label>Lien / URL</label><input id="docFormUrl" placeholder="https://..."/></div>
+<div class="field"><label>Référence</label><input id="docFormRef" placeholder="N° courrier, convention, PV..."/></div>
+</div>
+<div class="field"><label>Description / mots-clés</label><textarea id="docFormDesc" rows="3"></textarea></div>
+<div class="coach-actions">
+<button class="primary" onclick="saveDocumentRecord()">Enregistrer</button>
+<button class="ghost" onclick="closeDocumentForm()">Annuler</button>
+</div>
+</div>
+</div>
+</section>

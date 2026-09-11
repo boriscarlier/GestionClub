@@ -1,0 +1,37 @@
+<div class="page" id="memberdetail">
+<div class="member-detail-head">
+<div class="member-identity">
+<div class="member-avatar" id="memberAvatar">LC</div>
+<div>
+<div class="kicker">● Fiche licencié</div>
+<h3 id="memberDetailName" style="margin:4px 0">Licencié</h3>
+<div class="member-badges" id="memberDetailBadges"></div>
+</div>
+</div>
+<div class="member-detail-actions">
+<button class="secondary" onclick="goTo('members')">← Retour</button>
+<button class="ghost" onclick="emailCurrentMember()">✉️ Email</button>
+<button class="ghost" onclick="printCurrentMember()">🖨️ Imprimer</button>
+</div>
+</div>
+<div class="member-detail-grid" style="margin-top:18px">
+<div class="member-block" id="memberIdentityPanel"><div class="member-block-head"><h4>Identité</h4><button class="ghost member-block-edit-btn" data-member-edit="identity" onclick="toggleMemberBlockEdit('identity')">Modifier</button></div><div class="member-kv" id="memberIdentityBlock"></div></div>
+<div class="member-block" id="memberContactPanel"><div class="member-block-head"><h4>Coordonnées</h4><button class="ghost member-block-edit-btn" data-member-edit="contact" onclick="toggleMemberBlockEdit('contact')">Modifier</button></div><div class="member-kv" id="memberContactBlock"></div></div>
+<div class="member-block" id="memberLicensePanel"><div class="member-block-head"><h4>Licence &amp; rôles</h4><button class="ghost member-block-edit-btn" data-member-edit="license" onclick="toggleMemberBlockEdit('license')">Modifier</button></div><div class="member-licenses" id="memberLicensesBlock"></div></div>
+<div class="member-block" id="memberFinancePanel"><div class="member-block-head"><h4>Finances / règlement</h4><button class="ghost member-block-edit-btn" data-member-edit="finance" onclick="toggleMemberBlockEdit('finance')">Modifier</button></div><div class="member-kv" id="memberFinanceBlock"></div></div>
+<div class="member-block" id="memberGuardianPanel"><div class="member-block-head"><h4>Représentants légaux</h4><button class="ghost member-block-edit-btn" data-member-edit="guardian" onclick="toggleMemberBlockEdit('guardian')">Modifier</button></div><div class="member-kv" id="memberGuardianBlock"></div></div>
+<div class="member-block" id="memberDisciplinePanel"><div class="member-block-head"><h4>Discipline</h4><button class="ghost member-block-edit-btn" data-member-edit="discipline" onclick="toggleMemberBlockEdit('discipline')">Modifier</button></div><div id="memberDisciplineBlock"></div></div>
+<div class="member-block" id="memberMutationPanel">
+<h4>Cachet licence / mutation</h4>
+<div class="member-kv" id="memberStampImportedBlock"></div>
+<div class="member-mutation-controls" style="margin-top:12px">
+<div class="field"><label>Vérification administrative</label><select id="memberMutationVerified" onchange="saveMemberMutationInfo()"><option value="pending">À vérifier</option><option value="verified">Vérifié</option></select></div>
+</div>
+<div class="member-mutation-state tiny" id="memberMutationState"></div>
+<div class="tiny" style="margin-top:8px">Le code, le libellé et les dates du cachet proviennent du fichier licences importé. La vérification administrative est une donnée interne distincte.</div>
+</div>
+<div class="member-block" id="memberHistoryPanel"><h4>Historique / club</h4><div class="member-kv" id="memberHistoryBlock"></div></div>
+<div class="member-block"><h4>Documents associés</h4><div class="member-docs" id="memberDocumentsBlock"></div><div class="member-quick-actions"><button class="ghost" onclick="openDocsForCurrentMember()">📄 Documents LRF</button><button class="ghost" onclick="emailDocsForCurrentMember()">✉️ Envoyer documents</button></div></div>
+<div class="member-block"><h4>Données source</h4><div class="tiny">La fiche conserve les informations importées depuis le fichier licences de référence. Les données sensibles restent réservées à l’Administration.</div><div class="tiny" id="memberSourceSummary" style="margin-top:8px"></div></div>
+</div>
+</div>

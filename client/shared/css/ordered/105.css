@@ -1,0 +1,6 @@
+/* ===== V1.22.3 : RETOURS TESTEURS ===== */
+.prototype-feedback-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.prototype-feedback-meta{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.prototype-feedback-item p{margin:6px 0;color:var(--muted)}
+
+

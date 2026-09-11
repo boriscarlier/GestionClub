@@ -1,0 +1,57 @@
+<div class="page" id="planning">
+<div class="intra-hero">
+<div>
+<div class="kicker">● Organisation</div>
+<h3>Planning global</h3>
+<p>Deux lectures distinctes : le planning interne hebdomadaire du club et les matchs officiels issus de la base Matchs.</p>
+</div>
+<button class="primary" id="planningAddBtn" onclick="openPlanningEditor()">+ Ajouter au planning</button>
+</div>
+<div class="grid stats">
+<div class="card" onclick="goTo('matches')" style="cursor:pointer"><div class="stat-label">Matchs officiels</div><div class="stat-value" id="planMatches">0</div><div class="tiny">Base Matchs</div></div>
+<div class="card"><div class="stat-label">Entraînements</div><div class="stat-value" id="planTrainings">0</div></div>
+<div class="card"><div class="stat-label">Réunions / événements</div><div class="stat-value" id="planEvents">0</div></div>
+<div class="card"><div class="stat-label">Conflits internes</div><div class="stat-value" id="planConflicts">0</div></div>
+</div>
+<div class="card" style="margin-top:16px">
+<div class="planning-toolbar">
+<div class="field"><label>Recherche</label><input id="planningSearch" oninput="renderPlanning()" placeholder="Équipe, lieu, activité..."/></div>
+<div class="field"><label>Équipe</label><select id="planningTeamFilter" onchange="renderPlanning()"><option value="">Toutes les équipes</option></select></div>
+<div class="field"><label>Type</label><select id="planningTypeFilter" onchange="renderPlanning()"><option value="">Tous les types</option><option value="training">Entraînement</option><option value="meeting">Réunion</option><option value="event">Événement</option></select></div>
+<button class="ghost" onclick="resetPlanningFilters()">Réinitialiser</button>
+</div>
+</div>
+<div class="card planning-event-editor" id="planningEventEditor">
+<div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+<h3 id="planningEditorTitle" style="margin:0">Ajouter au planning</h3>
+<button class="ghost" onclick="closePlanningEditor()">Fermer</button>
+</div>
+<input id="planningEditId" type="hidden"/>
+<div class="planning-editor-grid" style="margin-top:12px">
+<div class="field"><label>Jour</label><select id="planningEditDay"><option value="0">Lundi</option><option value="1">Mardi</option><option value="2">Mercredi</option><option value="3">Jeudi</option><option value="4">Vendredi</option><option value="5">Samedi</option><option value="6">Dimanche</option></select></div>
+<div class="field"><label>Heure</label><input id="planningEditTime" type="time" value="18:00"/></div>
+<div class="field"><label>Durée (min)</label><input id="planningEditDuration" min="15" step="15" type="number" value="90"/></div>
+<div class="field"><label>Type</label><select id="planningEditType"><option value="training">Entraînement</option><option value="meeting">Réunion</option><option value="event">Événement</option></select></div>
+<div class="field"><label>Équipe</label><select id="planningEditTeam"></select></div>
+<div class="field"><label>Lieu</label><input id="planningEditPlace" value="Stade Municipal"/></div>
+<div class="field" style="grid-column:1/-1"><label>Intitulé</label><input id="planningEditTitle" placeholder="Ex. Entraînement U15"/></div>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+<button class="primary" onclick="savePlanningEvent()">Enregistrer</button>
+<button class="danger" id="planningDeleteBtn" onclick="deletePlanningEvent()" style="display:none">Supprimer</button>
+</div>
+</div>
+<div class="card" style="margin-top:16px">
+<h3 style="margin-top:0">Planning interne — semaine type</h3>
+<p class="tiny">Entraînements, réunions et événements récurrents. Cliquez sur un élément pour le modifier.</p>
+<div class="planning-grid" id="planningGrid"></div>
+</div>
+<div class="card" style="margin-top:18px">
+<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+<div><h3 style="margin:0">Matchs officiels à venir</h3><div class="tiny">Prochaines rencontres issues de la base Matchs.</div></div>
+<button class="ghost" onclick="goTo('matches')">Voir tous les matchs →</button>
+</div>
+<div class="planning-official-list" id="planningOfficialMatches" style="margin-top:12px"></div>
+</div>
+<div class="card" style="margin-top:18px"><h3 style="margin-top:0">Conflits détectés</h3><div id="conflictList"></div></div>
+</div>

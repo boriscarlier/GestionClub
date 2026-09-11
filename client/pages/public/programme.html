@@ -1,0 +1,29 @@
+<div class="public-page" id="public-programme">
+<section class="page-hero-public">
+<div class="container">
+<div class="breadcrumbs"><button onclick="showPublicPage('public-home')">Accueil</button><span>›</span><span>Matchs</span></div>
+<div class="kicker">● Calendrier sportif</div>
+<h2>Programme &amp; résultats</h2>
+<p>Retrouvez l’ensemble des matchs du CLUB EXEMPLE, toutes équipes confondues.</p>
+</div>
+</section>
+<section class="section">
+<div class="container">
+<div class="program-toolbar" id="publicProgramFilters">
+<button class="ghost active" data-program-filter="all" onclick="setPublicProgramFilter('all',this)">Tous les matchs</button>
+<button class="ghost" data-program-filter="upcoming" onclick="setPublicProgramFilter('upcoming',this)">À venir</button>
+<button class="ghost" data-program-filter="results" onclick="setPublicProgramFilter('results',this)">Résultats</button>
+</div>
+<div class="program-section-filter">
+<div class="field">
+<label>Section</label>
+<select id="publicProgramSection" onchange="setPublicProgramSection(this.value)">
+<option value="">Toutes les sections</option>
+</select>
+</div>
+<div class="program-summary" id="publicProgramSummary"></div>
+</div>
+<div class="program-list" id="publicProgramList"></div>
+</div>
+</section>
+</div>

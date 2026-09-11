@@ -1,0 +1,29 @@
+<div class="page" id="opponentdetail">
+<div class="intra-hero">
+<div><div class="kicker">● Fiche club adverse</div><h3 id="opponentDetailTitle">Club adverse</h3><p id="opponentDetailSubtitle">Informations et correspondance avec les matchs.</p></div>
+<button class="secondary" onclick="goTo('opponents')">← Retour aux clubs adverses</button>
+</div>
+<div class="card" style="margin-top:18px">
+<div class="opponent-detail-head">
+<div id="opponentDetailLogo"></div>
+<div>
+<h3 id="opponentDetailName" style="margin:0 0 6px">Club adverse</h3>
+<div class="tiny" id="opponentDetailCity">—</div>
+<div class="opponent-status-row" id="opponentDetailBadges"></div>
+</div>
+</div>
+<div class="opponent-detail-grid" id="opponentDetailGrid"></div>
+</div>
+<div class="card" style="margin-top:16px">
+<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+<h3 style="margin:0">Matchs contre ce club</h3>
+<button class="secondary" onclick="editCurrentOpponentClub()">Modifier la fiche</button>
+</div>
+<div class="opponent-match-list" id="opponentDetailMatches" style="margin-top:12px"></div>
+</div>
+<div class="match-detail-actions">
+<button class="secondary" onclick="searchCurrentOpponentLogo()">🔎 Rechercher un logo</button>
+<button class="ghost" onclick="goTo('opponents')">← Retour</button>
+<button class="danger" onclick="deleteCurrentOpponentClub()">🗑️ Supprimer la fiche</button>
+</div>
+</div>

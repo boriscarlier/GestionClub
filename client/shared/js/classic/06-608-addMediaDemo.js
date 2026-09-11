@@ -1,0 +1,1 @@
+function addMediaDemo(){state.media.unshift({id:uid('md'),name:'Nouveau média '+(state.media.length+1),type:Math.random()>.7?'video':'photo',team:'Club',public:false,season:'2026',event:'Club',album:'Imports',rightsOk:true});save();toast('Médiathèque','Média de démonstration ajouté.')}

@@ -2,6 +2,25 @@
 
 ## V1.25.12-dev
 
+- Nettoyage complementaire des mentions textuelles, variantes et workflows ; retrait des caches Python suivis.
+- Detection du dossier Windows existant avec base : aucune selection arbitraire entre plusieurs installations.
+- Compatibilite des sauvegardes de schema 1 avec les anciens prefixes de format, sous validation structurelle existante.
+- 144 tests Python passes ; reference neutralisee et sources recomposees identiques. Navigateur/Windows a valider.
+
+
+- C/D/E : extraction source complete (114 CSS, 663 unites JS classiques, 70 templates imbriques).
+- Ajout d'un assembleur avec verification SHA-256 de chaque source, inclusions uniques et rejet des chemins hors client.
+- `/gestion-modulaire` et 70 routes explicites ajoutes derriere l'authentification existante ; `/gestion` reste inchange et `/gestion-legacy` disponible.
+- 141 tests Python passes localement, dont recomposition exacte, syntaxe JS, routes, authentification, passerelle LAN et repli sur incident.
+- Ajout d'un banc navigateur CI ; execution locale bloquee par absence de Chromium et echec de telechargement.
+- 210 comparaisons visuelles passees sur 330c941 (70 pages, trois largeurs). Les tests supplementaires des acces directs ont identifie une injection dans les exports HTML embarques : corrigee avec test de regression. Nouvelle validation navigateur bloquee : jobs Actions sans aucune etape ni journal. Pas de fusion ni de bascule F.
+
+- C1 : extraction passive du prefixe CSS commun en trois fichiers (tokens, base, composants).
+- Extracteur reproductible et manifeste avec plages source / SHA-256 ; refus des fichiers divergents.
+- Six tests CSS ajoutes aux lanceurs Linux, Windows compact et CI.
+- Verification locale : 6 tests CSS + 5 tests decomposition passes. Suite complete et validation visuelle non executees localement pour ce lot.
+- Monolithe, routes et CSS actifs inchanges. Phase C non terminee : surcharges et responsive a cartographier.
+
 - Demarrage de la decomposition HTML depuis la base stable V1.25.11.1.
 - Monolithe canonique fige a `1 143 051` octets avec controles Git SHA, SHA-256 et UTF-8 strict.
 - Decomposition deterministe en 41 blocs et recomposition identique octet pour octet.
@@ -48,7 +67,7 @@
 - Le lanceur Windows vérifie si `http://127.0.0.1:8765/` répond déjà avant de démarrer le serveur.
 - Si un serveur est déjà lancé, le script ouvre la page existante et ne crée pas de deuxième instance.
 - Le contrôle s'applique aussi après `METTRE_A_JOUR.cmd`, car il appelle le même lanceur.
-- Alignement de l'identifiant HTTP interne `FCLaCour/1.25.9`.
+- Alignement de l'identifiant HTTP interne `GestionClub/1.25.9`.
 - Sauvegardes completes acceptees jusqu'a `V1.25.9`.
 - Tests serveur maintenus a 32 controles avec verification du garde-fou Windows.
 
@@ -63,7 +82,7 @@
 
 ## V1.25.7
 
-- `METTRE_A_JOUR.cmd` cible par defaut `D:\FC_LA_COUR_GestionClub`.
+- `METTRE_A_JOUR.cmd` cible par defaut `D:\GESTION_CLUB_GestionClub`.
 - La mise a jour ne redemande plus le chemin quand aucun argument n'est fourni.
 - Apres copie, le script lance `LANCER_TESTS.cmd`.
 - Si les tests passent, le script lance `DEMARRER_SERVEUR.cmd`.
@@ -74,7 +93,7 @@
 
 - Ajout de lanceurs Windows a la racine : `DEMARRER_SERVEUR.cmd` et `LANCER_TESTS.cmd`.
 - Ajout de `METTRE_A_JOUR.cmd` pour mettre a jour un dossier stable sans toucher au dossier `data`.
-- Ajout du chemin de donnees configurable par `FCLC_DATA_PATH` ou `FCLC_DATA_DIR`.
+- Ajout du chemin de donnees configurable par `GESTION_CLUB_DATA_PATH` ou `GESTION_CLUB_DATA_DIR`.
 - Le demarrage Windows affiche le dossier programme et la base SQLite utilisee.
 - Les tests Windows indiquent qu'ils utilisent des bases temporaires.
 - Sauvegardes completes acceptees jusqu'a `V1.25.6`.

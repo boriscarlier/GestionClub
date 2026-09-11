@@ -1,0 +1,90 @@
+<div class="page active" id="dashboard">
+<div class="intra-hero">
+<div>
+<div class="kicker">● Pilotage opérationnel</div>
+<h3>CLUB EXEMPLE Manager</h3>
+<p>Vue rapide des informations utiles au quotidien. Les analyses détaillées restent regroupées dans le module Statistiques.</p>
+</div>
+<button class="primary" onclick="goTo('communication')">Créer une publication</button>
+</div>
+<div class="grid stats">
+<div class="card">
+<div class="stat-label">Licenciés</div>
+<div class="stat-value" id="statMembers">0</div>
+<div class="tiny">Base actuelle</div>
+</div>
+<div class="card">
+<div class="stat-label">Équipes</div>
+<div class="stat-value" id="statTeams">0</div>
+<div class="tiny">Équipes configurées</div>
+</div>
+<div class="card">
+<div class="stat-label">Matchs à venir</div>
+<div class="stat-value" id="dashUpcomingCount">0</div>
+<div class="tiny">Semaine affichée</div>
+</div>
+<div class="card stats-clickable" onclick="goTo('statistics')" title="Ouvrir les statistiques">
+<div class="stat-label">Statistiques</div>
+<div class="stat-value" style="font-size:22px">Voir l’analyse</div>
+<div class="tiny">Résultats, licenciés, discipline, adversaires… →</div>
+</div>
+</div>
+<div class="card" style="margin-top:16px">
+<div class="section-head"><div><div class="kicker">Pilotage sportif</div><h3>Présences, effectifs &amp; disponibilité</h3></div></div>
+<div class="sport-health-grid">
+<div class="sport-health-card"><div class="tiny">Taux moyen de présence</div><div class="value" id="dashPresenceRate">—</div><div class="tiny" id="dashPresenceMeta">0 séance</div></div>
+<div class="sport-health-card"><div class="tiny">Joueurs blessés</div><div class="value" id="dashInjuredPlayers">0</div><div class="tiny">Statut sportif actuel</div></div>
+<div class="sport-health-card"><div class="tiny">Compositions complétées</div><div class="value" id="dashLineupFillRate">—</div><div class="tiny" id="dashLineupMeta">0 match</div></div>
+<div class="sport-health-card"><div class="tiny">Matchs à régulariser</div><div class="value" id="dashMatchesToRegularize">0</div><div class="tiny">Terminés sans composition</div></div>
+</div>
+<div class="sport-health-bars">
+<div class="sport-health-bar-row"><span>Présents</span><div class="sport-health-track"><div class="sport-health-fill" id="dashBarPresent"></div></div><strong id="dashPresentCount">0</strong></div>
+<div class="sport-health-bar-row"><span>Absents</span><div class="sport-health-track"><div class="sport-health-fill" id="dashBarAbsent"></div></div><strong id="dashAbsentCount">0</strong></div>
+<div class="sport-health-bar-row"><span>Excusés</span><div class="sport-health-track"><div class="sport-health-fill" id="dashBarExcused"></div></div><strong id="dashExcusedCount">0</strong></div>
+<div class="sport-health-bar-row"><span>Blessés</span><div class="sport-health-track"><div class="sport-health-fill" id="dashBarInjured"></div></div><strong id="dashTrainingInjuredCount">0</strong></div>
+</div>
+<div class="sport-health-table"><h4>Présence par équipe</h4><div id="dashTeamPresenceTable"></div></div>
+</div>
+<div class="grid cols-2">
+<div class="card">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+<div>
+<h3 style="margin:0">Prochains matchs</h3>
+<div class="tiny" id="dashWeekLabel">Semaine en cours</div>
+</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">
+<button class="ghost" id="dashPrevWeekBtn" onclick="dashboardChangeWeek(-1)" style="display:none">← Semaine précédente</button>
+<button class="ghost" onclick="dashboardChangeWeek(1)">Semaine suivante →</button>
+<button class="ghost" id="dashCurrentWeekBtn" onclick="dashboardResetWeek()" style="display:none">Cette semaine</button>
+<button class="ghost" onclick="goTo('matches')">Voir tous →</button>
+</div>
+</div>
+<div id="dashMatches" style="margin-top:12px"></div>
+</div>
+<div class="card">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+<div>
+<h3 style="margin:0">Dernières publications</h3>
+<div class="tiny">Activité récente</div>
+</div>
+<button class="ghost" onclick="goTo('communication')">Voir plus →</button>
+</div>
+<div id="dashPosts" style="margin-top:12px"></div>
+</div>
+</div>
+<div class="grid cols-2" style="margin-top:14px">
+<div class="card">
+<h3 style="margin-top:0">État des données</h3>
+<div class="stats-health" id="dashDataHealth"></div>
+</div>
+<div class="card">
+<h3 style="margin-top:0">Actions rapides</h3>
+<div class="reset-actions">
+<button class="ghost" onclick="goTo('members')">👥 Licenciés</button>
+<button class="ghost" onclick="goTo('matches')">🗓️ Matchs</button>
+<button class="ghost" onclick="goTo('importwatch')">📥 Imports</button>
+<button class="ghost" onclick="goTo('alerts')">🚨 Alertes</button>
+</div>
+</div>
+</div>
+</div>

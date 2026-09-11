@@ -1,0 +1,13 @@
+/* ===== V1.21.20.3 : EDITION PAR BLOC LICENCIE ===== */
+.member-block-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.member-block-head h4{margin:0}
+.member-block-edit-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.member-block-edit-grid .field{margin:0}
+.member-block-edit-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.member-discipline-edit-card{padding:12px;border:1px solid var(--line);border-radius:12px;margin-top:10px}
+.member-discipline-edit-card:first-child{margin-top:0}
+@media(max-width:700px){
+ .member-block-edit-grid{grid-template-columns:1fr}
+ .member-block-edit-actions button{flex:1 1 auto}
+}
+

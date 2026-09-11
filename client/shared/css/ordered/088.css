@@ -1,0 +1,11 @@
+/* Modales / panneaux flottants */
+.modal,
+.modal-card,
+.dialog,
+.editor-modal,
+.admin-modal{
+ max-width:min(96vw,1100px);
+ max-height:92vh;
+ overflow:auto;
+}
+

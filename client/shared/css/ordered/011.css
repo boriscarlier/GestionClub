@@ -1,0 +1,19 @@
+/* ===== V1.07 STABLE : COMMUNICATION MULTICANAL ===== */
+.comm-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:20px 0}
+.comm-stat{padding:18px;border:1px solid var(--border);border-radius:16px;background:var(--panel)}
+.comm-stat strong{display:block;font-size:28px;margin-top:6px}
+.comm-kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.comm-col{border:1px solid var(--border);border-radius:16px;background:var(--panel2);padding:12px;min-height:230px}
+.comm-col h4{margin:0 0 10px}
+.comm-item{padding:11px;border:1px solid var(--border);border-radius:12px;background:var(--panel);margin-bottom:8px}
+.comm-item strong{display:block;margin-bottom:5px}
+.comm-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.comm-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.comm-preview .box{padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--panel2)}
+.comm-preview .box p{white-space:pre-wrap;font-size:12px;line-height:1.5;color:#d8e0da}
+.channel-status{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+.channel-status .channel{padding:15px;border:1px solid var(--border);border-radius:14px;background:var(--panel2)}
+@media(max-width:1000px){.comm-kanban,.comm-summary,.channel-status{grid-template-columns:repeat(2,1fr)}.comm-preview{grid-template-columns:1fr}}
+@media(max-width:650px){.comm-kanban,.comm-summary,.channel-status{grid-template-columns:1fr}}
+
+

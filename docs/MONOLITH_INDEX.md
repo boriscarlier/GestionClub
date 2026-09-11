@@ -2,12 +2,12 @@
 
 ## Référence actuelle
 
-- Fichier canonique : `client/FC_LA_COUR_Manager.html`
+- Fichier canonique : `client/GESTION_CLUB_Manager.html`
 - Base fonctionnelle : `V1.25.11.1` stable.
 - Encodage exigé : UTF-8 strict avec round-trip identique octet pour octet.
 - Taille du fichier sain : `1 143 051` octets.
 - Git blob SHA : `64def65ec261d3da05d855896484c4deb79da407`.
-- SHA-256 du contenu : `5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c`.
+- SHA-256 du contenu : `03ddf8c3b0e82a081d12a19e0c2e42ac443511e97ace763ca35259de3fbc7fdd`.
 
 Les deux empreintes ne sont pas interchangeables : le Git blob SHA est l'identifiant interne Git du blob, tandis que le SHA-256 est calcule directement sur les octets du fichier.
 

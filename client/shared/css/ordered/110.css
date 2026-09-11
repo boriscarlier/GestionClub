@@ -1,0 +1,28 @@
+/* V1.22.8 — Module Footclubs UI, styles limités à son périmètre. */
+#footclubsui [hidden]{display:none!important}
+#footclubsui .fcu-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0}
+#footclubsui .fcu-summary .card{display:flex;flex-direction:column;gap:6px}
+#footclubsui .fcu-summary strong{font-size:21px}
+#footclubsui .fcu-tabs,#footclubsui .fcu-actions,#footclubsui .fcu-heading,.fcu-source-link{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+#footclubsui .fcu-tabs{justify-content:flex-start;margin-bottom:14px}
+#footclubsui .fcu-tabs [aria-pressed=true]{border-color:var(--green);box-shadow:inset 0 -2px var(--green)}
+#footclubsui .fcu-actions{justify-content:flex-start}
+#footclubsui .fcu-file{display:inline-flex;flex-direction:column;gap:7px;padding:10px;max-width:100%;cursor:pointer}
+#footclubsui .fcu-file input{min-height:30px;max-width:100%;font-size:12px}
+#footclubsui h3{margin-top:0}
+#footclubsui p{line-height:1.6}
+#footclubsui .fcu-notice{padding:13px 15px;margin:12px 0;border:1px solid var(--border);border-left:3px solid var(--yellow);border-radius:10px;background:var(--panel2);line-height:1.55;font-size:13px}
+#footclubsui .fcu-notice[data-error=true]{border-left-color:var(--red)}
+#footclubsui .fcu-section,.fcu-source-link{margin-top:16px;margin-bottom:16px}
+#footclubsui .fcu-process{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+#footclubsui .fcu-process>div{padding:16px;border:1px solid var(--border);border-radius:12px}
+#footclubsui .fcu-process p{font-size:13px;color:var(--muted);margin-bottom:0}
+#footclubsui .fcu-link{display:inline-flex;align-items:center;padding:10px 16px;min-height:44px}
+#footclubsui .fcu-viewer{margin-top:14px;min-width:0;overflow:hidden}
+#footclubsui .fcu-read-summary{padding:12px 14px;border:1px solid var(--green2);border-radius:12px;margin-top:14px;line-height:1.65}
+#footclubsui .fcu-roadmap-row{display:grid;grid-template-columns:115px minmax(0,1fr);gap:16px;padding:17px 0;border-bottom:1px solid var(--border)}
+#footclubsui .fcu-roadmap-row h4{margin:0 0 6px}#footclubsui .fcu-roadmap-row p{margin:5px 0;font-size:13px}
+#footclubsui .fcu-roadmap-row .badge{display:inline-flex;margin:0 5px 4px 0}
+@media(max-width:900px){#footclubsui .fcu-summary,#footclubsui .fcu-process{grid-template-columns:1fr}#footclubsui .fcu-hero{flex-direction:column;align-items:flex-start}}
+@media(max-width:560px){#footclubsui .fcu-roadmap-row{grid-template-columns:1fr;gap:6px}#footclubsui .fcu-tabs>button{flex:1 1 100%}#footclubsui button{min-height:44px}#footclubsui .fcu-actions>*{width:100%}#footclubsui .card{padding:14px}#footclubsui .fcu-heading{align-items:flex-start}}
+

@@ -1,0 +1,5 @@
+/* ===== V1.21.10.1 : STATUTS DES CONTROLES REGLEMENTAIRES ===== */
+.reg-review-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.reg-review-meta{margin-top:8px;padding:8px 10px;border:1px dashed var(--line);border-radius:9px}
+.reg-review-actions select{min-width:150px}
+

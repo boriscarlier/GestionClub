@@ -1,0 +1,26 @@
+/* ===== V1.03 : EQUIPES & COMPETITIONS ===== */
+.team-filters{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 20px}
+.team-filters button{border:1px solid var(--border);background:var(--panel2);color:var(--muted);border-radius:999px;padding:9px 12px}
+.team-filters button.active,.team-filters button:hover{color:#fff;border-color:var(--green)}
+.team-card.clickable{cursor:pointer;transition:.18s ease}
+.team-card.clickable:hover{transform:translateY(-3px);border-color:#496251}
+.team-detail-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px}
+.team-identity{display:flex;gap:18px;align-items:center}
+.team-big-logo{width:88px;height:88px;border-radius:24px;background:linear-gradient(135deg,var(--green),var(--green2));color:#061008;display:grid;place-items:center;font-size:24px;font-weight:950}
+.roster-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.player-chip{padding:12px;border:1px solid var(--border);border-radius:13px;background:var(--panel2)}
+.staff-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.staff-card{padding:13px;border:1px solid var(--border);border-radius:13px;background:var(--panel2)}
+.fixture-list{display:grid;gap:10px}
+.fixture{display:grid;grid-template-columns:120px 1fr auto;gap:14px;align-items:center;padding:13px;border:1px solid var(--border);border-radius:14px;background:var(--panel2)}
+.fixture .score{font-size:20px}
+.competition-card{padding:16px;border:1px solid var(--border);border-radius:16px;background:var(--panel2)}
+.competition-card h4{margin:0 0 6px}
+.rank-table{width:100%;border-collapse:collapse}
+.rank-table th,.rank-table td{padding:11px 9px;border-bottom:1px solid var(--border);font-size:12px;text-align:left}
+.rank-table th{color:var(--muted)}
+.backbar{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:18px}
+@media(max-width:900px){.team-detail-grid{grid-template-columns:1fr}.roster-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.roster-grid,.staff-grid{grid-template-columns:1fr}.fixture{grid-template-columns:1fr}.fixture .score{justify-self:start}}
+
+

@@ -1,0 +1,55 @@
+<div class="page" id="matches">
+<div class="stats-return-bar" id="statsReturn-matches"><button class="ghost" onclick="returnToStatistics()">← Retour aux statistiques</button><span class="tiny">Détail : Matchs</span></div>
+<div class="intra-hero"><div><div class="kicker">● Gestion sportive</div><h3>Matchs</h3><p>Base officielle des rencontres : calendrier, résultats, adversaires, lieux et statuts.</p></div><button class="primary" id="matchAddBtn" onclick="addMatch()">+ Ajouter match</button></div>
+<div class="match-summary-grid">
+<div class="card" onclick="setMatchStatusFilter('',null)"><div class="stat-label">Total</div><div class="stat-value" id="matchKpiTotal">0</div></div>
+<div class="card" onclick="setMatchCompetitionTypeFilter('Championnat')"><div class="stat-label">Championnat</div><div class="stat-value" id="matchKpiLeague">0</div></div>
+<div class="card" onclick="setMatchCompetitionTypeFilter('Coupe')"><div class="stat-label">Coupe</div><div class="stat-value" id="matchKpiCup">0</div></div>
+<div class="card" onclick="setMatchCompetitionTypeFilter('Match amical')"><div class="stat-label">Matchs amicaux</div><div class="stat-value" id="matchKpiFriendly">0</div></div>
+<div class="card" onclick="setMatchStatusFilter('À venir',null)"><div class="stat-label">À venir</div><div class="stat-value" id="matchKpiUpcoming">0</div></div>
+<div class="card" onclick="setMatchStatusFilter('Terminé',null)"><div class="stat-label">Avec résultat</div><div class="stat-value" id="matchKpiPlayed">0</div></div>
+<div class="card"><div class="stat-label">Équipes concernées</div><div class="stat-value" id="matchKpiTeams">0</div></div>
+<div class="card"><div class="stat-label">Adversaires</div><div class="stat-value" id="matchKpiOpponents">0</div></div>
+</div>
+<div class="card" style="margin-top:18px">
+<div class="match-toolbar">
+<div class="field wide"><label>Recherche</label><input id="matchSearch" oninput="renderMatchList()" placeholder="Équipe, adversaire, compétition, lieu, n° match..."/></div>
+<div class="field"><label>Trier par</label><select id="matchSort" onchange="renderMatchList()">
+<option value="date-asc">Date croissante</option>
+<option value="date-desc">Date décroissante</option>
+<option value="team">Équipe</option>
+<option value="opponent">Adversaire</option>
+<option value="status">Statut</option>
+</select></div>
+<div class="field"><label>Équipe</label><select id="matchTeamFilter" onchange="renderMatchList()"><option value="">Toutes les équipes</option></select></div>
+<div class="field"><label>Type de rencontre</label><select id="matchCompetitionTypeFilter" onchange="renderMatchList()">
+<option value="">Toutes</option>
+<option value="Championnat">Championnat</option>
+<option value="Coupe">Coupe</option>
+<option value="Match amical">Match amical</option>
+<option value="Autre">Autre</option>
+</select></div>
+<div class="field"><label>Domicile / extérieur</label><select id="matchHomeAwayFilter" onchange="renderMatchList()">
+<option value="">Tous</option>
+<option value="Domicile">Domicile</option>
+<option value="Extérieur">Extérieur</option>
+<option value="Non renseigné">Non renseigné</option>
+</select></div>
+<button class="ghost" onclick="resetMatchFilters()">Réinitialiser</button>
+</div>
+<div class="match-filter-tabs" id="matchStatusFilters">
+<button class="ghost active" data-match-filter="" onclick="setMatchStatusFilter('',this)">Tous</button>
+</div>
+<div class="match-bulkbar">
+<label><input id="matchSelectAll" onchange="toggleSelectAllMatches(this.checked)" type="checkbox"/> Tout sélectionner</label>
+<span class="tiny" id="matchSelectionCount">0 sélectionné</span>
+<button class="ghost" onclick="clearMatchSelection()">Effacer la sélection</button>
+</div>
+</div>
+<div class="card" style="margin-top:16px;overflow:auto">
+<table class="table">
+<thead><tr><th class="match-select-cell"></th><th>Date</th><th>Équipe</th><th>Adversaire</th><th>Domicile / Extérieur</th><th>Type</th><th>Compétition</th><th>Lieu</th><th>Score</th><th>Statut</th><th>Action</th></tr></thead>
+<tbody id="matchRows"></tbody>
+</table>
+</div>
+</div>

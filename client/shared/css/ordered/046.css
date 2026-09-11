@@ -1,0 +1,8 @@
+/* ===== V1.15.4 : DETAIL REPARTITION LICENCIES ===== */
+.stats-clickable{cursor:pointer;transition:transform .15s ease,border-color .15s ease}
+.stats-clickable:hover{transform:translateY(-1px)}
+.stats-detail-table{width:100%;border-collapse:collapse}
+.stats-detail-table th,.stats-detail-table td{padding:10px;border-bottom:1px solid var(--border);text-align:left}
+.stats-detail-table th:last-child,.stats-detail-table td:last-child{text-align:right}
+
+

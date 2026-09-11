@@ -85,7 +85,7 @@ Etat : stable technique.
 
 Etat : stable technique.
 
-- Utiliser `D:\FC_LA_COUR_GestionClub` comme dossier stable par defaut.
+- Utiliser `D:\GESTION_CLUB_GestionClub` comme dossier stable par defaut.
 - Ne plus redemander le chemin lors d'une mise a jour standard.
 - Lancer les tests automatiquement apres copie.
 - Demarrer le serveur automatiquement si les tests passent.
@@ -161,7 +161,7 @@ Etat : termine, garde-fous automatises verts.
 Etat : extraction passive terminee, validation CI finale en cours.
 
 - [x] Extraire le gros `CLUB_LOGO_DATA_URI` PNG vers `client/assets/brand/club-logo.png`.
-- [x] Verifier la ressource par SHA-256, taille et dimensions : `92 264` octets, `576x507`, SHA-256 `f1152a3cb6601bb95a90f5e362119e0bde45b8da9f4bafe5dd256bba028fb6bd`.
+- [x] Verifier la ressource par SHA-256, taille et dimensions : `26 046` octets, `576x507`, SHA-256 `3dfedc639bf7dcf78e7810c945e03aff10a4fcd0763581c7f3ed0fe894ec53b6`.
 - [x] Indexer l'asset dans `docs/MANAGER_ASSETS_INDEX.json` avec `runtime_active: false`.
 - [x] Tester que le PNG versionne dans GitHub est identique octet pour octet au PNG embarque.
 - [x] Introduire une desserte statique controlee `/assets/brand/club-logo.png` et verifier son contenu par HTTP.
@@ -170,17 +170,37 @@ Etat : extraction passive terminee, validation CI finale en cours.
 
 ### V1.25.12-C - Socle commun CSS
 
+Extraction source et cartographie realisees : 114 unites dans l'ordre original.
+Voir `docs/MANAGER_CSS_INDEX.md`. Pas de reordonnancement ni suppression de surcharges.
+La route optionnelle `/gestion-modulaire` les assemble dans les cinq styles originaux.
+La validation visuelle est encore requise avant de declarer la phase finalisee.
+
+C1 : extraction passive du prefixe commun (tokens, base, composants), controles locaux 11/11.
+Les fichiers ne sont pas actifs dans `/gestion`. La phase C reste en cours.
+C2 : cartographier les surcharges et styles responsive avant activation et comparaison visuelle.
+Voir `client/shared/css/README.md`.
+
 - [ ] Extraire les styles globaux vers `client/shared/css/`.
 - [ ] Distinguer styles communs et styles propres a chaque page.
 - [ ] Conserver la compatibilite avec `/gestion` pendant la migration.
 
 ### V1.25.12-D - Socle commun JavaScript
 
+Extraction source realisee : 663 unites verifiees syntaxiquement, dont les services communs.
+Voir `docs/MANAGER_JS_SERVICES.md`. Les scripts classiques sont recomposes sans changer leur portee.
+Ce n'est pas une conversion en ES modules autonomes ; aucune nouvelle logique metier dupliquee.
+
 - [ ] Extraire les services communs : etat, stockage, API, sauvegarde, session et utilitaires.
 - [ ] Definir des modules stables sous `client/shared/js/`.
 - [ ] Interdire les duplications de logique metier entre pages.
 
 ### V1.25.12-E - Pages fonctionnelles
+
+70 templates extraits, inclusions imbriquees et routes optionnelles raccordees.
+Voir `docs/MANAGER_COMPOSED_PAGES.md` et `client/pages/README.md`.
+Les 70 routes passent les controles HTTP ; le document modulaire de base est identique au legacy.
+141 tests Python passes localement, dont passerelle LAN. 210 comparaisons navigateur passees sur 330c941 (70 pages x trois largeurs).
+Les 70 acces directs ont ensuite revele une injection dans des chaines HTML d'export : corrigee avec test de regression. Revalidation navigateur bloquee par GitHub Actions (jobs sans etapes ni journaux). E reste ouverte ; ne pas fusionner avant ce resultat.
 
 - [ ] Creer les pages uniquement a partir de la cartographie reelle du Manager.
 - [ ] Fournir une navigation/index unique et un referencement clair dans GitHub.

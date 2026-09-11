@@ -1,0 +1,6 @@
+/* ===== V1.14.12 : FILTRE SECTIONS PROGRAMME PUBLIC ===== */
+.program-section-filter{display:flex;align-items:end;gap:10px;flex-wrap:wrap;margin:0 0 16px}
+.program-section-filter .field{min-width:240px;margin:0}
+.program-summary{color:var(--muted);font-size:12px;padding-bottom:10px}
+
+

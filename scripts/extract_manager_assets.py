@@ -10,11 +10,11 @@ from pathlib import Path
 
 from decompose_manager import EXPECTED_GIT_BLOB_SHA, EXPECTED_SHA256, validate_source
 
-SOURCE_DEFAULT = Path('client/FC_LA_COUR_Manager.html')
+SOURCE_DEFAULT = Path('client/GESTION_CLUB_Manager.html')
 OUTPUT_DEFAULT = Path('client/assets/brand/club-logo.png')
 INDEX_DEFAULT = Path('docs/MANAGER_ASSETS_INDEX.json')
-EXPECTED_ASSET_SHA256 = 'f1152a3cb6601bb95a90f5e362119e0bde45b8da9f4bafe5dd256bba028fb6bd'
-EXPECTED_ASSET_BYTES = 92_264
+EXPECTED_ASSET_SHA256 = '3dfedc639bf7dcf78e7810c945e03aff10a4fcd0763581c7f3ed0fe894ec53b6'
+EXPECTED_ASSET_BYTES = 26_046
 EXPECTED_WIDTH = 576
 EXPECTED_HEIGHT = 507
 PNG_SIGNATURE = b'\x89PNG\r\n\x1a\n'
@@ -82,7 +82,7 @@ def extract_logo(source: Path):
 
 def build_index(info, target: Path):
     return {
-        'format': 'FC_LA_COUR_MANAGER_ASSETS_INDEX',
+        'format': 'GESTION_CLUB_MANAGER_ASSETS_INDEX',
         'schema_version': 1,
         'source': str(SOURCE_DEFAULT).replace('\\', '/'),
         'source_sha256': info['source_sha256'],

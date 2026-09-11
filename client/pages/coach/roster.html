@@ -1,0 +1,7 @@
+<section class="coach-page" id="coach-roster">
+<div class="coach-card"><h3>Effectif</h3>
+<div class="member-tools" style="grid-template-columns:2fr 1fr"><input id="coachRosterQuery" oninput="renderCoachPortal()" placeholder="Rechercher un joueur..."/><select id="coachRosterFilter" onchange="renderCoachPortal()"><option value="">Tous</option><option value="available">Disponibles</option><option value="injured">Blessés</option><option value="absent">Absents</option><option value="blocked">Bloqués / suspendus</option><option value="warning">À vérifier</option><option value="discipline">Discipline à vérifier</option></select></div>
+<div class="coach-player-stats-panel" id="coachPlayerStatsPanel"></div><p class="tiny qa-counter-note">Compteur interne : compositions validées de matchs terminés. La participation effective et les minutes jouées ne sont pas saisies.</p>
+<div class="coach-roster" id="coachRosterList"></div>
+</div>
+</section>

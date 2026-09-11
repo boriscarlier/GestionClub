@@ -1,0 +1,7 @@
+/* ===== V1.14 : LICENCIES AVANCES ===== */
+.member-quick-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.member-docs{display:grid;gap:8px}
+.member-doc{padding:10px;border:1px solid var(--border);border-radius:11px;background:var(--panel)}
+.member-export-bar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+
+

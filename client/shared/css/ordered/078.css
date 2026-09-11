@@ -1,0 +1,18 @@
+/* ===== V1.21.18.13 : ENTRAINEMENTS + PRESENCES ===== */
+.coach-training-form{display:grid;grid-template-columns:1.2fr .8fr .8fr 1fr auto;gap:8px;align-items:end}
+.coach-training-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:10px 0}
+.coach-training-stat{padding:9px;border:1px solid var(--line);border-radius:10px}
+.coach-attendance-row{display:grid;grid-template-columns:minmax(0,1.5fr) auto auto;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+.coach-attendance-actions{display:flex;gap:5px;flex-wrap:wrap}
+.coach-attendance-actions button.active{font-weight:800}
+.coach-training-session{padding:10px 0;border-bottom:1px solid var(--line)}
+.coach-training-history-table{overflow-x:auto}
+.coach-training-history-table table{width:100%;border-collapse:collapse}
+.coach-training-history-table th,.coach-training-history-table td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+@media(max-width:850px){
+ .coach-training-form{grid-template-columns:1fr 1fr}
+ .coach-training-form .wide{grid-column:1/-1}
+ .coach-training-stats{grid-template-columns:1fr 1fr}
+ .coach-attendance-row{grid-template-columns:1fr}
+}
+

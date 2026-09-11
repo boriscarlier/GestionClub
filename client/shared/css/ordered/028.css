@@ -1,0 +1,12 @@
+/* ===== V1.14.6 : RECHERCHE / TRI / SELECTION MATCHS ===== */
+.match-toolbar{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;align-items:end;margin-top:16px}
+.match-filter-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.match-filter-tabs button.active{outline:2px solid currentColor}
+.match-bulkbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.match-row-selected{background:rgba(57,211,83,.08)!important}
+.match-select-cell{width:44px;text-align:center}
+.match-sort-indicator{font-size:11px;color:var(--muted);margin-left:4px}
+@media(max-width:900px){.match-toolbar{grid-template-columns:1fr 1fr}.match-toolbar .wide{grid-column:1/-1}}
+@media(max-width:600px){.match-toolbar{grid-template-columns:1fr}}
+
+

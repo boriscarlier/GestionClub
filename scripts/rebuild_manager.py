@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 MANIFEST_DEFAULT = Path('client/manager_parts/manifest.json')
-OUTPUT_DEFAULT = Path('releases/rebuilt_FC_LA_COUR_Manager.html')
+OUTPUT_DEFAULT = Path('releases/rebuilt_GESTION_CLUB_Manager.html')
 
 
 def digest(data: bytes) -> str:
@@ -15,7 +15,7 @@ def digest(data: bytes) -> str:
 
 def rebuild(manifest_path: Path, output: Path, compare: Path | None = None):
     manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
-    if manifest.get('format') != 'FC_LA_COUR_MANAGER_DECOMPOSITION':
+    if manifest.get('format') != 'GESTION_CLUB_MANAGER_DECOMPOSITION':
         raise SystemExit('Manifest de decomposition Manager invalide.')
     parts = manifest.get('parts')
     if not isinstance(parts, list) or not parts:

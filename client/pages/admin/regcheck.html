@@ -1,0 +1,21 @@
+<div class="page" id="regcheck">
+<div class="intra-hero"><div><div class="kicker">● Règlement LRF 2026</div><h3>Contrôle réglementaire des licenciés</h3><p>Croisement licences, discipline et matchs afin d’identifier les situations pouvant empêcher ou conditionner la participation d’un licencié.</p></div><button class="secondary" onclick="openOfficialDoc('reglement2026')">Ouvrir le règlement 2026</button></div>
+<div class="reg-check-grid" style="margin-top:18px">
+<div class="reg-check-card"><span class="tiny">Contrôles</span><strong id="regTotal">0</strong></div>
+<div class="reg-check-card"><span class="tiny">Blocages</span><strong id="regBlocks">0</strong></div>
+<div class="reg-check-card"><span class="tiny">Discipline</span><strong id="regDiscipline">0</strong></div>
+<div class="reg-check-card"><span class="tiny">Licence / qualification</span><strong id="regLicense">0</strong></div>
+<div class="reg-check-card"><span class="tiny">Surclassement / mutation</span><strong id="regOther">0</strong></div>
+</div>
+<div class="card" style="margin-top:18px">
+<div class="control-source-note tiny">Les contrôles réglementaires sont des aides au contrôle. Ils ne remplacent ni une décision de la Ligue ni la vérification du règlement applicable et des données officielles.</div>
+<div class="control-toolbar" style="margin-top:12px">
+<input id="regQuery" oninput="renderRegulatoryChecks()" placeholder="Rechercher joueur, licence, règle..."/>
+<select id="regSeverity" onchange="renderRegulatoryChecks()"><option value="">Toutes conséquences</option><option value="block">Blocage</option><option value="warn">À vérifier</option></select>
+<select id="regKind" onchange="renderRegulatoryChecks()"><option value="">Toutes catégories</option><option value="discipline">Discipline</option><option value="license">Licence / qualification</option><option value="upgrade">Surclassement</option><option value="transfer">Mutation</option></select>
+<select id="regReviewStatus" onchange="renderRegulatoryChecks()"><option value="">Tous traitements</option><option value="pending">À vérifier</option><option value="checked">Vérifié</option><option value="validated">Validé</option><option value="closed">Clos</option></select>
+<button class="ghost" onclick="resetRegulatoryCheckFilters()">Réinitialiser</button>
+</div>
+<div class="reg-issues" id="regulatoryIssues"></div>
+</div>
+</div>

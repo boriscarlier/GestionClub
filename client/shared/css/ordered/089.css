@@ -1,0 +1,19 @@
+/* ===== Laptop / petit desktop ===== */
+@media (max-width:1200px){
+ .sidebar{
+  width:220px;
+ }
+ .intra-main{
+  margin-left:220px;
+ }
+ .grid.stats{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+ }
+ .stats-dashboard-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+ }
+ .sport-health-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+ }
+}
+

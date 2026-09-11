@@ -1,0 +1,9 @@
+/* ===== V1.21.5 : STABILISATION EQUIPES ===== */
+.team-admin-tools{display:grid;grid-template-columns:1fr 220px auto;gap:10px;align-items:end;margin-bottom:14px}
+.team-admin-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.team-card .team-card-stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.team-detail-actions-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+@media(max-width:850px){.team-admin-tools,.team-admin-summary{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.team-admin-tools,.team-admin-summary{grid-template-columns:1fr}}
+
+

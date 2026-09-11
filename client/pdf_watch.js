@@ -13,7 +13,7 @@ window.PDFWatch=(()=>{
   target.replaceChildren(node('p',report.pageCount+' pages analysées. '+report.notice));
   const players=report.pages.flatMap(p=>(p.players||[]).map(player=>({...player,page:p.page})));
   if(players.length){
-   target.append(node('h3',players.length+' joueur(s) relevé(s) pour FC LA COUR'));
+   target.append(node('h3',players.length+' joueur(s) relevé(s) pour CLUB EXEMPLE'));
    target.append(node('p','Lignes du tableau du PDF, à vérifier sur la page originale. Aucun rapprochement automatique avec les licenciés.'));
    const table=node('table'),head=node('thead'),hr=node('tr'),body=node('tbody');
    for(const title of ['Nom','Prénoms','Club dans le PDF','Page']){const th=node('th',title);th.scope='col';hr.append(th);}head.append(hr);
@@ -39,8 +39,8 @@ window.PDFWatch=(()=>{
   if(user.role!=='reader'){const f=node('form'),l=node('label','Suivi du document'),select=node('select');for(const [v,t] of Object.entries(labels)){const o=node('option',t);o.value=v;select.append(o);}select.value=out.status;l.append(select);const b=node('button','Enregistrer le suivi');f.append(l,b);f.addEventListener('submit',async ev=>{ev.preventDefault();b.disabled=true;try{await api('/api/watch/pdf-status','PUT',{id,status:select.value,version:out.version});if(!valid(e))return;await open(id);await refresh();}catch(err){if(valid(e))msg(err.message);}finally{b.disabled=false;}});root.append(f);}
   window.Convocations.mount(out,root,()=>valid(e)&&seq===readSeq);
   const report=node('div');render(out.report,report);root.append(report);
-  if(out.analyses?.length){const d=node('details');d.append(node('summary','Historique des réanalyses'));for(const a of out.analyses)d.append(node('p',new Date(a.created*1000).toLocaleString('fr-FR',{timeZone:'Indian/Reunion'})+' · '+a.actor+' · analyse '+a.analysis_version+' · '+a.players+' joueur(s) relevé(s)'));root.append(d);}
-  if(out.actions.length){const d=node('details');d.append(node('summary','Historique du suivi'));for(const a of out.actions)d.append(node('p',new Date(a.created*1000).toLocaleString('fr-FR',{timeZone:'Indian/Reunion'})+' · '+a.actor+' · '+labels[a.old_status]+' → '+labels[a.new_status]));root.append(d);}
+  if(out.analyses?.length){const d=node('details');d.append(node('summary','Historique des réanalyses'));for(const a of out.analyses)d.append(node('p',new Date(a.created*1000).toLocaleString('fr-FR',{timeZone:'Etc/UTC'})+' · '+a.actor+' · analyse '+a.analysis_version+' · '+a.players+' joueur(s) relevé(s)'));root.append(d);}
+  if(out.actions.length){const d=node('details');d.append(node('summary','Historique du suivi'));for(const a of out.actions)d.append(node('p',new Date(a.created*1000).toLocaleString('fr-FR',{timeZone:'Etc/UTC'})+' · '+a.actor+' · '+labels[a.old_status]+' → '+labels[a.new_status]));root.append(d);}
  }catch(err){if(valid(e))msg(err.message);}}
  $('pdfFile').addEventListener('change',async ev=>{const f=ev.target.files[0],source=$('pdfSource').value;clearDraft();$('pdfSource').value=source;if(!f)return;const e=epoch,seq=selection;
   msg('Analyse locale du PDF…');try{if(f.size>5*1024*1024)throw Error('Maximum 5 Mo.');const bytes=new Uint8Array(await f.arrayBuffer());if(!valid(e)||seq!==selection)return;

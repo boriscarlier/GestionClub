@@ -1,0 +1,50 @@
+<div class="public-page" id="public-member">
+<div class="member-portal">
+<div class="portal-login" id="portalLogin">
+<div style="display:flex;justify-content:flex-end;margin-bottom:8px">
+<button class="ghost" onclick="showPublicPage('public-coach')">🧑‍🏫 Accès éducateur</button>
+</div>
+<div class="kicker">● Espace adhérent</div>
+<h2>Connexion adhérent</h2>
+<p>Accès réservé aux licenciés, parents et membres du CLUB EXEMPLE.</p>
+<div class="portal-security-note tiny"><strong>Mode prototype local :</strong> la vérification licence + date de naissance sert uniquement à tester l’espace. L’authentification sécurisée et les comptes familles seront gérés par le backend.</div>
+<div class="demo-access-box">
+<strong>Accès de démonstration — Espace adhérent</strong>
+<div class="tiny">Licence : <code>TEST-ADHERENT-001</code></div>
+<div class="tiny">Date de naissance : <code>15/05/2008</code></div>
+<div class="demo-access-actions"><button class="ghost" onclick="fillMemberDemoAccess()">Remplir automatiquement</button></div>
+</div>
+<div class="field"><label>Numéro de licence</label><input id="portalLicenseInput" placeholder="Ex. 2548123456"/></div>
+<div class="field"><label>Date de naissance</label><input id="portalBirthInput" type="date"/></div>
+<button class="primary" onclick="portalLogin()" style="width:100%">Se connecter</button>
+<div class="tiny" id="portalLoginMsg" style="margin-top:10px"></div>
+</div>
+<div id="portalApp" style="display:none">
+<div class="portal-shell">
+<aside class="portal-side">
+<div class="portal-id">
+<div class="portal-avatar" id="portalAvatar">FC</div>
+<div><strong id="portalName">Adhérent</strong><div class="tiny" id="portalLicense">Licence</div></div>
+</div>
+<hr style="border-color:var(--border);margin:14px 0"/>
+<button class="ghost" onclick="portalGo('home')">🏠 Accueil</button>
+<button class="ghost" onclick="portalGo('profile')">👤 Mon profil</button>
+<button class="ghost" onclick="portalGo('matches')">⚽ Matchs &amp; convocations</button>
+<button class="ghost" onclick="portalGo('documents')">📄 Mes documents</button>
+<button class="ghost" onclick="portalGo('payments')">💳 Mes paiements</button>
+<button class="ghost" onclick="portalGo('messages')">💬 Messages du club</button>
+<button class="ghost" onclick="portalLogout()">↩ Déconnexion</button>
+<button class="ghost" onclick="portalLogout();showPublicPage('public-home')">🌐 Retour au site</button>
+</aside>
+<main class="portal-main">
+<!--GESTION_SOURCE:client/pages/member/home.html-->
+<!--GESTION_SOURCE:client/pages/member/profile.html-->
+<!--GESTION_SOURCE:client/pages/member/matches.html-->
+<!--GESTION_SOURCE:client/pages/member/documents.html-->
+<!--GESTION_SOURCE:client/pages/member/payments.html-->
+<!--GESTION_SOURCE:client/pages/member/messages.html-->
+</main>
+</div>
+</div>
+</div>
+</div>

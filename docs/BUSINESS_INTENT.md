@@ -4,17 +4,17 @@ Ce document sert de contexte de reprise pour un autre chat ou un nouveau develop
 
 ## Vision
 
-Gestion Club doit devenir l'outil central du FC LA COUR pour suivre les licencies, les equipes, les contacts, les sauvegardes, les convocations, la veille publique et les documents utiles au club.
+Gestion Club doit devenir l'outil central du CLUB EXEMPLE pour suivre les licencies, les equipes, les contacts, les sauvegardes, les convocations, la veille publique et les documents utiles au club.
 
 L'objectif n'est pas seulement de stocker des fichiers : l'application doit aider le club a verifier, comparer, historiser et preparer les actions administratives sans perdre la maitrise des donnees.
 
 ## Club concerne
 
-- Club : FC LA COUR
+- Club : CLUB EXEMPLE
 - Affiliation : `563512`
 - Saison de travail principale : `2026`
-- Territoire : Saint-Joseph, La Reunion
-- Terrain principal : Stade des Jacques
+- Territoire : Ville Exemple, Territoire Exemple
+- Terrain principal : Stade Municipal
 
 ## Donnees reelles
 
@@ -77,9 +77,9 @@ Les captures Footclubs sont partielles et temporaires. Elles ne sont pas une syn
 
 Sources de veille identifiees :
 
-- Ligue reunionnaise de football : `https://liguefoot-reunion.fff.fr/`
-- Mairie de Saint-Joseph : `https://saintjoseph.re/`
-- Recherche prioritaire : FC LA COUR, La Cour, Les Jacques, associations, formations, documents, convocations
+- Ligue reunionnaise de football : `https://example.invalid/ligue/`
+- Mairie de Ville Exemple : `https://example.invalid/mairie/`
+- Recherche prioritaire : CLUB EXEMPLE, Club Exemple, Quartier Exemple, associations, formations, documents, convocations
 
 La mairie peut etre surveillee de facon hebdomadaire. La Ligue peut necessiter des imports manuels lorsque le collecteur recoit un refus HTTP ou un format difficile a lire.
 

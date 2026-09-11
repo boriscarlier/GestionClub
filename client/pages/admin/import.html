@@ -1,0 +1,74 @@
+<div class="page" id="import">
+<div class="card" style="margin-bottom:16px;border-color:rgba(57,211,83,.45)">
+<div class="kicker">● Base prête pour nouvel import</div>
+<strong>Contrôlez le fichier avant de lancer son import.</strong>
+<div class="tiny" style="margin-top:6px">L’import des licences conserve les autres fiches locales et les autres modules du club.<button class="secondary" onclick="goTo('importwatch')">← Retour au suivi</button></div>
+</div>
+<div class="intra-hero"><div><div class="kicker">● Alimentation de la base</div><h3>Importation Excel / CSV</h3><p>Importer les fichiers de travail du club, contrôler les données avant intégration et mettre à jour la base sans ressaisie manuelle.</p></div><button class="secondary" onclick="downloadImportTemplate()">Télécharger un modèle CSV</button></div>
+<div class="import-steps">
+<div class="import-step active" id="impStep1"><strong>1. Fichier</strong><span>Excel ou CSV</span></div>
+<div class="import-step" id="impStep2"><strong>2. Contrôle</strong><span>Colonnes et aperçu</span></div>
+<div class="import-step" id="impStep3"><strong>3. Fusion</strong><span>Doublons et stratégie</span></div>
+<div class="import-step" id="impStep4"><strong>4. Rapport</strong><span>Résultat de l’import</span></div>
+</div>
+<div class="grid cols-2">
+<div class="card">
+<div class="import-zone" onclick="document.getElementById('importFile').click()">
+<div class="big">📥</div>
+<strong>Choisir un fichier</strong>
+<div class="tiny" id="importFileTypeHint">.xlsx • .xls • .csv</div>
+<input accept=".xlsx,.xls,.csv,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="importFile" onchange="handleUnifiedImportFile(event)" style="display:none" type="file"/>
+</div>
+<div class="import-status warn" id="importFileStatus">Aucun fichier chargé.</div>
+<div class="import-toolbar">
+<div class="field"><label>Destination</label><select id="importTarget" onchange="configureUnifiedImportTarget();refreshImportPreview()">
+<option value="members">Licenciés</option>
+<option value="matches">Matchs</option>
+<option value="discipline">Dossiers / Discipline</option>
+<option value="opponents">Annuaire clubs adverses</option>
+<option value="teams">Équipes</option>
+<option value="planning">Planning</option>
+<option value="posts">Actualités</option>
+</select></div>
+<div class="field"><label>Feuille Excel</label><select id="importSheet" onchange="selectImportSheet()"><option value="">—</option></select></div>
+<div class="field"><label>Stratégie</label><select id="importStrategy">
+<option value="skip">Ignorer les doublons</option>
+<option value="update">Mettre à jour l’existant</option>
+<option value="append">Ajouter toutes les lignes</option>
+</select></div>
+</div>
+<div class="field"><label>Ligne d’en-tête</label><select id="importHeaderRow" onchange="selectImportSheet()"><option value="0">Première ligne</option><option value="1">Deuxième ligne</option><option value="2">Troisième ligne</option></select></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button class="primary" onclick="runUnifiedImport()">Importer dans la base</button>
+<button class="ghost" onclick="clearImport()">Réinitialiser</button>
+</div>
+</div>
+<div class="card">
+<h3 style="margin-top:0">Colonnes attendues</h3>
+<div class="public-list" id="importExpected"></div>
+<div class="import-status ok" style="margin-top:14px"><strong>Fichier matchs de référence</strong><div class="tiny"><strong>matchs2.xlsx</strong> devient le format officiel de référence. Le <strong>Numéro match</strong> sert de clé principale. Toutes les colonnes originales sont archivées dans <code>sourceData</code>, en plus des champs structurés utilisés par le site.</div></div>
+<div class="import-status ok" style="margin-top:14px"><strong>Fichier licences de référence</strong><div class="tiny"><strong>licences(1).xlsx</strong> devient le format officiel. Les 93 colonnes originales sont conservées dans <code>sourceData</code>. Le numéro de licence reste la clé principale, car une même personne peut cumuler plusieurs licences et fonctions.</div></div>
+<div class="import-status warn" style="margin-top:14px"><strong>Base du prototype</strong><div class="tiny">Cette version intègre les données dans la base locale du navigateur. Lors du passage au backend réel, le même module alimentera la base serveur via API.</div></div>
+</div>
+</div>
+<div class="card" style="margin-top:18px">
+<h3 style="margin-top:0">Prévisualisation / contrôle</h3>
+<div class="tiny" id="importPreviewInfo" style="margin-bottom:10px">Charge un fichier pour afficher les premières lignes.</div>
+<div id="unifiedSpecialImportPreview"></div>
+<div class="import-preview" id="genericImportPreviewTable"><table><thead id="importPreviewHead"></thead><tbody id="importPreviewBody"></tbody></table></div>
+</div>
+<div class="card" style="margin-top:18px">
+<h3 style="margin-top:0">Rapport du dernier import</h3>
+<div class="import-report">
+<div class="box"><span class="tiny">Lignes lues</span><strong id="impRead">0</strong></div>
+<div class="box"><span class="tiny">Ajoutées</span><strong id="impAdded">0</strong></div>
+<div class="box"><span class="tiny">Mises à jour</span><strong id="impUpdated">0</strong></div>
+<div class="box"><span class="tiny">Ignorées / erreurs</span><strong id="impSkipped">0</strong></div>
+</div>
+<div class="import-status warn" id="importReportMessage">Aucun import effectué.</div>
+</div>
+<div class="card" style="margin-top:18px">
+<h3 style="margin-top:0">Historique d’importation</h3>
+<div id="importHistory"></div>
+</div>
+</div>

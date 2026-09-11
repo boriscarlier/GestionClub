@@ -1,4 +1,4 @@
-# FC LA COUR Gestion Club
+# Gestion Club
 
 Application locale de gestion du club, avec sauvegardes serveur, veille publique, analyse PDF et preparation progressive vers une architecture client-serveur.
 
@@ -11,9 +11,18 @@ Application locale de gestion du club, avec sauvegardes serveur, veille publique
 - Chantier V1.25.12 : decomposition HTML indexee, recomposition sans perte et migration multi-pages progressive
 - Ecran Licencies : lecture serveur SQL/API en mode `/gestion`, repli local en HTML autonome
 - Ecran Equipes : lecture serveur SQL/API en mode `/gestion`, repli local en HTML autonome
-- Client principal : `client/FC_LA_COUR_Manager.html`
+- Client principal : `client/GESTION_CLUB_Manager.html`
 - Donnees reelles : conservees hors depot dans `data/`
 - Tests automatises : suite `unittest`
+
+## Sources modulaires V1.25.12 — validation en cours
+
+Le lancement habituel et `/gestion` restent inchanges.
+Apres connexion au serveur, `/gestion-modulaire` assemble les sources CSS, JavaScript et les 70 templates.
+`/gestion-legacy` conserve la reference de comparaison.
+Index : `docs/MANAGER_CSS_INDEX.md`, `docs/MANAGER_JS_SERVICES.md`, `docs/MANAGER_COMPOSED_PAGES.md`.
+Les templates ne sont pas des HTML autonomes ; voir `client/pages/README.md`.
+141 tests Python locaux passes. 210 comparaisons visuelles reussies sur le lot precedent ; revalidation des 70 acces directs bloquee par le demarrage de GitHub Actions. Validation Windows avant bascule par defaut.
 
 ## Demarrage Windows local
 
@@ -59,27 +68,27 @@ LANCER_TESTS.cmd
 
 ## Mise a jour simple Windows
 
-Conservez le dossier stable `D:\FC_LA_COUR_GestionClub`. Votre base reste dans `D:\FC_LA_COUR_GestionClub\data\club.sqlite3`.
+La mise a jour retrouve automatiquement votre installation existante sur D: et conserve sa base `data/club.sqlite3`. Pour une premiere installation, la cible est `D:\GESTION_CLUB_GestionClub`. Si plusieurs installations avec base existent, le script refuse de choisir arbitrairement.
 
 Pour tester une nouvelle version :
 
 1. Decompresser le nouveau zip dans un dossier temporaire.
 2. Lancer `METTRE_A_JOUR.cmd` depuis ce dossier temporaire.
-3. Le script met a jour automatiquement `D:\FC_LA_COUR_GestionClub`.
+3. Verifier le dossier cible affiche : votre installation existante est reutilisee.
 4. Les tests sont lances automatiquement.
 5. Si les tests passent, le serveur local est demarre automatiquement.
 
-Pour tester ensuite le mode LAN, fermer le serveur local puis lancer `DEMARRER_RESEAU_LOCAL.cmd` depuis `D:\FC_LA_COUR_GestionClub`.
+Pour tester ensuite le mode LAN, fermer le serveur local puis lancer `DEMARRER_RESEAU_LOCAL.cmd` depuis `D:\GESTION_CLUB_GestionClub`.
 
 Le script de mise a jour remplace les fichiers programme et conserve le dossier `data` de la cible.
 
 Si vous voulez placer les donnees sur un autre disque, definir une fois :
 
 ```bat
-setx FCLC_DATA_DIR "E:\FC_LA_COUR_DATA"
+setx GESTION_CLUB_DATA_DIR "E:\GESTION_CLUB_DATA"
 ```
 
-Puis rouvrir une invite de commande. Le serveur utilisera `E:\FC_LA_COUR_DATA\club.sqlite3`.
+Puis rouvrir une invite de commande. Le serveur utilisera `E:\GESTION_CLUB_DATA\club.sqlite3`.
 
 ## Organisation
 

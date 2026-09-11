@@ -1,0 +1,29 @@
+/* ===== V1.02 : NAVIGATION PUBLIQUE COMPLETE ===== */
+.public-page{display:none}
+.public-page.active{display:block}
+.breadcrumbs{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-bottom:18px}
+.breadcrumbs button{border:0;background:transparent;color:var(--muted);padding:0;cursor:pointer}
+.breadcrumbs button:hover{color:var(--green)}
+.page-hero-public{padding:86px 0 52px;background:linear-gradient(135deg,rgba(57,211,83,.12),rgba(243,200,66,.03)),#0f1511;border-bottom:1px solid var(--border)}
+.page-hero-public h2{font-size:52px;margin:0 0 12px;letter-spacing:-.04em}
+.page-hero-public p{margin:0;color:var(--muted);max-width:760px;line-height:1.6}
+.nav-item{position:relative}
+.pub-links .nav-item>button{display:flex;align-items:center;gap:5px}
+.submenu{position:absolute;top:100%;left:0;min-width:210px;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:8px;box-shadow:var(--shadow);display:none}
+.nav-item:hover .submenu{display:block}
+.submenu button{display:block!important;width:100%;text-align:left;padding:10px 11px;border-radius:10px!important}
+.submenu button:hover{background:var(--panel2)!important}
+.mobile-toggle{display:none;border:1px solid var(--border);background:var(--panel);color:#fff;border-radius:12px;padding:10px 12px}
+.mobile-menu{display:none;border-top:1px solid var(--border);background:var(--bg);padding:14px 18px 18px}
+.mobile-menu.show{display:block}
+.mobile-menu button{display:block;width:100%;text-align:left;border:0;background:transparent;color:#d8e0da;padding:11px 6px;border-bottom:1px solid rgba(255,255,255,.04)}
+.mobile-section{font-size:10px;color:var(--green);text-transform:uppercase;letter-spacing:.12em;margin:12px 6px 4px}
+.footer-links button{display:block;border:0;background:transparent;color:var(--muted);padding:4px 0;text-align:left;cursor:pointer}
+.footer-links button:hover{color:#fff}
+.public-content-card{border:1px solid var(--border);background:var(--panel);border-radius:18px;padding:22px}
+.public-list{display:grid;gap:12px}
+.public-list .item{padding:15px;border:1px solid var(--border);border-radius:14px;background:var(--panel2)}
+@media(max-width:1180px){.pub-links{gap:9px}.pub-links button{font-size:10.5px}}
+@media(max-width:1050px){.pub-links{display:none!important}.mobile-toggle{display:block}}
+
+

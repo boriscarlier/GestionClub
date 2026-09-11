@@ -15,7 +15,7 @@ class ConvocationTests(unittest.TestCase):
         return {'document':self.ident,'fingerprint':self.src['fingerprint'],'version':0,'verified':True,'title':'Détection fictive','date':'2026-09-16','arrival':'15:15','start':'15:30','end':'17:30','place':'Stade fictif','notes':'','playerKeys':['0','1','2'],**changes}
     def test_prepare_does_not_save_and_returns_source_references(self):
         out=convocations.detail(self.path,self.ident);self.assertIsNone(out['saved']);self.assertEqual(len(out['source']['players']),3)
-        self.assertEqual(out['source']['players'][0]['page'],1);self.assertEqual(out['source']['timezone'],'Indian/Reunion')
+        self.assertEqual(out['source']['players'][0]['page'],1);self.assertEqual(out['source']['timezone'],'Etc/UTC')
     def test_save_verified_and_reopen_preserves_pdf_and_business_data(self):
         before=pdf_watch.detail(self.path,self.ident,True);convocations.save(self.path,self.form(),'editor');server.initialize(self.path)
         out=convocations.detail(self.path,self.ident);self.assertTrue(out['saved']['verified']);self.assertEqual(out['saved']['version'],1)

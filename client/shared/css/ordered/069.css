@@ -1,0 +1,10 @@
+/* ===== V1.21.16 : COMMUNICATION & MEDIAS ===== */
+.comm-status-flow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.comm-flow-step{padding:7px 10px;border:1px solid var(--line);border-radius:999px;font-size:12px}
+.comm-flow-step.active{font-weight:700;border-width:2px}
+.comm-channel-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.comm-channel-card{padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--panel2)}
+.comm-source-note{padding:9px 11px;border:1px dashed var(--line);border-radius:10px;margin-top:10px}
+@media(max-width:900px){.comm-channel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.comm-channel-grid{grid-template-columns:1fr}}
+

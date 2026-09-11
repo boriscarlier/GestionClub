@@ -6,7 +6,7 @@ import json
 import re
 from pathlib import Path
 
-DEFAULT_INPUT = Path('client/FC_LA_COUR_Manager.html')
+DEFAULT_INPUT = Path('client/GESTION_CLUB_Manager.html')
 DEFAULT_OUTPUT = Path('docs/MONOLITH_INDEX.json')
 
 
@@ -64,7 +64,7 @@ def build_index(path: Path):
 
     anchors = {}
     wanted = [
-        'FC LA COUR Manager',
+        'CLUB EXEMPLE Manager',
         'qaBackupPayload',
         '/api/state/members?limit=500',
         '/api/state/teams?limit=500',
@@ -86,7 +86,7 @@ def build_index(path: Path):
     endpoints = sorted(set(re.findall(r'/api/[A-Za-z0-9_?=&./-]+', text)))
 
     return {
-        'format': 'FC_LA_COUR_MONOLITH_INDEX',
+        'format': 'GESTION_CLUB_MONOLITH_INDEX',
         'schema_version': 1,
         'source': str(path).replace('\\', '/'),
         'encoding': 'utf-8-strict',

@@ -1,0 +1,8 @@
+/* ===== V1.14.10 : STATUT DISCIPLINAIRE DANS LES EFFECTIFS EQUIPE ===== */
+.team-player-row{display:grid;grid-template-columns:1.5fr 1fr 1fr auto;gap:10px;align-items:center}
+.team-player-status{display:flex;gap:6px;flex-wrap:wrap}
+.team-player-row.suspended{border-color:rgba(239,68,68,.55);background:rgba(239,68,68,.06)}
+.team-player-row.warning{border-color:rgba(243,200,66,.5);background:rgba(243,200,66,.05)}
+@media(max-width:800px){.team-player-row{grid-template-columns:1fr}}
+
+

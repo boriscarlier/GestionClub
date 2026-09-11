@@ -1,0 +1,18 @@
+/* ===== V1.09 AUTOMATISATIONS ===== */
+.auto-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.auto-card{padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--panel2)}
+.auto-list{display:grid;gap:10px}
+.auto-rule{padding:13px;border:1px solid var(--border);border-radius:13px;background:var(--panel2)}
+.auto-rule.off{opacity:.55}
+.auto-rule .top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.auto-log{padding:10px 12px;border-bottom:1px solid var(--border)}
+.auto-log:last-child{border-bottom:0}
+.auto-proposal{padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--panel2)}
+.auto-proposal.critical{border-color:rgba(239,68,68,.45)}
+.auto-proposal.warning{border-color:rgba(243,200,66,.4)}
+.auto-proposal.info{border-color:rgba(59,130,246,.35)}
+.auto-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+@media(max-width:900px){.auto-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.auto-grid{grid-template-columns:1fr}}
+
+

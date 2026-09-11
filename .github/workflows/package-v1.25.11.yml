@@ -59,24 +59,24 @@ jobs:
 
       - name: Build V1.25.11.1 LAN test ZIP
         run: |
-          mkdir -p package/FC_LA_COUR_GestionClub
-          rsync -a --exclude '.git' --exclude 'data' --exclude 'releases' --exclude '__pycache__' --exclude 'logs' ./ package/FC_LA_COUR_GestionClub/
+          mkdir -p package/GESTION_CLUB_GestionClub
+          rsync -a --exclude '.git' --exclude 'data' --exclude 'releases' --exclude '__pycache__' --exclude 'logs' ./ package/GESTION_CLUB_GestionClub/
           cd package
-          zip -qr ../FC_LA_COUR_GestionClub_V1.25.11.1_LAN_test.zip FC_LA_COUR_GestionClub
+          zip -qr ../GESTION_CLUB_GestionClub_V1.25.11.1_LAN_test.zip GESTION_CLUB_GestionClub
 
       - name: Verify built ZIP contents
         run: |
           python - <<'PY'
           from zipfile import ZipFile
-          path='FC_LA_COUR_GestionClub_V1.25.11.1_LAN_test.zip'
+          path='GESTION_CLUB_GestionClub_V1.25.11.1_LAN_test.zip'
           with ZipFile(path) as z:
-              root='FC_LA_COUR_GestionClub/'
+              root='GESTION_CLUB_GestionClub/'
               state=z.read(root+'PROJECT_STATE.yaml').decode('utf-8')
               start=z.read(root+'scripts/windows/DEMARRER_SERVEUR.cmd').decode('utf-8')
               tests=z.read(root+'scripts/windows/LANCER_TESTS.cmd').decode('utf-8')
               update=z.read(root+'METTRE_A_JOUR.cmd').decode('utf-8')
               lan=z.read(root+'scripts/windows/DEMARRER_RESEAU_LOCAL.cmd').decode('utf-8')
-              manager=z.read(root+'client/FC_LA_COUR_Manager.html')
+              manager=z.read(root+'client/GESTION_CLUB_Manager.html')
               assert 'version: V1.25.11.1-dev' in state
               assert 'server\\current_server.py start' in start
               assert 'dernier_test.log' in tests
@@ -90,6 +90,6 @@ jobs:
       - name: Upload V1.25.11.1 LAN test ZIP
         uses: actions/upload-artifact@v4
         with:
-          name: FC_LA_COUR_GestionClub_V1.25.11.1_LAN_test
-          path: FC_LA_COUR_GestionClub_V1.25.11.1_LAN_test.zip
+          name: GESTION_CLUB_GestionClub_V1.25.11.1_LAN_test
+          path: GESTION_CLUB_GestionClub_V1.25.11.1_LAN_test.zip
           compression-level: 0

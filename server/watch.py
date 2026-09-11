@@ -17,12 +17,12 @@ from html.parser import HTMLParser
 from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit, urlunsplit
 
 SOURCES = {
-    'lrf': {'name': 'Ligue réunionnaise de football', 'url': 'https://liguefoot-reunion.fff.fr/',
-            'hosts': ('liguefoot-reunion.fff.fr',), 'pages': ('', 'technique/', 'formations/'),
+    'lrf': {'name': 'Ligue de football exemple', 'url': 'https://example.invalid/ligue/',
+            'hosts': ('example.invalid',), 'pages': ('', 'technique/', 'formations/'),
             'description': 'Actualités, technique, formations et liens de documents publics.', 'enabled': False},
-    'mairie': {'name': 'Mairie de Saint-Joseph', 'url': 'https://saintjoseph.re/',
-              'hosts': ('saintjoseph.re', 'www.saintjoseph.re'), 'pages': ('',),
-              'description': 'Associations, FC LA COUR et quartier des Jacques.', 'enabled': True},
+    'mairie': {'name': 'Mairie de Ville Exemple', 'url': 'https://example.invalid/mairie/',
+              'hosts': ('example.invalid', 'www.example.invalid'), 'pages': ('',),
+              'description': 'Associations, CLUB EXEMPLE et quartier exemple.', 'enabled': True},
 }
 STATUSES = ('unread', 'read', 'action', 'archived')
 MAX_BYTES = 2 * 1024 * 1024
@@ -85,8 +85,8 @@ def normalize(text):
 def topics_for(text):
     text = normalize(text)
     patterns = {
-        'FC LA COUR': r'\b(?:f\W*c\W*|football club\s+(?:a\s+)?)la cour\b|\bkultur la cour\b',
-        'Les Jacques': r'\b(?:les|des|aux) jacques\b',
+        'CLUB EXEMPLE': r'\bclub exemple\b|\bclub demo\b',
+        'Quartier Exemple': r'\bquartier exemple\b|\bstade municipal\b',
         'Associations': r'\bassociati(?:on|ons|f|fs|ve|ves)\b|\bsubvention\w*|\bappel a projets\b',
         'Convocations': r'\bconvoc\w*|\bdetect\w*|\bselection\w*|\bespoirs du foot\b|\brassemblement\w*',
         'Formations': r'\bformation\w*|\brecyclage\w*|\bbmf\b|\bbef\b',
@@ -101,7 +101,12 @@ def safe_url(url, source, base=None):
         raise WatchError(400, 'Source inconnue.')
     if not isinstance(url, str) or len(url) > 2048 or re.search(r'[\x00-\x20\x7f\\]', url):
         raise WatchError(400, 'Lien public invalide.')
-    raw = urljoin(base or SOURCES[source]['url'], url)
+    source_base = base or SOURCES[source]['url']
+    if url.startswith('/'):
+        source_path = urlsplit(SOURCES[source]['url']).path.rstrip('/')
+        if source_path:
+            url = source_path + url
+    raw = urljoin(source_base, url)
     p = urlsplit(raw)
     try:
         port = p.port
@@ -109,6 +114,9 @@ def safe_url(url, source, base=None):
         raise WatchError(400, 'Port invalide.')
     if p.scheme != 'https' or p.hostname not in SOURCES[source]['hosts'] or p.username or p.password or port not in (None, 443):
         raise WatchError(400, 'Lien hors du site officiel autorisé.')
+    root_path = urlsplit(SOURCES[source]['url']).path.rstrip('/') + '/'
+    if root_path != '/' and not ((p.path or '/') + '/').startswith(root_path):
+        raise WatchError(400, 'Lien hors du périmètre public autorisé.')
     query = [(k, v) for k, v in parse_qsl(p.query, keep_blank_values=True)
              if not k.lower().startswith('utm_') and k.lower() not in ('fbclid', 'gclid', 'version')]
     return urlunsplit(('https', p.hostname, p.path or '/', urlencode(sorted(query)), ''))
@@ -139,7 +147,7 @@ def fetch_public(url, source):
     ensure_public_host(url)
     opener = urllib.request.build_opener(RestrictedRedirect(source))
     request = urllib.request.Request(url, headers={
-        'User-Agent': 'FC-LA-COUR-Veille/1.24.3 (public pages, limited collection)',
+        'User-Agent': 'GESTION_CLUB-Veille/1.24.3 (public pages, limited collection)',
         'Accept': 'text/html,application/rss+xml,application/atom+xml,application/xml,text/xml',
         'Accept-Encoding': 'identity',
     })
@@ -431,7 +439,7 @@ def overview(path):
         counts = {s: db.execute('SELECT count(*) FROM watch_entries WHERE status=?', (s,)).fetchone()[0] for s in STATUSES}
         return {'sources': sources, 'counts': counts, 'total': sum(counts.values()),
                 'scope': 'Titres, résumés de flux et liens publics seulement. PDFs déposés analysables séparément ; Gmail non connecté.',
-                'timezone': 'Indian/Reunion', 'entryLimit': MAX_ENTRIES}
+                'timezone': 'Etc/UTC', 'entryLimit': MAX_ENTRIES}
 
 
 def run_dict(row):
@@ -575,7 +583,7 @@ class Controller:
 
 def export_watch(path):
     with closing(connect(path)) as db:
-        return {'format': 'FC_LA_COUR_WATCH_EXPORT', 'schemaVersion': 1, 'exportedAt': time.time(),
+        return {'format': 'GESTION_CLUB_WATCH_EXPORT', 'schemaVersion': 1, 'exportedAt': time.time(),
                 'scope': 'Veille séparée des sauvegardes métier. Export de consultation, sans import automatique.',
                 'sources': [dict(r) for r in db.execute('SELECT * FROM watch_sources')],
                 'entries': [dict(r) for r in db.execute('SELECT * FROM watch_entries ORDER BY id')],

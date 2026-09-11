@@ -1,0 +1,15 @@
+/* ===== V1.14.14 : NAVIGATION ADMINISTRATION PAR SOUS-MENUS ===== */
+.sidebar{overflow-y:auto;padding-bottom:118px}
+.nav{gap:6px}
+.nav-group{display:grid;gap:4px}
+.nav-group-toggle{width:100%;justify-content:flex-start}
+.nav-group-toggle .nav-chevron{margin-left:auto;font-size:11px;transition:transform .18s ease}
+.nav-group.open>.nav-group-toggle .nav-chevron{transform:rotate(90deg)}
+.nav-submenu{display:none;grid-template-columns:1fr;gap:3px;padding:2px 0 4px 15px;border-left:1px solid var(--border);margin-left:18px}
+.nav-group.open>.nav-submenu{display:grid}
+.nav .nav-submenu button{padding:9px 11px;font-size:13px;border-radius:10px}
+.nav .nav-submenu .nav-icon{width:22px;height:22px;border-radius:7px;font-size:12px}
+.nav-group.has-active>.nav-group-toggle{color:var(--text);background:rgba(255,255,255,.025)}
+.sidefoot{position:fixed;left:18px;width:242px;right:auto;bottom:18px}
+
+

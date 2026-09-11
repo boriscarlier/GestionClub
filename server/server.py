@@ -1,4 +1,4 @@
-"""FC LA COUR V1.25.10: sauvegardes, veille publique et API metier serveur."""
+"""CLUB EXEMPLE V1.25.10: sauvegardes, veille publique et API metier serveur."""
 import argparse, getpass, hashlib, hmac, json, os, re, secrets, sqlite3, time
 from contextlib import closing
 from http.cookies import SimpleCookie
@@ -26,7 +26,7 @@ def encode(value):
     return json.dumps(value, ensure_ascii=False, separators=(',', ':'), allow_nan=False)
 
 def validate(p):
-    if not isinstance(p, dict) or p.get('format') != 'FC_LA_COUR_FULL_BACKUP' or p.get('schemaVersion') != 1:
+    if not isinstance(p, dict) or not re.fullmatch(r'(?:[A-Z][A-Z0-9]*_)+FULL_BACKUP', str(p.get('format', ''))) or p.get('schemaVersion') != 1:
         raise Problem(400, 'Choisir une sauvegarde complète Gestion Club.')
     if not re.fullmatch(r'V\d+\.\d+\.\d+(?:\.\d+)?', str(p.get('build', ''))):
         raise Problem(400, 'Version de sauvegarde non reconnue.')
@@ -60,10 +60,10 @@ def connect(path):
     return db
 
 def default_data_path():
-    configured = os.environ.get('FCLC_DATA_PATH')
+    configured = os.environ.get('GESTION_CLUB_DATA_PATH')
     if configured:
         return Path(configured)
-    root = os.environ.get('FCLC_DATA_DIR')
+    root = os.environ.get('GESTION_CLUB_DATA_DIR')
     if root:
         return Path(root) / 'club.sqlite3'
     return DATA_ROOT / 'club.sqlite3'
@@ -93,8 +93,9 @@ def add_user(path, name, password, role):
     with closing(connect(path)) as db, db:
         db.execute('INSERT INTO users VALUES(?,?,?,?)', (name, salt, password_hash(password, salt), role))
 
-def manager_page():
-    html = (CLIENT_ROOT / 'FC_LA_COUR_Manager.html').read_text(encoding='utf-8')
+def manager_page(html=None):
+    if html is None:
+        html = (CLIENT_ROOT / 'GESTION_CLUB_Manager.html').read_text(encoding='utf-8')
     marker = '<body'
     pos = html.find(marker)
     if pos < 0:
@@ -112,7 +113,7 @@ def manager_page():
   <span id="serverBridgeStatus" style="display:block;margin-top:6px;color:#c8f7d8"></span>
 </div>
 <script>
-window.FC_LA_COUR_SERVER_BRIDGE={build:"V1.25.10",mode:"server-bridge",bootstrapUrl:"/api/gestion/bootstrap"};
+window.GESTION_CLUB_SERVER_BRIDGE={build:"V1.25.10",mode:"server-bridge",bootstrapUrl:"/api/gestion/bootstrap"};
 (function(){
   async function api(path,method,body,csrf){
     const response=await fetch(path,{method:method||"GET",credentials:"same-origin",cache:"no-store",headers:Object.assign({"Content-Type":"application/json"},csrf?{"X-CSRF-Token":csrf}:{}),body:body===undefined?undefined:JSON.stringify(body)});
@@ -142,7 +143,7 @@ window.FC_LA_COUR_SERVER_BRIDGE={build:"V1.25.10",mode:"server-bridge",bootstrap
       try{
         dl.disabled=true;status("Lecture de la derniere revision...");
         const result=await api("/api/snapshot");
-        download("FC_LA_COUR_serveur_revision_"+result.revision+".json",result.backup);
+        download("GESTION_CLUB_serveur_revision_"+result.revision+".json",result.backup);
         status("Telechargement demande pour la revision "+result.revision+".");
       }catch(e){status(e.message);}finally{dl.disabled=false;}
     });
@@ -153,7 +154,7 @@ window.FC_LA_COUR_SERVER_BRIDGE={build:"V1.25.10",mode:"server-bridge",bootstrap
     return (html[:end+1] + banner + html[end+1:]).encode('utf-8')
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = 'FCLaCour/1.25.10'
+    server_version = 'GestionClub/1.25.10'
     sys_version = ''
     def log_message(self, *args):
         pass
@@ -174,7 +175,7 @@ class Handler(BaseHTTPRequestHandler):
         cookie = SimpleCookie()
         try:
             cookie.load(self.headers.get('Cookie', ''))
-            token = cookie['fclc_session'].value
+            token = cookie['gestionclub_session'].value
         except (KeyError, ValueError):
             raise Problem(401, 'Connexion requise.')
         digest = hashlib.sha256(token.encode()).hexdigest()
@@ -233,15 +234,28 @@ class Handler(BaseHTTPRequestHandler):
                 with db:
                     db.execute('DELETE FROM sessions WHERE expires<?',(time.time(),))
                     db.execute('INSERT INTO sessions VALUES(?,?,?,?)',(hashlib.sha256(token.encode()).hexdigest(),name,csrf,time.time()+3600))
-                return self.send(200,{'user':name,'role':user['role'],'csrf':csrf},'fclc_session='+token+'; HttpOnly; SameSite=Strict; Path=/; Max-Age=3600')
+                return self.send(200,{'user':name,'role':user['role'],'csrf':csrf},'gestionclub_session='+token+'; HttpOnly; SameSite=Strict; Path=/; Max-Age=3600')
             user=self.session(db)
             if self.command != 'GET' and not hmac.compare_digest(self.headers.get('X-CSRF-Token',''),user['csrf']):
                 raise Problem(403,'Jeton de session invalide.')
             if path == '/api/session' and self.command == 'GET':
                 return self.send(200,{'user':user['user'],'role':user['role'],'csrf':user['csrf']})
-            if path == '/gestion' and self.command == 'GET':
+            if path in ('/gestion', '/gestion-legacy') and self.command == 'GET':
                 csp = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
                 return self.send(200, manager_page(), mime='text/html; charset=utf-8', csp=csp)
+            if (path == '/gestion-modulaire' or path.startswith('/gestion-modulaire/')) and self.command == 'GET':
+                import manager_sources
+                try:
+                    page = manager_sources.page_for_route(PROJECT_ROOT, path)
+                    html = manager_sources.compose(PROJECT_ROOT).decode('utf-8')
+                    if page is not None:
+                        html = manager_sources.select_page(html, page)
+                except KeyError:
+                    raise Problem(404, 'Page modulaire inconnue.')
+                except (OSError, ValueError):
+                    raise Problem(503, 'Sources modulaires invalides. Utiliser /gestion-legacy.')
+                csp = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
+                return self.send(200, manager_page(html), mime='text/html; charset=utf-8', csp=csp)
             if path == '/api/gestion/bootstrap' and self.command == 'GET':
                 row=db.execute('SELECT id,created,actor,club,payload FROM revisions ORDER BY id DESC LIMIT 1').fetchone()
                 latest = None if not row else {'revision':row['id'],'created':row['created'],'actor':row['actor'],'club':row['club'],'backup':json.loads(row['payload'])}
@@ -302,7 +316,7 @@ class Handler(BaseHTTPRequestHandler):
             if path == '/api/logout' and self.command == 'POST':
                 with db:
                     db.execute('DELETE FROM sessions WHERE token=?',(user['token'],))
-                return self.send(200,{'ok':True},'fclc_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0')
+                return self.send(200,{'ok':True},'gestionclub_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0')
             if path == '/api/status' and self.command == 'GET':
                 row=db.execute('SELECT id,created,actor,club,payload FROM revisions ORDER BY id DESC LIMIT 1').fetchone()
                 return self.send(200,{'revision':row['id'] if row else 0,'club':row['club'] if row else None,'counts':{k:len(json.loads(row['payload'])['state'][k]) for k in ('members','teams','matches','accounts')} if row else {}})
@@ -389,7 +403,7 @@ def main():
     srv=make_server(args.data)
     srv.watch.start()
     print('Base de donnees : ' + str(args.data))
-    print('FC LA COUR V1.25.10 — http://127.0.0.1:8765 — Ctrl+C pour arrêter.')
+    print('CLUB EXEMPLE V1.25.10 — http://127.0.0.1:8765 — Ctrl+C pour arrêter.')
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

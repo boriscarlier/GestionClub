@@ -1,0 +1,18 @@
+<div class="page" id="statistics-data">
+<div class="stats-return-bar" id="statsReturn-statistics-data"><button class="ghost" onclick="returnToStatistics()">← Retour aux statistiques</button><span class="tiny">Détail : Qualité des données</span></div>
+<div class="intra-hero"><div><div class="kicker">● V1.15.10</div><h3>Qualité des données</h3><p>Contrôle de complétude, doublons potentiels et fraîcheur des bases principales.</p></div><button class="secondary" onclick="goTo('statistics')">← Retour</button></div>
+<div class="stats-dashboard-grid">
+<div class="stats-kpi"><div class="stat-label">Licenciés incomplets</div><div class="value" id="sqMembersMissing">0</div><div class="sub">Champs essentiels manquants</div></div>
+<div class="stats-kpi"><div class="stat-label">Doublons licences</div><div class="value" id="sqMemberDup">0</div></div>
+<div class="stats-kpi"><div class="stat-label">Doublons matchs</div><div class="value" id="sqMatchDup">0</div></div>
+<div class="stats-kpi"><div class="stat-label">Adversaires sans fiche</div><div class="value" id="sqOpponentMissing">0</div></div>
+</div>
+<div class="stats-section-grid">
+<div class="card"><h3 style="margin-top:0">Fraîcheur des imports</h3><div class="stats-health" id="sqFreshness"></div></div>
+<div class="card"><h3 style="margin-top:0">Derniers imports</h3><div id="sqImportHistory"></div></div>
+</div>
+<div class="stats-section-grid">
+<div class="card"><h3 style="margin-top:0">Champs manquants — licenciés</h3><div class="stats-bar-list" id="sqMemberFields"></div></div>
+<div class="card"><h3 style="margin-top:0">Contrôles structurels</h3><div class="stats-health" id="sqChecks"></div></div>
+</div>
+</div>

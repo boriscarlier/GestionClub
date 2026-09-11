@@ -1,0 +1,6 @@
+/* ===== V1.21.18.10 : COMPOSITIONS PERSISTANTES + MATCHS JOUES ===== */
+.coach-lineup-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0 12px}
+.coach-lineup-history{margin-top:14px}
+.coach-lineup-history .item{padding:9px 0;border-bottom:1px solid var(--line)}
+.coach-games-count{font-weight:700}
+

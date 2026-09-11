@@ -1,0 +1,6 @@
+/* ===== V1.14.27 : CONFIRMATION INLINE REINITIALISATION ===== */
+.reset-final-confirm{display:none;margin-top:14px;padding:14px;border:1px solid rgba(239,68,68,.65);border-radius:12px;background:rgba(239,68,68,.08)}
+.reset-final-confirm.active{display:block}
+.reset-final-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+
+

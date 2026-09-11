@@ -1,0 +1,5 @@
+/* ===== V1.21.18.2 : STATUT SPORTIF EDUCATEUR ===== */
+.coach-sport-status{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.coach-sport-status select{min-width:120px}
+.coach-status-updated{font-size:10px;opacity:.7}
+

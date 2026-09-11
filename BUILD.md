@@ -32,7 +32,7 @@ Les archives de livraison doivent etre generees dans `releases/` et ne sont pas 
 Depuis Linux :
 
 ```bash
-git archive --format=zip --prefix=FC_LA_COUR_GestionClub/ -o ../FC_LA_COUR_GestionClub_V1.25.10_release.zip HEAD
+git archive --format=zip --prefix=GESTION_CLUB_GestionClub/ -o ../GESTION_CLUB_GestionClub_V1.25.10_release.zip HEAD
 ```
 
-Depuis Windows, l'utilisateur garde par defaut `D:\FC_LA_COUR_GestionClub` et applique une nouvelle archive avec `METTRE_A_JOUR.cmd`. Le dossier `data` de la cible est conserve ; les tests puis le serveur sont lances apres la copie.
+Depuis Windows, l'utilisateur garde par defaut `D:\GESTION_CLUB_GestionClub` et applique une nouvelle archive avec `METTRE_A_JOUR.cmd`. Le dossier `data` de la cible est conserve ; les tests puis le serveur sont lances apres la copie.

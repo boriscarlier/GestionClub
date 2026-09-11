@@ -1,0 +1,1 @@
+function coachTeamTrainings(){return qaCoachScope()?(state.coachTrainingSessions||[]).filter(s=>norm(s.team)===norm(coachCurrentTeamName)).sort((a,b)=>String(b.date).localeCompare(String(a.date))):[];}

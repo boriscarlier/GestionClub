@@ -1,0 +1,9 @@
+/* ===== V1.21.20.1 : HISTORIQUE MATCHS EDUCATEUR ===== */
+.coach-result-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.coach-result-score{font-size:1.35rem;font-weight:800;white-space:nowrap}
+.coach-result-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+@media(max-width:600px){
+ .coach-result-card{grid-template-columns:1fr}
+ .coach-result-score{font-size:1.2rem}
+}
+

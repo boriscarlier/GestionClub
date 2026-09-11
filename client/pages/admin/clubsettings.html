@@ -1,0 +1,75 @@
+<div class="page" id="clubsettings">
+<div class="intra-hero">
+<div>
+<div class="kicker">● Club gestionnaire</div>
+<h3>Paramétrage du club</h3>
+<p>Fiche de référence du CLUB EXEMPLE. Les données officielles peuvent être réimportées depuis une fiche club FFF / Footclubs une à deux fois par an.</p>
+</div>
+<label class="primary" style="cursor:pointer;display:inline-flex;align-items:center;gap:8px">
+   📄 Réimporter la fiche Footclubs
+   <input accept="application/pdf,.pdf" id="clubProfilePdfFile" onchange="handleClubProfilePdf(event)" style="display:none" type="file"/>
+</label>
+</div>
+<div class="grid cols-2" style="margin-top:16px">
+<div class="card">
+<h3 style="margin-top:0">Source officielle</h3>
+<div class="tiny" id="clubProfileSource">Aucune fiche officielle enregistrée.</div>
+<div class="club-profile-import-status" id="clubProfileImportStatus">Le prochain import remplacera les champs officiels reconnus et conservera l’historique des imports.</div>
+</div>
+<div class="card">
+<h3 style="margin-top:0">Règle de mise à jour</h3>
+<div class="tiny">La fiche Footclubs constitue la référence administrative périodique. Les champs reconnus sont mis à jour lors du réimport ; les compléments manuels non fournis par le PDF sont conservés.</div>
+</div>
+</div>
+<div class="card" style="margin-top:16px">
+<h3 style="margin-top:0">1 — Identité officielle</h3>
+<div class="club-profile-grid">
+<div class="field"><label>Nom du club</label><input id="clubCfgName"/></div>
+<div class="field"><label>N° affiliation</label><input id="clubCfgAffiliation"/></div>
+<div class="field"><label>Date d’affiliation</label><input id="clubCfgAffiliationDate"/></div>
+<div class="field"><label>Ligue</label><input id="clubCfgLeague"/></div>
+<div class="field"><label>District</label><input id="clubCfgDistrict"/></div>
+<div class="field"><label>N° déclaration préfecture</label><input id="clubCfgPrefecture"/></div>
+<div class="field"><label>SIRET</label><input id="clubCfgSiret"/></div>
+<div class="field"><label>Code NAF</label><input id="clubCfgNaf"/></div>
+</div>
+</div>
+<div class="card" style="margin-top:16px">
+<h3 style="margin-top:0">2 — Coordonnées</h3>
+<div class="club-profile-grid">
+<div class="field"><label>Adresse</label><input id="clubCfgAddress"/></div>
+<div class="field"><label>Téléphone</label><input id="clubCfgPhone"/></div>
+<div class="field"><label>Email officiel</label><input id="clubCfgOfficialEmail"/></div>
+<div class="field"><label>Email principal</label><input id="clubCfgMainEmail"/></div>
+</div>
+</div>
+<div class="card" style="margin-top:16px">
+<h3 style="margin-top:0">3 — Membres de référence</h3>
+<div class="club-profile-grid">
+<div class="field"><label>Président</label><input id="clubCfgPresident"/></div>
+<div class="field"><label>Secrétaire général</label><input id="clubCfgSecretary"/></div>
+<div class="field"><label>Trésorier</label><input id="clubCfgTreasurer"/></div>
+<div class="field"><label>Correspondant</label><input id="clubCfgCorrespondent"/></div>
+<div class="field"><label>Référent PEF</label><input id="clubCfgPef"/></div>
+<div class="field"><label>Référent arbitre</label><input id="clubCfgReferee"/></div>
+</div>
+</div>
+<div class="card" style="margin-top:16px">
+<h3 style="margin-top:0">4 — Infrastructures &amp; informations complémentaires</h3>
+<div class="club-profile-grid">
+<div class="field"><label>Stade principal</label><input id="clubCfgVenue"/></div>
+<div class="field"><label>NNI</label><input id="clubCfgNni"/></div>
+<div class="field"><label>Localité</label><input id="clubCfgVenueCity"/></div>
+<div class="field"><label>Nombre de bénévoles</label><input id="clubCfgVolunteers"/></div>
+</div>
+<div class="field" style="margin-top:10px"><label>Compléments internes</label><textarea id="clubCfgNotes" placeholder="Informations utiles non présentes dans la fiche Footclubs..." rows="4"></textarea></div>
+</div>
+<div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+<button class="primary" onclick="saveClubProfileManual()">Enregistrer le paramétrage</button>
+<button class="ghost" onclick="renderClubProfileSettings()">Annuler les modifications</button>
+</div>
+<div class="card" style="margin-top:18px">
+<h3 style="margin-top:0">Historique des fiches Footclubs importées</h3>
+<div class="club-profile-history" id="clubProfileHistory"></div>
+</div>
+</div>

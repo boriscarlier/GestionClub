@@ -1,0 +1,263 @@
+<div class="page" id="opponents">
+<div class="stats-return-bar" id="statsReturn-opponents"><button class="ghost" onclick="returnToStatistics()">← Retour aux statistiques</button><span class="tiny">Détail : Clubs adverses</span></div>
+<div class="intra-hero">
+<div>
+<div class="kicker">● Référentiel clubs</div>
+<h3>Clubs adverses</h3>
+<p>Consulter la liste des clubs, ouvrir une fiche existante ou créer un nouveau club.</p>
+</div>
+<button class="primary" onclick="openNewOpponentClub()">+ Nouveau club</button>
+</div>
+<!-- 1. STATISTIQUES EN PREMIER -->
+<div class="opponent-section-title" style="margin-top:20px">
+<div><div class="kicker">● Vue d’ensemble</div><h3>Statistiques des clubs adverses</h3></div>
+</div>
+<div class="opponent-stats">
+<div class="opponent-stat"><span class="tiny">Adversaires dans les matchs</span><strong id="oppStatMatchClubs">0</strong></div>
+<div class="opponent-stat"><span class="tiny">Clubs enregistrés</span><strong id="oppStatSaved">0</strong></div>
+<div class="opponent-stat"><span class="tiny">Avec logo</span><strong id="oppStatWithLogo">0</strong></div>
+<div class="opponent-stat"><span class="tiny">À compléter</span><strong id="oppStatMissing">0</strong></div>
+</div>
+<!-- 2. FICHE CLUB A LA DEMANDE — AU-DESSUS DE LA RECHERCHE -->
+<div class="card opponent-editor-shell" id="opponentEditorShell">
+<div class="opponent-editor-head">
+<div>
+<div class="kicker">● Fiche club</div>
+<h3 id="opponentEditorTitle" style="margin:4px 0 0">Nouveau club</h3>
+<div class="tiny" id="opponentEditorSubtitle">Créer ou modifier toutes les données du club.</div>
+</div>
+<button class="ghost" onclick="closeOpponentEditor()">Fermer</button>
+</div>
+<div class="opponent-match-link">
+<div class="field">
+<label>Adversaire présent dans la base Matchs</label>
+<select id="oppMatchClubSelect" onchange="selectOpponentFromMatches(this.value)">
+<option value="">Choisir un adversaire...</option>
+</select>
+</div>
+<button class="ghost" onclick="refreshOpponentMatchOptions()">Actualiser depuis les matchs</button>
+</div>
+<div class="opponent-form" style="margin-top:14px">
+<div class="field"><label>Nom exact du club</label><input id="oppClubName" placeholder="Choisir de préférence dans la liste ci-dessus"/></div>
+<div class="field"><label>Ville</label><input id="oppClubCity" placeholder="Ville"/></div>
+<div class="field"><label>Logo local</label><input accept="image/png,image/jpeg,image/webp" id="oppClubLogo" onchange="previewOpponentLogo(event)" type="file"/></div>
+<div class="field"><label>Couleur principale</label><input id="oppClubColor" placeholder="#000000 ou Vert"/></div>
+</div>
+<div class="card" style="margin-top:14px">
+<h3 style="margin-top:0">Fiche club complète</h3>
+<div class="club-sheet-note tiny">Fiche administrative interne à compléter. Les rubriques reprennent la structure de la fiche club FFF importée, sans afficher la rubrique « Type de club ».</div>
+<div class="club-sheet-section priority">
+<button class="club-sheet-toggle" onclick="toggleClubSheetSection(this)" type="button">
+<strong>1 — Identité</strong><span class="chevron">▾</span>
+</button>
+<div class="club-sheet-content">
+<div class="club-sheet-grid">
+<div class="field"><label>N° affiliation</label><input id="oppFffAffiliation"/></div>
+<div class="field"><label>Date d’affiliation</label><input id="oppFffAffiliationDate" type="date"/></div>
+<div class="field"><label>Ligue</label><input id="oppFffLeague"/></div>
+<div class="field"><label>District</label><input id="oppFffDistrict"/></div>
+<div class="field"><label>Date publication création association au JO</label><input id="oppFffJournalDate" type="date"/></div>
+<div class="field"><label>N° déclaration en préfecture</label><input id="oppFffPrefectureNumber"/></div>
+<div class="field"><label>N° agrément jeunesse et sports</label><input id="oppFffYouthApprovalNumber"/></div>
+<div class="field"><label>Date agrément jeunesse et sports</label><input id="oppFffYouthApprovalDate" type="date"/></div>
+<div class="field"><label>N° SIRET</label><input id="oppFffSiret"/></div>
+<div class="field"><label>Code NAF</label><input id="oppFffNaf"/></div>
+<div class="field"><label>N° dossier CNDS</label><input id="oppFffCnds"/></div>
+<div class="field"><label>Budget du club</label><input id="oppFffBudget"/></div>
+</div></div>
+</div>
+<div class="club-sheet-section priority">
+<button class="club-sheet-toggle" onclick="toggleClubSheetSection(this)" type="button">
+<strong>2 — Coordonnées</strong><span class="chevron">▾</span>
+</button>
+<div class="club-sheet-content">
+<div class="club-sheet-grid">
+<div class="field"><label>Adresse / siège social</label><input id="oppFffAddress"/></div>
+<div class="field"><label>Complément d’adresse</label><input id="oppFffAddress2"/></div>
+<div class="field"><label>Code postal</label><input id="oppFffPostalCode"/></div>
+<div class="field"><label>Ville / localité</label><input id="oppFffLocality"/></div>
+<div class="field"><label>Téléphone principal</label><input id="oppFffPhone"/></div>
+<div class="field"><label>Mobile travail</label><input id="oppFffWorkMobile"/></div>
+<div class="field"><label>Email officiel</label><input id="oppFffEmail" type="email"/></div>
+<div class="field"><label>Email principal</label><input id="oppFffMainEmail" type="email"/></div>
+<div class="field"><label>Email autre 1</label><input id="oppFffOtherEmail1" type="email"/></div>
+<div class="field"><label>Email autre 2</label><input id="oppFffOtherEmail2" type="email"/></div>
+<div class="field"><label>Site internet</label><input id="oppFffWebsite"/></div>
+<div class="field"><label>Couleurs</label><input id="oppFffColors" placeholder="3 couleurs maximum"/></div>
+<div class="field"><label>Niveau</label><input id="oppFffLevel"/></div>
+</div></div>
+</div>
+<div class="club-sheet-section priority">
+<button class="club-sheet-toggle" onclick="toggleClubSheetSection(this)" type="button">
+<strong>3 — Membres / responsables</strong><span class="chevron">▾</span>
+</button>
+<div class="club-sheet-content">
+<div class="club-sheet-grid">
+<div class="field"><label>Président</label><input id="oppFffPresident"/></div>
+<div class="field"><label>Secrétaire général</label><input id="oppFffSecretary"/></div>
+<div class="field"><label>Trésorier</label><input id="oppFffTreasurer"/></div>
+<div class="field"><label>Correspondant</label><input id="oppFffCorrespondent"/></div>
+<div class="field"><label>Référent Programme Éducatif Fédéral</label><input id="oppFffPefReferent"/></div>
+<div class="field"><label>Référent arbitre</label><input id="oppFffRefereeReferent"/></div>
+<div class="field"><label>Responsable technique école de foot</label><input id="oppFffTechnicalSchool"/></div>
+<div class="field"><label>U15 — dirigeant d’équipe</label><input id="oppFffU15Manager"/></div>
+<div class="field"><label>Seniors F — dirigeant d’équipe</label><input id="oppFffWomenManager"/></div>
+<div class="field"><label>Seniors vétérans — dirigeant d’équipe</label><input id="oppFffVeteransManager"/></div>
+</div></div>
+</div>
+<div class="club-sheet-section closed">
+<button class="club-sheet-toggle" onclick="toggleClubSheetSection(this)" type="button">
+<strong>4 — Pratiquants</strong><span class="chevron">▾</span>
+</button>
+<div class="club-sheet-content">
+<div class="club-sheet-grid cols2">
+<div class="field"><label>Répartition des pratiquants par catégorie</label><textarea id="oppFffPractitioners" placeholder="Senior : ...
+U19/U18 : ...
+U17/U16 : ...
+U15/U14 : ...
+U13/U12 : ...
+Football d’animation : ...
+Senior F : ..."></textarea></div>
+<div class="field"><label>Évolution des pratiquants sur 4 ans</label><textarea id="oppFffPractitionersEvolution" placeholder="2025 : ...
+2024 : ...
+2023 : ...
+2022 : ..."></textarea></div>
+</div></div>
+</div>
+<div class="club-sheet-section closed">
+<button class="club-sheet-toggle" onclick="toggleClubSheetSection(this)" type="button">
+<strong>5 — Encadrants</strong><span class="chevron">▾</span>
+</button>
+<div class="club-sheet-content">
+<div class="club-sheet-grid cols2">
+<div class="field"><label>Effectifs encadrants par catégorie</label><textarea id="oppFffStaffCounts" placeholder="Dirigeant : ...
+Dirigeante : ...
+Arbitre : ...
+Technique / Régionale : ...
+Éducateur Fédéral : ..."></textarea></div>
+<div class="field"><label>Évolution des encadrants sur 4 ans</label><textarea id="oppFffStaffEvolution" placeholder="2025 : ...
+2024 : ...
+2023 : ...
+2022 : ..."></textarea></div>
+</div></div>
+</div>
+<div class="club-sheet-section closed">
+<button class="club-sheet-toggle" onclick="toggleClubSheetSection(this)" type="button">
+<strong>6 — Salariés</strong><span class="chevron">▾</span>
+</button>
+<div class="club-sheet-content">
+<div class="club-sheet-grid">
+<div class="field"><label>Nombre de CDI</label><input id="oppFffCdi" min="0" type="number"/></div>
+<div class="field"><label>Nombre de CDD</label><input id="oppFffCdd" min="0" type="number"/></div>
+<div class="field"><label>Dont contrats aidés</label><input id="oppFffAssistedContracts" min="0" type="number"/></div>
+<div class="field"><label>Temps pleins</label><input id="oppFffFullTime" min="0" type="number"/></div>
+<div class="field"><label>Temps partiels</label><input id="oppFffPartTime" min="0" type="number"/></div>
+<div class="field"><label>Joueurs sous contrat fédéral</label><input id="oppFffFederalPlayers" min="0" type="number"/></div>
+<div class="field"><label>Éducateurs sous contrat</label><input id="oppFffContractEducators" min="0" type="number"/></div>
+<div class="field"><label>Éducateurs CDD</label><input id="oppFffEducatorCdd" min="0" type="number"/></div>
+<div class="field"><label>Éducateurs CDI</label><input id="oppFffEducatorCdi" min="0" type="number"/></div>
+</div></div>
+</div>
+<div class="club-sheet-section closed">
+<button class="club-sheet-toggle" onclick="toggleClubSheetSection(this)" type="button">
+<strong>7 — Moyens &amp; infrastructures</strong><span class="chevron">▾</span>
+</button>
+<div class="club-sheet-content">
+<div class="club-sheet-grid">
+<div class="field"><label>Stade / installation principale</label><input id="oppFffVenue"/></div>
+<div class="field"><label>Numéro NNI</label><input id="oppFffNni"/></div>
+<div class="field"><label>Localité de l’installation</label><input id="oppFffVenueLocality"/></div>
+<div class="field"><label>Surface</label><input id="oppFffSurface"/></div>
+<div class="field"><label>Salle de convivialité</label><select id="oppFffClubhouse"><option value="">Non renseigné</option><option>Oui</option><option>Non</option></select></div>
+<div class="field"><label>Nombre de minibus</label><input id="oppFffMinibuses" min="0" type="number"/></div>
+<div class="field"><label>Nombre de bénévoles impliqués</label><input id="oppFffVolunteers" min="0" type="number"/></div>
+</div></div>
+</div>
+<div class="club-sheet-section closed">
+<button class="club-sheet-toggle" onclick="toggleClubSheetSection(this)" type="button">
+<strong>8 — Activités &amp; engagements</strong><span class="chevron">▾</span>
+</button>
+<div class="club-sheet-content">
+<div class="club-sheet-grid cols2">
+<div class="field"><label>Activités / équipes</label><textarea id="oppFffActivities" placeholder="Une équipe ou activité par ligne"></textarea></div>
+<div class="field"><label>Engagements — catégorie / compétition / phase</label><textarea id="oppFffEngagements" placeholder="Ex. U17 — U17 Elite Régional / U17 ER"></textarea></div>
+</div></div>
+</div>
+<div class="club-sheet-section closed">
+<button class="club-sheet-toggle" onclick="toggleClubSheetSection(this)" type="button">
+<strong>9 — Palmarès &amp; distinctions</strong><span class="chevron">▾</span>
+</button>
+<div class="club-sheet-content">
+<div class="club-sheet-grid cols2">
+<div class="field"><label>Palmarès</label><textarea id="oppFffHonours" placeholder="Année — résultat"></textarea></div>
+<div class="field"><label>Distinctions fédérales</label><textarea id="oppFffDistinctions" placeholder="Niveau / libellé / date d’obtention / date d’expiration"></textarea></div>
+<div class="field"><label>Club pilote Fondation du Football</label><select id="oppFffFoundationPilot"><option value="">Non renseigné</option><option>Oui</option><option>Non</option></select></div>
+<div class="field"><label>Périodes de suspension / observations fédérales</label><textarea id="oppFffSuspensions" placeholder="Date début / date fin / motif ou observation"></textarea></div>
+</div></div>
+</div>
+</div>
+<div style="margin-top:14px">
+<button class="primary" onclick="saveOpponentClub()">Enregistrer toute la fiche</button>
+</div>
+<div class="tiny" id="oppLogoPreview" style="margin-top:8px"></div>
+<div class="logo-web-search" style="margin-top:16px">
+<div class="field">
+<label>Recherche de logo sur Internet / URL du logo</label>
+<input id="oppClubLogoUrl" oninput="previewOpponentLogoUrl()" placeholder="https://.../logo.png" type="url"/>
+</div>
+<button class="secondary" onclick="searchOpponentLogoOnWeb()">🔎 Rechercher le logo sur Internet</button>
+</div>
+<div id="oppWebLogoPreview"></div>
+</div>
+<!-- 3. RECHERCHE ET RESULTATS -->
+<div class="card opponent-search-panel" style="margin-top:18px">
+<div class="opponent-section-title">
+<div>
+<div class="kicker">● Recherche</div>
+<h3>Rechercher dans les clubs adverses</h3>
+<div class="tiny">Recherche dans les fiches enregistrées et les adversaires détectés dans la base Matchs.</div>
+</div>
+</div>
+<div class="opponent-search-tools">
+<div class="field">
+<label>Nom du club ou ville</label>
+<input id="oppClubSearch" oninput="renderOpponentClubs()" placeholder="Ex. Red Star, Saint-Pierre..."/>
+</div>
+<button class="ghost" onclick="document.getElementById('oppClubSearch').value='';renderOpponentClubs()">Réinitialiser</button>
+</div>
+</div>
+<div class="opponent-section-title" style="margin-top:20px">
+<div><div class="kicker">● Résultats</div><h3>Clubs trouvés</h3><div class="tiny">Ouvrir une fiche, la compléter ou rechercher son logo.</div></div>
+</div>
+<div class="opponent-grid" id="opponentClubGrid"></div>
+<!-- 4. IMPORTS TOUJOURS EN DERNIER -->
+<div class="opponent-import-zone">
+<div class="opponent-section-title">
+<div>
+<div class="kicker">● Importation de données</div>
+<h3>Importer des données Footclubs / FFF</h3>
+<div class="tiny">Fonction complémentaire : à utiliser pour enrichir ou mettre à jour les fiches après la consultation et la recherche.</div>
+</div>
+</div>
+<div class="club-fff-import">
+<div class="club-fff-import-head">
+<div>
+<div class="kicker">● Import Footclubs / FFF</div>
+<h3 style="margin:4px 0 0">Fiche club ou annuaire multi-clubs</h3>
+<div class="tiny">Le système peut analyser une fiche club unique ou un annuaire complet contenant plusieurs clubs.</div>
+<div class="fff-import-mode">
+<button class="ghost active" data-fff-mode="auto" onclick="setFffImportMode('auto',this)" type="button">Détection automatique</button>
+<button class="ghost" data-fff-mode="single" onclick="setFffImportMode('single',this)" type="button">Fiche club unique</button>
+<button class="ghost" data-fff-mode="directory" onclick="setFffImportMode('directory',this)" type="button">Annuaire multi-clubs</button>
+</div>
+</div>
+<label class="secondary" style="display:inline-flex;align-items:center;gap:8px;cursor:pointer">
+     📄 Choisir un PDF
+     <input accept="application/pdf,.pdf" id="oppFffPdfFile" onchange="handleOpponentFffPdf(event)" style="display:none" type="file"/>
+</label>
+</div>
+<div class="club-fff-import-status" id="oppFffImportStatus">Aucun fichier chargé.</div>
+<div class="club-fff-import-result" id="oppFffImportResult"></div>
+</div>
+</div>
+</div>

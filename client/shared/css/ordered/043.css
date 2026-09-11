@@ -1,0 +1,12 @@
+/* ===== V1.14.25 : PROCEDURE DE REINITIALISATION DES BASES IMPORTEES ===== */
+.reset-procedure{margin-top:18px;border:1px solid rgba(239,68,68,.45);border-radius:16px;padding:16px;background:rgba(239,68,68,.045)}
+.reset-procedure h3{margin-top:0}
+.reset-steps{display:grid;gap:10px;margin-top:12px}
+.reset-step{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:flex-start;border:1px solid var(--border);border-radius:12px;padding:11px;background:var(--panel2)}
+.reset-step-num{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--panel);font-weight:900}
+.reset-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.reset-checklist{display:grid;gap:8px;margin-top:12px}
+.reset-check{display:flex;align-items:center;gap:8px}
+.reset-mode-banner{margin-top:12px;padding:12px;border-radius:12px;border:1px solid rgba(243,200,66,.5);background:rgba(243,200,66,.06)}
+
+

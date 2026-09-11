@@ -1,0 +1,7 @@
+/* ===== V1.21.17 : STABILISATION SITE PUBLIC ===== */
+.public-club-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.public-club-meta .badge{font-size:11px}
+.public-access-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.public-access-card{padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--panel2)}
+@media(max-width:760px){.public-access-grid{grid-template-columns:1fr}}
+

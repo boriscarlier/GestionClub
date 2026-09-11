@@ -1,0 +1,4 @@
+/* ===== V1.21.6.6 : BADGES PROCHAINS MATCHS DASHBOARD ===== */
+.dash-match-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.dash-match-meta .badge{font-size:.72rem}
+

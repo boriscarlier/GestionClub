@@ -47,7 +47,7 @@ class LanServerTests(unittest.TestCase):
             db.execute('DELETE FROM members')
             db.execute('DELETE FROM teams')
         self.backup = {
-            'format': 'FC_LA_COUR_FULL_BACKUP',
+            'format': 'GESTION_CLUB_FULL_BACKUP',
             'schemaVersion': 1,
             'build': 'V1.25.10',
             'state': {

@@ -1,0 +1,68 @@
+<div class="page" id="footclubsui">
+ <div class="intra-hero fcu-hero">
+  <div><div class="kicker">GESTION CLUB V1.22.13.2 · SEPTEMBRE 2026</div><h3>Plugin d’interface · Footclubs UI</h3><p>Un chantier intégré à CLUB EXEMPLE Manager : présentation de Footclubs, réception contrôlée et roadmap commune.</p></div>
+  <button class="ghost" type="button" onclick="goTo('fffcontrol')">← Sources FFF</button>
+ </div>
+ <div class="fcu-summary">
+  <div class="card"><span class="tiny">Extension de référence</span><strong>V0.08.8</strong><span class="tiny">Version compatible · installation non détectée</span></div>
+  <div class="card"><span class="tiny">Réception dans Gestion Club</span><strong>Contacts contrôlés</strong><span class="tiny">Comparaison, sauvegarde et confirmation</span></div>
+  <div class="card"><span class="tiny">Collecteur existant conservé</span><strong>FFF Adapter V0.03.1</strong><span class="tiny">Contrats et flux séparés</span></div>
+ </div>
+ <div class="fcu-tabs" role="group" aria-label="Rubriques du plugin">
+  <button type="button" class="secondary" data-fcu-tab="source" onclick="gestionClubFootclubs.tab('source')" aria-pressed="true">Sources Footclubs</button>
+  <button type="button" class="ghost" data-fcu-tab="plugin" onclick="gestionClubFootclubs.tab('plugin')" aria-pressed="false">Plugin &amp; installation</button>
+  <button type="button" class="ghost" data-fcu-tab="roadmap" onclick="gestionClubFootclubs.tab('roadmap')" aria-pressed="false">Roadmap commune</button>
+ </div>
+ <section data-fcu-pane="source">
+  <div class="card">
+   <h3>Ouvrir une capture du plugin</h3>
+   <p class="tiny">Dans Footclubs, utiliser <strong>« Vers Gestion Club… »</strong>, puis choisir le fichier JSON ici. Pour une fiche ou un bloc : dans Footclubs UI V0.08.8, ouvrir le Centre de collecte, choisir le contenu, prévisualiser puis créer le fichier de collecte. Chaque capture reste partielle.</p>
+   <div class="fcu-actions"><label class="secondary fcu-file">Choisir la capture JSON<input id="fcuSourceFile" type="file" accept=".json,application/json" aria-label="Capture JSON Footclubs UI" /></label><button class="ghost" type="button" onclick="gestionClubFootclubs.example()">Charger l’exemple fictif</button><button class="ghost" type="button" onclick="gestionClubFootclubs.sourceExample()">Exemple fictif de collecte</button><button class="ghost" type="button" id="fcuClear" onclick="gestionClubFootclubs.clear()">Effacer la consultation</button></div>
+   <p class="tiny" id="fcuPermissionNote"></p>
+   <div class="fcu-notice" id="fcuStatus" role="status" aria-live="polite">Aucune capture ouverte. Aucun accès à Footclubs au démarrage.</div>
+   <p class="tiny">Formats acceptés : sélection Gestion Club <code>selected-source/1</code> (1,5 Mo), liste <code>page-snapshot/1</code> (5 Mo) et collecte <code>source-capture/1</code> (1,5 Mo). Les exports FFF Adapter se chargent dans <button class="ghost" type="button" onclick="goTo('fffcontrol')">Sources FFF</button>.</p>
+  </div>
+  <div class="fcu-read-summary" id="fcuReadSummary" hidden></div>
+<section class="card fcu-section" id="fcuReconcile" hidden>
+<h3>Comparer les contacts avec la base du club</h3>
+<p>1. Contrôler la fiche → 2. Choisir les champs → 3. Sauvegarder → 4. Confirmer et appliquer.</p>
+<p class="tiny">Le numéro personne identifie la personne. Les licences, représentants légaux, adresses, paiements et sanctions restent en consultation. Une fiche locale unique, son nom, sa naissance et son appartenance au club pour la saison sont exigés.</p>
+<div class="fcu-actions"><label>Saison de travail <input id="fcuWorkingSeason" type="text" placeholder="Ex. 2026" maxlength="9" inputmode="numeric" aria-describedby="fcuSeasonHelp"></label><button type="button" class="secondary" id="fcuCompareContacts" disabled onclick="FCUReconcile.compare()">Comparer les contacts</button><button type="button" class="ghost" onclick="FCUReconcile.report()">Exporter le diagnostic</button></div>
+<p class="tiny" id="fcuSeasonHelp">Saison issue de la fiche club enregistrée lorsqu’elle est disponible. Sinon, indiquez explicitement votre saison de travail. L’affiliation vient du Paramétrage du club.</p>
+<div id="fcuCompareStatus" role="status" aria-live="polite"></div><div id="fcuDiff"></div>
+<div class="fcu-actions"><button type="button" class="secondary" id="fcuBackupContacts" disabled onclick="FCUReconcile.backup()">Télécharger la sauvegarde avant modification</button></div>
+<label class="fcu-selection-confirm"><input type="checkbox" id="fcuApplyConfirm" disabled> J’ai vérifié les champs choisis, enregistré la sauvegarde et confirmé que les valeurs sont bien enregistrées dans Footclubs.</label>
+<button type="button" class="primary" id="fcuApplyContacts" disabled onclick="FCUReconcile.apply()">Appliquer les contacts choisis</button>
+<details><summary>Historique des contacts et annulation</summary><p class="tiny">Les 30 dernières opérations sont conservées. Une annulation est bloquée si la fiche a changé depuis. Une sauvegarde de récupération est enregistrée avant chaque application ou annulation.</p><button type="button" class="ghost" onclick="FCUReconcile.recoveryBackup()">Télécharger la sauvegarde de récupération</button><div id="fcuContactHistory"></div></details>
+</section>
+<section class="card fcu-section"><h3>Vérification sans données réelles</h3><p>Ce test intégré utilise une fiche fictive en mémoire : comparaison, application simulée, réimport et annulation.</p><button type="button" class="ghost" onclick="FCUQualification.show()">Lancer les contrôles fictifs</button><div id="fcuQualificationResults" role="status" aria-live="polite"></div></section>
+<section class="card fcu-section" id="fcuSelectionPanel" hidden>
+<h3>Choisir les rubriques à exporter</h3>
+<p>La sélection produit une copie partielle distincte, réutilisable dans ce module. Elle ne met pas à jour la base du club. Les rubriques non capturées ne sont pas disponibles.</p>
+<div id="fcuSelectionChoices" class="fcu-selection-choices"></div>
+<p class="tiny">Les blocs sont conservés tels qu’ils ont été capturés. Vérifie aussi « Autres informations » : cette rubrique peut contenir des données personnelles dont le contexte est incertain. Photos et références de fichiers exclues.</p>
+<button type="button" class="secondary" onclick="gestionClubFootclubs.selectionPreview()">Prévisualiser la sélection</button>
+<p id="fcuSelectionStatus" role="status" aria-live="polite"></p>
+<div id="fcuSelectionPreview" class="fcu-viewer"></div>
+<label class="fcu-selection-confirm"><input type="checkbox" id="fcuSelectionConfirm" disabled onchange="gestionClubFootclubs.selectionConfirm()"> J’ai vérifié l’aperçu et je confirme les rubriques à exporter.</label>
+<button type="button" class="secondary" id="fcuSelectionExport" disabled onclick="gestionClubFootclubs.selectionExport()">Exporter la sélection JSON</button>
+</section>
+  <div id="fcuSourceViewer" class="fcu-viewer" aria-label="Capture Footclubs consultée"></div>
+  <div class="fcu-notice fcu-static-note"><strong>Lecture temporaire, pas de synchronisation.</strong> La capture n’est pas stockée dans la base et est effacée à la sortie du module. Aucune donnée absente ne supprime une information locale. Des valeurs non enregistrées côté Footclubs peuvent apparaître dans une capture. Les changements de contacts explicitement confirmés sont journalisés séparément.</div>
+ </section>
+ <section data-fcu-pane="plugin" hidden>
+  <div class="card"><h3>Un module du projet, deux lieux d’exécution</h3><div class="fcu-process"><div><b>1 · Footclubs dans Brave</b><p>Interface modernisée par l’extension installée : listes, aperçu, fiche et photo en lecture seule.</p></div><div><b>2 · Capture choisie</b><p>Export manuel de liste ou collecte choisie de texte et tableaux. Les références de documents ne sont pas leurs fichiers originaux.</p></div><div><b>3 · Gestion Club</b><p>Consultation dans le Centre Sources FFF. Comparaison et application explicite des contacts avec sauvegarde et annulation. Les licences restent en consultation.</p></div></div>
+   <p class="tiny">Ce module HTML ne prouve pas que l’extension est installée et ne commande pas son thème. Les réglages visuels restent dans le menu du plugin existant.</p>
+  </div>
+  <div class="card fcu-section"><h3>Installer ou reprendre l’extension existante</h3><p>Sur le poste de test Brave, utiliser le paquet <strong>Footclubs UI V0.08.8</strong> pour le Centre de collecte ; les exports de listes V0.08.7.2 restent compatibles. Dans <code>brave://extensions/</code>, charger son dossier décompressé contenant <code>manifest.json</code>, désactiver les anciennes copies puis recharger Footclubs. Ne pas installer plusieurs versions simultanément.</p>
+   <a class="secondary fcu-link" href="https://footclubs.fff.fr/" target="_blank" rel="noopener noreferrer">Ouvrir Footclubs ↗</a><p class="tiny">Connexion officielle dans un onglet distinct. La page intermédiaire et les validations FFF sont conservées. Aucun identifiant FFF n’est demandé ici.</p>
+  </div>
+  <div class="card fcu-section"><h3>Vérification sur le poste utilisateur</h3><p>Connexion → page intermédiaire → Licences / Liste → filtre → aperçu → fermeture → export JSON → lecture dans Gestion Club. Contrôler aussi le retour à la présentation native en désactivant le plugin.</p><p class="tiny">La consultation de l’exemple peut être testée sur tablette. L’exécution de l’extension est un test distinct sur un navigateur compatible ; elle n’est pas embarquée dans ce HTML.</p></div>
+ </section>
+ <section data-fcu-pane="roadmap" hidden>
+  <div class="card"><div class="fcu-heading"><div><h3>Roadmap commune du club</h3><p class="tiny">CLUB EXEMPLE Manager × FFF Adapter × Footclubs UI · domaine gestionclub.local</p></div><button type="button" class="secondary" onclick="gestionClubFootclubs.downloadRoadmap()">Exporter la roadmap</button></div>
+   <div class="fcu-notice"><strong>Backend toujours différé.</strong> L’inventaire de l’architecture déjà disponible précède le choix d’un service partagé. Le plugin ne nous impose ni serveur ni fournisseur.</div>
+   <div id="fcuRoadmap"></div>
+  </div>
+ </section>
+</div>

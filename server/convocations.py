@@ -16,7 +16,7 @@ def source(db,ident):
             players.append({**player,'page':page['page'],'key':str(len(players))})
         for date in page.get('dates',[]):dates.append({**date,'page':page['page']})
     fingerprint=hashlib.sha256(json.dumps(report,sort_keys=True,ensure_ascii=True).encode()).hexdigest()
-    return {'document':ident,'name':row['name'],'fingerprint':fingerprint,'players':players,'dates':dates,'timezone':'Indian/Reunion'}
+    return {'document':ident,'name':row['name'],'fingerprint':fingerprint,'players':players,'dates':dates,'timezone':'Etc/UTC'}
 
 def detail(path,ident):
     with closing(watch.connect(path)) as db:

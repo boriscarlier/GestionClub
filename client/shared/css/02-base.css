@@ -1,0 +1,10 @@
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text)}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+.hidden{display:none!important}
+.container{width:min(1200px,calc(100% - 36px));margin:auto}
+.topline{height:4px;background:linear-gradient(90deg,#111 0 25%,var(--green) 25% 50%,var(--yellow) 50% 75%,var(--red) 75% 100%)}

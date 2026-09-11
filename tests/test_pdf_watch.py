@@ -7,7 +7,7 @@ from pypdf import PdfWriter
 from pypdf.generic import DictionaryObject,NameObject,DecodedStreamObject
 import pdf_watch,pdf_worker,server,watch
 
-def sample(text='FC LA COUR : convocation le 25/09/2026. Formation aux Jacques.',blank=False,pages=1,encrypted=False):
+def sample(text='CLUB EXEMPLE : convocation le 25/09/2026. Formation au stade municipal.',blank=False,pages=1,encrypted=False):
     w=PdfWriter()
     for i in range(pages):
         page=w.add_blank_page(width=595,height=842)
@@ -34,7 +34,7 @@ def table_sample(headers=True,borders=True,missing=False,transformed=False,ambig
     if borders:
         for y in [640,580,520]:rect(50,y,150,60)
     if ambiguous:rect(50,570,150,80)
-    for y,club in [(665,'AUTRE CLUB'),(605,'F.C. LA COUR'),(545,'CLUB VOISIN')]:text(70,y,club)
+    for y,club in [(665,'AUTRE CLUB'),(605,'CLUB EXEMPLE'),(545,'CLUB VOISIN')]:text(70,y,club)
     for i,y in enumerate([685,665,645,625,605,585,565,545,525]):
         text(220,y,['AVANT A','AVANT B','AVANT C','DEMO ALPHA','DEMO BETA','DEMO GAMMA','APRES A','APRES B','APRES C'][i])
         if not (missing and i==4):text(370,y,['Alex','Camille','Claude','Enfant Alpha','Enfant Beta','Enfant Gamma','Morgan','Sam','Lou'][i])
@@ -47,7 +47,7 @@ class PDFTests(unittest.TestCase):
     def ready(self,obj=None):
         obj=payload() if obj is None else obj;out=pdf_watch.preview(obj);return {**obj,'digest':out['id'],'confirmed':True}
     def test_extract_page_and_mentions(self):
-        out=pdf_watch.preview(payload());page=out['report']['pages'][0];self.assertEqual(page['page'],1);self.assertIn('FC LA COUR',page['terms']);self.assertIn('Les Jacques',page['terms']);self.assertEqual(page['dates'][0]['date'],'2026-09-25')
+        out=pdf_watch.preview(payload());page=out['report']['pages'][0];self.assertEqual(page['page'],1);self.assertIn('CLUB EXEMPLE',page['terms']);self.assertIn('Quartier Exemple',page['terms']);self.assertEqual(page['dates'][0]['date'],'2026-09-25')
     def test_invalid_dates_and_french_months(self):
         terms,dates=pdf_worker.marks('Réunion du club le 31/02/2026, puis le 1er octobre 2026 et le 29/02/2024.')
         self.assertIn('Réunion',terms);self.assertEqual([x['date'] for x in dates],['2026-10-01','2024-02-29'])

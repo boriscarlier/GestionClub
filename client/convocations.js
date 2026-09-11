@@ -11,7 +11,7 @@ window.Convocations=(()=>{
   function render(out){
    const saved=out.saved,src=out.source,readonly=user.role==='reader';content.replaceChildren();
    const status=node('p',saved?(out.stale?'Analyse modifiée : fiche à revoir.':saved.verified?'Fiche vérifiée.':'Brouillon enregistré.'):'Nouvelle fiche — pas encore enregistrée.');status.setAttribute('role','status');content.append(status);
-   content.append(node('p','Horaires de La Réunion. Cette fiche reste sur le serveur ; aucun message ni événement de calendrier n’est envoyé.'));
+   content.append(node('p','Horaires de Territoire Exemple. Cette fiche reste sur le serveur ; aucun message ni événement de calendrier n’est envoyé.'));
    if(out.stale&&saved){const previous=node('details');previous.append(node('summary','Joueurs de la fiche précédente'));for(const p of saved.players)previous.append(node('p',p.surname+' '+p.givenNames+' · page '+p.page));content.append(previous);}
    const form=node('form'),grid=node('div');grid.className='convocation-grid';const fields={};
    for(const [key,title,type] of [['title','Titre','text'],['date','Date de la convocation','date'],['arrival','Rendez-vous','time'],['start','Début','time'],['end','Fin','time'],['place','Lieu et adresse','text'],['notes','Notes','textarea']]){
@@ -34,7 +34,7 @@ window.Convocations=(()=>{
     for(const control of content.querySelectorAll('input,textarea,button'))control.disabled=true;
     try{await api('/api/watch/convocation','PUT',body);if(!valid())return;dirty=false;await load();}catch(e){if(valid())status.textContent=e.message;}finally{if(valid()){open.disabled=false;for(const control of content.querySelectorAll('input,textarea,button'))control.disabled=readonly;}}
    });content.append(form);
-   if(saved){const exportButton=node('button','Télécharger la fiche enregistrée (JSON)');exportButton.type='button';exportButton.addEventListener('click',async()=>{if(dirty){status.textContent='Enregistrez vos modifications avant de télécharger la fiche.';return;}let latest;try{latest=await api('/api/watch/convocation?id='+encodeURIComponent(pdf.id));}catch(e){if(valid())status.textContent=e.message;return;}if(!valid())return;const data={format:'FC_LA_COUR_CONVOCATION',schemaVersion:1,...latest.saved,stale:latest.stale};const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=node('a');a.href=url;a.download='FC_LA_COUR_convocation_'+pdf.id.slice(0,12)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});content.append(exportButton);content.append(node('p','Enregistrée par '+saved.actor+' · révision '+saved.version));}
+   if(saved){const exportButton=node('button','Télécharger la fiche enregistrée (JSON)');exportButton.type='button';exportButton.addEventListener('click',async()=>{if(dirty){status.textContent='Enregistrez vos modifications avant de télécharger la fiche.';return;}let latest;try{latest=await api('/api/watch/convocation?id='+encodeURIComponent(pdf.id));}catch(e){if(valid())status.textContent=e.message;return;}if(!valid())return;const data={format:'GESTION_CLUB_CONVOCATION',schemaVersion:1,...latest.saved,stale:latest.stale};const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=node('a');a.href=url;a.download='GESTION_CLUB_convocation_'+pdf.id.slice(0,12)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});content.append(exportButton);content.append(node('p','Enregistrée par '+saved.actor+' · révision '+saved.version));}
   }
  }
  return {mount};

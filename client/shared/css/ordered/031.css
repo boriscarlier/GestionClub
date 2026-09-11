@@ -1,0 +1,27 @@
+/* ===== V1.14.11 : MATCHS PUBLICS / PROGRAMME COMPLET ===== */
+.home-match-columns{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.home-match-panel{border:1px solid var(--border);background:var(--panel);border-radius:var(--radius);padding:20px}
+.home-match-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.public-match-list{display:grid;gap:10px}
+.public-match-row{display:grid;grid-template-columns:54px 1fr auto;gap:12px;align-items:center;padding:12px;border:1px solid var(--border);border-radius:14px;background:var(--panel2);cursor:pointer;transition:background .15s ease,border-color .15s ease}
+.public-match-row:hover{background:rgba(255,255,255,.035);border-color:rgba(57,211,83,.35)}
+.public-match-row .club-logo-img{width:48px;height:48px}
+.public-match-main{min-width:0}
+.public-match-main strong{display:block}
+.public-match-meta{color:var(--muted);font-size:12px;margin-top:4px}
+.public-match-score{font-size:24px;font-weight:900;white-space:nowrap}
+.public-match-status{font-size:11px;margin-top:4px;text-align:right}
+.program-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+.program-toolbar button.active{outline:2px solid currentColor}
+.program-list{display:grid;gap:10px}
+.program-match{display:grid;grid-template-columns:70px 1.2fr .9fr auto;gap:14px;align-items:center;padding:14px;border:1px solid var(--border);border-radius:15px;background:var(--panel);cursor:pointer}
+.program-match:hover{border-color:rgba(57,211,83,.4)}
+.program-date{font-weight:800;text-transform:capitalize}
+.program-date .tiny{font-weight:400;text-transform:none}
+.program-team{display:flex;align-items:center;gap:10px;min-width:0}
+.program-team .club-logo-img{width:42px;height:42px}
+.program-selected{border-color:var(--green)!important;background:rgba(57,211,83,.06)!important}
+@media(max-width:800px){.home-match-columns{grid-template-columns:1fr}.program-match{grid-template-columns:56px 1fr auto}.program-match .program-place{grid-column:2/4}}
+@media(max-width:520px){.public-match-row{grid-template-columns:44px 1fr}.public-match-score{grid-column:2}.program-match{grid-template-columns:1fr}.program-date,.program-place{grid-column:auto}.program-team .club-logo-img{width:36px;height:36px}}
+
+

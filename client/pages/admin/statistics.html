@@ -1,0 +1,78 @@
+<div class="page" id="statistics">
+<div class="intra-hero">
+<div>
+<div class="kicker">● V1.15.1 — Pilotage statistique</div>
+<h3>Tableau de bord statistique</h3>
+<p>Vue synthétique calculée à partir des données réellement présentes dans CLUB EXEMPLE Manager.</p>
+</div>
+<button class="secondary" onclick="renderStatisticsDashboard()">↻ Actualiser</button>
+</div>
+<div class="card" style="margin-bottom:14px">
+<h3 style="margin-top:0">État des sources statistiques</h3>
+<div class="stats-source-summary" id="statsSourceSummary"></div>
+<div class="stats-data-note tiny">Les indicateurs sportifs sont calculés uniquement à partir des bases opérationnelles : Licenciés, Équipes, Matchs, Discipline et Clubs adverses. La fiche Footclubs du club gestionnaire est suivie comme source de référence, mais n’est pas comptée comme une base sportive.</div>
+</div>
+<div class="card" style="margin-bottom:14px">
+<h3 style="margin-top:0">Analyses détaillées</h3>
+<div class="reset-actions">
+<button class="ghost" onclick="goTo('statistics-members-advanced')">👥 Licenciés</button>
+<button class="ghost" onclick="goTo('statistics-teams')">⚽ Équipes</button>
+<button class="ghost" onclick="goTo('statistics-results')">📈 Résultats</button>
+<button class="ghost" onclick="goTo('statistics-discipline')">🟥 Discipline</button>
+<button class="ghost" onclick="goTo('statistics-opponents')">🛡️ Adversaires</button>
+<button class="ghost" onclick="goTo('statistics-data')">🧪 Qualité des données</button>
+</div>
+</div>
+<div class="stats-dashboard-grid">
+<div class="stats-kpi stats-drilldown" onclick="openStatsDetail('members')" title="Voir les licenciés"><div class="stat-label">Licenciés</div><div class="value" id="statsMembers">0</div><div class="sub" id="statsMembersSub">Base licenciés</div></div>
+<div class="stats-kpi stats-drilldown" onclick="openStatsDetail('teams')" title="Voir les équipes"><div class="stat-label">Équipes</div><div class="value" id="statsTeams">0</div><div class="sub" id="statsTeamsSub">Équipes configurées</div></div>
+<div class="stats-kpi stats-drilldown" onclick="openStatsDetail('matches')" title="Voir les matchs"><div class="stat-label">Matchs enregistrés</div><div class="value" id="statsMatches">0</div><div class="sub" id="statsMatchesSub">Toutes compétitions</div></div>
+<div class="stats-kpi stats-drilldown" onclick="openStatsDetail('matches')" title="Voir les matchs joués"><div class="stat-label">Matchs avec résultat</div><div class="value" id="statsPlayed">0</div><div class="sub" id="statsPlayedSub">Score renseigné</div></div>
+<div class="stats-kpi stats-drilldown" onclick="openStatsDetail('matches')" title="Voir le calendrier restant"><div class="stat-label">Matchs restant à jouer</div><div class="value" id="statsRemaining">0</div><div class="sub" id="statsRemainingSub">Calendrier à venir</div></div>
+<div class="stats-kpi stats-drilldown" onclick="openStatsDetail('statistics-results')" title="Voir l’analyse des résultats"><div class="stat-label">Victoires</div><div class="value" id="statsWins">0</div><div class="sub" id="statsWinsSub">Matchs calculables</div></div>
+<div class="stats-kpi stats-drilldown" onclick="openStatsDetail('statistics-results')" title="Voir l’analyse des résultats"><div class="stat-label">Nuls</div><div class="value" id="statsDraws">0</div><div class="sub">Matchs calculables</div></div>
+<div class="stats-kpi stats-drilldown" onclick="openStatsDetail('statistics-results')" title="Voir l’analyse des résultats"><div class="stat-label">Défaites</div><div class="value" id="statsLosses">0</div><div class="sub">Matchs calculables</div></div>
+<div class="stats-kpi stats-drilldown" onclick="openStatsDetail('statistics-results')" title="Voir l’analyse des buts"><div class="stat-label">Différence de buts</div><div class="value" id="statsGoalDiff">0</div><div class="sub" id="statsGoalsSub">0 marqués • 0 encaissés</div></div>
+<div class="stats-kpi stats-drilldown" onclick="openStatsDetail('discipline')" title="Voir la discipline"><div class="stat-label">Dossiers discipline</div><div class="value" id="statsDiscipline">0</div><div class="sub" id="statsDisciplineSub">0 actif(s)</div></div>
+<div class="stats-kpi stats-drilldown" onclick="openStatsDetail('opponents')" title="Voir les clubs adverses"><div class="stat-label">Clubs adverses</div><div class="value" id="statsOpponents">0</div><div class="sub" id="statsOpponentsSub">Base clubs</div></div>
+<div class="stats-kpi stats-drilldown" onclick="openStatsDetail('importwatch')" title="Voir les importations"><div class="stat-label">Imports à jour</div><div class="value" id="statsImportsOk">0/4</div><div class="sub" id="statsImportsSub">Qualité des données</div></div>
+<div class="stats-kpi stats-drilldown" onclick="openStatsDetail('statistics-data')" title="Voir la qualité des données"><div class="stat-label">Taux de complétude</div><div class="value" id="statsCompleteness">0%</div><div class="sub">4 bases principales</div></div>
+</div>
+<div class="stats-section-grid">
+<div class="card stats-clickable" onclick="goTo('statistics-members')" title="Ouvrir le détail de la répartition">
+<div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+<h3 style="margin-top:0">Répartition des licenciés par équipe / catégorie</h3>
+<span class="tiny">Voir le détail →</span>
+</div>
+<div class="stats-bar-list" id="statsCategoryBars"></div>
+</div>
+<div class="card">
+<h3 style="margin-top:0">Bilan sportif</h3>
+<div class="stats-result-grid">
+<div class="stats-result-box"><span class="tiny">Victoires</span><strong id="statsWinsBox">0</strong></div>
+<div class="stats-result-box"><span class="tiny">Nuls</span><strong id="statsDrawsBox">0</strong></div>
+<div class="stats-result-box"><span class="tiny">Défaites</span><strong id="statsLossesBox">0</strong></div>
+</div>
+<div class="stats-health" style="margin-top:12px">
+<div class="stats-health-row"><span>Buts marqués</span><strong id="statsGoalsFor">0</strong></div>
+<div class="stats-health-row"><span>Buts encaissés</span><strong id="statsGoalsAgainst">0</strong></div>
+<div class="stats-health-row"><span>Matchs non calculables</span><strong id="statsUnknownResults">0</strong></div>
+</div>
+</div>
+</div>
+<div class="stats-section-grid">
+<div class="card">
+<h3 style="margin-top:0">Qualité et fraîcheur des données</h3>
+<div class="stats-health" id="statsImportHealth"></div>
+</div>
+<div class="card">
+<h3 style="margin-top:0">Discipline</h3>
+<div class="stats-health">
+<div class="stats-health-row"><span>Total dossiers</span><strong id="statsDiscTotal">0</strong></div>
+<div class="stats-health-row"><span>Dossiers actifs</span><strong id="statsDiscActive">0</strong></div>
+<div class="stats-health-row"><span>Personnes concernées</span><strong id="statsDiscPeople">0</strong></div>
+<div class="stats-health-row"><span>Matchs concernés</span><strong id="statsDiscMatches">0</strong></div>
+</div>
+</div>
+</div>
+</div>

@@ -1,0 +1,33 @@
+/* ===== V1.21.19.8 : ERGONOMIE TACTILE ===== */
+@media(pointer:coarse){
+ button,
+ [role="button"],
+ input[type="button"],
+ input[type="submit"],
+ select,
+ input:not([type="checkbox"]):not([type="radio"]){
+  min-height:44px
+ }
+ input[type="checkbox"],
+ input[type="radio"]{
+  min-width:22px;min-height:22px
+ }
+ button+button{margin-inline-start:2px}
+ .match-card,
+ .team-card,
+ .stats-clickable{touch-action:manipulation}
+}
+@media(max-width:768px){
+ button{padding-top:10px;padding-bottom:10px}
+ .actions{gap:8px}
+ .field{margin-bottom:10px}
+ label{display:block;margin-bottom:5px}
+ .coach-player,
+ .coach-attendance-row,
+ .match-card,
+ .team-card{scroll-margin-top:82px}
+ .coach-player-stats-panel{scroll-margin-top:92px}
+}
+
+
+

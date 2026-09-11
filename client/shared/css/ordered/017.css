@@ -1,0 +1,27 @@
+/* ===== V1.14 : RECHERCHE & FICHE LICENCIE ===== */
+.member-tools{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:10px;margin:18px 0}
+.member-tools input,.member-tools select{background:var(--panel2);border:1px solid var(--border);color:#fff;border-radius:12px;padding:10px 11px;width:100%}
+.member-selection-bar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin:10px 0}
+.member-table-wrap{overflow:auto;border:1px solid var(--border);border-radius:14px}
+.member-table-wrap table{min-width:980px}
+.member-row{cursor:pointer}
+.member-row:hover{background:rgba(57,211,83,.05)}
+.member-row.selected{background:rgba(57,211,83,.09)}
+.member-row td:first-child{width:42px}
+.member-detail-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;flex-wrap:wrap}
+.member-identity{display:flex;gap:14px;align-items:center}
+.member-avatar{width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,var(--green),var(--yellow));display:grid;place-items:center;color:#071008;font-weight:950;font-size:22px}
+.member-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.member-detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.member-block{padding:15px;border:1px solid var(--border);border-radius:14px;background:var(--panel2)}
+.member-block h4{margin:0 0 10px}
+.member-kv{display:grid;grid-template-columns:150px 1fr;gap:7px 12px;font-size:12px}
+.member-kv div:nth-child(odd){color:var(--muted)}
+.member-licenses{display:grid;gap:8px}
+.member-license-card{padding:11px;border:1px solid var(--border);border-radius:12px;background:var(--panel)}
+.member-disc-card{padding:11px;border:1px solid rgba(239,68,68,.28);border-radius:12px;background:rgba(239,68,68,.05);margin-bottom:8px}
+.member-detail-actions{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:1100px){.member-tools{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:780px){.member-tools,.member-detail-grid{grid-template-columns:1fr}.member-kv{grid-template-columns:1fr}}
+
+

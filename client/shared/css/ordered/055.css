@@ -1,0 +1,7 @@
+/* ===== V1.21.8 : STABILISATION DISCIPLINE ===== */
+.discipline-toolbar{display:grid;grid-template-columns:1fr 220px 220px auto;gap:10px;align-items:end}
+.disc-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.disc-data-warning{margin-top:8px;padding:8px 10px;border:1px dashed var(--line);border-radius:10px}
+@media(max-width:850px){.discipline-toolbar{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.discipline-toolbar{grid-template-columns:1fr}}
+

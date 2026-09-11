@@ -120,6 +120,25 @@ class LanServerTests(unittest.TestCase):
         )
         self.assertEqual(self.request('/', host='8.8.8.8')[0], 403)
 
+    def test_denial_is_delivered_before_a_delayed_body(self):
+        import socket
+        port = self.gateway.server_port
+        with socket.create_connection(('127.0.0.1', port), timeout=3) as connection:
+            request = (
+                'POST /api/login HTTP/1.1\r\n'
+                f'Host: {self.host}:{port}\r\n'
+                f'Origin: http://evil.invalid:{port}\r\n'
+                'Content-Length: 10\r\n\r\n'
+            )
+            connection.sendall(request.encode('ascii'))
+            response = http.client.HTTPResponse(connection)
+            response.begin()
+            self.assertEqual(response.status, 403)
+            self.assertEqual(response.getheader('Connection'), 'close')
+            self.assertIn('error', json.loads(response.read()))
+            connection.sendall(b'late-body!')
+            self.assertEqual(connection.recv(1), b'')
+
     def test_04_reader_role_stays_read_only_over_gateway(self):
         session = self.login('lanreader')
         code, _, _ = self.request(

@@ -1,5 +1,5 @@
 project: CLUB EXEMPLE Gestion Club
-version: V1.25.12.1-dev
+version: V1.25.12.2-dev
 base_imported: V1.24.5
 base_stable: V1.25.11.1
 runtime:

@@ -3,6 +3,7 @@ import argparse
 import http.client
 import json
 import socket
+import time
 from datetime import datetime
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -29,8 +30,32 @@ class LanGatewayHandler(BaseHTTPRequestHandler):
         self.send_header('Content-Length', str(len(raw)))
         self.send_header('Cache-Control', 'no-store')
         self.send_header('X-Content-Type-Options', 'nosniff')
+        self.send_header('Connection', 'close')
         self.end_headers()
         self.wfile.write(raw)
+        self.wfile.flush()
+        self.close_connection = True
+        # Deliver the denial before closing a socket with unread request bytes.
+        # Windows can otherwise reset the connection and hide the HTTP status.
+        # Never wait for an untrusted Content-Length or drain without bounds.
+        previous_timeout = self.connection.gettimeout()
+        try:
+            self.connection.shutdown(socket.SHUT_WR)
+            deadline = time.monotonic() + 0.5
+            remaining = 65536
+            while remaining:
+                timeout = deadline - time.monotonic()
+                if timeout <= 0:
+                    break
+                self.connection.settimeout(timeout)
+                chunk = self.connection.recv(min(8192, remaining))
+                if not chunk:
+                    break
+                remaining -= len(chunk)
+        except OSError:
+            pass
+        finally:
+            self.connection.settimeout(previous_timeout)
 
     def _read_body(self):
         if self.command not in ('POST', 'PUT', 'PATCH'):

@@ -4,7 +4,7 @@ Application locale de gestion du club, avec sauvegardes serveur, veille publique
 
 ## Etat actuel
 
-- Version en developpement : `V1.25.12.1-dev`
+- Version en developpement : `V1.25.12.2-dev`
 - Derniere version stable validee sous Windows et sur le reseau local : `V1.25.11.1`
 - Serveur local Python : authentification, revisions, depots de sauvegarde, veille, PDF, convocations, premieres API SQL metier
 - Mode LAN V1.25.11.1 valide : acces reseau local explicite avec filtrage IP, Host et Origin ; aucune ouverture routeur automatique

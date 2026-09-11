@@ -1,4 +1,4 @@
-# Gestion Club V1.25.12.1 — HTML decompose, candidat de test
+# Gestion Club V1.25.12.2 — HTML decompose, candidat de test
 
 1. Fermer les anciennes fenetres du serveur local et de la passerelle LAN.
 2. Decompresser ce ZIP dans un dossier temporaire.
@@ -16,3 +16,5 @@ La neutralisation du nom a modifie la reference HTML : elle n'est pas identique 
 Validation du lot : 144 tests Python passes, recomposition exacte, syntaxe JS verifiee par la suite, scan textuel des fichiers versionnes. Validation navigateur GitHub reussie sur da92eace : 210 comparaisons visuelles, 70 acces directs actifs, aucune erreur JavaScript. Test physique Windows/LAN encore requis. Ne pas considerer ce candidat comme une nouvelle version stable.
 
 Correctif Windows : copie du sous-dossier client/shared/data, manifeste CSS portable et lectures UTF-8 explicites. Les mentions du club sont limitees au chemin technique impose.
+
+Correctif V1.25.12.2 : fermeture bornee des requetes LAN refusees pour eviter les reinitialisations TCP Windows. Les controles Host et Origin restent actifs.

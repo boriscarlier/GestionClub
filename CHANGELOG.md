@@ -1,5 +1,10 @@
 # Changelog
 
+## V1.25.12.2-dev
+
+- Reponse LAN de refus envoyee avant fermeture TCP, avec vidage borne du contenu restant.
+- Test de refus avec corps retarde ; aucun relachement des controles Host/Origin.
+
 ## V1.25.12.1-dev
 
 - Cible Windows fixee au chemin choisi dans PROJECT_STATE.yaml.

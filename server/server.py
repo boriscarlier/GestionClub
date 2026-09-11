@@ -9,6 +9,7 @@ import watch
 import manual_watch
 import pdf_watch
 import convocations
+import member_accounts
 from services import club_state
 
 SERVER_ROOT = Path(__file__).resolve().parent
@@ -17,6 +18,7 @@ CLIENT_ROOT = PROJECT_ROOT / 'client'
 DATA_ROOT = PROJECT_ROOT / 'data'
 LIMIT = 30 * 1024 * 1024
 ROLES = ('admin', 'editor', 'reader')
+SERVER_BUILD = 'V1.26.1'
 
 class Problem(Exception):
     def __init__(self, status, message):
@@ -31,7 +33,7 @@ def validate(p):
     if not re.fullmatch(r'V\d+\.\d+\.\d+(?:\.\d+)?', str(p.get('build', ''))):
         raise Problem(400, 'Version de sauvegarde non reconnue.')
     v = tuple(map(int, p['build'][1:].split('.')))
-    if v + (0,) * (4-len(v)) > (1,25,10,0):
+    if v + (0,) * (4-len(v)) > (1,26,1,0):
         raise Problem(400, 'Sauvegarde plus récente que ce serveur.')
     s = p.get('state')
     if not isinstance(s, dict):
@@ -79,6 +81,8 @@ def initialize(path):
         ''')
         club_state.initialize(db)
         club_state.bootstrap_latest(db)
+        member_accounts.initialize(db)
+        member_accounts.sync(db, password_hash)
     watch.initialize(path)
     pdf_watch.initialize(path)
     convocations.initialize(path)
@@ -91,7 +95,7 @@ def add_user(path, name, password, role):
         raise ValueError('Identifiant : 3–40 lettres/chiffres/._- ; mot de passe : 12–256 caractères.')
     salt = secrets.token_hex(16)
     with closing(connect(path)) as db, db:
-        db.execute('INSERT INTO users VALUES(?,?,?,?)', (name, salt, password_hash(password, salt), role))
+        db.execute('INSERT INTO users(name,salt,password,role) VALUES(?,?,?,?)', (name, salt, password_hash(password, salt), role))
 
 def manager_page(html=None):
     if html is None:
@@ -105,7 +109,7 @@ def manager_page(html=None):
         return html.encode('utf-8')
     banner = """
 <div id="serverBridgeBanner" style="position:sticky;top:0;z-index:99999;background:#102516;color:#fffbe6;border-bottom:2px solid #2ecc71;padding:10px 16px;font:14px/1.35 system-ui,Segoe UI,sans-serif">
-    <strong>Gestion Club servi par le serveur local V1.25.10.</strong>
+    <strong>Gestion Club servi par le serveur local V1.26.1.</strong>
   Les donnees reelles restent dans la base serveur ; l'enregistrement complet est volontaire et confirme.
   <button id="serverBridgeSave" type="button" style="margin-left:12px;border:1px solid #2ecc71;border-radius:10px;background:#2ecc71;color:#06100a;font-weight:800;padding:7px 10px;cursor:pointer">Enregistrer sur serveur</button>
   <button id="serverBridgeDownload" type="button" style="margin-left:6px;border:1px solid #9df7b9;border-radius:10px;background:transparent;color:#9df7b9;font-weight:700;padding:7px 10px;cursor:pointer">Telecharger revision serveur</button>
@@ -113,7 +117,7 @@ def manager_page(html=None):
   <span id="serverBridgeStatus" style="display:block;margin-top:6px;color:#c8f7d8"></span>
 </div>
 <script>
-window.GESTION_CLUB_SERVER_BRIDGE={build:"V1.25.10",mode:"server-bridge",bootstrapUrl:"/api/gestion/bootstrap"};
+window.GESTION_CLUB_SERVER_BRIDGE={build:"V1.26.1",mode:"server-bridge",bootstrapUrl:"/api/gestion/bootstrap"};
 (function(){
   async function api(path,method,body,csrf){
     const response=await fetch(path,{method:method||"GET",credentials:"same-origin",cache:"no-store",headers:Object.assign({"Content-Type":"application/json"},csrf?{"X-CSRF-Token":csrf}:{}),body:body===undefined?undefined:JSON.stringify(body)});
@@ -154,7 +158,7 @@ window.GESTION_CLUB_SERVER_BRIDGE={build:"V1.25.10",mode:"server-bridge",bootstr
     return (html[:end+1] + banner + html[end+1:]).encode('utf-8')
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = 'GestionClub/1.25.10'
+    server_version = 'GestionClub/1.26.1'
     sys_version = ''
     def log_message(self, *args):
         pass
@@ -218,7 +222,7 @@ class Handler(BaseHTTPRequestHandler):
         with closing(connect(self.server.db_path)) as db:
             if path == '/api/login' and self.command == 'POST':
                 obj=self.body();name=obj.get('name','');password=obj.get('password','')
-                if not isinstance(name,str) or not isinstance(password,str) or len(name)>40 or len(password)>256:
+                if not isinstance(name,str) or not isinstance(password,str) or len(name)>80 or len(password)>256:
                     raise Problem(400,'Identifiants invalides.')
                 with db:
                     db.execute('BEGIN IMMEDIATE')
@@ -234,12 +238,45 @@ class Handler(BaseHTTPRequestHandler):
                 with db:
                     db.execute('DELETE FROM sessions WHERE expires<?',(time.time(),))
                     db.execute('INSERT INTO sessions VALUES(?,?,?,?)',(hashlib.sha256(token.encode()).hexdigest(),name,csrf,time.time()+3600))
-                return self.send(200,{'user':name,'role':user['role'],'csrf':csrf},'gestionclub_session='+token+'; HttpOnly; SameSite=Strict; Path=/; Max-Age=3600')
+                account_type='member' if user['member_id'] else user['role']
+                return self.send(200,{'user':name,'role':account_type,'csrf':csrf,'mustChangePassword':bool(user['must_change_password'])},'gestionclub_session='+token+'; HttpOnly; SameSite=Strict; Path=/; Max-Age=3600')
             user=self.session(db)
             if self.command != 'GET' and not hmac.compare_digest(self.headers.get('X-CSRF-Token',''),user['csrf']):
                 raise Problem(403,'Jeton de session invalide.')
+            account=db.execute('SELECT * FROM users WHERE name=?',(user['user'],)).fetchone()
+            account_type='member' if account['member_id'] else account['role']
             if path == '/api/session' and self.command == 'GET':
-                return self.send(200,{'user':user['user'],'role':user['role'],'csrf':user['csrf']})
+                return self.send(200,{'user':user['user'],'role':account_type,'csrf':user['csrf'],'mustChangePassword':bool(account['must_change_password'])})
+            if path == '/api/change-password' and self.command == 'POST':
+                obj=self.body();new=obj.get('newPassword','');confirm=obj.get('confirmPassword','')
+                if not isinstance(new,str) or new!=confirm or not 12<=len(new)<=256:
+                    raise Problem(400,'Le nouveau mot de passe doit contenir 12 à 256 caractères et sa confirmation doit correspondre.')
+                if hmac.compare_digest(password_hash(new,account['salt']),account['password']):
+                    raise Problem(400,'Choisissez un mot de passe différent du mot de passe provisoire.')
+                salt=secrets.token_hex(16)
+                with db:
+                    db.execute('UPDATE users SET salt=?,password=?,must_change_password=0,credential_nonce=NULL,password_changed_at=? WHERE name=?',(salt,password_hash(new,salt),time.time(),user['user']))
+                    db.execute('DELETE FROM sessions WHERE user=? AND token<>?',(user['user'],user['token']))
+                return self.send(200,{'ok':True,'user':user['user'],'role':account_type})
+            if path == '/api/logout' and self.command == 'POST':
+                with db:
+                    db.execute('DELETE FROM sessions WHERE token=?',(user['token'],))
+                return self.send(200,{'ok':True},'gestionclub_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0')
+            if account['must_change_password']:
+                raise Problem(403,'Vous devez remplacer votre mot de passe provisoire avant de continuer.')
+            if path == '/api/member/me' and self.command == 'GET':
+                if not account['member_id']:
+                    raise Problem(403,'Compte licencié requis.')
+                profile=member_accounts.member_profile(db,account['member_id'])
+                if not profile:
+                    raise Problem(404,'Licence associée introuvable.')
+                return self.send(200,{'member':profile})
+            if path == '/api/admin/member-accounts' and self.command == 'GET':
+                if account['role']!='admin' or account['member_id']:
+                    raise Problem(403,'Accès réservé à l’administration.')
+                return self.send(200,{'accounts':member_accounts.admin_listing(db)})
+            if account['member_id']:
+                raise Problem(403,'Ce compte licencié ne donne pas accès à l’administration du serveur.')
             if path in ('/gestion', '/gestion-legacy') and self.command == 'GET':
                 csp = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
                 return self.send(200, manager_page(), mime='text/html; charset=utf-8', csp=csp)
@@ -259,7 +296,7 @@ class Handler(BaseHTTPRequestHandler):
             if path == '/api/gestion/bootstrap' and self.command == 'GET':
                 row=db.execute('SELECT id,created,actor,club,payload FROM revisions ORDER BY id DESC LIMIT 1').fetchone()
                 latest = None if not row else {'revision':row['id'],'created':row['created'],'actor':row['actor'],'club':row['club'],'backup':json.loads(row['payload'])}
-                return self.send(200,{'serverBuild':'V1.25.10','mode':'server-bridge','user':user['user'],'role':user['role'],'latest':latest})
+                return self.send(200,{'serverBuild':SERVER_BUILD,'mode':'server-bridge','user':user['user'],'role':user['role'],'latest':latest})
             if path == '/api/state/summary' and self.command == 'GET':
                 return self.send(200, club_state.summary(db))
             if path == '/api/state/members' and self.command == 'GET':
@@ -313,10 +350,6 @@ class Handler(BaseHTTPRequestHandler):
                         if user['role'] != 'admin': raise Problem(403,'Réglage réservé à l’administration.')
                         return self.send(200,watch.source_settings(self.server.db_path,self.body()))
                 raise Problem(404,'Ressource de veille inexistante.')
-            if path == '/api/logout' and self.command == 'POST':
-                with db:
-                    db.execute('DELETE FROM sessions WHERE token=?',(user['token'],))
-                return self.send(200,{'ok':True},'gestionclub_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0')
             if path == '/api/status' and self.command == 'GET':
                 row=db.execute('SELECT id,created,actor,club,payload FROM revisions ORDER BY id DESC LIMIT 1').fetchone()
                 return self.send(200,{'revision':row['id'] if row else 0,'club':row['club'] if row else None,'counts':{k:len(json.loads(row['payload'])['state'][k]) for k in ('members','teams','matches','accounts')} if row else {}})
@@ -348,7 +381,8 @@ class Handler(BaseHTTPRequestHandler):
                     cur=db.execute('INSERT INTO revisions(created,actor,club,payload) VALUES(?,?,?,?)',(time.time(),user['user'],club,raw))
                     revision=cur.lastrowid
                     club_state.sync_all(db, revision, p)
-                return self.send(201,{'revision':revision})
+                    account_sync=member_accounts.sync(db,password_hash)
+                return self.send(201,{'revision':revision,'memberAccounts':account_sync})
             raise Problem(404,'Ressource inexistante.')
     def handle_request(self):
         try:
@@ -403,7 +437,7 @@ def main():
     srv=make_server(args.data)
     srv.watch.start()
     print('Base de donnees : ' + str(args.data))
-    print('CLUB EXEMPLE V1.25.10 — http://127.0.0.1:8765 — Ctrl+C pour arrêter.')
+    print('CLUB EXEMPLE V1.26.1 — http://127.0.0.1:8765 — Ctrl+C pour arrêter.')
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

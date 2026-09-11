@@ -16,7 +16,7 @@ class ServerTests(unittest.TestCase):
         cls.srv.shutdown();cls.srv.server_close();cls.thread.join();cls.temp.cleanup()
     def setUp(self):
         with closing(server.connect(self.path)) as db,db:
-            db.execute('DELETE FROM attempts');db.execute('DELETE FROM sessions');db.execute('DELETE FROM revisions');db.execute('DELETE FROM members');db.execute('DELETE FROM teams')
+            db.execute('DELETE FROM attempts');db.execute('DELETE FROM sessions');db.execute('DELETE FROM revisions');db.execute('DELETE FROM users WHERE member_id IS NOT NULL');db.execute('DELETE FROM members');db.execute('DELETE FROM teams')
         self.p={'format':'GESTION_CLUB_FULL_BACKUP','schemaVersion':1,'build':'V1.23.3','state':{'members':[{'id':'fiction-only','name':'FICTIF'}],'teams':[],'matches':[],'accounts':[],'clubProfile':{'official':{'affiliation':'000000'}}},'lineups':{}}
     def request(self,path,method='GET',data=None,session=None,origin=None,host=None,csrf=True):
         port=self.srv.server_port;conn=http.client.HTTPConnection('127.0.0.1',port,timeout=10)
@@ -98,7 +98,7 @@ class ServerTests(unittest.TestCase):
         s=self.login();revision=self.deposit(s)[1]['revision']
         code,r,_=self.request('/api/gestion/bootstrap',session=s)
         self.assertEqual(code,200)
-        self.assertEqual(r['serverBuild'],'V1.25.10')
+        self.assertEqual(r['serverBuild'],'V1.26.1')
         self.assertEqual(r['mode'],'server-bridge')
         self.assertEqual(r['latest']['revision'],revision)
         self.assertEqual(r['latest']['backup'],self.p)
@@ -154,7 +154,7 @@ class ServerTests(unittest.TestCase):
     def test_25_gestion_members_api_bridge_is_visible(self):
         s=self.login();code,raw,_=self.raw_request('/gestion',session=s)
         self.assertEqual(code,200)
-        self.assertIn(b'V1.25.10',raw)
+        self.assertIn(b'V1.26.1',raw)
         self.assertIn(b'/api/state/members?limit=500',raw)
         self.assertIn(b'Source : serveur SQL/API',raw)
     def test_26_teams_synced_to_sql_and_listed_by_api(self):
@@ -226,11 +226,51 @@ class ServerTests(unittest.TestCase):
     def test_32_homepage_displays_current_server_version(self):
         code,raw,_=self.raw_request('/')
         self.assertEqual(code,200)
-        self.assertIn(b'Serveur V1.25.10',raw)
-        self.assertIn('CLUB EXEMPLE · V1.25.10'.encode('utf-8'),raw)
+        self.assertIn(b'Serveur V1.26.1',raw)
+        self.assertIn('CLUB EXEMPLE · V1.26.1'.encode('utf-8'),raw)
         self.assertNotIn(b'Serveur V1.25.1<',raw)
         self.assertNotIn('CLUB EXEMPLE · V1.25.1<'.encode('utf-8'),raw)
-    def test_33_windows_tests_use_compact_status(self):
+    def test_33_member_accounts_generate_login_password_and_first_login_change(self):
+        s=self.login()
+        self.p['state']['members']=[
+            {'id':'mid-1','licenseNumber':'9601','last':'DUPONT','first':'Alice','category':'U13'},
+            {'id':'mid-2','licenseNumber':'9602','last':'DUPONT','first':'Alain','category':'U15'}
+        ]
+        code,r,_=self.deposit(s)
+        self.assertEqual(code,201)
+        revision=r['revision']
+        self.assertEqual(r['memberAccounts']['created'],2)
+        code,listing,_=self.request('/api/admin/member-accounts',session=s)
+        self.assertEqual(code,200)
+        accounts={row['memberId']:row for row in listing['accounts']}
+        self.assertEqual(accounts['mid-1']['login'],'ADUPONT')
+        self.assertEqual(accounts['mid-2']['login'],'ADUPONT2')
+        self.assertTrue(accounts['mid-1']['temporaryPassword'].startswith('Gc1!'))
+        with closing(server.connect(self.path)) as db:
+            stored=db.execute('SELECT password FROM users WHERE member_id=?',('mid-1',)).fetchone()['password']
+            self.assertNotEqual(stored,accounts['mid-1']['temporaryPassword'])
+        code,member_login,cookie=self.request('/api/login','POST',{'name':'ADUPONT','password':accounts['mid-1']['temporaryPassword']})
+        self.assertEqual(code,200)
+        self.assertEqual(member_login['role'],'member')
+        self.assertTrue(member_login['mustChangePassword'])
+        member_session=(cookie.split(';')[0],member_login['csrf'])
+        self.assertEqual(self.request('/api/member/me',session=member_session)[0],403)
+        code,changed,_=self.request('/api/change-password','POST',{'newPassword':'Fiction-only-member-456','confirmPassword':'Fiction-only-member-456'},member_session)
+        self.assertEqual(code,200)
+        code,profile,_=self.request('/api/member/me',session=member_session)
+        self.assertEqual(code,200)
+        self.assertEqual(profile['member']['memberId'],'mid-1')
+        self.assertEqual(self.request('/api/status',session=member_session)[0],403)
+        code,listing,_=self.request('/api/admin/member-accounts',session=s)
+        self.assertEqual(code,200)
+        changed_account=next(row for row in listing['accounts'] if row['memberId']=='mid-1')
+        self.assertFalse(changed_account['mustChangePassword'])
+        self.assertIsNone(changed_account['temporaryPassword'])
+        self.request('/api/logout','POST',{},member_session)
+        self.assertEqual(self.request('/api/login','POST',{'name':'ADUPONT','password':accounts['mid-1']['temporaryPassword']})[0],401)
+        self.assertEqual(self.request('/api/login','POST',{'name':'ADUPONT','password':'Fiction-only-member-456'})[0],200)
+        self.assertEqual(self.deposit(s,revision)[1]['memberAccounts']['existing'],2)
+    def test_34_windows_tests_use_compact_status(self):
         root=Path(__file__).resolve().parents[1]
         launcher=(root/'scripts/windows/LANCER_TESTS.cmd').read_text(encoding='utf-8')
         compact=(root/'scripts/run_tests_compact.py').read_text(encoding='utf-8')

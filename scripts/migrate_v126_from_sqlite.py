@@ -185,6 +185,10 @@ def plan(source):
                 'status': 'active',
                 'password_salt': user.get('salt'),
                 'password_hash': user.get('password'),
+                'must_change_password': int(user.get('must_change_password') or 0),
+                'credential_nonce': user.get('credential_nonce'),
+                'generated_at': user.get('generated_at'),
+                'password_changed_at': user.get('password_changed_at'),
                 'created': now,
                 'updated': now,
             })
@@ -280,7 +284,18 @@ def materialize(migration, target):
         db.execute('INSERT INTO schema_versions VALUES(?,?,?,?)', ('v126', 'V1.26-dry-run', 'V1.25.13.17', now))
     with closing(connect_write(layout.instance_db('accounts'))) as db, db:
         for row in migration['data']['accounts']:
-            db.execute('INSERT INTO accounts VALUES(?,?,?,?,?,?,?,?)', tuple(row.values()))
+            db.execute('''
+              INSERT INTO accounts(
+                account_id,login,display_name,status,password_salt,password_hash,
+                must_change_password,credential_nonce,generated_at,password_changed_at,
+                created,updated
+              ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)
+            ''', (
+                row['account_id'], row['login'], row['display_name'], row['status'],
+                row['password_salt'], row['password_hash'], row['must_change_password'],
+                row['credential_nonce'], row['generated_at'], row['password_changed_at'],
+                row['created'], row['updated'],
+            ))
         for row in migration['data']['account_links']:
             db.execute('INSERT INTO account_links VALUES(?,?,?,?,?,?,?)', tuple(row.values()))
     with closing(connect_write(layout.instance_db('permissions'))) as db, db:

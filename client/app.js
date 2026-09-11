@@ -3,7 +3,7 @@ const E=id=>document.getElementById(id);
 let user=null,draft=null,epoch=0,busy=false;
 function message(t){E('message').textContent=t;}
 function clear(){epoch++;draft=null;E('preview').replaceChildren();E('confirm').checked=false;E('confirm').disabled=true;E('publish').disabled=true;E('file').value='';}
-function hide(){window.GestionClubWatch?.hide();window.PDFWatch?.hide();user=null;clear();E('workspace').hidden=true;E('login').hidden=false;E('history').replaceChildren();E('status').textContent='';E('identity').textContent='';}
+function hide(){window.GestionClubWatch?.hide();window.PDFWatch?.hide();user=null;clear();E('workspace').hidden=true;E('memberWorkspace').hidden=true;E('changePassword').hidden=true;E('login').hidden=false;E('history').replaceChildren();E('status').textContent='';E('identity').textContent='';}
 async function api(path,method='GET',data){
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);
  try{const r=await fetch(path,{method,credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json',...(user?{'X-CSRF-Token':user.csrf}:{})},body:data===undefined?undefined:JSON.stringify(data),signal:controller.signal});const body=await r.json();if(!r.ok){if(r.status===401)hide();throw Error(body.error||'Opération refusée.');}return body;}finally{clearTimeout(timer);}
@@ -15,12 +15,36 @@ async function refresh(){
  E('status').textContent=status.revision?'Révision '+status.revision+' · club '+status.club+' · '+status.counts.members+' licenciés · '+status.counts.teams+' équipes · '+status.counts.matches+' matchs.':'Aucune sauvegarde déposée.';E('download').disabled=!status.revision;
  E('history').replaceChildren();for(const row of history.revisions){const p=document.createElement('p');p.textContent='Révision '+row.id+' · '+new Date(row.created*1000).toLocaleString('fr-FR')+' · '+row.actor+' ';const b=document.createElement('button');b.textContent='Télécharger';b.addEventListener('click',()=>download(row.id));p.append(b);E('history').append(p);}
 }
-async function show(){E('login').hidden=true;E('workspace').hidden=false;E('writer').hidden=user.role==='reader';E('identity').textContent=user.user+' · '+({admin:'Administration',editor:'Dépôt et lecture',reader:'Lecture seule'})[user.role];await refresh();if(user){window.GestionClubWatch?.show();window.PDFWatch?.show();}}
+async function show(){
+ E('login').hidden=true;
+ if(user.mustChangePassword){E('changePassword').hidden=false;message('Remplacez le mot de passe provisoire pour terminer votre première connexion.');return;}
+ if(user.role==='member'){
+  E('memberWorkspace').hidden=false;E('memberIdentity').textContent=user.user+' · Licencié';
+  const result=await api('/api/member/me'),m=result.member;
+  E('memberProfile').textContent=(m.fullName||m.memberId)+' · licence '+(m.licenseNumber||'non renseignée')+' · '+(m.category||'catégorie non renseignée');return;
+ }
+ E('workspace').hidden=false;E('writer').hidden=user.role==='reader';E('tabAccounts').hidden=user.role!=='admin';E('identity').textContent=user.user+' · '+({admin:'Administration',editor:'Dépôt et lecture',reader:'Lecture seule'})[user.role];await refresh();if(user){window.GestionClubWatch?.show();window.PDFWatch?.show();}
+}
+async function logout(){clear();try{await api('/api/logout','POST',{});hide();message('Session fermée.');}catch(e){hide();failure(e);}}
+async function loadMemberAccounts(){
+ if(user?.role!=='admin')return;
+ const result=await api('/api/admin/member-accounts');
+ E('memberAccounts').replaceChildren();
+ for(const account of result.accounts){
+  const row=document.createElement('tr');
+  const values=[account.fullName||'—',account.login,account.memberId,account.licenseNumber||'—',account.temporaryPassword||'—',account.mustChangePassword?'À transmettre / première connexion':'Mot de passe personnel'];
+  values.forEach((value,index)=>{const cell=document.createElement('td');cell.textContent=value;if(index===4&&account.temporaryPassword)cell.className='credential';row.append(cell);});
+  E('memberAccounts').append(row);
+ }
+}
 async function download(revision){const token=epoch;try{const result=await api('/api/snapshot'+(revision?'?revision='+revision:''));if(token!==epoch||!user)return;const blob=new Blob([JSON.stringify(result.backup,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='GESTION_CLUB_serveur_revision_'+result.revision+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);message('Téléchargement demandé pour la révision '+result.revision+'.');}catch(e){failure(e);}}
 E('login').addEventListener('submit',async e=>{e.preventDefault();if(busy)return;busy=true;E('loginButton').disabled=true;try{clear();user=await api('/api/login','POST',{name:E('name').value,password:E('password').value});E('password').value='';await show();message('Connexion établie.');}catch(e){failure(e);}finally{busy=false;E('loginButton').disabled=false;}});
-E('logout').addEventListener('click',async()=>{clear();try{await api('/api/logout','POST',{});hide();message('Session fermée.');}catch(e){hide();failure(e);}});
+E('changePassword').addEventListener('submit',async e=>{e.preventDefault();if(busy)return;busy=true;E('changePasswordButton').disabled=true;try{await api('/api/change-password','POST',{newPassword:E('newPassword').value,confirmPassword:E('confirmPassword').value});E('newPassword').value='';E('confirmPassword').value='';user.mustChangePassword=false;E('changePassword').hidden=true;await show();message('Votre mot de passe personnel est enregistré.');}catch(e){failure(e);}finally{busy=false;E('changePasswordButton').disabled=false;}});
+E('logout').addEventListener('click',logout);E('memberLogout').addEventListener('click',logout);
 E('refresh').addEventListener('click',()=>refresh().then(()=>message('Statut actualisé.')).catch(failure));
 E('download').addEventListener('click',()=>download());
+E('accountsRefresh').addEventListener('click',()=>loadMemberAccounts().then(()=>message('Liste des accès actualisée.')).catch(failure));
+E('tabAccounts').addEventListener('click',()=>{E('snapshotPanel').hidden=true;E('watchPanel').hidden=true;E('accountsPanel').hidden=false;E('tabSnapshots').setAttribute('aria-pressed','false');E('tabWatch').setAttribute('aria-pressed','false');E('tabAccounts').setAttribute('aria-pressed','true');loadMemberAccounts().catch(failure);});
 E('file').addEventListener('change',async e=>{
  const file=e.target.files[0];clear();if(!file)return;const token=epoch,owner=user?.user;
  try{if(!user||user.role==='reader')throw Error('Compte autorisé au dépôt requis.');if(file.size>29*1024*1024)throw Error('Fichier trop volumineux (maximum 29 Mo pour le dépôt).');const backup=JSON.parse(await file.text());if(backup.format!=='GESTION_CLUB_FULL_BACKUP'||!backup.state||!['members','matches','teams','accounts'].every(k=>Array.isArray(backup.state[k])))throw Error('Choisir une sauvegarde complète Gestion Club.');const status=await api('/api/status');if(token!==epoch||!user||user.user!==owner)return;

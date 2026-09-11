@@ -23,11 +23,17 @@ CREATE TABLE schema_versions(
 -- FILE: instance/accounts.db
 CREATE TABLE accounts(
   account_id TEXT PRIMARY KEY,
+  -- Login licencie genere en majuscules : premiere lettre du prenom + nom,
+  -- suffixe numerique en cas de doublon. Le Member ID reste un lien licence.
   login TEXT NOT NULL,
   display_name TEXT NOT NULL,
   status TEXT NOT NULL DEFAULT 'active' CHECK(status IN ('active','disabled','incomplete')),
   password_salt TEXT,
   password_hash TEXT,
+  must_change_password INTEGER NOT NULL DEFAULT 0,
+  credential_nonce TEXT,
+  generated_at REAL,
+  password_changed_at REAL,
   created REAL NOT NULL,
   updated REAL NOT NULL,
   UNIQUE(login)

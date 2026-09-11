@@ -15,9 +15,9 @@ runtime:
 stable_versions:
   - V1.25.13.17
 current_cycle:
-  version: V1.26
-  status: start_dev
-  title: architecture_base_donnees_comptes_permissions_synchronisation
+  version: V1.26.1
+  status: dev_validated_local_tests
+  title: comptes_licencies_automatiques_premiere_connexion
   rule: ne_pas_modifier_le_socle_fonctionnel_V1.25.13.17_sans_migration_et_tests
 current_focus:
   - clarifier_arborescence_base_donnees
@@ -28,6 +28,9 @@ current_focus:
   - rattacher_licences_comptes_fiches_au_club_actif
   - synchronisation_licences_vers_comptes_serveur
   - gestion_massive_comptes_permissions
+  - identifiants_licencies_majuscules_prenom_nom
+  - mot_de_passe_provisoire_recuperable_admin_jusqua_changement
+  - premiere_connexion_changement_mot_de_passe_obligatoire
 v1_26_priorities:
   - definir_modele_de_donnees_canonique
   - definir_identifiants_stables_club_personne_licence_compte_equipe

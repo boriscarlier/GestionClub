@@ -130,7 +130,7 @@ class WatchTests(unittest.TestCase):
             db.execute('INSERT INTO users VALUES(?,?,?,?)',('fiction','salt','hash','admin'));db.execute('INSERT INTO revisions VALUES(1,0,?,?,?)',('fiction','000000','{"original":true}'))
         server.initialize(legacy);server.initialize(legacy)
         with closing(sqlite3.connect(legacy)) as db, db:
-            self.assertEqual(db.execute('SELECT * FROM users').fetchone(),('fiction','salt','hash','admin'));self.assertEqual(db.execute('SELECT payload FROM revisions WHERE id=1').fetchone()[0],'{"original":true}')
+            self.assertEqual(db.execute('SELECT name,salt,password,role FROM users').fetchone(),('fiction','salt','hash','admin'));self.assertEqual(db.execute('SELECT payload FROM revisions WHERE id=1').fetchone()[0],'{"original":true}')
 
 class WatchAPITests(unittest.TestCase):
     @classmethod

@@ -1,5 +1,14 @@
 # Changelog
 
+## V1.26.1-dev
+
+- Creation automatique d'un compte licencie pour chaque Member ID synchronise depuis les licences.
+- Identifiant genere en majuscules depuis la premiere lettre du prenom et le nom, avec suffixe numerique en cas de doublon (`ADUPONT`, `ADUPONT2`, ...).
+- Mot de passe provisoire recuperable par l'administrateur tant que le licencie ne l'a pas remplace ; aucun mot de passe en clair n'est stocke.
+- Premiere connexion licencie limitee au remplacement du mot de passe, puis acces restreint a sa propre fiche licence.
+- Runtime Windows, accueil serveur et validation de sauvegardes alignes sur V1.26.1.
+- 156 tests Python passes localement, 1 test Windows reel ignore sous Linux.
+
 ## V1.25.13-dev
 
 - Roadmap recentree sur les profils utilisateurs : administrateur, educateur et licencie joueur.

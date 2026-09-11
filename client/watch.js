@@ -11,8 +11,8 @@ window.GestionClubWatch=(()=>{
  const note=t=>{$('watchMessage').textContent=t;};
  const fail=e=>note(e.name==='AbortError'?'Délai dépassé. Actualisez la veille pour vérifier le résultat.':e.message);
  function stop(){clearTimeout(timer);timer=null;}
- function hide(){resetManual();generation++;request++;stop();active=false;working=false;for(const id of ['watchSources','watchItems','watchRuns','watchCounts'])$(id).replaceChildren();note('');$('watchPanel').hidden=true;$('snapshotPanel').hidden=false;}
- function select(view){active=view==='watch';$('watchPanel').hidden=!active;$('snapshotPanel').hidden=active;$('tabWatch').setAttribute('aria-pressed',String(active));$('tabSnapshots').setAttribute('aria-pressed',String(!active));stop();if(active&&user)refresh().catch(fail);}
+ function hide(){resetManual();generation++;request++;stop();active=false;working=false;for(const id of ['watchSources','watchItems','watchRuns','watchCounts'])$(id).replaceChildren();note('');$('watchPanel').hidden=true;$('accountsPanel').hidden=true;$('snapshotPanel').hidden=false;}
+ function select(view){active=view==='watch';$('watchPanel').hidden=!active;$('accountsPanel').hidden=true;$('snapshotPanel').hidden=active;$('tabWatch').setAttribute('aria-pressed',String(active));$('tabAccounts').setAttribute('aria-pressed','false');$('tabSnapshots').setAttribute('aria-pressed',String(!active));stop();if(active&&user)refresh().catch(fail);}
  function show(){resetManual();$('manualImport').hidden=user.role==='reader';generation++;select(location.hash==='#veille'?'watch':'snapshots');}
  function btn(label,handler,secondary=true){const b=node('button',label,secondary?'secondary':'');b.type='button';b.addEventListener('click',handler);return b;}
  async function mutate(path,method,data){if(working)return;working=true;const g=generation;try{await api(path,method,data);if(!valid(g))return;note('Opération enregistrée.');await refresh();}catch(e){if(valid(g))fail(e);}finally{if(valid(g))working=false;}}

@@ -1,5 +1,18 @@
 # Roadmap
 
+## V1.26.1 - Comptes licencies automatiques
+
+Etat : developpement initialise et valide par tests locaux le 11/09/2026.
+
+- [x] Creer automatiquement un compte pour chaque Member ID issu des licences synchronisees.
+- [x] Generer l'identifiant de connexion en majuscules depuis la premiere lettre du prenom et le nom.
+- [x] Ajouter un suffixe numerique stable en cas de doublon d'identifiant.
+- [x] Laisser le Member ID comme lien interne avec la licence, sans l'utiliser comme login.
+- [x] Fournir a l'administrateur le mot de passe provisoire tant que le licencie ne l'a pas remplace.
+- [x] Imposer le changement du mot de passe a la premiere connexion du licencie.
+- [x] Limiter le compte licencie a sa propre fiche apres changement du mot de passe.
+- [x] Valider le parcours par tests serveur et runtime Windows V1.26.1.
+
 ## V1.25.0 - Depot et architecture globale
 
 - Stabiliser le depot GitHub.

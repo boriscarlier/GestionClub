@@ -15,22 +15,7 @@ if errorlevel 1 (
 set "PYTHONPATH=%CD%\server;%CD%\vendor"
 echo Dossier programme : %CD%
 echo Base conservee : %GESTION_CLUB_DATA_PATH%
-echo Mode : passerelle reseau local V1.25.13.17
-echo.
-echo Comptes serveur avant ouverture LAN :
-echo   - Entree : continuer
-echo   - C      : creer un compte serveur
-echo   - R      : reinitialiser un mot de passe serveur
-set "ACCOUNT_ACTION="
-set /p ACCOUNT_ACTION="Choix avant reseau local [Entree/C/R] : "
-if /I "%ACCOUNT_ACTION%"=="C" (
-  py -3 server\current_server.py add-user --data "%GESTION_CLUB_DATA_PATH%"
-  if errorlevel 1 pause
-)
-if /I "%ACCOUNT_ACTION%"=="R" (
-  py -3 server\current_server.py reset-password --data "%GESTION_CLUB_DATA_PATH%"
-  if errorlevel 1 pause
-)
+echo Mode : passerelle reseau local V1.25.12.3
 for /f %%I in ('py -3 -c "import network_access; h=network_access.discover_lan_hosts(); print(h[0] if h else '')"') do set "LAN_IP=%%I"
 if defined LAN_IP (
   echo Adresse LAN detectee : http://%LAN_IP%:8766/

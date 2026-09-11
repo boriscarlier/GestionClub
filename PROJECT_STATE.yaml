@@ -1,5 +1,5 @@
 project: CLUB EXEMPLE Gestion Club
-version: V1.25.12-dev
+version: V1.25.12.1-dev
 base_imported: V1.24.5
 base_stable: V1.25.11.1
 runtime:
@@ -8,7 +8,7 @@ runtime:
   database: SQLite
 storage:
   real_data: data/
-  default_windows_path: D:\GESTION_CLUB_GestionClub
+  default_windows_path: D:\GestionClub\FC_LA_COUR_GestionClub
   tracked_in_git: false
   configurable_paths:
     - GESTION_CLUB_DATA_PATH

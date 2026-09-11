@@ -4,7 +4,7 @@ Application locale de gestion du club, avec sauvegardes serveur, veille publique
 
 ## Etat actuel
 
-- Version en developpement : `V1.25.12-dev`
+- Version en developpement : `V1.25.12.1-dev`
 - Derniere version stable validee sous Windows et sur le reseau local : `V1.25.11.1`
 - Serveur local Python : authentification, revisions, depots de sauvegarde, veille, PDF, convocations, premieres API SQL metier
 - Mode LAN V1.25.11.1 valide : acces reseau local explicite avec filtrage IP, Host et Origin ; aucune ouverture routeur automatique
@@ -68,13 +68,13 @@ LANCER_TESTS.cmd
 
 ## Mise a jour simple Windows
 
-La mise a jour retrouve automatiquement votre installation existante sur D: et conserve sa base `data/club.sqlite3`. Pour une premiere installation, la cible est `D:\GESTION_CLUB_GestionClub`. Si plusieurs installations avec base existent, le script refuse de choisir arbitrairement.
+La mise a jour cible par defaut `D:\GestionClub\FC_LA_COUR_GestionClub`, chemin explicitement choisi. Le dossier `data` de cette installation est conserve.
 
 Pour tester une nouvelle version :
 
 1. Decompresser le nouveau zip dans un dossier temporaire.
 2. Lancer `METTRE_A_JOUR.cmd` depuis ce dossier temporaire.
-3. Verifier le dossier cible affiche : votre installation existante est reutilisee.
+3. Verifier le dossier cible affiche : `D:\GestionClub\FC_LA_COUR_GestionClub` est utilise.
 4. Les tests sont lances automatiquement.
 5. Si les tests passent, le serveur local est demarre automatiquement.
 

@@ -69,7 +69,7 @@ if %STOP_RC% GEQ 3 (
   exit /b %STOP_RC%
 )
 
-robocopy "%SOURCE_FULL%" "%TARGET_FULL%" /E /XD ".git" "data" "releases" "__pycache__" "logs" /XF "*.sqlite3" "*.db" "*.log" "*.pyc" /TEE /LOG+:"%UPDATE_LOG%"
+robocopy "%SOURCE_FULL%" "%TARGET_FULL%" /E /XD ".git" "%SOURCE_FULL%\data" "%TARGET_FULL%\data" "releases" "__pycache__" "%SOURCE_FULL%\logs" "%TARGET_FULL%\logs" /XF "*.sqlite3" "*.db" "*.log" "*.pyc" /TEE /LOG+:"%UPDATE_LOG%"
 set "ROBO_RC=%ERRORLEVEL%"
 >>"%UPDATE_LOG%" echo Code Robocopy : %ROBO_RC%
 if %ROBO_RC% GEQ 8 (

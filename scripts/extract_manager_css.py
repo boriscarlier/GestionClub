@@ -25,7 +25,7 @@ def collect(raw):
             'byte_start': a, 'byte_end': b, 'bytes': len(payload),
             'sha256': digest(payload)}))
     manifest = {'format': 'GESTION_CLUB_SHARED_CSS', 'schema_version': 1,
-        'source': str(SOURCE_DEFAULT), 'source_sha256': digest(raw),
+        'source': SOURCE_DEFAULT.as_posix(), 'source_sha256': digest(raw),
         'runtime_active': False, 'phase': 'V1.25.12-C1',
         'scope': 'Leading shared foundation only; later overrides remain in canonical HTML',
         'parts': [item[2] for item in items]}

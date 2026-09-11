@@ -69,3 +69,19 @@ jobs:
         with:
           name: modular-browser-report
           path: releases/modular-qa/
+
+  windows-update:
+    name: Windows Python 3.14 update and encoding
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - name: Test real copy and full suite without forced UTF-8 mode
+        shell: pwsh
+        env:
+          PYTHONPATH: server;vendor;tests;scripts
+          PYTHONUTF8: '0'
+        run: python -X utf8=0 -m unittest discover -s tests -q

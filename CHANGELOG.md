@@ -1,5 +1,12 @@
 # Changelog
 
+## V1.25.12.1-dev
+
+- Cible Windows fixee au chemin choisi dans PROJECT_STATE.yaml.
+- Exclusion Robocopy limitee au data racine : les donnees statiques client/shared/data sont copiees.
+- Manifeste CSS avec separateurs POSIX sur toutes les plateformes ; lectures de tests UTF-8 explicites.
+- Conservation des octets au checkout Git et test de copie reel sous Windows.
+
 ## V1.25.12-dev
 
 - Nettoyage complementaire des mentions textuelles, variantes et workflows ; retrait des caches Python suivis.

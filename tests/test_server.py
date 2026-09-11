@@ -210,7 +210,7 @@ class ServerTests(unittest.TestCase):
         self.assertIn('scripts\\windows\\DEMARRER_SERVEUR.cmd',start)
         self.assertIn('scripts\\windows\\LANCER_TESTS.cmd',tests)
         self.assertIn('robocopy',update)
-        self.assertIn('"data"',update)
+        self.assertIn('%source_full%\\data',update)
         self.assertIn('resolve_installation.py',update)
         self.assertIn('lancer_tests.cmd',update)
         self.assertIn('demarrer_serveur.cmd',update)

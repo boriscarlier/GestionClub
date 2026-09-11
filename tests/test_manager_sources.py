@@ -61,7 +61,7 @@ for(const part of m.javascript)new vm.Script(fs.readFileSync(part.path,'utf8'),{
                 manager_sources.page_for_route(ROOT, path)
 
     def test_nested_pages_have_no_duplicate_payload(self):
-        parent = (ROOT/'client/pages/public/coach.html').read_text()
+        parent = (ROOT/'client/pages/public/coach.html').read_text(encoding='utf-8')
         self.assertIn('<!--GESTION_SOURCE:client/pages/coach/home.html-->', parent)
         self.assertNotIn('id="coach-home"', parent)
         assembled=manager_sources.compose(ROOT).decode()
@@ -117,7 +117,7 @@ class ModularHTTPTests(unittest.TestCase):
 
     def test_all_70_allowlisted_routes(self):
         cookie=self.login()
-        manifest=json.loads((ROOT/'client/manager.sources.json').read_text())
+        manifest=json.loads((ROOT/'client/manager.sources.json').read_text(encoding='utf-8'))
         for page in manifest['pages']:
             route='/gestion-modulaire/'+page['space']+'/'+page['id']
             with self.subTest(route=route):

@@ -13,8 +13,8 @@ import extract_manager_assets
 ROOT = Path(__file__).resolve().parents[1]
 MANAGER = ROOT / 'client' / 'GESTION_CLUB_Manager.html'
 REPO_ASSET = ROOT / 'client' / 'assets' / 'brand' / 'club-logo.png'
-EXPECTED_SHA256 = 'f1152a3cb6601bb95a90f5e362119e0bde45b8da9f4bafe5dd256bba028fb6bd'
-EXPECTED_BYTES = 92_264
+EXPECTED_SHA256 = '3dfedc639bf7dcf78e7810c945e03aff10a4fcd0763581c7f3ed0fe894ec53b6'
+EXPECTED_BYTES = 26_046
 
 
 class ManagerAssetTests(unittest.TestCase):
@@ -91,8 +91,8 @@ with tempfile.TemporaryDirectory() as temp:
         response=conn.getresponse(); raw=response.read(); ctype=response.getheader('Content-Type',''); conn.close()
         assert response.status == 200
         assert ctype == 'image/png'
-        assert len(raw) == 92264
-        assert hashlib.sha256(raw).hexdigest() == 'f1152a3cb6601bb95a90f5e362119e0bde45b8da9f4bafe5dd256bba028fb6bd'
+        assert len(raw) == 26046
+        assert hashlib.sha256(raw).hexdigest() == '3dfedc639bf7dcf78e7810c945e03aff10a4fcd0763581c7f3ed0fe894ec53b6'
         conn=http.client.HTTPConnection('127.0.0.1',port,timeout=5)
         conn.request('GET','/assets/brand/club-logo.png',headers={'Host':'foreign.invalid:'+str(port)})
         foreign=conn.getresponse(); foreign.read(); conn.close()

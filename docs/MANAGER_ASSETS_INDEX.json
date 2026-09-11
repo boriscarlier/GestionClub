@@ -2,7 +2,7 @@
   "format": "GESTION_CLUB_MANAGER_ASSETS_INDEX",
   "schema_version": 1,
   "source": "client/GESTION_CLUB_Manager.html",
-  "source_sha256": "58932c7e43d2a75882594b4a72998d96238f221579afc29dab7b1eed675b3fa6",
+  "source_sha256": "03ddf8c3b0e82a081d12a19e0c2e42ac443511e97ace763ca35259de3fbc7fdd",
   "source_git_blob_sha": null,
   "status": "extracted_not_active",
   "assets": [
@@ -10,14 +10,14 @@
       "id": "club-logo",
       "source_constant": "CLUB_LOGO_DATA_URI",
       "source_mime": "image/png",
-      "source_payload_chars": 123020,
+      "source_payload_chars": 34728,
       "source_char_start": 305034,
-      "source_char_end": 428106,
+      "source_char_end": 339814,
       "target_path": "client/assets/brand/club-logo.png",
-      "bytes": 92264,
+      "bytes": 26046,
       "width": 576,
       "height": 507,
-      "sha256": "f1152a3cb6601bb95a90f5e362119e0bde45b8da9f4bafe5dd256bba028fb6bd",
+      "sha256": "3dfedc639bf7dcf78e7810c945e03aff10a4fcd0763581c7f3ed0fe894ec53b6",
       "runtime_active": false
     }
   ]

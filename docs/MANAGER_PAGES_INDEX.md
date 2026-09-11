@@ -3,9 +3,9 @@
 ## Reference
 
 - Source : `client/GESTION_CLUB_Manager.html`
-- Taille : `1144138` octets
+- Taille : `1055846` octets
 - Git blob SHA : `None`
-- SHA-256 contenu : `58932c7e43d2a75882594b4a72998d96238f221579afc29dab7b1eed675b3fa6`
+- SHA-256 contenu : `03ddf8c3b0e82a081d12a19e0c2e42ac443511e97ace763ca35259de3fbc7fdd`
 - Statut : inventaire uniquement, aucune bascule runtime.
 
 ## Comptage

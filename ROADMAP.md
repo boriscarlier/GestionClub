@@ -161,7 +161,7 @@ Etat : termine, garde-fous automatises verts.
 Etat : extraction passive terminee, validation CI finale en cours.
 
 - [x] Extraire le gros `CLUB_LOGO_DATA_URI` PNG vers `client/assets/brand/club-logo.png`.
-- [x] Verifier la ressource par SHA-256, taille et dimensions : `92 264` octets, `576x507`, SHA-256 `f1152a3cb6601bb95a90f5e362119e0bde45b8da9f4bafe5dd256bba028fb6bd`.
+- [x] Verifier la ressource par SHA-256, taille et dimensions : `26 046` octets, `576x507`, SHA-256 `3dfedc639bf7dcf78e7810c945e03aff10a4fcd0763581c7f3ed0fe894ec53b6`.
 - [x] Indexer l'asset dans `docs/MANAGER_ASSETS_INDEX.json` avec `runtime_active: false`.
 - [x] Tester que le PNG versionne dans GitHub est identique octet pour octet au PNG embarque.
 - [x] Introduire une desserte statique controlee `/assets/brand/club-logo.png` et verifier son contenu par HTTP.

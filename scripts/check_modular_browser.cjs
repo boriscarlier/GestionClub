@@ -22,7 +22,11 @@ function comparePixels(left,right){
   // Chromium rounds a handful of anti-aliased button corners differently.
   // Observed baseline: 24 pixels, max delta 10/255, with identical DOM/CSS.
   // Permit only tiny rasterization differences, never layout/text changes.
-  return {equal:maxDelta<=12&&changed<=a.width*a.height*0.0001,changed,maxDelta};
+  // A CI capture showed 53 pixels differing by exactly one channel level
+  // on mobile button edges. Accept that rounding only with exact layout/style
+  // signatures (checked below); retain the previous bound for larger deltas.
+  const pixels=a.width*a.height;
+  return {equal:(maxDelta<=1&&changed<=pixels*0.0002)||(maxDelta<=12&&changed<=pixels*0.0001),changed,maxDelta};
 }
 const timer=setTimeout(()=>{server.kill();process.exit(1);},12*60*1000);
 
@@ -92,6 +96,18 @@ async function select(page,target){
     }
     for(const target of manifest.pages){
       for(const page of pages)await select(page,target);
+      const signatures=[];
+      for(const page of pages)signatures.push(await page.evaluate(()=>
+        [...document.querySelectorAll('body *')].filter(el=>{
+          const r=el.getBoundingClientRect();return r.width&&r.height&&r.bottom>0&&r.top<innerHeight&&r.right>0&&r.left<innerWidth;
+        }).map(el=>{
+          const r=el.getBoundingClientRect(),s=getComputedStyle(el);
+          return [el.tagName,el.id,el.className,[r.x,r.y,r.width,r.height],
+            s.color,s.backgroundColor,s.font,s.opacity,s.transform,
+            [...el.childNodes].filter(n=>n.nodeType===3).map(n=>n.textContent).join('')];
+        })
+      ));
+      if(JSON.stringify(signatures[0])!==JSON.stringify(signatures[1]))throw Error('Layout/style difference: '+target.id+' at '+viewport.width);
       const images=[];
       for(const page of pages)images.push(await page.screenshot({animations:'disabled'}));
       const comparison=comparePixels(images[0],images[1]);

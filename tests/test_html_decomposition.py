@@ -9,9 +9,9 @@ import rebuild_manager
 
 ROOT = Path(__file__).resolve().parents[1]
 MANAGER = ROOT / 'client' / 'GESTION_CLUB_Manager.html'
-EXPECTED_SHA256 = '58932c7e43d2a75882594b4a72998d96238f221579afc29dab7b1eed675b3fa6'
+EXPECTED_SHA256 = '03ddf8c3b0e82a081d12a19e0c2e42ac443511e97ace763ca35259de3fbc7fdd'
 EXPECTED_GIT_BLOB_SHA = None
-EXPECTED_BYTES = 1_144_138
+EXPECTED_BYTES = 1_055_846
 
 
 class HtmlDecompositionTests(unittest.TestCase):

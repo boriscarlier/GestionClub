@@ -1,0 +1,151 @@
+--- a/client/GESTION_CLUB_Manager.html
++++ b/client/GESTION_CLUB_Manager.html
+@@ -4,7 +4,7 @@
+ <head>
+ <meta charset="utf-8"/>
+ <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+-<title>CLUB EXEMPLE Manager — gestionclub.local — V1.22.13.2</title>
++<title>CLUB EXEMPLE</title>
+ <style>
+ :root{
+   --bg:#090d0b;--panel:#121915;--panel2:#18211b;--panel3:#202b23;--border:#2a382f;
+@@ -34,7 +34,7 @@
+ .field input,.field textarea,.field select{width:100%;background:var(--panel2);border:1px solid var(--border);color:var(--text);border-radius:12px;padding:11px 12px}
+ .table{width:100%;border-collapse:collapse}.table th,.table td{padding:13px 10px;border-bottom:1px solid var(--border);font-size:13px;text-align:left}.table th{color:var(--muted);background:var(--panel2)}
+ .toastwrap{position:fixed;right:20px;bottom:20px;z-index:200}.toast{min-width:280px;background:var(--panel);border:1px solid var(--border);box-shadow:var(--shadow);border-radius:13px;padding:13px 14px;margin-top:8px}
+-
++.permission-check-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.permission-check-grid .inline-label{display:flex;align-items:center;gap:8px;margin:0;color:var(--text);font-size:12px}@media(max-width:760px){.permission-check-grid{grid-template-columns:1fr}}
+ /* PUBLIC */
+ #publicApp header{position:sticky;top:0;z-index:60;background:rgba(9,13,11,.9);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.06)}
+ .public-nav{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+@@ -2110,7 +2110,7 @@
+ <div class="kicker">● Portail éducateurs</div>
+ <h2>Connexion éducateur</h2>
+ <p>Accès limité aux équipes dont vous avez la responsabilité.</p>
+-<div class="portal-security-note tiny"><strong>Mode prototype local :</strong> la licence et la date de naissance servent à identifier l’éducateur. Les droits d’équipe sont ensuite limités au périmètre autorisé.</div>
++<div class="portal-security-note tiny"><strong>Accès local hors serveur :</strong> ces champs servent seulement à tester une ancienne démo autonome. En fonctionnement serveur, utilisez le portail éducateur du site public.</div>
+ <div class="demo-access-box">
+ <strong>Accès de démonstration — Portail éducateurs</strong>
+ <div class="tiny">Licence : <code>TEST-EDUC-001</code></div>
+@@ -2264,7 +2264,8 @@
+ </section>
+ </div>
+ </div>
+-</div></div>
++</div>
++</div>
+ <div class="public-page" id="public-news">
+ <section class="page-hero-public"><div class="container"><div class="breadcrumbs"><button onclick="showPublicPage('public-home')">Accueil</button><span>›</span><span>Actualités</span></div><div class="kicker">● Vie du club</div><h2>Actualités</h2><p>Toutes les informations publiées depuis le centre de communication du CLUB EXEMPLE.</p></div></section>
+ <section class="section"><div class="container"><div class="news-grid"><div class="news-main"><div class="news-img"></div><div class="news-body"><span class="badge green">À LA UNE</span><h3 id="newsPageMain">Aucune actualité publiée</h3><p class="tiny">Contenu synchronisé avec l’Administration.</p></div></div><div id="newsPageSide"></div></div></div></section>
+@@ -2401,7 +2402,7 @@
+ <div class="kicker">● Espace adhérent</div>
+ <h2>Connexion adhérent</h2>
+ <p>Accès réservé aux licenciés, parents et membres du CLUB EXEMPLE.</p>
+-<div class="portal-security-note tiny"><strong>Mode prototype local :</strong> la vérification licence + date de naissance sert uniquement à tester l’espace. L’authentification sécurisée et les comptes familles seront gérés par le backend.</div>
++<div class="portal-security-note tiny"><strong>Accès local hors serveur :</strong> ces champs servent seulement à tester une ancienne démo autonome. En fonctionnement serveur, utilisez le portail licencié du site public.</div>
+ <div class="demo-access-box">
+ <strong>Accès de démonstration — Espace adhérent</strong>
+ <div class="tiny">Licence : <code>TEST-ADHERENT-001</code></div>
+@@ -2464,6 +2465,7 @@
+ </div>
+ </div>
+ </div>
++
+ <div class="public-page" id="public-links">
+ <section class="page-hero-public"><div class="container"><div class="breadcrumbs"><button onclick="showPublicPage('public-home')">Accueil</button><span>›</span><span>Liens utiles</span></div><div class="kicker">● Accès rapide</div><h2>Liens utiles</h2><p>Les services essentiels du club regroupés dans une page dédiée.</p></div></section>
+ <section class="section"><div class="container public-list">
+@@ -2487,7 +2489,7 @@
+ <button onclick="showPublicPage('public-member')">Espace adhérent</button>
+ </div>
+ </div>
+-<div class="tiny" style="margin-top:24px">gestionclub.local • Site public • Espace adhérent • Portail éducateurs • Administration</div>
++<div class="tiny" style="margin-top:24px">Site public • Espace adhérent • Portail éducateurs • Administration</div>
+ </div>
+ </footer></div>
+ <!-- INTRANET -->
+@@ -2496,7 +2498,7 @@
+ <div style="text-align:center">
+ <img alt="Logo CLUB EXEMPLE" class="club-logo-img" data-club-logo="" style="max-width:110px"/>
+ <h2>Administration CLUB EXEMPLE</h2>
+-<p class="tiny">Mode prototype local — sélection du compte utilisateur. L’authentification sécurisée sera activée avec le backend de production.</p>
++<p class="tiny">Connexion par compte serveur requise. Les anciens comptes internes ne servent plus d’accès utilisateur.</p>
+ </div>
+ <div class="field">
+ <label>Compte utilisateur</label>
+@@ -4004,34 +4006,16 @@
+ </div>
+ </div>
+ <div class="page" id="accounts">
+-<div class="intra-hero">
+-<div>
+-<div class="kicker">● V1.20.1 — Accès Administration</div>
+-<h3>Comptes utilisateurs</h3>
+-<p>Création et suivi des comptes qui pourront accéder à l’Administration. Les rôles et permissions détaillés seront ajoutés dans les versions suivantes.</p>
+-</div>
+-<button class="primary" onclick="openAccountEditor()">+ Nouveau compte</button>
+-</div>
+ <div class="card" style="margin-bottom:14px">
+-<div class="tiny"><strong>Mode prototype :</strong> aucun mot de passe réel n’est enregistré. À l’ouverture de l’Administration, on sélectionne simplement un compte actif afin de tester ses permissions. L’authentification réelle sera ajoutée avec le backend sécurisé.</div>
+-</div>
+-<div class="grid stats">
+-<div class="card"><div class="stat-label">Comptes</div><div class="stat-value" id="accountCountTotal">0</div></div>
+-<div class="card"><div class="stat-label">Actifs</div><div class="stat-value" id="accountCountActive">0</div></div>
+-<div class="card"><div class="stat-label">Désactivés</div><div class="stat-value" id="accountCountDisabled">0</div></div>
+-<div class="card"><div class="stat-label">Rattachés à un licencié</div><div class="stat-value" id="accountCountLinked">0</div></div>
+-</div>
+-<div class="card">
+-<div class="account-toolbar">
+-<div class="field"><label>Recherche</label><input id="accountSearch" oninput="renderAccounts()" placeholder="Nom, email, fonction..."/></div>
+-<div class="field"><label>Statut</label><select id="accountStatusFilter" onchange="renderAccounts()"><option value="">Tous</option><option value="active">Actifs</option><option value="disabled">Désactivés</option></select></div>
+-<div class="field"><label>Fonction</label><select id="accountFunctionFilter" onchange="renderAccounts()"><option value="">Toutes fonctions</option></select></div>
+-<button class="ghost" onclick="renderAccounts()">↻ Actualiser</button>
+-</div>
++<h3 style="margin-top:0">Comptes serveur réels</h3>
++<p class="tiny">Les comptes internes historiques sont désactivés. La création, modification, suppression et réinitialisation des accès se gèrent maintenant uniquement dans <strong>Système → Comptes & permissions</strong>.</p>
++<button class="primary" onclick="goTo('accessadmin')">Ouvrir Comptes & permissions</button>
+ </div>
+-<div class="account-grid" id="accountsGrid" style="margin-top:14px"></div>
+-<div class="card" style="margin-top:14px"><h3 style="margin-top:0">Protection des données sensibles</h3><div class="tiny">Les coordonnées privées, représentants légaux, discipline et données financières sont désormais associés à des règles d’accès par rôle. Le filtrage réel sera appliqué par le backend en production ; cette version prépare et simule la politique d’accès.</div></div>
+ </div>
++
++
++
++
+ <div class="page" id="accountdetail">
+ <div class="intra-hero">
+ <div>
+@@ -4085,18 +4069,36 @@
+ </div>
+ </div>
+ <div class="page" id="accessadmin">
+-<div class="intra-hero"><div><div class="kicker">● V1.20.9</div><h3>Administration des accès</h3><p>Vue consolidée des utilisateurs, rôles, périmètres et état des accès.</p></div><button class="primary" onclick="openAccountEditor()">+ Compte</button></div>
+-<div class="grid stats">
+-<div class="card"><div class="stat-label">Utilisateurs actifs</div><div class="stat-value" id="aaActive">0</div></div>
+-<div class="card"><div class="stat-label">Sans rôle</div><div class="stat-value" id="aaNoRole">0</div></div>
+-<div class="card"><div class="stat-label">Sans périmètre explicite</div><div class="stat-value" id="aaNoScope">0</div></div>
+-<div class="card"><div class="stat-label">Désactivés</div><div class="stat-value" id="aaDisabled">0</div></div>
++<div class="intra-hero"><div><div class="kicker">● V1.25.13</div><h3>Comptes serveur & permissions</h3><p>Création, modification, suppression et droits réels des comptes administrateur, éducateur et licencié.</p></div><button class="ghost" onclick="loadServerProfileAccounts()">Actualiser</button></div>
++<div class="card" id="serverProfileAdmin" style="margin-bottom:14px">
++<h3 style="margin-top:0">Comptes serveur réels</h3>
++<p class="tiny">Ces comptes servent à se connecter depuis le site public. Les anciens comptes prototypes restent des modèles de données, mais ne sont plus le point d’entrée des utilisateurs.</p>
++<div class="account-detail-grid">
++<div>
++<h4 id="serverUserFormTitle">Créer un profil serveur</h4>
++<input id="serverUserEditing" type="hidden" value=""/>
++<div class="field"><label>Identifiant serveur</label><input id="serverUserName" autocomplete="off" maxlength="40" placeholder="ex. educ-u15"/></div>
++<div class="field"><label>Mot de passe temporaire</label><input id="serverUserPassword" type="password" minlength="12" maxlength="256" placeholder="obligatoire à la création seulement"/></div>
++<div class="field"><label>Rôle</label><select id="serverUserRole"><option value="admin">Administrateur</option><option value="educator">Éducateur</option><option value="member">Licencié joueur</option></select></div>
++<div class="field"><label>Fiche licencié liée</label><input id="serverUserMemberId" maxlength="80" placeholder="id licencié, obligatoire pour un joueur"/></div>
++<input id="serverUserScope" type="hidden" value=""/>
++<div class="field"><label>Permissions du compte</label><div id="serverPermissionChoices" class="permission-check-grid"></div></div>
++<div class="reset-actions"><button id="serverUserSaveButton" class="primary" onclick="saveServerProfileAccount()">Créer le compte serveur</button><button class="ghost" onclick="cancelServerProfileEdit()">Annuler</button></div>
++</div>
++<div>
++<h4>Réinitialiser un mot de passe</h4>
++<div class="field"><label>Compte serveur</label><select id="serverResetUser"></select></div>
++<div class="field"><label>Nouveau mot de passe</label><input id="serverResetPassword" type="password" minlength="12" maxlength="256"/></div>
++<button class="secondary" onclick="resetServerProfilePassword()">Réinitialiser le mot de passe</button>
++<p class="tiny">La réinitialisation ferme les sessions actives du compte concerné.</p>
+ </div>
+-<div class="card" style="margin-top:14px">
+-<div class="reset-actions"><button class="ghost" onclick="goTo('accounts')">Comptes</button><button class="ghost" onclick="goTo('permissions')">Permissions</button><butto

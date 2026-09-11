@@ -216,20 +216,6 @@ def member(db, ident):
         return None
     return row_to_member(row, include_payload=True)
 
-def member_by_reference(db, ref):
-    ref = str(ref or '').strip()
-    if not ref:
-        return None
-    row = db.execute('''
-      SELECT * FROM members
-      WHERE id=? OR license_number=? OR person_number=?
-      ORDER BY CASE WHEN id=? THEN 0 WHEN license_number=? THEN 1 ELSE 2 END, id
-      LIMIT 1
-    ''', (ref, ref, ref, ref, ref)).fetchone()
-    if not row:
-        return None
-    return row_to_member(row, include_payload=True)
-
 def row_to_team(row, include_payload=False):
     data = {
         'id': row['id'],

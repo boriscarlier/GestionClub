@@ -15,22 +15,7 @@ if errorlevel 1 (
 set "PYTHONPATH=%CD%\server;%CD%\vendor"
 echo Dossier programme : %CD%
 echo Base conservee : %GESTION_CLUB_DATA_PATH%
-echo Version runtime : V1.25.13.17
-echo.
-echo Comptes serveur :
-echo   - Entree : demarrer normalement
-echo   - C      : creer un compte serveur
-echo   - R      : reinitialiser un mot de passe serveur
-set "ACCOUNT_ACTION="
-set /p ACCOUNT_ACTION="Choix avant demarrage [Entree/C/R] : "
-if /I "%ACCOUNT_ACTION%"=="C" (
-  py -3 server\current_server.py add-user --data "%GESTION_CLUB_DATA_PATH%"
-  if errorlevel 1 pause
-)
-if /I "%ACCOUNT_ACTION%"=="R" (
-  py -3 server\current_server.py reset-password --data "%GESTION_CLUB_DATA_PATH%"
-  if errorlevel 1 pause
-)
+echo Version runtime : V1.25.12.3
 powershell -NoProfile -ExecutionPolicy Bypass -Command "$client=New-Object Net.Sockets.TcpClient;try{$client.Connect('127.0.0.1',8765);$client.Close();exit 0}catch{exit 1}" >nul 2>&1
 if not errorlevel 1 (
   echo Un serveur Gestion Club semble deja lance sur http://127.0.0.1:8765/
@@ -41,7 +26,7 @@ py -3 server\current_server.py start --data "%GESTION_CLUB_DATA_PATH%"
 set "SERVER_RC=%ERRORLEVEL%"
 if not "%SERVER_RC%"=="0" (
   if not exist "%CD%\logs" mkdir "%CD%\logs"
-  >"%CD%\logs\dernier_serveur.log" echo ERREUR : le serveur V1.25.13.17 s'est arrete avec le code %SERVER_RC%.
+  >"%CD%\logs\dernier_serveur.log" echo ERREUR : le serveur V1.25.12.3 s'est arrete avec le code %SERVER_RC%.
 )
 pause
 exit /b %SERVER_RC%

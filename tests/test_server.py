@@ -211,7 +211,7 @@ class ServerTests(unittest.TestCase):
         self.assertIn('scripts\\windows\\LANCER_TESTS.cmd',tests)
         self.assertIn('robocopy',update)
         self.assertIn('"data"',update)
-        self.assertIn('d:\\gestion_club_gestionclub',update)
+        self.assertIn('resolve_installation.py',update)
         self.assertIn('lancer_tests.cmd',update)
         self.assertIn('demarrer_serveur.cmd',update)
     def test_31_windows_start_script_preserves_data_path(self):

@@ -9,7 +9,7 @@ DEFAULT_PORT = 8765
 SIGNATURES = ('GestionClub/', 'GestionClub-LAN/')
 
 
-def is_fc_la_cour_server(port=DEFAULT_PORT):
+def is_GESTION_CLUB_server(port=DEFAULT_PORT):
     try:
         connection = http.client.HTTPConnection('127.0.0.1', port, timeout=1.5)
         connection.request('GET', '/', headers={'Host': '127.0.0.1:%s' % port})
@@ -68,7 +68,7 @@ def main(argv=None):
     if os.name != 'nt':
         print('Aucun redemarrage Windows requis sur cette plateforme.')
         return 0
-    if not is_fc_la_cour_server(port):
+    if not is_GESTION_CLUB_server(port):
         try:
             with __import__('socket').create_connection(('127.0.0.1', port), timeout=0.5):
                 print('ERREUR : le port %s est occupe par un service qui ne signe pas CLUB EXEMPLE. Aucun processus n\'est arrete.' % port)

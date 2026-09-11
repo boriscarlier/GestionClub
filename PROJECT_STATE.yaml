@@ -58,9 +58,9 @@ refactor_phase:
     fallback_route: /gestion-legacy
 canonical_manager:
   path: client/GESTION_CLUB_Manager.html
-  bytes: 1143987
-  git_blob_sha: 64def65ec261d3da05d855896484c4deb79da407
-  content_sha256: 90f4525384c8327a81da824710e64fef556acf1033892f1e18e06e10e47e5d15
+  bytes: 1144138
+  git_blob_sha: e6c1b7332cb7c72b9763b0347481480d9a62e410
+  content_sha256: 58932c7e43d2a75882594b4a72998d96238f221579afc29dab7b1eed675b3fa6
 structure_inventory:
   raw_parts: 41
   fragment_parts: 21
@@ -74,7 +74,7 @@ structure_inventory:
 assets:
   club_logo:
     path: client/assets/brand/club-logo.png
-    bytes: 1143987
+    bytes: 92264
     width: 576
     height: 507
     sha256: f1152a3cb6601bb95a90f5e362119e0bde45b8da9f4bafe5dd256bba028fb6bd

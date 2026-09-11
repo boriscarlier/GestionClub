@@ -1,4 +1,4 @@
-# CLUB EXEMPLE Gestion Club
+# Gestion Club
 
 Application locale de gestion du club, avec sauvegardes serveur, veille publique, analyse PDF et preparation progressive vers une architecture client-serveur.
 
@@ -68,13 +68,13 @@ LANCER_TESTS.cmd
 
 ## Mise a jour simple Windows
 
-Conservez le dossier stable `D:\GESTION_CLUB_GestionClub`. Votre base reste dans `D:\GESTION_CLUB_GestionClub\data\club.sqlite3`.
+La mise a jour retrouve automatiquement votre installation existante sur D: et conserve sa base `data/club.sqlite3`. Pour une premiere installation, la cible est `D:\GESTION_CLUB_GestionClub`. Si plusieurs installations avec base existent, le script refuse de choisir arbitrairement.
 
 Pour tester une nouvelle version :
 
 1. Decompresser le nouveau zip dans un dossier temporaire.
 2. Lancer `METTRE_A_JOUR.cmd` depuis ce dossier temporaire.
-3. Le script met a jour automatiquement `D:\GESTION_CLUB_GestionClub`.
+3. Verifier le dossier cible affiche : votre installation existante est reutilisee.
 4. Les tests sont lances automatiquement.
 5. Si les tests passent, le serveur local est demarre automatiquement.
 

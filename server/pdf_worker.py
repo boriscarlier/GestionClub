@@ -10,7 +10,7 @@ MAX_TEXT=15000
 def norm(text):return ''.join(c for c in unicodedata.normalize('NFKD',text) if not unicodedata.combining(c)).lower()
 def marks(text):
     normalized=norm(text)
-    patterns={'CLUB EXEMPLE':r'\bclub exemple\b|\bclub demo\b|\b(?:f\W*c\W*|football club\s+(?:a\s+)?)la cour\b',
+    patterns={'CLUB EXEMPLE':r'\bclub exemple\b|\bclub demo\b',
               'Quartier Exemple':r'\bquartier exemple\b|\bstade municipal\b|\b(?:les|des|aux) jacques\b','Convocation / détection':r'\b(?:convoc\w*|detect\w*|selection\w*)',
               'Formation':r'\bformation\w*|\bbmf\b|\bbef\b','Réunion':r'\breunion (?:du|de|des|avec|le)\b|\bassemblee\w*'}
     terms=[name for name,pattern in patterns.items() if re.search(pattern,normalized)]
@@ -68,7 +68,7 @@ def club_players(page):
             for f in firsts:headers.append((r,n,f))
     if len(headers)!=1:return []
     header,surname,first=headers[0];players=[]
-    club_pattern=r'club exemple|club demo|f\W*c\W* la cour'
+    club_pattern=r'club exemple|club demo'
     clubs=[f for f in fragments if re.fullmatch(club_pattern,norm(f[0]))]
     for club,x,y in clubs:
         cells=[r for r in rectangles if inside(r,x,y) and abs(r[0]-header[0])<1 and abs(r[2]-header[2])<1 and r[1]+r[3]<=header[1]+1]

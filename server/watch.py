@@ -147,7 +147,7 @@ def fetch_public(url, source):
     ensure_public_host(url)
     opener = urllib.request.build_opener(RestrictedRedirect(source))
     request = urllib.request.Request(url, headers={
-        'User-Agent': 'FC-LA-COUR-Veille/1.24.3 (public pages, limited collection)',
+        'User-Agent': 'GESTION_CLUB-Veille/1.24.3 (public pages, limited collection)',
         'Accept': 'text/html,application/rss+xml,application/atom+xml,application/xml,text/xml',
         'Accept-Encoding': 'identity',
     })

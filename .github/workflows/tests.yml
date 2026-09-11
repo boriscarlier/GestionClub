@@ -32,6 +32,7 @@ jobs:
           - test_manager_assets
           - test_manager_css
           - test_manager_sources
+          - test_installation
     steps:
       - name: Checkout
         uses: actions/checkout@v4

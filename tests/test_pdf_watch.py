@@ -34,7 +34,7 @@ def table_sample(headers=True,borders=True,missing=False,transformed=False,ambig
     if borders:
         for y in [640,580,520]:rect(50,y,150,60)
     if ambiguous:rect(50,570,150,80)
-    for y,club in [(665,'AUTRE CLUB'),(605,'F.C. LA COUR'),(545,'CLUB VOISIN')]:text(70,y,club)
+    for y,club in [(665,'AUTRE CLUB'),(605,'CLUB EXEMPLE'),(545,'CLUB VOISIN')]:text(70,y,club)
     for i,y in enumerate([685,665,645,625,605,585,565,545,525]):
         text(220,y,['AVANT A','AVANT B','AVANT C','DEMO ALPHA','DEMO BETA','DEMO GAMMA','APRES A','APRES B','APRES C'][i])
         if not (missing and i==4):text(370,y,['Alex','Camille','Claude','Enfant Alpha','Enfant Beta','Enfant Gamma','Morgan','Sam','Lou'][i])

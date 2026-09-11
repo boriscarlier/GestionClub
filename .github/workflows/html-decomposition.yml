@@ -75,7 +75,7 @@ jobs:
             echo "Assets extraits deja conformes."
             exit 0
           fi
-          git config user.name "FC LA COUR CI"
+          git config user.name "GESTION_CLUB CI"
           git config user.email "actions@users.noreply.github.com"
           git add client/assets/brand/club-logo.png docs/MANAGER_ASSETS_INDEX.json
           git commit -m "Refresh extracted Manager assets"
@@ -88,9 +88,9 @@ jobs:
         run: |
           python scripts/rebuild_manager.py \
             --manifest build/manager_parts/manifest.json \
-            --output build/rebuilt_FC_LA_COUR_Manager.html \
-            --compare client/FC_LA_COUR_Manager.html
-          cmp --silent client/FC_LA_COUR_Manager.html build/rebuilt_FC_LA_COUR_Manager.html
+            --output build/rebuilt_GESTION_CLUB_Manager.html \
+            --compare client/GESTION_CLUB_Manager.html
+          cmp --silent client/GESTION_CLUB_Manager.html build/rebuilt_GESTION_CLUB_Manager.html
 
       - name: Summarize decomposition
         run: |
@@ -128,5 +128,5 @@ jobs:
             build/MANAGER_ASSETS_INDEX.json
             build/assets/
             build/manager_parts/
-            build/rebuilt_FC_LA_COUR_Manager.html
+            build/rebuilt_GESTION_CLUB_Manager.html
           compression-level: 0

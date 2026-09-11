@@ -18,7 +18,7 @@ Fichier canonique conserve pendant toute la migration :
 - `client/GESTION_CLUB_Manager.html`
 - taille : `1 143 051` octets
 - Git blob SHA : `64def65ec261d3da05d855896484c4deb79da407`
-- SHA-256 du contenu : `90f4525384c8327a81da824710e64fef556acf1033892f1e18e06e10e47e5d15`
+- SHA-256 du contenu : `58932c7e43d2a75882594b4a72998d96238f221579afc29dab7b1eed675b3fa6`
 - encodage : UTF-8 strict
 
 Le monolithe reste executable et sert de reference de comparaison jusqu'a validation physique complete de l'architecture multi-pages.

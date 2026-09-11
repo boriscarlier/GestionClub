@@ -2,6 +2,12 @@
 
 ## V1.25.12-dev
 
+- Nettoyage complementaire des mentions textuelles, variantes et workflows ; retrait des caches Python suivis.
+- Detection du dossier Windows existant avec base : aucune selection arbitraire entre plusieurs installations.
+- Compatibilite des sauvegardes de schema 1 avec les anciens prefixes de format, sous validation structurelle existante.
+- 144 tests Python passes ; reference neutralisee et sources recomposees identiques. Navigateur/Windows a valider.
+
+
 - C/D/E : extraction source complete (114 CSS, 663 unites JS classiques, 70 templates imbriques).
 - Ajout d'un assembleur avec verification SHA-256 de chaque source, inclusions uniques et rejet des chemins hors client.
 - `/gestion-modulaire` et 70 routes explicites ajoutes derriere l'authentification existante ; `/gestion` reste inchange et `/gestion-legacy` disponible.

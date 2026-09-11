@@ -39,3 +39,11 @@ python scripts/build_manager_sources.py --check
 
 Node sert a la generation/syntaxe et aux tests navigateur ; l'execution Windows reste Python seulement.
 Ne jamais versionner les donnees reelles. Tests sur donnees fictives et bases temporaires.
+
+## Complement du 11 septembre 2026
+
+Nettoyage textuel et workflows termine dans la branche de PR. Caches Python retires.
+144 tests Python passes apres regeneration des sources et index. Voir LIRE_AVANT_TEST.md.
+La reference HTML neutralisee a change intentionnellement ; elle reste identique a la composition.
+Ne pas confondre cette egalite avec une identite a la reference historique stable.
+La verification navigateur locale reste bloquee par le telechargement Chromium.

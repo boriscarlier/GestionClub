@@ -26,7 +26,7 @@ def encode(value):
     return json.dumps(value, ensure_ascii=False, separators=(',', ':'), allow_nan=False)
 
 def validate(p):
-    if not isinstance(p, dict) or p.get('format') != 'GESTION_CLUB_FULL_BACKUP' or p.get('schemaVersion') != 1:
+    if not isinstance(p, dict) or not re.fullmatch(r'(?:[A-Z][A-Z0-9]*_)+FULL_BACKUP', str(p.get('format', ''))) or p.get('schemaVersion') != 1:
         raise Problem(400, 'Choisir une sauvegarde complète Gestion Club.')
     if not re.fullmatch(r'V\d+\.\d+\.\d+(?:\.\d+)?', str(p.get('build', ''))):
         raise Problem(400, 'Version de sauvegarde non reconnue.')

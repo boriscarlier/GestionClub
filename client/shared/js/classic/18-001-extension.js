@@ -12,7 +12,7 @@
   return {licences:members.length,imported:imported.length,persons:new Set(imported.map(m=>String(m.personNumber||'').trim()).filter(Boolean)).size,demo:demo.length,matches:(db.matches||[]).length,teams:(db.teams||[]).length,lineups:Object.keys(lineups||{}).length};
  }
  function validate(p){
-  if(!p||p.format!=='GESTION_CLUB_FULL_BACKUP'||p.schemaVersion!==1||!p.state||!p.lineups||typeof p.lineups!=='object'||Array.isArray(p.lineups))throw Error('Choisir une sauvegarde complète Gestion Club. Un export CSV ou une capture Footclubs ne restaure pas la base.');
+  if(!p||!/^(?:[A-Z][A-Z0-9]*_)+FULL_BACKUP$/.test(p?.format||'')||p.schemaVersion!==1||!p.state||!p.lineups||typeof p.lineups!=='object'||Array.isArray(p.lineups))throw Error('Choisir une sauvegarde complète Gestion Club. Un export CSV ou une capture Footclubs ne restaure pas la base.');
   for(const key of ['members','matches','teams','accounts']){
    if(!Array.isArray(p.state[key]))throw Error('Sauvegarde invalide : liste '+key+' absente.');
    const ids=new Set();for(const row of p.state[key]){if(!row||typeof row!=='object'||Array.isArray(row)||typeof row.id!=='string'||!row.id||ids.has(row.id))throw Error('Sauvegarde invalide : identifiant absent, invalide ou dupliqué dans '+key+'. Aucune donnée remplacée. Conservez ce JSON pour diagnostic.');ids.add(row.id);}

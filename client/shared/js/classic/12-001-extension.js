@@ -1,7 +1,7 @@
 
 (function(root){
  'use strict';
- const schema='la-cour-manager/selected-source/1';
+ const schema='gestion-club-manager/selected-source/1';
  const labels=Object.freeze({identity:'Identité',address:'Adresse',preferences:'Préférences FFF',contacts:'Contacts',guardians:'Représentants légaux',licences:'Historique des licences',other:'Autres informations à vérifier'});
  const clone=x=>JSON.parse(JSON.stringify(x));
  function sections(p){

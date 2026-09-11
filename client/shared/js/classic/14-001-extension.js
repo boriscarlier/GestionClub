@@ -126,10 +126,10 @@
   const raw=(await root.FCUBackupStore.read())||localStorage.getItem(BACKUP);
   requireWrite();if(account!==actor()||ticket!==epoch)throw Error('Le contexte a changé : relancer le téléchargement depuis ce module.');
   if(!raw)throw Error('Aucune sauvegarde de récupération disponible pour les contacts.');
-  const payload=JSON.parse(raw);if(payload.format!=='GESTION_CLUB_FULL_BACKUP'||payload.schemaVersion!==1)throw Error('Sauvegarde de récupération non reconnue.');
+  const payload=JSON.parse(raw);if(!/^(?:[A-Z][A-Z0-9]*_)+FULL_BACKUP$/.test(payload?.format||'')||payload.schemaVersion!==1)throw Error('Sauvegarde de récupération non reconnue.');
   prototypeDownloadText('GESTION_CLUB_recuperation_contacts.json',raw,'application/json');message('Sauvegarde de récupération téléchargée. Sa restauration complète reste disponible dans les outils de sauvegarde du club.');
  }catch(e){catchError(e);}}
- function report(){try{requireRead();const payload={schema:'la-cour-manager/contacts-diagnostic/1',build:'1.22.13',generatedAt:new Date().toISOString(),captureLoaded:!!snapshot,candidateCount:review?.candidateCount??null,changeCount:review?.changes.length??null,codes:diagnostics.map(x=>x.code),canApply:!!review?.canApply};prototypeDownloadText('GESTION_CLUB_diagnostic_contacts.json',JSON.stringify(payload,null,2),'application/json');message('Diagnostic téléchargé : codes de contrôle et compteurs, sans coordonnées ni identité.');}catch(e){catchError(e);}}
+ function report(){try{requireRead();const payload={schema:'gestion-club-manager/contacts-diagnostic/1',build:'1.22.13',generatedAt:new Date().toISOString(),captureLoaded:!!snapshot,candidateCount:review?.candidateCount??null,changeCount:review?.changes.length??null,codes:diagnostics.map(x=>x.code),canApply:!!review?.canApply};prototypeDownloadText('GESTION_CLUB_diagnostic_contacts.json',JSON.stringify(payload,null,2),'application/json');message('Diagnostic téléchargé : codes de contrôle et compteurs, sans coordonnées ni identité.');}catch(e){catchError(e);}}
  E('fcuWorkingSeason').addEventListener('input',()=>{invalidate();message('Saison modifiée : refaire la comparaison.');});
  E('fcuApplyConfirm').addEventListener('change',()=>{epoch++;refreshApply();});
  window.addEventListener('storage',e=>{if(e.key===KEY||e.key===null){storageChanged=true;invalidate();message('La base a changé dans un autre onglet. Rechargez la page avant une application.');}});

@@ -20,7 +20,7 @@ STATIC_ASSETS = {
 
 
 def validate(payload):
-    if not isinstance(payload, dict) or payload.get('format') != 'GESTION_CLUB_FULL_BACKUP' or payload.get('schemaVersion') != 1:
+    if not isinstance(payload, dict) or not re.fullmatch(r'(?:[A-Z][A-Z0-9]*_)+FULL_BACKUP', str(payload.get('format', ''))) or payload.get('schemaVersion') != 1:
         raise server.Problem(400, 'Choisir une sauvegarde complète Gestion Club.')
     build = str(payload.get('build', ''))
     if not re.fullmatch(r'V\d+\.\d+\.\d+(?:\.\d+)?', build):

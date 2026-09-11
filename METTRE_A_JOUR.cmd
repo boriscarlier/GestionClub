@@ -4,7 +4,14 @@ setlocal EnableExtensions
 cd /d "%~dp0"
 set "SOURCE=%CD%"
 set "TARGET=%~1"
-if "%TARGET%"=="" set "TARGET=D:\GESTION_CLUB_GestionClub"
+if "%TARGET%"=="" (
+  for /f "usebackq delims=" %%I in (`py -3 "%~dp0scripts\resolve_installation.py"`) do set "TARGET=%%I"
+)
+if "%TARGET%"=="" (
+  echo Impossible de determiner le dossier cible. Verifier Python et les installations existantes.
+  pause
+  exit /b 2
+)
 for %%I in ("%SOURCE%") do set "SOURCE_FULL=%%~fI"
 for %%I in ("%TARGET%") do set "TARGET_FULL=%%~fI"
 if not exist "%TARGET_FULL%" mkdir "%TARGET_FULL%"

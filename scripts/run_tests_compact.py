@@ -22,6 +22,7 @@ MODULES = (
     'tests.test_manager_assets',
     'tests.test_manager_css',
     'tests.test_manager_sources',
+    'tests.test_v126_data_architecture',
     'tests.test_installation',
 )
 

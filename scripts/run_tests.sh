@@ -16,4 +16,5 @@ PYTHONPATH="$ROOT_DIR/server:$ROOT_DIR/vendor:$ROOT_DIR/tests:$ROOT_DIR/scripts"
   tests.test_manager_css \
   tests.test_manager_sources \
   tests.test_v126_data_architecture \
+  tests.test_v126_migration \
   tests.test_installation

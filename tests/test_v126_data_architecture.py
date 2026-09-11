@@ -67,6 +67,15 @@ class V126CanonicalSchemaTests(unittest.TestCase):
         self.assertIn('UNIQUE(club_id, person_number)', schema)
         self.assertNotIn('CREATE TABLE sessions', schema)
 
+    def test_schema_avoids_cross_file_foreign_keys(self):
+        schema = (ROOT / 'docs/schema/V1.26_CANONICAL_SCHEMA.sql').read_text(encoding='utf-8')
+        licenses = schema.split('-- FILE: clubs/<club_id>/licenses.db', 1)[1].split('-- FILE:', 1)[0]
+        memberships = schema.split('-- FILE: clubs/<club_id>/memberships.db', 1)[1].split('-- FILE:', 1)[0]
+        self.assertNotIn('REFERENCES people', licenses)
+        self.assertNotIn('REFERENCES people', memberships)
+        self.assertNotIn('REFERENCES licenses', memberships)
+        self.assertNotIn('REFERENCES teams', memberships)
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

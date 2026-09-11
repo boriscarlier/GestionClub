@@ -115,8 +115,7 @@ CREATE TABLE licenses(
   created REAL NOT NULL,
   updated REAL NOT NULL,
   UNIQUE(club_id, license_number),
-  UNIQUE(club_id, person_number),
-  FOREIGN KEY(person_id) REFERENCES people(person_id)
+  UNIQUE(club_id, person_number)
 );
 
 -- FILE: clubs/<club_id>/teams.db
@@ -145,10 +144,7 @@ CREATE TABLE memberships(
   status TEXT NOT NULL DEFAULT 'active' CHECK(status IN ('active','ended','suspended')),
   payload TEXT NOT NULL DEFAULT '{}',
   created REAL NOT NULL,
-  updated REAL NOT NULL,
-  FOREIGN KEY(person_id) REFERENCES people(person_id),
-  FOREIGN KEY(license_id) REFERENCES licenses(license_id),
-  FOREIGN KEY(team_id) REFERENCES teams(team_id)
+  updated REAL NOT NULL
 );
 
 -- FILE: clubs/<club_id>/settings.db

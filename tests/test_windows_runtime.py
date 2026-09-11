@@ -32,7 +32,8 @@ class WindowsRuntimeTests(unittest.TestCase):
         self.assertIn('V1.26.1', text)
         self.assertNotIn('server\\server.py start', text)
         runtime = (ROOT / 'server/current_server.py').read_text(encoding='utf-8')
-        self.assertIn("webbrowser.open('http://127.0.0.1:8765/')", runtime)
+        self.assertIn('Aucun compte serveur trouve', runtime)
+        self.assertIn('threading.Timer(0.5, webbrowser.open', runtime)
 
     def test_04_current_runtime_accepts_its_backup_version(self):
         code = r'''

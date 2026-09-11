@@ -3,6 +3,7 @@ import argparse
 import getpass
 import re
 import secrets
+import threading
 import webbrowser
 from contextlib import closing
 from pathlib import Path
@@ -88,6 +89,8 @@ def main():
     with closing(server.connect(args.data)) as db:
         empty = db.execute('SELECT count(*) FROM users').fetchone()[0] == 0
     if args.command in ('add-user','reset-password') or empty:
+        if empty and args.command == 'start':
+            print('Aucun compte serveur trouve : creez le premier compte administrateur, puis le serveur demarrera.')
         print('Comptes serveur distincts des comptes du HTML. Aucun mot de passe par défaut.')
         name=input('Identifiant serveur : ').strip()
         password=getpass.getpass('Mot de passe (12 caractères minimum, saisie invisible) : ')
@@ -108,11 +111,12 @@ def main():
         print('Compte enregistré.')
         if args.command!='start':
             return
+        print('Demarrage du serveur local...')
     srv=server.make_server(args.data)
     srv.watch.start()
     print('Base de donnees : ' + str(args.data))
     print('CLUB EXEMPLE ' + VERSION + ' — http://127.0.0.1:8765 — Ctrl+C pour arrêter.')
-    webbrowser.open('http://127.0.0.1:8765/')
+    threading.Timer(0.5, webbrowser.open, args=('http://127.0.0.1:8765/',)).start()
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

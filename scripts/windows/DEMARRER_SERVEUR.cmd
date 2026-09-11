@@ -15,7 +15,7 @@ if errorlevel 1 (
 set "PYTHONPATH=%CD%\server;%CD%\vendor"
 echo Dossier programme : %CD%
 echo Base conservee : %GESTION_CLUB_DATA_PATH%
-echo Version runtime : V1.25.11.1
+echo Version runtime : V1.25.12.3
 powershell -NoProfile -ExecutionPolicy Bypass -Command "$client=New-Object Net.Sockets.TcpClient;try{$client.Connect('127.0.0.1',8765);$client.Close();exit 0}catch{exit 1}" >nul 2>&1
 if not errorlevel 1 (
   echo Un serveur Gestion Club semble deja lance sur http://127.0.0.1:8765/
@@ -26,7 +26,7 @@ py -3 server\current_server.py start --data "%GESTION_CLUB_DATA_PATH%"
 set "SERVER_RC=%ERRORLEVEL%"
 if not "%SERVER_RC%"=="0" (
   if not exist "%CD%\logs" mkdir "%CD%\logs"
-  >"%CD%\logs\dernier_serveur.log" echo ERREUR : le serveur V1.25.11.1 s'est arrete avec le code %SERVER_RC%.
+  >"%CD%\logs\dernier_serveur.log" echo ERREUR : le serveur V1.25.12.3 s'est arrete avec le code %SERVER_RC%.
 )
 pause
 exit /b %SERVER_RC%

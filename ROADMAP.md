@@ -118,7 +118,7 @@ Etat : stable Windows via correctif final V1.25.10.2, valide le 10/09/2026.
 
 ## V1.25.11 - Acces reseau local
 
-Etat : stable via V1.25.11.1, valide physiquement le 10/09/2026.
+Etat : stable via V1.25.12.3, valide physiquement le 10/09/2026.
 
 - [x] Ajouter un mode LAN explicite sans modifier le mode local par defaut.
 - [x] Conserver le serveur local sur `127.0.0.1:8765`.
@@ -140,7 +140,7 @@ Aucune redirection du port 8766 sur le routeur ne fait partie de V1.25.11.
 
 ## V1.25.12 - Decomposition HTML et architecture multi-pages
 
-Etat : en developpement depuis V1.25.11.1 stable.
+Etat : en developpement depuis V1.25.12.3 stable.
 
 Objectif : remplacer progressivement le monolithe par une architecture HTML indexee, lisible et extensible, sans regression fonctionnelle ni perte de donnees.
 
@@ -148,7 +148,7 @@ Objectif : remplacer progressivement le monolithe par une architecture HTML inde
 
 Etat : termine, garde-fous automatises verts.
 
-- [x] Figer le Manager canonique V1.25.11.1 : `1 143 051` octets, Git blob SHA `64def65ec261d3da05d855896484c4deb79da407`, SHA-256 contenu `5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c`.
+- [x] Figer le Manager canonique V1.25.12.3 : `1 143 051` octets, Git blob SHA `64def65ec261d3da05d855896484c4deb79da407`, SHA-256 contenu `5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c`.
 - [x] Ajouter un decomposeur binaire deterministe des blocs HTML/style/script.
 - [x] Ajouter un recomposeur qui exige une identite octet pour octet.
 - [x] Ajouter les tests de continuite, SHA, UTF-8 et alteration de bloc.
@@ -214,9 +214,45 @@ Les 70 acces directs ont ensuite revele une injection dans des chaines HTML d'ex
 - [ ] Valider sous Windows, serveur local et passerelle LAN.
 - [ ] Archiver puis retirer le monolithe uniquement apres validation physique complete.
 
-## V1.25.13 - Veo et videos de matchs
+## V1.25.13 - Profils utilisateurs et licences
 
-Etat : reporte apres stabilisation de l'architecture multi-pages.
+Etat : prochaine priorite validee apres V1.25.12.3.
+
+Objectif : creer un demarrage simple sur trois profils, avec des droits separes et une premiere logique de licences utilisateurs.
+
+### Profil administrateur
+
+- [ ] Acces complet a Gestion Club.
+- [ ] Acces aux outils de developpement, parametrage, verification et correction.
+- [ ] Gestion des comptes, profils, droits et donnees de reference.
+- [ ] Possibilite de voir et tester les vues educateur et licencie joueur.
+
+### Profil educateur
+
+- [ ] Acces aux outils utiles de Gestion Club pour le suivi sportif et administratif.
+- [ ] Acces au cote licences et aux informations necessaires de ses joueurs.
+- [ ] Aucun droit de recuperation des informations du site public.
+- [ ] Aucun droit d'edition des informations du site public.
+- [ ] Reception controlee des informations envoyees par un licencie joueur.
+
+### Profil licencie joueur
+
+- [ ] Acces a ses propres informations uniquement.
+- [ ] Consultation et preparation de ses donnees personnelles/licence.
+- [ ] Envoi explicite de ses informations a son educateur.
+- [ ] Aucune visibilite sur les autres licencies, les outils admin ou les donnees du site.
+
+### Garde-fous V1.25.13
+
+- [ ] Tests de droits par profil : administrateur, educateur, licencie joueur.
+- [ ] Separation claire entre donnees licences, donnees de gestion et contenu du site.
+- [ ] Conservation du fonctionnement Windows actuel : mise a jour, tests, demarrage serveur, LAN.
+- [ ] Migration douce : aucun compte ou donnees existants perdus.
+- [ ] Documentation utilisateur simple pour creer et tester les trois profils.
+
+## V1.25.14 - Veo et videos de matchs
+
+Etat : reporte apres la mise en place des profils utilisateurs et licences.
 
 - Qualifier les liens publics Veo.
 - Ajouter un modele de reference video rattache a equipe, date, adversaire et competition.

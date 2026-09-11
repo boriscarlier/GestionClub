@@ -1,7 +1,7 @@
 # Reprise — Gestion Club V1.25.12
 
 Branche de reference : main. PR #3 fusionnee le 11 septembre 2026.
-Base runtime : V1.25.11.1. Candidat de sources decomposees : V1.25.12.
+Base runtime : V1.25.12.3. Candidat de sources decomposees : V1.25.12.
 
 ## Etat valide
 
@@ -27,5 +27,5 @@ Aucun elargissement pour les autres ecarts.
 4. Ne pas basculer la route /gestion ni supprimer le monolithe avant validation physique.
 
 Les noms des donnees reelles restent dans data/, hors Git. Aucun historique Git n'a ete reecrit.
-La neutralisation a modifie intentionnellement le monolithe : ne pas le declarer identique au fichier historique V1.25.11.1.
+La neutralisation a modifie intentionnellement le monolithe : ne pas le declarer identique au fichier historique V1.25.12.3.
 Python seul suffit pour utiliser le paquet. Node est necessaire pour l'outillage de generation et les tests navigateur.

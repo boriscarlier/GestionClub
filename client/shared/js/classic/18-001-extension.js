@@ -27,7 +27,7 @@
   const visible=allowed();E('continuityBar').hidden=!visible;
   if(!visible){clear();E('continuityCurrent').textContent='';status('');return;}
   const x=summary(state,coachLineups),label=x.imported?x.imported+' licences importées · '+x.persons+' personnes':x.demo===x.licences&&x.demo?'Base de démonstration uniquement':x.licences?'Fiches locales présentes · provenance à vérifier':'Aucun licencié chargé';
-  E('continuityBarText').textContent='V1.24.5 · '+label;
+  E('continuityBarText').textContent='V1.25.12.3 · '+label;
   E('continuityCurrent').textContent=label+' · '+x.demo+' fiches de démonstration · '+x.matches+' matchs · '+x.lineups+' compositions.';
   let filename='';try{filename=decodeURIComponent(location.pathname.split('/').pop()||'');}catch(e){}
   E('continuityLocation').textContent=location.protocol==='file:'?(filename==='GESTION_CLUB_Manager.html'?'Nom stable utilisé. Gardez ce fichier dans ce dossier avec le même profil Brave.':'Fichier ouvert : '+filename+'. Pour les prochaines mises à jour, utilisez GESTION_CLUB_Manager.html dans un dossier fixe. Une restauration peut être nécessaire pour ce premier changement de nom.'):'Application ouverte depuis une adresse web. Conservez la même adresse et le même profil de navigateur.';

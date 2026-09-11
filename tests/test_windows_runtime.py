@@ -29,14 +29,14 @@ class WindowsRuntimeTests(unittest.TestCase):
     def test_03_windows_server_launcher_uses_current_runtime(self):
         text = (ROOT / 'scripts/windows/DEMARRER_SERVEUR.cmd').read_text(encoding='utf-8')
         self.assertIn('server\\current_server.py start', text)
-        self.assertIn('V1.25.11.1', text)
+        self.assertIn('V1.25.12.3', text)
         self.assertNotIn('server\\server.py start', text)
 
     def test_04_current_runtime_accepts_its_backup_version(self):
         code = r'''
 import current_server
 payload={
- 'format':'GESTION_CLUB_FULL_BACKUP','schemaVersion':1,'build':'V1.25.11.1',
+ 'format':'GESTION_CLUB_FULL_BACKUP','schemaVersion':1,'build':'V1.25.12.3',
  'state':{'members':[],'matches':[],'teams':[],'accounts':[],
           'clubProfile':{'official':{'affiliation':'000000'}}},
  'lineups':{},'feedback':[],'scenarios':{}
@@ -48,14 +48,14 @@ print(current_server.validate(payload))
         env['PYTHONPATH'] = os.pathsep.join([str(ROOT / 'server'), str(ROOT / 'vendor')])
         result = subprocess.run([sys.executable, '-c', code], cwd=ROOT, env=env, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn('V1.25.11.1', result.stdout)
+        self.assertIn('V1.25.12.3', result.stdout)
         self.assertIn('000000', result.stdout)
 
     def test_05_current_runtime_rejects_future_backup(self):
         code = r'''
 import current_server
 payload={
- 'format':'GESTION_CLUB_FULL_BACKUP','schemaVersion':1,'build':'V1.25.12',
+ 'format':'GESTION_CLUB_FULL_BACKUP','schemaVersion':1,'build':'V1.25.12.4',
  'state':{'members':[],'matches':[],'teams':[],'accounts':[],
           'clubProfile':{'official':{'affiliation':'000000'}}},
  'lineups':{},'feedback':[],'scenarios':{}
@@ -101,7 +101,7 @@ with tempfile.TemporaryDirectory() as temp:
         conn.request('GET','/',headers={'Host':'127.0.0.1:'+str(port)})
         response=conn.getresponse(); raw=response.read(); conn.close()
         assert response.status == 200
-        assert b'V1.25.11.1' in raw
+        assert b'V1.25.12.3' in raw
         assert b'Serveur V1.25.10' not in raw
         print('runtime-version-ok')
     finally:

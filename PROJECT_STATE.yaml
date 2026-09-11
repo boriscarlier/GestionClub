@@ -1,7 +1,7 @@
 project: CLUB EXEMPLE Gestion Club
-version: V1.25.12.2-dev
-base_imported: V1.24.5
-base_stable: V1.25.11.1
+version: V1.25.13-dev
+base_imported: V1.25.12.3
+base_stable: V1.25.12.3
 runtime:
   language: Python
   client: HTML JavaScript CSS
@@ -31,25 +31,25 @@ stable_versions:
   - V1.25.8
   - V1.25.9
   - V1.25.10.2
-  - V1.25.11.1
+  - V1.25.12.3
 last_physical_validation:
-  version: V1.25.11.1
+  version: V1.25.12.3
   date: 2026-09-10
   platform: Windows + second LAN device
   result: tests_passed_server_online_lan_access_confirmed
   lan_endpoint: http://192.168.1.3:8766/
-candidate_version: V1.25.12-dev
+candidate_version: V1.25.13-dev
 refactor_branch: main
 refactor_phase:
   completed:
     - V1.25.12-A
     - V1.25.12-B_passive
-  current: V1.25.12-E_browser_validated_windows_pending
+  current: V1.25.13-profils-utilisateurs-roadmap
   source_extraction:
     css_units: 114
     javascript_classic_units: 663
     page_templates: 70
-    python_tests_local: 144
+    python_tests_local: 146
     browser_parity_current_candidate: 210
     direct_routes_browser_validation: 70_passed
     canonical_byte_equality: true
@@ -58,9 +58,9 @@ refactor_phase:
     fallback_route: /gestion-legacy
 canonical_manager:
   path: client/GESTION_CLUB_Manager.html
-  bytes: 1055846
-  git_blob_sha: bab436ac6f20312e847853e872bf5b0eb7f03ea8
-  content_sha256: 03ddf8c3b0e82a081d12a19e0c2e42ac443511e97ace763ca35259de3fbc7fdd
+  bytes: 1055861
+  git_blob_sha: 60b57d2e780eda2c8fc20fe1921fdb85f3a69ec9
+  content_sha256: d77a2506d8975684624002a9fe5310fecd326ff944dba6f478d1e00546b1dd63
 structure_inventory:
   raw_parts: 41
   fragment_parts: 21
@@ -89,6 +89,7 @@ validation_required:
   - tests_existants_verts
   - extraction_progressive_par_etapes
   - fallback_gestion_legacy_conserve_jusqua_validation_pages
+next_priority_feature: profils_utilisateurs_et_licences
 next_deferred_feature: Veo_et_videos_de_match
 
 latest_candidate_validation:
@@ -96,3 +97,27 @@ latest_candidate_validation:
   actions_run: 34582498767
   result: success
   physical_windows: pending
+
+profile_roadmap:
+  target_version: V1.25.13
+  priority: creation_licences_utilisateurs
+  profiles:
+    administrateur:
+      access: gestion_club_complete
+      purpose: developpement_parametrage_controle_global
+    educateur:
+      access: outils_gestion_club_et_licences
+      restrictions:
+        - pas_de_recuperation_informations_site_public
+        - pas_edition_informations_site_public
+      purpose: suivi_licences_et_equipes
+    licencie_joueur:
+      access: informations_personnelles
+      actions:
+        - consulter_ses_informations
+        - envoyer_ses_informations_a_son_educateur
+  validation:
+    - droits_profiles_testes
+    - donnees_site_public_protegees
+    - partage_joueur_vers_educateur_explicite
+    - fallback_admin_conserve

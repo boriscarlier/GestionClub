@@ -3,7 +3,7 @@
 ## Référence actuelle
 
 - Fichier canonique : `client/GESTION_CLUB_Manager.html`
-- Base fonctionnelle : `V1.25.11.1` stable.
+- Base fonctionnelle : `V1.25.12.3` stable.
 - Encodage exigé : UTF-8 strict avec round-trip identique octet pour octet.
 - Taille du fichier sain : `1 143 051` octets.
 - Git blob SHA : `64def65ec261d3da05d855896484c4deb79da407`.

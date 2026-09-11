@@ -4,11 +4,11 @@ Application locale de gestion du club, avec sauvegardes serveur, veille publique
 
 ## Etat actuel
 
-- Version en developpement : `V1.25.12.2-dev`
-- Derniere version stable validee sous Windows et sur le reseau local : `V1.25.11.1`
+- Version en developpement : `V1.25.13-dev`
+- Derniere version stable validee sous Windows et sur le reseau local : `V1.25.12.3`
 - Serveur local Python : authentification, revisions, depots de sauvegarde, veille, PDF, convocations, premieres API SQL metier
-- Mode LAN V1.25.11.1 valide : acces reseau local explicite avec filtrage IP, Host et Origin ; aucune ouverture routeur automatique
-- Chantier V1.25.12 : decomposition HTML indexee, recomposition sans perte et migration multi-pages progressive
+- Mode LAN V1.25.12.3 valide : acces reseau local explicite avec filtrage IP, Host et Origin ; aucune ouverture routeur automatique
+- Chantier V1.25.13 prioritaire : profils administrateur, educateur et licencie joueur, avec droits separes et parcours licences
 - Ecran Licencies : lecture serveur SQL/API en mode `/gestion`, repli local en HTML autonome
 - Ecran Equipes : lecture serveur SQL/API en mode `/gestion`, repli local en HTML autonome
 - Client principal : `client/GESTION_CLUB_Manager.html`
@@ -22,7 +22,7 @@ Apres connexion au serveur, `/gestion-modulaire` assemble les sources CSS, JavaS
 `/gestion-legacy` conserve la reference de comparaison.
 Index : `docs/MANAGER_CSS_INDEX.md`, `docs/MANAGER_JS_SERVICES.md`, `docs/MANAGER_COMPOSED_PAGES.md`.
 Les templates ne sont pas des HTML autonomes ; voir `client/pages/README.md`.
-144 tests Python passes. Sur la revision da92eace : 210 comparaisons visuelles reussies, 70 acces directs actifs et aucune erreur JavaScript. Nettoyage integre a main. Validation physique Windows/LAN encore requise avant bascule par defaut. Voir `LIRE_AVANT_TEST.md`.
+146 tests Python passes localement sur le correctif V1.25.12.3. Le prochain chantier garde `/gestion` stable et ajoute les profils utilisateurs par etapes. Voir `LIRE_AVANT_TEST.md`.
 
 ## Demarrage Windows local
 

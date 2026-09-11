@@ -13,7 +13,7 @@ flowchart TD
 
 Le navigateur affiche l'application. Le serveur local protege les acces, conserve les revisions de sauvegarde et fournit les modules de veille, PDF et convocations. La base SQLite locale reste sur le PC du club.
 
-## Etat V1.24.5 importe
+## Etat V1.25.12.3 importe
 
 Le client principal reste encore largement monolithique dans `client/GESTION_CLUB_Manager.html`. Le serveur gere deja les revisions de sauvegardes completes, les droits d'acces et les modules de veille.
 

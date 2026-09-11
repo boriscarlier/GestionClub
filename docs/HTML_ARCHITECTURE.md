@@ -11,7 +11,7 @@ Les 141 tests Python et les 70 routes HTTP passent. 210 comparaisons visuelles o
 
 ## Base de reference
 
-La decomposition repart exclusivement de la version stable `V1.25.11.1`.
+La decomposition repart exclusivement de la version stable `V1.25.12.3`.
 
 Fichier canonique conserve pendant toute la migration :
 

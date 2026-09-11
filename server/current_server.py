@@ -1,4 +1,4 @@
-"""Runtime CLUB EXEMPLE Gestion Club V1.25.11.1 base sur le noyau V1.25.10.2 valide."""
+"""Runtime CLUB EXEMPLE Gestion Club V1.25.12.3 base sur le noyau V1.25.10.2 valide."""
 import argparse
 import getpass
 import re
@@ -9,9 +9,9 @@ from urllib.parse import urlsplit
 
 import server
 
-VERSION = 'V1.25.11.1'
+VERSION = 'V1.25.12.3'
 VERSION_BYTES = VERSION.encode('utf-8')
-MAX_BACKUP_VERSION = (1, 25, 11, 1)
+MAX_BACKUP_VERSION = (1, 25, 12, 3)
 _BASE_HANDLER = server.Handler
 ASSET_ROOT = server.PROJECT_ROOT / 'client' / 'assets'
 STATIC_ASSETS = {
@@ -50,12 +50,12 @@ def validate(payload):
 
 
 class CurrentHandler(_BASE_HANDLER):
-    server_version = 'GestionClub/1.25.11.1'
+    server_version = 'GestionClub/1.25.12.3'
 
     def send(self, status, value, cookie=None, mime='application/json; charset=utf-8', csp=None):
         if isinstance(value, bytes) and mime.startswith('text/html'):
-            value = value.replace(b'V1.25.10', VERSION_BYTES)
-        elif isinstance(value, dict) and value.get('serverBuild') == 'V1.25.10':
+            value = value.replace(b'V1.25.10', VERSION_BYTES).replace(b'V1.25.12.2', VERSION_BYTES)
+        elif isinstance(value, dict) and value.get('serverBuild') in ('V1.25.10', 'V1.25.12.2'):
             value = dict(value)
             value['serverBuild'] = VERSION
         return super().send(status, value, cookie=cookie, mime=mime, csp=csp)

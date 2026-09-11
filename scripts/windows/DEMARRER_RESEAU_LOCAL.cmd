@@ -15,7 +15,7 @@ if errorlevel 1 (
 set "PYTHONPATH=%CD%\server;%CD%\vendor"
 echo Dossier programme : %CD%
 echo Base conservee : %GESTION_CLUB_DATA_PATH%
-echo Mode : passerelle reseau local V1.25.11.1
+echo Mode : passerelle reseau local V1.25.12.3
 for /f %%I in ('py -3 -c "import network_access; h=network_access.discover_lan_hosts(); print(h[0] if h else '')"') do set "LAN_IP=%%I"
 if defined LAN_IP (
   echo Adresse LAN detectee : http://%LAN_IP%:8766/

@@ -1,4 +1,4 @@
-name: Package V1.25.11.1 LAN test
+name: Package V1.25.12.3 LAN test
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout V1.25.11.1 branch
+      - name: Checkout V1.25.12.3 branch
         uses: actions/checkout@v4
 
       - name: Python 3.11
@@ -45,30 +45,30 @@ jobs:
 
       - name: Validate Windows candidate wiring
         run: |
-          grep -q '^version: V1.25.11.1-dev$' PROJECT_STATE.yaml
+          grep -q '^version: V1.25.12.3-dev$' PROJECT_STATE.yaml
           grep -q 'server\\current_server.py start' scripts/windows/DEMARRER_SERVEUR.cmd
           grep -q 'dernier_test.log' scripts/windows/LANCER_TESTS.cmd
           grep -q 'derniere_mise_a_jour.log' METTRE_A_JOUR.cmd
           grep -q -- '--backend-port 8765 --port 8766' scripts/windows/DEMARRER_RESEAU_LOCAL.cmd
-          grep -q 'V1.25.11.1' server/current_server.py
+          grep -q 'V1.25.12.3' server/current_server.py
 
       - name: Run automated tests
         env:
           PYTHONPATH: ${{ github.workspace }}/server:${{ github.workspace }}/vendor:${{ github.workspace }}/tests:${{ github.workspace }}/scripts
         run: python scripts/run_tests_compact.py
 
-      - name: Build V1.25.11.1 LAN test ZIP
+      - name: Build V1.25.12.3 LAN test ZIP
         run: |
           mkdir -p package/GESTION_CLUB_GestionClub
           rsync -a --exclude '.git' --exclude 'data' --exclude 'releases' --exclude '__pycache__' --exclude 'logs' ./ package/GESTION_CLUB_GestionClub/
           cd package
-          zip -qr ../GESTION_CLUB_GestionClub_V1.25.11.1_LAN_test.zip GESTION_CLUB_GestionClub
+          zip -qr ../GESTION_CLUB_GestionClub_V1.25.12.3_LAN_test.zip GESTION_CLUB_GestionClub
 
       - name: Verify built ZIP contents
         run: |
           python - <<'PY'
           from zipfile import ZipFile
-          path='GESTION_CLUB_GestionClub_V1.25.11.1_LAN_test.zip'
+          path='GESTION_CLUB_GestionClub_V1.25.12.3_LAN_test.zip'
           with ZipFile(path) as z:
               root='GESTION_CLUB_GestionClub/'
               state=z.read(root+'PROJECT_STATE.yaml').decode('utf-8')
@@ -77,19 +77,19 @@ jobs:
               update=z.read(root+'METTRE_A_JOUR.cmd').decode('utf-8')
               lan=z.read(root+'scripts/windows/DEMARRER_RESEAU_LOCAL.cmd').decode('utf-8')
               manager=z.read(root+'client/GESTION_CLUB_Manager.html')
-              assert 'version: V1.25.11.1-dev' in state
+              assert 'version: V1.25.12.3-dev' in state
               assert 'server\\current_server.py start' in start
               assert 'dernier_test.log' in tests
               assert 'derniere_mise_a_jour.log' in update
               assert '--backend-port 8765 --port 8766' in lan
               assert len(manager) > 1_000_000
               manager.decode('utf-8')
-          print('ZIP V1.25.11.1 verified')
+          print('ZIP V1.25.12.3 verified')
           PY
 
-      - name: Upload V1.25.11.1 LAN test ZIP
+      - name: Upload V1.25.12.3 LAN test ZIP
         uses: actions/upload-artifact@v4
         with:
-          name: GESTION_CLUB_GestionClub_V1.25.11.1_LAN_test
-          path: GESTION_CLUB_GestionClub_V1.25.11.1_LAN_test.zip
+          name: GESTION_CLUB_GestionClub_V1.25.12.3_LAN_test
+          path: GESTION_CLUB_GestionClub_V1.25.12.3_LAN_test.zip
           compression-level: 0

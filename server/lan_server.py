@@ -1,4 +1,4 @@
-"""Passerelle LAN controlee pour CLUB EXEMPLE Gestion Club V1.25.11.1."""
+"""Passerelle LAN controlee pour CLUB EXEMPLE Gestion Club V1.25.12.3."""
 import argparse
 import http.client
 import json
@@ -10,14 +10,14 @@ from pathlib import Path
 
 import network_access
 
-VERSION = 'V1.25.11.1'
+VERSION = 'V1.25.12.3'
 DEFAULT_BACKEND_PORT = 8765
 DEFAULT_LAN_PORT = 8766
 MAX_BODY = 30 * 1024 * 1024
 
 
 class LanGatewayHandler(BaseHTTPRequestHandler):
-    server_version = 'GestionClub-LAN/1.25.11.1'
+    server_version = 'GestionClub-LAN/1.25.12.3'
     sys_version = ''
 
     def log_message(self, *args):

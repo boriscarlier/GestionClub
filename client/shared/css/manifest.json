@@ -2,7 +2,7 @@
   "format": "GESTION_CLUB_SHARED_CSS",
   "schema_version": 1,
   "source": "client/GESTION_CLUB_Manager.html",
-  "source_sha256": "03ddf8c3b0e82a081d12a19e0c2e42ac443511e97ace763ca35259de3fbc7fdd",
+  "source_sha256": "d77a2506d8975684624002a9fe5310fecd326ff944dba6f478d1e00546b1dd63",
   "runtime_active": false,
   "phase": "V1.25.12-C1",
   "scope": "Leading shared foundation only; later overrides remain in canonical HTML",

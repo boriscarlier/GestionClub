@@ -459,7 +459,7 @@
       "id": "readiness",
       "kind": "admin",
       "source_class": "page",
-      "title": "Diagnostic & partage — V1.24.5",
+      "title": "Diagnostic & partage — V1.25.12.3",
       "nav_label": "🔎 Diagnostic & partage",
       "target_path": "client/pages/admin/readiness.html",
       "status": "inventory_only"
@@ -468,7 +468,7 @@
       "id": "continuity",
       "kind": "admin",
       "source_class": "page",
-      "title": "Données & sauvegarde — V1.24.5",
+      "title": "Données & sauvegarde — V1.25.12.3",
       "nav_label": "💾 Données & sauvegarde",
       "target_path": "client/pages/admin/continuity.html",
       "status": "inventory_only"

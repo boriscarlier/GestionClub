@@ -49,8 +49,8 @@ Le chemin cible est une destination de migration, pas encore un fichier actif. C
 | `media` | 🖼️ Médiathèque | Médiathèque avancée | `client/pages/admin/media.html` | `inventory_only` |
 | `visual` | 🎨 Générateur visuel | Générateur graphique complet | `client/pages/admin/visual.html` | `inventory_only` |
 | `transfer` | ⇄ Comparer avant transfert | Comparer avant transfert — V1.23.3 | `client/pages/admin/transfer.html` | `inventory_only` |
-| `readiness` | 🔎 Diagnostic & partage | Diagnostic & partage — V1.24.5 | `client/pages/admin/readiness.html` | `inventory_only` |
-| `continuity` | 💾 Données & sauvegarde | Données & sauvegarde — V1.24.5 | `client/pages/admin/continuity.html` | `inventory_only` |
+| `readiness` | 🔎 Diagnostic & partage | Diagnostic & partage — V1.25.12.3 | `client/pages/admin/readiness.html` | `inventory_only` |
+| `continuity` | 💾 Données & sauvegarde | Données & sauvegarde — V1.25.12.3 | `client/pages/admin/continuity.html` | `inventory_only` |
 | `import` | — | Importation Excel / CSV | `client/pages/admin/import.html` | `inventory_only` |
 | `footclubsui` | 🧩 Plugin d’interface | Plugin d’interface · Footclubs UI | `client/pages/admin/footclubsui.html` | `inventory_only` |
 | `fffcontrol` | 🔗 Sources FFF | Sources FFF & contrôle des matchs | `client/pages/admin/fffcontrol.html` | `inventory_only` |

@@ -1,5 +1,16 @@
 # Changelog
 
+## V1.25.13-dev
+
+- Roadmap recentree sur les profils utilisateurs : administrateur, educateur et licencie joueur.
+- Prochaine version priorisee sur la creation des licences utilisateurs, les droits d'acces et le partage controle des informations joueur vers educateur.
+
+## V1.25.12.3-dev
+
+- Alignement des versions affichees : runtime serveur, passerelle LAN, scripts Windows, accueil et modules admin.
+- Suppression des affichages residuels V1.25.11.1 et V1.24.5 dans les fichiers livrables.
+- Sauvegardes acceptees jusqu'a V1.25.12.3 ; sauvegarde future V1.25.12.4 refusee par test.
+
 ## V1.25.12.2-dev
 
 - Reponse LAN de refus envoyee avant fermeture TCP, avec vidage borne du contenu restant.
@@ -33,7 +44,7 @@
 - Verification locale : 6 tests CSS + 5 tests decomposition passes. Suite complete et validation visuelle non executees localement pour ce lot.
 - Monolithe, routes et CSS actifs inchanges. Phase C non terminee : surcharges et responsive a cartographier.
 
-- Demarrage de la decomposition HTML depuis la base stable V1.25.11.1.
+- Demarrage de la decomposition HTML depuis la base stable V1.25.12.3.
 - Monolithe canonique fige a `1 143 051` octets avec controles Git SHA, SHA-256 et UTF-8 strict.
 - Decomposition deterministe en 41 blocs et recomposition identique octet pour octet.
 - Cartographie de 70 unites fonctionnelles : 44 administration, 13 public, 7 educateur et 6 adherent.
@@ -41,7 +52,7 @@
 - Ajout des index, manifestes, scripts et tests de non-regression necessaires.
 - Prochaine phase active : extraction du socle CSS commun sans basculer le chemin `/gestion` legacy.
 
-## V1.25.11.1
+## V1.25.12.3
 
 - Reprise depuis la base Windows V1.25.10.2 validee physiquement.
 - Ajout d'un mode reseau local explicite via `DEMARRER_RESEAU_LOCAL.cmd`.
@@ -166,7 +177,7 @@
 - Adaptation des scripts Windows au nouveau rangement.
 - Ajout du contexte metier de reprise dans `docs/BUSINESS_INTENT.md` et `docs/HANDOFF_NEXT_CHAT.md`.
 
-## V1.24.5
+## V1.25.12.3
 
 - Derniere archive serveur importee comme base stable.
 - Tests serveur, veille, import manuel, PDF et convocations valides avant restructuration.

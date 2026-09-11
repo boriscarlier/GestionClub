@@ -15,14 +15,14 @@ Application locale de gestion du club, avec sauvegardes serveur, veille publique
 - Donnees reelles : conservees hors depot dans `data/`
 - Tests automatises : suite `unittest`
 
-## Sources modulaires V1.25.12 — validation en cours
+## Sources modulaires V1.25.12 — candidat de test Windows
 
 Le lancement habituel et `/gestion` restent inchanges.
 Apres connexion au serveur, `/gestion-modulaire` assemble les sources CSS, JavaScript et les 70 templates.
 `/gestion-legacy` conserve la reference de comparaison.
 Index : `docs/MANAGER_CSS_INDEX.md`, `docs/MANAGER_JS_SERVICES.md`, `docs/MANAGER_COMPOSED_PAGES.md`.
 Les templates ne sont pas des HTML autonomes ; voir `client/pages/README.md`.
-141 tests Python locaux passes. 210 comparaisons visuelles reussies sur le lot precedent ; revalidation des 70 acces directs bloquee par le demarrage de GitHub Actions. Validation Windows avant bascule par defaut.
+144 tests Python passes. Sur la revision da92eace : 210 comparaisons visuelles reussies, 70 acces directs actifs et aucune erreur JavaScript. Nettoyage integre a main. Validation physique Windows/LAN encore requise avant bascule par defaut. Voir `LIRE_AVANT_TEST.md`.
 
 ## Demarrage Windows local
 
@@ -48,7 +48,7 @@ Le mode LAN est volontairement separe du mode local :
 DEMARRER_RESEAU_LOCAL.cmd
 ```
 
-Le serveur affiche les adresses IPv4 privees detectees et autorisees. Depuis un autre appareil connecte au meme reseau, ouvrir l'adresse affichee avec le port `8765`.
+Le serveur affiche les adresses IPv4 privees detectees et autorisees. Depuis un autre appareil connecte au meme reseau, ouvrir l'adresse affichee avec le port `8766` ; le serveur local reste sur `8765`.
 
 Le mode LAN :
 
@@ -78,7 +78,7 @@ Pour tester une nouvelle version :
 4. Les tests sont lances automatiquement.
 5. Si les tests passent, le serveur local est demarre automatiquement.
 
-Pour tester ensuite le mode LAN, fermer le serveur local puis lancer `DEMARRER_RESEAU_LOCAL.cmd` depuis `D:\GESTION_CLUB_GestionClub`.
+Pour tester ensuite le mode LAN, lancer `DEMARRER_RESEAU_LOCAL.cmd` depuis votre dossier stable.
 
 Le script de mise a jour remplace les fichiers programme et conserve le dossier `data` de la cible.
 

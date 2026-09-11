@@ -39,19 +39,19 @@ last_physical_validation:
   result: tests_passed_server_online_lan_access_confirmed
   lan_endpoint: http://192.168.1.3:8766/
 candidate_version: V1.25.12-dev
-refactor_branch: refactor/v1.25.12-c1-shared-css
+refactor_branch: main
 refactor_phase:
   completed:
     - V1.25.12-A
     - V1.25.12-B_passive
-  current: V1.25.12-E_visual_validation_pending
+  current: V1.25.12-E_browser_validated_windows_pending
   source_extraction:
     css_units: 114
     javascript_classic_units: 663
     page_templates: 70
-    python_tests_local: 141
-    browser_parity_previous_commit: 210
-    direct_routes_browser_validation: blocked_actions_jobs_have_no_steps
+    python_tests_local: 144
+    browser_parity_current_candidate: 210
+    direct_routes_browser_validation: 70_passed
     canonical_byte_equality: true
     default_route_changed: false
     optional_route: /gestion-modulaire
@@ -90,3 +90,9 @@ validation_required:
   - extraction_progressive_par_etapes
   - fallback_gestion_legacy_conserve_jusqua_validation_pages
 next_deferred_feature: Veo_et_videos_de_match
+
+latest_candidate_validation:
+  commit: da92eace26678658e618766b10ad393f0350d451
+  actions_run: 34582498767
+  result: success
+  physical_windows: pending

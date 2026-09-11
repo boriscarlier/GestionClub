@@ -13,4 +13,4 @@ Le moteur serveur affiche encore V1.25.11.1 : c'est la base stable du candidat m
 
 La neutralisation du nom a modifie la reference HTML : elle n'est pas identique au monolithe historique V1.25.11.1. Le monolithe neutralise livre et sa recomposition modulaire sont identiques octet pour octet. L'historique Git conserve les versions anterieures.
 
-Validation du lot : 144 tests Python passes, recomposition exacte, syntaxe JS verifiee par la suite, scan textuel des fichiers versionnes. Validation navigateur et test physique Windows/LAN encore requis. Ne pas considerer ce candidat comme une nouvelle version stable.
+Validation du lot : 144 tests Python passes, recomposition exacte, syntaxe JS verifiee par la suite, scan textuel des fichiers versionnes. Validation navigateur GitHub reussie sur da92eace : 210 comparaisons visuelles, 70 acces directs actifs, aucune erreur JavaScript. Test physique Windows/LAN encore requis. Ne pas considerer ce candidat comme une nouvelle version stable.

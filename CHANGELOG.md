@@ -5,7 +5,7 @@
 - Nettoyage complementaire des mentions textuelles, variantes et workflows ; retrait des caches Python suivis.
 - Detection du dossier Windows existant avec base : aucune selection arbitraire entre plusieurs installations.
 - Compatibilite des sauvegardes de schema 1 avec les anciens prefixes de format, sous validation structurelle existante.
-- 144 tests Python passes ; reference neutralisee et sources recomposees identiques. Navigateur/Windows a valider.
+- 144 tests Python passes ; reference neutralisee et sources recomposees identiques. Navigateur valide : 210 comparaisons et 70 acces directs. Test physique Windows/LAN a effectuer.
 
 
 - C/D/E : extraction source complete (114 CSS, 663 unites JS classiques, 70 templates imbriques).

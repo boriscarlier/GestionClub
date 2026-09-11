@@ -1,49 +1,31 @@
-# Reprise — V1.25.12 C/D/E
+# Reprise — Gestion Club V1.25.12
 
-Depot : https://github.com/boriscarlier/GestionClub
-Branche : `refactor/v1.25.12-c1-shared-css`, PR #3. Travail publie, pas fusionne dans main.
-Base fonctionnelle conservee : V1.25.11.1 (famille V1.25.11, pas V16).
+Branche de reference : main. PR #3 fusionnee le 11 septembre 2026.
+Base runtime : V1.25.11.1. Candidat de sources decomposees : V1.25.12.
 
-## Travail effectue
+## Etat valide
 
-- 114 fichiers CSS ordonnes ; MANAGER_CSS_INDEX.md et MANAGER_CSS_CASCADE.md.
-- 663 unites JavaScript classiques ; MANAGER_JS_SERVICES.md. Pas des ES modules autonomes.
-- 70 templates HTML imbriques ; MANAGER_COMPOSED_PAGES.md.
-- Assemblage Python par manifeste : resultat identique octet pour octet au monolithe.
-- Route optionnelle `/gestion-modulaire` et 70 entrees directes. `/gestion` inchange ; repli `/gestion-legacy`.
-- Aucun changement des donnees ou de la logique metier du monolithe, aucune bascule F.
+- 114 unites CSS, 663 unites JavaScript classiques, 70 templates HTML.
+- Monolithe generique livre identique octet pour octet a sa recomposition.
+- Nom du club retire du contenu courant, logo remplace par un embleme generique GC.
+- Caches Python retires du suivi Git.
+- 144 tests Python passes localement et suites GitHub reussies.
+- 210 comparaisons visuelles et 70 acces directs actifs, aucune erreur JavaScript.
+- Revision runtime validee : da92eace26678658e618766b10ad393f0350d451.
+- Preuve CI : https://github.com/boriscarlier/GestionClub/actions/runs/34582498767
 
-## Verification et blocage
+Le controle visuel compare exactement la geometrie, le texte visible et les styles avant les pixels.
+Tolerance precedente : 0,01 % des pixels, delta maximum 12/255.
+Arrondi d'un seul niveau de couleur : borne 0,02 %, motivee par 53 pixels de contours sur mobile.
+Aucun elargissement pour les autres ecarts.
 
-141 tests Python passes localement, dont authentification, Host, LAN, corruption et syntaxe JS.
-210 comparaisons visuelles (70 pages, largeurs 1440/1024/390) passees sur `330c94128abe28c335f2a56283001066cd4247e4`, run Actions `34507785787`.
-Tolerance raster : au plus 0,01 % des pixels et ecart maximal 12/255 ; maximum observe 24 pixels, ecart 10. CSSOM identique.
+## Suite
 
-Les controles supplementaires des 70 acces directs ont revele une injection dans les chaines HTML d'export. Corrigee par insertion sur la derniere fermeture du document dans `bd6d35a157e44a684085f423de40409017510287`, avec test de regression.
+1. Test physique Windows/LAN avec le ZIP complet. Voir LIRE_AVANT_TEST.md.
+2. Verifier la conservation de la base dans l'installation existante detectee sur D:.
+3. Comparer /gestion-modulaire et /gestion-legacy.
+4. Ne pas basculer la route /gestion ni supprimer le monolithe avant validation physique.
 
-Nouvelle CI : echec avant toute etape (run `34508751055`), aucun journal disponible. Cause non determinee. Chromium local indisponible et telechargement expire. Ne pas declarer les 70 entrees directes validees ; ne pas fusionner avant verification navigateur.
-
-## Prochaine action
-
-1. Retablir le demarrage des jobs Actions puis relancer la CI sur la tete de PR #3.
-2. Verifier 210 comparaisons, 70 acces directs et absence d'erreurs JS dans l'artefact `modular-browser-report`.
-3. Corriger tout echec reel ; fusionner seulement apres CI reussie.
-4. Avant F : validation physique Windows/LAN et decision de bascule. Ne pas supprimer le monolithe.
-
-## Commandes
-
-```bash
-PYTHONPATH=server:vendor:tests:scripts python -m unittest discover -s tests -q
-python scripts/build_manager_sources.py --check
-```
-
-Node sert a la generation/syntaxe et aux tests navigateur ; l'execution Windows reste Python seulement.
-Ne jamais versionner les donnees reelles. Tests sur donnees fictives et bases temporaires.
-
-## Complement du 11 septembre 2026
-
-Nettoyage textuel et workflows termine dans la branche de PR. Caches Python retires.
-144 tests Python passes apres regeneration des sources et index. Voir LIRE_AVANT_TEST.md.
-La reference HTML neutralisee a change intentionnellement ; elle reste identique a la composition.
-Ne pas confondre cette egalite avec une identite a la reference historique stable.
-La verification navigateur locale reste bloquee par le telechargement Chromium.
+Les noms des donnees reelles restent dans data/, hors Git. Aucun historique Git n'a ete reecrit.
+La neutralisation a modifie intentionnellement le monolithe : ne pas le declarer identique au fichier historique V1.25.11.1.
+Python seul suffit pour utiliser le paquet. Node est necessaire pour l'outillage de generation et les tests navigateur.

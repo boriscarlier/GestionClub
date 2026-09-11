@@ -12,7 +12,7 @@
   return {licences:members.length,imported:imported.length,persons:new Set(imported.map(m=>String(m.personNumber||'').trim()).filter(Boolean)).size,demo:demo.length,matches:(db.matches||[]).length,teams:(db.teams||[]).length,lineups:Object.keys(lineups||{}).length};
  }
  function validate(p){
-  if(!p||p.format!=='FC_LA_COUR_FULL_BACKUP'||p.schemaVersion!==1||!p.state||!p.lineups||typeof p.lineups!=='object'||Array.isArray(p.lineups))throw Error('Choisir une sauvegarde complète Gestion Club. Un export CSV ou une capture Footclubs ne restaure pas la base.');
+  if(!p||p.format!=='GESTION_CLUB_FULL_BACKUP'||p.schemaVersion!==1||!p.state||!p.lineups||typeof p.lineups!=='object'||Array.isArray(p.lineups))throw Error('Choisir une sauvegarde complète Gestion Club. Un export CSV ou une capture Footclubs ne restaure pas la base.');
   for(const key of ['members','matches','teams','accounts']){
    if(!Array.isArray(p.state[key]))throw Error('Sauvegarde invalide : liste '+key+' absente.');
    const ids=new Set();for(const row of p.state[key]){if(!row||typeof row!=='object'||Array.isArray(row)||typeof row.id!=='string'||!row.id||ids.has(row.id))throw Error('Sauvegarde invalide : identifiant absent, invalide ou dupliqué dans '+key+'. Aucune donnée remplacée. Conservez ce JSON pour diagnostic.');ids.add(row.id);}
@@ -30,12 +30,12 @@
   E('continuityBarText').textContent='V1.24.5 · '+label;
   E('continuityCurrent').textContent=label+' · '+x.demo+' fiches de démonstration · '+x.matches+' matchs · '+x.lineups+' compositions.';
   let filename='';try{filename=decodeURIComponent(location.pathname.split('/').pop()||'');}catch(e){}
-  E('continuityLocation').textContent=location.protocol==='file:'?(filename==='FC_LA_COUR_Manager.html'?'Nom stable utilisé. Gardez ce fichier dans ce dossier avec le même profil Brave.':'Fichier ouvert : '+filename+'. Pour les prochaines mises à jour, utilisez FC_LA_COUR_Manager.html dans un dossier fixe. Une restauration peut être nécessaire pour ce premier changement de nom.'):'Application ouverte depuis une adresse web. Conservez la même adresse et le même profil de navigateur.';
+  E('continuityLocation').textContent=location.protocol==='file:'?(filename==='GESTION_CLUB_Manager.html'?'Nom stable utilisé. Gardez ce fichier dans ce dossier avec le même profil Brave.':'Fichier ouvert : '+filename+'. Pour les prochaines mises à jour, utilisez GESTION_CLUB_Manager.html dans un dossier fixe. Une restauration peut être nécessaire pour ce premier changement de nom.'):'Application ouverte depuis une adresse web. Conservez la même adresse et le même profil de navigateur.';
   E('continuityDownloadState').textContent=lastDownload||'La présence d’un fichier de sauvegarde sur votre ordinateur ne peut pas être vérifiée par cette page.';
   E('continuityFile').disabled=!allowed(true)||busy;
  }
  function open(){requireAccess();goTo('continuity');render();}
- function exportBackup(){try{requireAccess();const p=qaBackupPayload();validate(p);prototypeDownloadText('FC_LA_COUR_sauvegarde_complete_'+new Date().toISOString().replace(/[:.]/g,'-')+'.json',JSON.stringify(p,null,2),'application/json');lastDownload='Téléchargement demandé à '+new Date().toLocaleTimeString('fr-FR')+'. Vérifiez le fichier dans Téléchargements.';render();status(lastDownload);}catch(e){toast('Sauvegarde',e.message);}}
+ function exportBackup(){try{requireAccess();const p=qaBackupPayload();validate(p);prototypeDownloadText('GESTION_CLUB_sauvegarde_complete_'+new Date().toISOString().replace(/[:.]/g,'-')+'.json',JSON.stringify(p,null,2),'application/json');lastDownload='Téléchargement demandé à '+new Date().toLocaleTimeString('fr-FR')+'. Vérifiez le fichier dans Téléchargements.';render();status(lastDownload);}catch(e){toast('Sauvegarde',e.message);}}
  async function load(event){
   const file=event.target.files?.[0];if(!file)return;
   clear();const token=ticket;status('Contrôle de la sauvegarde…');
@@ -69,7 +69,7 @@
   }catch(e){status('Restauration arrêtée : '+e.message);E('continuityRestore').disabled=true;}
   finally{busy=false;render();}
  }
- async function recovery(){try{requireAccess();const account=currentAdminAccount().id,token=ticket,raw=await root.FCUBackupStore.read('before-restore');requireAccess();if(account!==currentAdminAccount().id||token!==ticket)return;if(!raw)throw Error('Aucune sauvegarde avant restauration disponible dans cet emplacement.');validate(JSON.parse(raw));prototypeDownloadText('FC_LA_COUR_avant_restauration.json',raw,'application/json');status('Copie de récupération téléchargée. Choisissez ce JSON ci-dessus pour examiner son contenu avant restauration.');}catch(e){status(e.message);}}
+ async function recovery(){try{requireAccess();const account=currentAdminAccount().id,token=ticket,raw=await root.FCUBackupStore.read('before-restore');requireAccess();if(account!==currentAdminAccount().id||token!==ticket)return;if(!raw)throw Error('Aucune sauvegarde avant restauration disponible dans cet emplacement.');validate(JSON.parse(raw));prototypeDownloadText('GESTION_CLUB_avant_restauration.json',raw,'application/json');status('Copie de récupération téléchargée. Choisissez ce JSON ci-dessus pour examiner son contenu avant restauration.');}catch(e){status(e.message);}}
  E('continuityFile').addEventListener('change',load);
  E('continuityConfirm').addEventListener('change',()=>{ticket++;E('continuityRestore').disabled=busy||!draft||!E('continuityConfirm').checked||!allowed(true);});
  const previousGo=goTo;goTo=function(target){if(target!=='continuity')clear();const result=previousGo.apply(this,arguments);render();return result;};

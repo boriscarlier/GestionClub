@@ -7,7 +7,7 @@ from pathlib import Path
 
 from decompose_manager import EXPECTED_BYTES, EXPECTED_GIT_BLOB_SHA, EXPECTED_SHA256, validate_source
 
-SOURCE_DEFAULT = Path('client/FC_LA_COUR_Manager.html')
+SOURCE_DEFAULT = Path('client/GESTION_CLUB_Manager.html')
 JSON_DEFAULT = Path('docs/MANAGER_PAGES_INDEX.json')
 MD_DEFAULT = Path('docs/MANAGER_PAGES_INDEX.md')
 
@@ -136,7 +136,7 @@ def build_inventory(source: Path):
         counts[page['kind']] += 1
 
     return {
-        'format': 'FC_LA_COUR_MANAGER_PAGES_INDEX',
+        'format': 'GESTION_CLUB_MANAGER_PAGES_INDEX',
         'schema_version': 1,
         'source': str(source).replace('\\', '/'),
         'source_bytes': len(raw),

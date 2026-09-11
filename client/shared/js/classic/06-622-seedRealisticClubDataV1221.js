@@ -13,15 +13,15 @@ function seedRealisticClubDataV1221(){
      id:'real_team_'+i,name,
      competition:name==='Seniors 1'?'R3':name==='Seniors 2'?'R3 Réserve':name==='Féminines'?'R1 Féminine':name==='Vétérans'?'Vétérans 42 ans':name,
      group:(/^U/.test(name)?'jeunes':'seniors'),
-     ground:'Stade des Jacques',public:true,rosterPublic:false,sourceFormat:'REALISTIC_2026'
+     ground:'Stade Municipal',public:true,rosterPublic:false,sourceFormat:'REALISTIC_2026'
     });
    }
   });
 
   const realMatches=[
    {id:'real_r3_20260329',team:'Seniors 1',opponent:'F.C. Plaine des Grègues',date:'2026-03-29',time:'15:30',homeAway:'Extérieur',competition:'R3',competitionType:'Championnat',status:'Terminé'},
-   {id:'real_r3_20260405',team:'Seniors 1',opponent:'US Pierrefonds',date:'2026-04-05',time:'15:30',homeAway:'Domicile',place:'Stade des Jacques',competition:'R3',competitionType:'Championnat',status:'Terminé'},
-   {id:'real_r3_20260426',team:'Seniors 1',opponent:'Vaovao Sport Culturel',date:'2026-04-26',time:'15:30',homeAway:'Domicile',place:'Stade des Jacques',competition:'R3',competitionType:'Championnat',status:'Terminé'},
+   {id:'real_r3_20260405',team:'Seniors 1',opponent:'US Pierrefonds',date:'2026-04-05',time:'15:30',homeAway:'Domicile',place:'Stade Municipal',competition:'R3',competitionType:'Championnat',status:'Terminé'},
+   {id:'real_r3_20260426',team:'Seniors 1',opponent:'Vaovao Sport Culturel',date:'2026-04-26',time:'15:30',homeAway:'Domicile',place:'Stade Municipal',competition:'R3',competitionType:'Championnat',status:'Terminé'},
    {id:'real_r3_20260530',team:'Seniors 1',opponent:'FC Ligne Paradis',date:'2026-05-30',time:'20:00',homeAway:'Extérieur',competition:'R3',competitionType:'Championnat',status:'Terminé'},
    {id:'real_r3_20260816',team:'Seniors 1',opponent:'Vaovao Sport Culturel',date:'2026-08-16',time:'15:30',homeAway:'Extérieur',competition:'R3',competitionType:'Championnat',status:'Terminé'},
    {id:'real_r3_20260926',team:'Seniors 1',opponent:'ASC Grands Bois',date:'2026-09-26',time:'20:00',homeAway:'Extérieur',competition:'R3',competitionType:'Championnat',status:'À venir'},
@@ -30,12 +30,12 @@ function seedRealisticClubDataV1221(){
    {id:'real_r3r_20260426',team:'Seniors 2',opponent:'AJ Ligne des Bambous 2',date:'2026-04-26',time:'13:30',competition:'R3 Réserve',competitionType:'Championnat',status:'Terminé'},
    {id:'real_r3r_20260816',team:'Seniors 2',opponent:'AJ Ligne des Bambous 2',date:'2026-08-16',time:'18:00',competition:'R3 Réserve',competitionType:'Championnat',status:'Terminé'},
 
-   {id:'real_r1f_20260328',team:'Féminines',opponent:'AS Saint-Louisienne',date:'2026-03-28',time:'19:00',homeAway:'Domicile',place:'Stade des Jacques',competition:'R1 Féminine',competitionType:'Championnat',status:'Terminé'},
+   {id:'real_r1f_20260328',team:'Féminines',opponent:'AS Saint-Louisienne',date:'2026-03-28',time:'19:00',homeAway:'Domicile',place:'Stade Municipal',competition:'R1 Féminine',competitionType:'Championnat',status:'Terminé'},
    {id:'real_r1f_20260404',team:'Féminines',opponent:'SDEFA',date:'2026-04-04',time:'19:00',homeAway:'Extérieur',competition:'R1 Féminine',competitionType:'Championnat',status:'Terminé'},
-   {id:'real_r1f_20260411',team:'Féminines',opponent:'Saint-Pauloise FC',date:'2026-04-11',time:'19:00',homeAway:'Domicile',place:'Stade des Jacques',competition:'R1 Féminine',competitionType:'Championnat',status:'Terminé'},
+   {id:'real_r1f_20260411',team:'Féminines',opponent:'Saint-Pauloise FC',date:'2026-04-11',time:'19:00',homeAway:'Domicile',place:'Stade Municipal',competition:'R1 Féminine',competitionType:'Championnat',status:'Terminé'},
    {id:'real_r1f_20260425',team:'Féminines',opponent:'Saint-Denis FC',date:'2026-04-25',time:'19:00',homeAway:'Extérieur',competition:'R1 Féminine',competitionType:'Championnat',status:'Terminé'},
-   {id:'real_r1f_20260502',team:'Féminines',opponent:'La Tamponnaise',date:'2026-05-02',time:'19:00',homeAway:'Domicile',place:'Stade des Jacques',competition:'R1 Féminine',competitionType:'Championnat',status:'Terminé'},
-   {id:'real_r1f_20260509',team:'Féminines',opponent:"A.S. Jeanne d'Arc",date:'2026-05-09',time:'19:00',homeAway:'Domicile',place:'Stade des Jacques',competition:'R1 Féminine',competitionType:'Championnat',status:'Terminé'},
+   {id:'real_r1f_20260502',team:'Féminines',opponent:'La Tamponnaise',date:'2026-05-02',time:'19:00',homeAway:'Domicile',place:'Stade Municipal',competition:'R1 Féminine',competitionType:'Championnat',status:'Terminé'},
+   {id:'real_r1f_20260509',team:'Féminines',opponent:"A.S. Jeanne d'Arc",date:'2026-05-09',time:'19:00',homeAway:'Domicile',place:'Stade Municipal',competition:'R1 Féminine',competitionType:'Championnat',status:'Terminé'},
    {id:'real_r1f_20260523',team:'Féminines',opponent:'AF Possession',date:'2026-05-23',time:'19:00',homeAway:'Extérieur',competition:'R1 Féminine',competitionType:'Championnat',status:'Terminé'},
 
    {id:'real_u17_20260404',team:'U17',opponent:'AS 12ème Km',date:'2026-04-04',time:'15:30',homeAway:'Extérieur',place:'Stade de la Saline les Bains',competition:'U17 Excellence - Poule D',competitionType:'Championnat',fcScore:6,oppScore:0,status:'Terminé'},
@@ -61,12 +61,12 @@ function seedRealisticClubDataV1221(){
 
   // Planning hebdomadaire réaliste issu des contraintes club.
   const planningSeed=[
-   {id:'real_plan_sat_am',day:5,time:'08:00',duration:180,type:'training',title:'École de foot — Baby Foot / U7 / U9 / U10-U11 / U12-U13',team:'École de foot',place:'Stade des Jacques',public:true},
-   {id:'real_plan_sat_pm_u14',day:5,time:'14:00',duration:120,type:'match',title:'Créneau U14 / jeunes',team:'U14',place:'Stade des Jacques',public:true},
-   {id:'real_plan_sat_pm_u15',day:5,time:'14:00',duration:120,type:'match',title:'Créneau U15',team:'U15',place:'Stade des Jacques',public:true},
-   {id:'real_plan_sat_pm_u17',day:5,time:'15:30',duration:120,type:'match',title:'Créneau U17',team:'U17',place:'Stade des Jacques',public:true},
-   {id:'real_plan_sat_r1f',day:5,time:'19:00',duration:120,type:'match',title:'Créneau R1 Féminine',team:'Féminines',place:'Stade des Jacques',public:true},
-   {id:'real_plan_sun_r3',day:6,time:'15:30',duration:120,type:'match',title:'Créneau R3 Seniors',team:'Seniors 1',place:'Stade des Jacques',public:true}
+   {id:'real_plan_sat_am',day:5,time:'08:00',duration:180,type:'training',title:'École de foot — Baby Foot / U7 / U9 / U10-U11 / U12-U13',team:'École de foot',place:'Stade Municipal',public:true},
+   {id:'real_plan_sat_pm_u14',day:5,time:'14:00',duration:120,type:'match',title:'Créneau U14 / jeunes',team:'U14',place:'Stade Municipal',public:true},
+   {id:'real_plan_sat_pm_u15',day:5,time:'14:00',duration:120,type:'match',title:'Créneau U15',team:'U15',place:'Stade Municipal',public:true},
+   {id:'real_plan_sat_pm_u17',day:5,time:'15:30',duration:120,type:'match',title:'Créneau U17',team:'U17',place:'Stade Municipal',public:true},
+   {id:'real_plan_sat_r1f',day:5,time:'19:00',duration:120,type:'match',title:'Créneau R1 Féminine',team:'Féminines',place:'Stade Municipal',public:true},
+   {id:'real_plan_sun_r3',day:6,time:'15:30',duration:120,type:'match',title:'Créneau R3 Seniors',team:'Seniors 1',place:'Stade Municipal',public:true}
   ];
   planningSeed.forEach(p=>{
    if(!state.planning.some(x=>x.id===p.id))state.planning.push(p);
@@ -81,7 +81,7 @@ function seedRealisticClubDataV1221(){
    const attendance={};
    pids.forEach((pid,i)=>attendance[pid]=statuses[i%statuses.length]);
    state.coachTrainingSessions.push({
-    id,team:'U15',title:'Entraînement U15',date,time:'17:00',place:'Stade des Jacques',
+    id,team:'U15',title:'Entraînement U15',date,time:'17:00',place:'Stade Municipal',
     playerIds:pids,attendance,createdAt:new Date().toISOString(),createdBy:'demo_member_coach',updatedAt:new Date().toISOString()
    });
   };

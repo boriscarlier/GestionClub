@@ -32,7 +32,7 @@ class SourceCompositionTests(unittest.TestCase):
 
     def test_byte_identical_and_utf8(self):
         raw = manager_sources.compose(ROOT)
-        self.assertEqual(raw, (ROOT/'client/FC_LA_COUR_Manager.html').read_bytes())
+        self.assertEqual(raw, (ROOT/'client/GESTION_CLUB_Manager.html').read_bytes())
         self.assertEqual(hashlib.sha256(raw).hexdigest(), manager_sources.CANONICAL_SHA)
         self.assertEqual(raw.decode('utf-8').encode('utf-8'), raw)
 
@@ -112,7 +112,7 @@ class ModularHTTPTests(unittest.TestCase):
         self.assertEqual(status,200)
         self.assertEqual(raw,self.request('/gestion',cookie)[1])
         self.assertEqual(raw,self.request('/gestion-legacy',cookie)[1])
-        self.assertIn(b'FC_LA_COUR_SERVER_BRIDGE',raw)
+        self.assertIn(b'GESTION_CLUB_SERVER_BRIDGE',raw)
         self.assertIn("frame-ancestors 'none'",headers['Content-Security-Policy'])
 
     def test_all_70_allowlisted_routes(self):

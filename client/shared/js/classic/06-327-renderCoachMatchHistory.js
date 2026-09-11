@@ -12,7 +12,7 @@ function renderCoachMatchHistory(){
   const opponent=coachMatchOpponentLabel(m);
   return `<div class="coach-result-card">
    <div>
-    <strong>${escapeHtml(matchTeamName(m)||coachCurrentTeamName||'FC LA COUR')} — ${escapeHtml(opponent)}</strong>
+    <strong>${escapeHtml(matchTeamName(m)||coachCurrentTeamName||'CLUB EXEMPLE')} — ${escapeHtml(opponent)}</strong>
     <div class="tiny">${formatMatchDateFr(m.date)} • ${escapeHtml(m.time||m.rawTime||'—')} • ${escapeHtml(m.place||m.venue||'—')}</div>
     <div class="tiny" style="margin-top:4px"><strong>Compétition :</strong> ${escapeHtml(comp.name||'Non renseignée')}${comp.phase?' • '+escapeHtml(comp.phase):''}</div>
     <div class="coach-result-meta">

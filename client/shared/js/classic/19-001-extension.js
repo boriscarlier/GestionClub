@@ -17,7 +17,7 @@ function report(){
  if(!allowed())throw Error('Accès réservé à l’administration du club.');
  const result=inspect(state);let storage='unavailable',baseBytes=null;
  try{const raw=localStorage.getItem(KEY);baseBytes=raw===null?0:new TextEncoder().encode(raw).length;storage=raw===null?'absent':root.FCUContactsCore.stable(JSON.parse(raw))===root.FCUContactsCore.stable(state)?'same':'different';}catch(e){storage='unreadable';}
- return {format:'FC_LA_COUR_READINESS_DIAGNOSTIC',schemaVersion:1,build:QA_BUILD,generatedAt:new Date().toISOString(),...result,storage,baseBytes,mode:location.protocol==='file:'?'local-file':'web-page',sharedDatabase:'not-integrated',serverAuthentication:'not-integrated',note:'Contrôle local limité aux collections et identifiants. Aucun nom, identifiant individuel, contact, chemin local ou contenu de sauvegarde exporté. Taille de la base JSON uniquement ; ne mesure pas le quota disponible.'};
+ return {format:'GESTION_CLUB_READINESS_DIAGNOSTIC',schemaVersion:1,build:QA_BUILD,generatedAt:new Date().toISOString(),...result,storage,baseBytes,mode:location.protocol==='file:'?'local-file':'web-page',sharedDatabase:'not-integrated',serverAuthentication:'not-integrated',note:'Contrôle local limité aux collections et identifiants. Aucun nom, identifiant individuel, contact, chemin local ou contenu de sauvegarde exporté. Taille de la base JSON uniquement ; ne mesure pas le quota disponible.'};
 }
 function render(){
  const box=E('readinessResult');if(!allowed()){box.replaceChildren();return;}
@@ -28,7 +28,7 @@ function render(){
  const storage=document.createElement('p');storage.textContent=({same:'La base affichée correspond à la base enregistrée.',different:'La base affichée diffère de la base enregistrée. N’écrasez pas les données : conservez les fenêtres ouvertes pour examiner la situation.',absent:'Aucune base enregistrée à cet emplacement.',unreadable:'La base enregistrée est illisible ou inaccessible.',unavailable:'Stockage non accessible.'})[r.storage]+(r.baseBytes!==null?' Taille du JSON enregistré : '+(r.baseBytes/1024/1024).toLocaleString('fr-FR',{maximumFractionDigits:2})+' Mo.':'');box.append(storage);
  const stamp=document.createElement('p');stamp.textContent='Contrôle effectué à '+new Date(r.generatedAt).toLocaleTimeString('fr-FR')+'. Ce bilan ne valide pas encore un usage partagé.';box.append(stamp);
 }
-function download(){try{const r=report();prototypeDownloadText('FC_LA_COUR_diagnostic_'+new Date().toISOString().replace(/[:.]/g,'-')+'.json',JSON.stringify(r,null,2),'application/json');}catch(e){toast('Diagnostic',e.message);}}
+function download(){try{const r=report();prototypeDownloadText('GESTION_CLUB_diagnostic_'+new Date().toISOString().replace(/[:.]/g,'-')+'.json',JSON.stringify(r,null,2),'application/json');}catch(e){toast('Diagnostic',e.message);}}
 const prevGo=goTo;goTo=function(target){const result=prevGo.apply(this,arguments);if(target==='readiness')render();else E('readinessResult').replaceChildren();return result;};
 const prevSpace=qaSetSpace;qaSetSpace=function(){const result=prevSpace.apply(this,arguments);if(!allowed())E('readinessResult').replaceChildren();return result;};
 const prevRender=renderAll;renderAll=function(){const result=prevRender.apply(this,arguments);if(E('readiness').classList.contains('active'))render();return result;};

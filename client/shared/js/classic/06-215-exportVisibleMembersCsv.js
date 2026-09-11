@@ -5,5 +5,5 @@ function exportVisibleMembersCsv(){
  const esc=v=>`"${String(v??'').replace(/"/g,'""')}"`;
  const csv='\ufeff'+[headers,...rows].map(r=>r.map(esc).join(';')).join('\n');
  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');
- a.href=URL.createObjectURL(blob);a.download='FC_LA_COUR_licencies_filtres.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+ a.href=URL.createObjectURL(blob);a.download='GESTION_CLUB_licencies_filtres.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 }

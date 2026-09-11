@@ -6,7 +6,7 @@ from pathlib import Path
 from contextlib import closing
 from unittest.mock import patch
 import server,watch,manual_watch
-HTML='''<html><head><link rel="canonical" href="https://liguefoot-reunion.fff.fr/"/></head><body>
+HTML='''<html><head><link rel="canonical" href="https://example.invalid/ligue/"/></head><body>
 <a href="/simple/formation/"><p>Rubrique parasite</p><h2>Formation des éducateurs</h2></a>
 <a href="/simple/formation/">Formation des éducateurs</a>
 <a href="https://foreign.invalid/">Lien extérieur à refuser</a>
@@ -21,10 +21,10 @@ class ManualTests(unittest.TestCase):
    r=manual_watch.prepare(HTML)
   self.assertEqual(r['count'],1);self.assertEqual(r['items'][0]['title'],'Formation des éducateurs');self.assertEqual(watch.overview(self.path)['total'],0)
  def test_reject_missing_foreign_conflicting_canonical(self):
-  for html in [HTML.replace('canonical','stylesheet'),HTML.replace('https://liguefoot-reunion.fff.fr/','https://foreign.invalid/'),HTML.replace('</head>','<link rel="canonical" href="https://liguefoot-reunion.fff.fr/autre/"/></head>')]:
+  for html in [HTML.replace('canonical','stylesheet'),HTML.replace('https://example.invalid/ligue/','https://foreign.invalid/'),HTML.replace('</head>','<link rel="canonical" href="https://example.invalid/ligue/autre/"/></head>')]:
    with self.assertRaises(watch.WatchError):manual_watch.prepare(html)
  def test_empty_oversize_and_no_links(self):
-  for html in ['',None,'x'*(watch.MAX_BYTES+1),'<link rel="canonical" href="https://liguefoot-reunion.fff.fr/"/>']:
+  for html in ['',None,'x'*(watch.MAX_BYTES+1),'<link rel="canonical" href="https://example.invalid/ligue/"/>']:
    with self.assertRaises(watch.WatchError):manual_watch.prepare(html)
  def test_confirmation_digest_and_busy(self):
   for obj in [{**self.obj(),'confirmed':False},{**self.obj(),'digest':'wrong'}]:

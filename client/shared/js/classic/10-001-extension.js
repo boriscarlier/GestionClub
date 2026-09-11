@@ -31,7 +31,7 @@
       }
     }
     if(obj(value.target,['application','module','collection'],'destination')){
-      if(value.target.application!=='La Cour Manager'||value.target.module!=='Gestion Club'||value.target.collection!=='Sources FFF / Footclubs UI')fail('Destination non prise en charge');
+      if(value.target.application!=='Club Exemple Manager'||value.target.module!=='Gestion Club'||value.target.collection!=='Sources FFF / Footclubs UI')fail('Destination non prise en charge');
     }
     const c=value.coverage;
     if(obj(c,['scope','subset','loadedRows','exportedRows','pagination','completeDataset'],'couverture')){
@@ -101,7 +101,7 @@
 :host{display:block;font:13px/1.45 system-ui,sans-serif;color:#e6edf7}*{box-sizing:border-box}.card{background:#162233;border:1px solid #34475f;border-radius:14px;padding:20px}.eyebrow{font-size:10px;letter-spacing:.1em;color:#8ac9ff;text-transform:uppercase}h2{font-size:21px;margin:9px 0}.muted{color:#a5b6cc;font-size:12px}.warning{padding:11px;background:#47351d;color:#ffcd7d;border-radius:8px;border:1px solid #806342;margin:14px 0}.scroller{overflow:auto;max-height:55vh;border:1px solid #34475f;border-radius:8px}table{border-collapse:collapse;width:100%;min-width:700px}th,td{padding:8px 10px;border-bottom:1px solid #34475f;text-align:left;overflow-wrap:anywhere}th{position:sticky;top:0;background:#203149;font-size:11px}td{font-size:12px}tr:nth-child(even){background:#19293c}.rowbar{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px}b{color:#8ac9ff}:focus-visible{outline:3px solid #ffd84a;outline-offset:3px}.muted{overflow-wrap:anywhere}@media(max-width:560px){.card{padding:12px}}
 `;shadow.append(style);
     const el=(tag,text,cls)=>{const n=doc.createElement(tag);if(text!==undefined)n.textContent=String(text);if(cls)n.className=cls;return n;};
-    const card=el('article',undefined,'card');card.append(el('div','La Cour Manager / Gestion Club / Sources FFF','eyebrow'),el('h2',snapshot.source.title));
+    const card=el('article',undefined,'card');card.append(el('div','Club Exemple Manager / Gestion Club / Sources FFF','eyebrow'),el('h2',snapshot.source.title));
     card.append(el('p',`Footclubs UI ${snapshot.generator.version} · capture du ${new Date(snapshot.capturedAt).toLocaleString('fr-FR')} · source déclarée, non certifiée`, 'muted'));
     const warning=el('div','Vue de consultation — capture partielle. Cette vue ne modifie pas la base. Les valeurs peuvent inclure des saisies non enregistrées dans Footclubs.','warning');card.append(warning);
     const rowbar=el('div',undefined,'rowbar');rowbar.append(el('b',coverageText(snapshot)),el('span',`${snapshot.coverage.loadedRows} ligne(s) chargée(s) sur cette page · capture partielle`));card.append(rowbar);

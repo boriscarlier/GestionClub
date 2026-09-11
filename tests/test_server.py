@@ -17,7 +17,7 @@ class ServerTests(unittest.TestCase):
     def setUp(self):
         with closing(server.connect(self.path)) as db,db:
             db.execute('DELETE FROM attempts');db.execute('DELETE FROM sessions');db.execute('DELETE FROM revisions');db.execute('DELETE FROM members');db.execute('DELETE FROM teams')
-        self.p={'format':'FC_LA_COUR_FULL_BACKUP','schemaVersion':1,'build':'V1.23.3','state':{'members':[{'id':'fiction-only','name':'FICTIF'}],'teams':[],'matches':[],'accounts':[],'clubProfile':{'official':{'affiliation':'000000'}}},'lineups':{}}
+        self.p={'format':'GESTION_CLUB_FULL_BACKUP','schemaVersion':1,'build':'V1.23.3','state':{'members':[{'id':'fiction-only','name':'FICTIF'}],'teams':[],'matches':[],'accounts':[],'clubProfile':{'official':{'affiliation':'000000'}}},'lineups':{}}
     def request(self,path,method='GET',data=None,session=None,origin=None,host=None,csrf=True):
         port=self.srv.server_port;conn=http.client.HTTPConnection('127.0.0.1',port,timeout=10)
         headers={'Host':host or f'127.0.0.1:{port}','Origin':origin or f'http://127.0.0.1:{port}','Content-Type':'application/json'}
@@ -91,8 +91,8 @@ class ServerTests(unittest.TestCase):
         self.assertEqual(self.raw_request('/gestion')[0],401)
         s=self.login();code,raw,headers=self.raw_request('/gestion',session=s)
         self.assertEqual(code,200)
-        self.assertIn(b'FC_LA_COUR_SERVER_BRIDGE',raw)
-        self.assertIn(b'FC LA COUR Manager',raw)
+        self.assertIn(b'GESTION_CLUB_SERVER_BRIDGE',raw)
+        self.assertIn(b'CLUB EXEMPLE Manager',raw)
         self.assertIn("'unsafe-inline'",headers['Content-Security-Policy'])
     def test_19_gestion_bootstrap_latest_revision(self):
         s=self.login();revision=self.deposit(s)[1]['revision']
@@ -120,7 +120,7 @@ class ServerTests(unittest.TestCase):
         s=self.login()
         self.p['state']['members']=[
             {'id':'m-1','licenseNumber':'9601','personNumber':'p-1','last':'ABAR','first':'Mylan','birthDate':'2015-07-25','category':'U11','email':'mylan@example.test'},
-            {'id':'m-2','licenseNumber':'9602','personNumber':'p-2','last':'OLIVAR','first':'Teddy','birthDate':'2019-10-08','category':'U7','phone':'0692188189'}
+            {'id':'m-2','licenseNumber':'9602','personNumber':'p-2','last':'OLIVAR','first':'Teddy','birthDate':'2019-10-08','category':'U7','phone':'0000000000'}
         ]
         revision=self.deposit(s)[1]['revision']
         code,summary,_=self.request('/api/state/summary',session=s)
@@ -160,7 +160,7 @@ class ServerTests(unittest.TestCase):
     def test_26_teams_synced_to_sql_and_listed_by_api(self):
         s=self.login()
         self.p['state']['teams']=[
-            {'id':'t-u11','name':'U11','competition':'Plateau','group':'Jeunes','coach':'Coach A','ground':'Stade des Jacques','public':True,'rosterPublic':False},
+            {'id':'t-u11','name':'U11','competition':'Plateau','group':'Jeunes','coach':'Coach A','ground':'Stade Municipal','public':True,'rosterPublic':False},
             {'id':'t-r3','name':'Seniors 1','competition':'R3','group':'Seniors','coach':'Coach B','ground':'Stade principal','public':False,'rosterPublic':False}
         ]
         revision=self.deposit(s)[1]['revision']
@@ -211,7 +211,7 @@ class ServerTests(unittest.TestCase):
         self.assertIn('scripts\\windows\\LANCER_TESTS.cmd',tests)
         self.assertIn('robocopy',update)
         self.assertIn('"data"',update)
-        self.assertIn('d:\\fc_la_cour_gestionclub',update)
+        self.assertIn('d:\\gestion_club_gestionclub',update)
         self.assertIn('lancer_tests.cmd',update)
         self.assertIn('demarrer_serveur.cmd',update)
     def test_31_windows_start_script_preserves_data_path(self):
@@ -227,9 +227,9 @@ class ServerTests(unittest.TestCase):
         code,raw,_=self.raw_request('/')
         self.assertEqual(code,200)
         self.assertIn(b'Serveur V1.25.10',raw)
-        self.assertIn('FC LA COUR · V1.25.10'.encode('utf-8'),raw)
+        self.assertIn('CLUB EXEMPLE · V1.25.10'.encode('utf-8'),raw)
         self.assertNotIn(b'Serveur V1.25.1<',raw)
-        self.assertNotIn('FC LA COUR · V1.25.1<'.encode('utf-8'),raw)
+        self.assertNotIn('CLUB EXEMPLE · V1.25.1<'.encode('utf-8'),raw)
     def test_33_windows_tests_use_compact_status(self):
         root=Path(__file__).resolve().parents[1]
         launcher=(root/'scripts/windows/LANCER_TESTS.cmd').read_text(encoding='utf-8')

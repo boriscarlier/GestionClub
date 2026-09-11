@@ -4,7 +4,7 @@ setlocal EnableExtensions
 cd /d "%~dp0"
 set "SOURCE=%CD%"
 set "TARGET=%~1"
-if "%TARGET%"=="" set "TARGET=D:\FC_LA_COUR_GestionClub"
+if "%TARGET%"=="" set "TARGET=D:\GESTION_CLUB_GestionClub"
 for %%I in ("%SOURCE%") do set "SOURCE_FULL=%%~fI"
 for %%I in ("%TARGET%") do set "TARGET_FULL=%%~fI"
 if not exist "%TARGET_FULL%" mkdir "%TARGET_FULL%"
@@ -12,7 +12,7 @@ if not exist "%TARGET_FULL%\logs" mkdir "%TARGET_FULL%\logs"
 for /f %%I in ('powershell -NoProfile -Command "Get-Date -Format yyyy-MM-dd_HH-mm-ss"') do set "STAMP=%%I"
 set "UPDATE_LOG=%TARGET_FULL%\logs\mise_a_jour_%STAMP%.log"
 set "LAST_UPDATE_LOG=%TARGET_FULL%\logs\derniere_mise_a_jour.log"
->"%UPDATE_LOG%" echo FC LA COUR Gestion Club - mise a jour %DATE% %TIME%
+>"%UPDATE_LOG%" echo CLUB EXEMPLE Gestion Club - mise a jour %DATE% %TIME%
 >>"%UPDATE_LOG%" echo Source : %SOURCE_FULL%
 >>"%UPDATE_LOG%" echo Cible  : %TARGET_FULL%
 
@@ -44,7 +44,7 @@ if errorlevel 1 (
   exit /b 1
 )
 
->>"%UPDATE_LOG%" echo Arret controle des anciennes instances FC LA COUR...
+>>"%UPDATE_LOG%" echo Arret controle des anciennes instances CLUB EXEMPLE...
 py -3 "%SOURCE_FULL%\scripts\restart_local_server.py" 8766 >>"%UPDATE_LOG%" 2>&1
 set "STOP_LAN_RC=%ERRORLEVEL%"
 if %STOP_LAN_RC% GEQ 3 (

@@ -49,8 +49,8 @@ def css_boundaries(payload):
     return sorted(set(result + [len(payload)]))
 
 
-def build(root=ROOT, check=False):
-    raw, pages, blocks = inventory(root / 'client/FC_LA_COUR_Manager.html')
+def build(root=ROOT, check=False, force=False):
+    raw, pages, blocks = inventory(root / 'client/GESTION_CLUB_Manager.html')
     if check:
         # End-user Windows checks require Python only. Node is an authoring tool.
         import sys
@@ -151,14 +151,14 @@ def build(root=ROOT, check=False):
     files['client/manager.sources.json'] = (json.dumps(manifest,ensure_ascii=False,indent=2)+'\n').encode()
     for path, content in files.items():
         target = root/path
-        if target.exists() and target.read_bytes() != content:
+        if target.exists() and target.read_bytes() != content and not force:
             raise ValueError('Divergent source, refused overwrite: '+path)
         if check and not target.is_file():
             raise ValueError('Missing source: '+path)
     if not check:
         for path, content in files.items():
             target = root/path
-            if not target.exists():
+            if force or not target.exists():
                 target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_bytes(content)
     return manifest
@@ -167,7 +167,9 @@ def build(root=ROOT, check=False):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check', action='store_true')
+    parser.add_argument('--force', action='store_true',
+        help='Overwrite generated sources after an intentional canonical source change.')
     args = parser.parse_args()
-    manifest = build(check=args.check)
+    manifest = build(check=args.check, force=args.force)
     print('Sources: %d CSS, %d JS, %d pages; canonical HTML unchanged' %
         (len(manifest['css']), len(manifest['javascript']), len(manifest['pages'])))

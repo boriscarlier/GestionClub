@@ -8,7 +8,7 @@ function saveMatchDetailScore(){
  const fc=Number(a),opp=Number(b);
  if(!Number.isInteger(fc)||!Number.isInteger(opp)||fc<0||opp<0)return toast('Score','Saisissez deux scores entiers positifs ou nuls.');
 
- // Champs normalisés : toujours FC LA COUR puis adversaire.
+ // Champs normalisés : toujours CLUB EXEMPLE puis adversaire.
  m.fcScore=fc;
  m.oppScore=opp;
 

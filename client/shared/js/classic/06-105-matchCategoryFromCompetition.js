@@ -8,6 +8,6 @@ function matchCategoryFromCompetition(comp,phase,sourceTeam){
  if(x.includes('u13')) return 'U13';
  if(x.includes('u11')) return 'U11';
  if(x.includes('veteran')||x.includes('vet 42')) return 'Vétérans';
- if(x.includes('regionale 3')||x.includes('coupe de la reunion')||x.includes('dominique sauger')) return 'Seniors 1';
+ if(x.includes('regionale 3')||x.includes('coupe regionale')||x.includes('dominique sauger')) return 'Seniors 1';
  return 'À classer';
 }

@@ -1,4 +1,4 @@
-"""Passerelle LAN controlee pour FC LA COUR Gestion Club V1.25.11.1."""
+"""Passerelle LAN controlee pour CLUB EXEMPLE Gestion Club V1.25.11.1."""
 import argparse
 import http.client
 import json
@@ -16,7 +16,7 @@ MAX_BODY = 30 * 1024 * 1024
 
 
 class LanGatewayHandler(BaseHTTPRequestHandler):
-    server_version = 'FCLaCour-LAN/1.25.11.1'
+    server_version = 'GestionClub-LAN/1.25.11.1'
     sys_version = ''
 
     def log_message(self, *args):
@@ -148,7 +148,7 @@ def main():
     args = parser.parse_args()
 
     startup = [
-        'FC LA COUR Gestion Club ' + VERSION,
+        'CLUB EXEMPLE Gestion Club ' + VERSION,
         'Passerelle reseau local demandee.',
         'Serveur local attendu : http://127.0.0.1:%s/' % args.backend_port,
     ]

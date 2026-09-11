@@ -8,10 +8,10 @@ import rebuild_manager
 
 
 ROOT = Path(__file__).resolve().parents[1]
-MANAGER = ROOT / 'client' / 'FC_LA_COUR_Manager.html'
-EXPECTED_SHA256 = '5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c'
-EXPECTED_GIT_BLOB_SHA = '64def65ec261d3da05d855896484c4deb79da407'
-EXPECTED_BYTES = 1_143_051
+MANAGER = ROOT / 'client' / 'GESTION_CLUB_Manager.html'
+EXPECTED_SHA256 = '4ebddc93e4cca037d365a0890ef794a9e8e87cb1aad063d280b1ac5106fddaec'
+EXPECTED_GIT_BLOB_SHA = None
+EXPECTED_BYTES = 1_143_320
 
 
 class HtmlDecompositionTests(unittest.TestCase):

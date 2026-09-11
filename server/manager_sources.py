@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 
 INCLUDE = re.compile(br'<!--FCLC_SOURCE:([\w./-]+)-->')
-CANONICAL_SHA = '5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c'
+CANONICAL_SHA = '4ebddc93e4cca037d365a0890ef794a9e8e87cb1aad063d280b1ac5106fddaec'
 
 
 def page_for_route(root, route):

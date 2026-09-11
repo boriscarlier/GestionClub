@@ -11,7 +11,7 @@ function migrateState(){
     if(!t.coach) t.coach='Éducateur à renseigner';
     if(!t.assistant) t.assistant='Adjoint à renseigner';
     if(!t.manager) t.manager='Dirigeant à renseigner';
-    if(!t.ground) t.ground='Stade des Jacques';
+    if(!t.ground) t.ground='Stade Municipal';
     if(!t.training) t.training='Planning à renseigner';
   });
   state.members.forEach(m=>{

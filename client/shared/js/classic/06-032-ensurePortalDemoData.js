@@ -17,7 +17,7 @@ function ensurePortalDemoData(){
    id:memberId,first:'Alex',last:'DÉMO',fullName:'DÉMO Alex',
    licenseNumber:'TEST-ADHERENT-001',personNumber:'DEMO-PERSON-001',
    birthDate:'2008-05-15',type:'Joueur',licenseType:'Joueur',category:'U17',
-   email:'demo.adherent@example.test',phone:'0600000001',public:false,
+   email:'demo.adherent@example.test',phone:'0000000000',public:false,
    paymentState:'Réglé',license:'Validée',status:'Validée',sourceFormat:'DEMO'
   });
  }
@@ -27,7 +27,7 @@ function ensurePortalDemoData(){
    id:coachId,first:'Camille',last:'DÉMO',fullName:'DÉMO Camille',
    licenseNumber:'TEST-EDUC-001',personNumber:'DEMO-PERSON-002',
    birthDate:'1985-02-10',type:'Éducateur',licenseType:'Éducateur',category:'U15',
-   email:'demo.educateur@example.test',phone:'0600000002',public:false,
+   email:'demo.educateur@example.test',phone:'0000000000',public:false,
    license:'Validée',status:'Validée',sourceFormat:'DEMO'
   });
  }
@@ -37,7 +37,7 @@ function ensurePortalDemoData(){
  if(!state.matches.some(m=>m.id==='demo_match_u15')){
   state.matches.push({
    id:'demo_match_u15',team:'U15',opponent:'Équipe Démo',
-   date:'2026-09-12',time:'14:00',place:'Stade des Jacques',
+   date:'2026-09-12',time:'14:00',place:'Stade Municipal',
    competition:'Championnat U15',status:'À venir',public:false,sourceFormat:'DEMO'
   });
  }
@@ -45,7 +45,7 @@ function ensurePortalDemoData(){
  if(!state.posts.some(p=>p.id==='demo_post_portal')){
   state.posts.push({
    id:'demo_post_portal',title:'Message de démonstration',
-   text:'Bienvenue dans l’espace de test du FC LA COUR.',
+   text:'Bienvenue dans l’espace de test du CLUB EXEMPLE.',
    status:'Publié',
    channels:{site:false,facebook:false,instagram:false,youtube:false,whatsapp:false},
    team:'U15',sourceFormat:'DEMO'
@@ -89,9 +89,9 @@ function ensurePortalDemoData(){
  });
 
  const demoMatches=[
-  {id:'demo_u15_played_1',team:'U15',opponent:'AS Démo Sud',date:'2026-08-22',time:'14:00',place:'Stade des Jacques',competition:'Championnat U15 Élite',competitionType:'Championnat',homeAway:'Domicile',fcScore:3,oppScore:1,status:'Terminé'},
+  {id:'demo_u15_played_1',team:'U15',opponent:'AS Démo Sud',date:'2026-08-22',time:'14:00',place:'Stade Municipal',competition:'Championnat U15 Élite',competitionType:'Championnat',homeAway:'Domicile',fcScore:3,oppScore:1,status:'Terminé'},
   {id:'demo_u15_played_2',team:'U15',opponent:'Olympique Démo',date:'2026-08-29',time:'15:30',place:'Terrain Démo',competition:'Championnat U15 Élite',competitionType:'Championnat',homeAway:'Extérieur',fcScore:2,oppScore:2,status:'Terminé'},
-  {id:'demo_u15_upcoming_2',team:'U15',opponent:'FC Horizon TEST',date:'2026-09-19',time:'14:00',place:'Stade des Jacques',competition:'Coupe U15',competitionType:'Coupe',homeAway:'Domicile',status:'À venir'}
+  {id:'demo_u15_upcoming_2',team:'U15',opponent:'FC Horizon TEST',date:'2026-09-19',time:'14:00',place:'Stade Municipal',competition:'Coupe U15',competitionType:'Coupe',homeAway:'Domicile',status:'À venir'}
  ];
  demoMatches.forEach(dm=>{
   if(!state.matches.some(m=>m.id===dm.id))state.matches.push({...dm,public:false,sourceFormat:'DEMO'});
@@ -101,7 +101,7 @@ function ensurePortalDemoData(){
  if(!state.coachTrainingSessions.some(s=>s.id==='demo_training_u15_1')){
   const pids=demoPlayers.map(p=>p[0]);
   state.coachTrainingSessions.push({
-   id:'demo_training_u15_1',team:'U15',title:'Entraînement technique',date:'2026-09-01',time:'17:00',place:'Stade des Jacques',
+   id:'demo_training_u15_1',team:'U15',title:'Entraînement technique',date:'2026-09-01',time:'17:00',place:'Stade Municipal',
    playerIds:pids,
    attendance:{
     demo_u15_01:'present',demo_u15_02:'present',demo_u15_03:'absent',

@@ -2,7 +2,7 @@
 
 ## Référence actuelle
 
-- Fichier canonique : `client/FC_LA_COUR_Manager.html`
+- Fichier canonique : `client/GESTION_CLUB_Manager.html`
 - Base fonctionnelle : `V1.25.11.1` stable.
 - Encodage exigé : UTF-8 strict avec round-trip identique octet pour octet.
 - Taille du fichier sain : `1 143 051` octets.

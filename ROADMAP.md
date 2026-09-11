@@ -85,7 +85,7 @@ Etat : stable technique.
 
 Etat : stable technique.
 
-- Utiliser `D:\FC_LA_COUR_GestionClub` comme dossier stable par defaut.
+- Utiliser `D:\GESTION_CLUB_GestionClub` comme dossier stable par defaut.
 - Ne plus redemander le chemin lors d'une mise a jour standard.
 - Lancer les tests automatiquement apres copie.
 - Demarrer le serveur automatiquement si les tests passent.

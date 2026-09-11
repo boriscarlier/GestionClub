@@ -36,7 +36,7 @@ class WindowsRuntimeTests(unittest.TestCase):
         code = r'''
 import current_server
 payload={
- 'format':'FC_LA_COUR_FULL_BACKUP','schemaVersion':1,'build':'V1.25.11.1',
+ 'format':'GESTION_CLUB_FULL_BACKUP','schemaVersion':1,'build':'V1.25.11.1',
  'state':{'members':[],'matches':[],'teams':[],'accounts':[],
           'clubProfile':{'official':{'affiliation':'000000'}}},
  'lineups':{},'feedback':[],'scenarios':{}
@@ -55,7 +55,7 @@ print(current_server.validate(payload))
         code = r'''
 import current_server
 payload={
- 'format':'FC_LA_COUR_FULL_BACKUP','schemaVersion':1,'build':'V1.25.12',
+ 'format':'GESTION_CLUB_FULL_BACKUP','schemaVersion':1,'build':'V1.25.12',
  'state':{'members':[],'matches':[],'teams':[],'accounts':[],
           'clubProfile':{'official':{'affiliation':'000000'}}},
  'lineups':{},'feedback':[],'scenarios':{}

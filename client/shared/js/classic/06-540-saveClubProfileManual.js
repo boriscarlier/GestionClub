@@ -19,6 +19,6 @@ function saveClubProfileManual(){
  });
  state.clubProfile.manual=manual;
  save();
- if(typeof logAdminAction==='function')logAdminAction('Paramétrage club','Modification manuelle','FC LA COUR');
+ if(typeof logAdminAction==='function')logAdminAction('Paramétrage club','Modification manuelle','CLUB EXEMPLE');
  toast('Paramétrage du club','Modifications enregistrées.');
 }

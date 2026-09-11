@@ -35,12 +35,12 @@
   const included=new Set(keys.flatMap(k=>groups[k]));const capture=clone(p);
   capture.blocks=p.blocks.filter((_,i)=>included.has(i)).map(clone);capture.references=[];
   capture.source.title='Sélection de rubriques — fiche personne';capture.structure=structure(capture.blocks);
-  return {schema,generator:{name:'FC LA COUR Manager',version:'1.22.13'},exportedAt:new Date().toISOString(),selection:{sections:Object.keys(labels).filter(k=>keys.includes(k)),originalBlockCount:p.blocks.length},capture};
+  return {schema,generator:{name:'CLUB EXEMPLE Manager',version:'1.22.13'},exportedAt:new Date().toISOString(),selection:{sections:Object.keys(labels).filter(k=>keys.includes(k)),originalBlockCount:p.blocks.length},capture};
  }
  function validate(v){
   const errors=[];const exact=(o,ks)=>o&&typeof o==='object'&&!Array.isArray(o)&&Object.keys(o).length===ks.length&&ks.every(k=>Object.hasOwn(o,k));
   if(!exact(v,['schema','generator','exportedAt','selection','capture']))return {ok:false,errors:['Structure de sélection invalide.']};
-  if(v.schema!==schema||!exact(v.generator,['name','version'])||v.generator.name!=='FC LA COUR Manager'||!['1.22.10','1.22.13'].includes(v.generator.version))errors.push('Producteur ou version de sélection non pris en charge.');
+  if(v.schema!==schema||!exact(v.generator,['name','version'])||v.generator.name!=='CLUB EXEMPLE Manager'||!['1.22.10','1.22.13'].includes(v.generator.version))errors.push('Producteur ou version de sélection non pris en charge.');
   if(typeof v.exportedAt!=='string'||!/^\d{4}-\d\d-\d\dT/.test(v.exportedAt)||!Number.isFinite(Date.parse(v.exportedAt)))errors.push('Date de sélection invalide.');
   if(!exact(v.selection,['sections','originalBlockCount']))errors.push('Métadonnées de sélection invalides.');
   const keys=v.selection?.sections;

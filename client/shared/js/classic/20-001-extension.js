@@ -34,7 +34,7 @@ function compare(local,incoming){
  const extraLocal={...local.state},extraIncoming={...incoming.state};for(const key of Object.keys(collections)){delete extraLocal[key];delete extraIncoming[key];}
  const otherStateChanged=stable(extraLocal)!==stable(extraIncoming),lineupsChanged=stable(local.lineups)!==stable(incoming.lineups),feedbackChanged=stable(local.feedback||[])!==stable(incoming.feedback||[]),scenariosChanged=stable(local.scenarios||{})!==stable(incoming.scenarios||{});
  const club=p=>String(p.state.clubProfile?.official?.affiliation||'').trim();const lc=club(local),ic=club(incoming);const clubStatus=!lc||!ic?'unknown':lc===ic?'same':'different';
- return {format:'FC_LA_COUR_TRANSFER_REVIEW',schemaVersion:2,build:QA_BUILD,sourceBuild:incoming.build,collections,differences,details:details(local,incoming),otherStateChanged,lineupsChanged,feedbackChanged,scenariosChanged,clubStatus,identical:differences===0&&!otherStateChanged&&!lineupsChanged&&!feedbackChanged&&!scenariosChanged,mode:'comparison-only',note:'Comparaison par identifiants internes. Sans ancêtre commun, une différence ne permet pas de déterminer la valeur la plus récente. Une fiche absente ne constitue pas une instruction de suppression. Aucun remplacement ni fusion effectué.'};
+ return {format:'GESTION_CLUB_TRANSFER_REVIEW',schemaVersion:2,build:QA_BUILD,sourceBuild:incoming.build,collections,differences,details:details(local,incoming),otherStateChanged,lineupsChanged,feedbackChanged,scenariosChanged,clubStatus,identical:differences===0&&!otherStateChanged&&!lineupsChanged&&!feedbackChanged&&!scenariosChanged,mode:'comparison-only',note:'Comparaison par identifiants internes. Sans ancêtre commun, une différence ne permet pas de déterminer la valeur la plus récente. Une fiche absente ne constitue pas une instruction de suppression. Aucun remplacement ni fusion effectué.'};
 }
 function classify(base,local,incoming){
  const b=stable(base),l=stable(local),r=stable(incoming);
@@ -72,7 +72,7 @@ async function loadReference(event){
 }
 function runChecks(){
  access();const results=[],clone=x=>JSON.parse(JSON.stringify(x));
- const base={format:'FC_LA_COUR_FULL_BACKUP',schemaVersion:1,build:QA_BUILD,state:{members:[{id:'fiction-member',first:'FICTIF',phone:'0000000000'}],matches:[],teams:[],accounts:[{id:'fiction-account',lastLoginAt:'2000-01-01'}],clubProfile:{official:{affiliation:'000000'}}},lineups:{},feedback:[],scenarios:{}};
+ const base={format:'GESTION_CLUB_FULL_BACKUP',schemaVersion:1,build:QA_BUILD,state:{members:[{id:'fiction-member',first:'FICTIF',phone:'0000000000'}],matches:[],teams:[],accounts:[{id:'fiction-account',lastLoginAt:'2000-01-01'}],clubProfile:{official:{affiliation:'000000'}}},lineups:{},feedback:[],scenarios:{}};
  const check=(name,fn)=>{try{if(!fn())throw Error();results.push({name,passed:true});}catch(e){results.push({name,passed:false});}};
  const rejects=fn=>{try{fn();return false;}catch(e){return true;}};
  check('Deux bases identiques',()=>compare(base,clone(base)).identical);
@@ -125,7 +125,7 @@ async function load(event){
   E('transferStatus').textContent=(report.identical?'Contenu identique. ':'Différences à examiner. ')+({same:'Affiliation concordante.',different:'Affiliations différentes : ne pas transférer cette base vers le club actuel.',unknown:'Affiliation manquante : appartenance au club non vérifiée.'})[report.clubStatus]+' Aucune donnée modifiée.';E('transferExport').disabled=false;
  }catch(e){if(token===epoch)clear('Comparaison arrêtée : '+e.message);}
 }
-function download(){try{const r=fresh();prototypeDownloadText('FC_LA_COUR_comparaison_transfert_'+new Date().toISOString().replace(/[:.]/g,'-')+'.json',JSON.stringify({...r,generatedAt:new Date().toISOString()},null,2),'application/json');}catch(e){clear(e.message);}}
+function download(){try{const r=fresh();prototypeDownloadText('GESTION_CLUB_comparaison_transfert_'+new Date().toISOString().replace(/[:.]/g,'-')+'.json',JSON.stringify({...r,generatedAt:new Date().toISOString()},null,2),'application/json');}catch(e){clear(e.message);}}
 E('transferReference').addEventListener('change',loadReference);
 E('transferFile').addEventListener('change',load);
 const prevGo=goTo;goTo=function(target){if(target!=='transfer')clear();return prevGo.apply(this,arguments);};

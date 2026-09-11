@@ -15,7 +15,7 @@ Le navigateur affiche l'application. Le serveur local protege les acces, conserv
 
 ## Etat V1.24.5 importe
 
-Le client principal reste encore largement monolithique dans `client/FC_LA_COUR_Manager.html`. Le serveur gere deja les revisions de sauvegardes completes, les droits d'acces et les modules de veille.
+Le client principal reste encore largement monolithique dans `client/GESTION_CLUB_Manager.html`. Le serveur gere deja les revisions de sauvegardes completes, les droits d'acces et les modules de veille.
 
 ## Direction V1.25
 

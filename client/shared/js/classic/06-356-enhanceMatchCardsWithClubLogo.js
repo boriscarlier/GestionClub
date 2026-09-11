@@ -10,7 +10,7 @@ function enhanceMatchCardsWithClubLogo(root=document){
    const img=document.createElement('img');
    img.className='club-logo-img club-logo-sm';
    img.setAttribute('data-club-logo','');
-   img.alt='Logo FC LA COUR';
+   img.alt='Logo CLUB EXEMPLE';
    const copy=document.createElement('div');
    copy.className='match-copy';
    strong.parentNode.insertBefore(wrapper,strong);

@@ -15,7 +15,7 @@ La decomposition repart exclusivement de la version stable `V1.25.11.1`.
 
 Fichier canonique conserve pendant toute la migration :
 
-- `client/FC_LA_COUR_Manager.html`
+- `client/GESTION_CLUB_Manager.html`
 - taille : `1 143 051` octets
 - Git blob SHA : `64def65ec261d3da05d855896484c4deb79da407`
 - SHA-256 du contenu : `5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c`
@@ -54,7 +54,7 @@ client/
     js/                         # etat, stockage, API, session, navigation, utilitaires
   assets/                       # images, logos et autres ressources binaires
   legacy/
-    FC_LA_COUR_Manager.html     # seulement apres bascule; reference de rollback
+    GESTION_CLUB_Manager.html     # seulement apres bascule; reference de rollback
 ```
 
 Aucun de ces deplacements n'est effectue en bloc. Les repertoires cibles sont remplis progressivement apres validation de chaque extraction.

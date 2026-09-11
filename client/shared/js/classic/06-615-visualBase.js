@@ -11,6 +11,6 @@ function visualBase(){
  ctx.fillStyle='#fff';
  ctx.font=`800 ${Math.round(w*0.032)}px Arial`;
  ctx.textAlign='left';
- ctx.fillText('FC LA COUR',w*0.22,h*0.095);
+ ctx.fillText('CLUB EXEMPLE',w*0.22,h*0.095);
 }
 

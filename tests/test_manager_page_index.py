@@ -5,7 +5,7 @@ import index_manager_pages
 
 
 ROOT = Path(__file__).resolve().parents[1]
-MANAGER = ROOT / 'client' / 'FC_LA_COUR_Manager.html'
+MANAGER = ROOT / 'client' / 'GESTION_CLUB_Manager.html'
 
 
 class ManagerPageIndexTests(unittest.TestCase):

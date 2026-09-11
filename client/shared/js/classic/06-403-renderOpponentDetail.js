@@ -45,7 +45,7 @@ function renderOpponentDetail(){
  const box=document.getElementById('opponentDetailMatches');
  if(box)box.innerHTML=matches.length?matches.map(m=>`
   <div class="opponent-match-item" onclick="openMatchDetail('${m.id}')">
-   <strong>${formatMatchDateFr(m.date)} — ${m.team||'FC LA COUR'} vs ${m.opponent||o.name}</strong>
+   <strong>${formatMatchDateFr(m.date)} — ${m.team||'CLUB EXEMPLE'} vs ${m.opponent||o.name}</strong>
    <div class="tiny">${m.time||'—'} • ${m.place||'—'} • ${matchStatusValue(m)}</div>
   </div>`).join(''):'<div class="tiny">Aucun match associé.</div>';
 }

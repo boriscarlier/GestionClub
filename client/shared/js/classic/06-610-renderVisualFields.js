@@ -6,13 +6,13 @@ function renderVisualFields(){
  }else if(currentVisualTemplate==='birthday'){
   box.innerHTML=`<div class="field"><label>Nom / prénom</label><input id="visualName" value="Prénom NOM" oninput="generateVisual()"></div>
   <div class="field"><label>Âge ou message</label><input id="visualAge" value="Joyeux anniversaire !" oninput="generateVisual()"></div>
-  <div class="field"><label>Catégorie</label><input id="visualCategory" value="FC LA COUR" oninput="generateVisual()"></div>`;
+  <div class="field"><label>Catégorie</label><input id="visualCategory" value="CLUB EXEMPLE" oninput="generateVisual()"></div>`;
  }else if(currentVisualTemplate==='partner'){
   box.innerHTML=`<div class="field"><label>Nom du partenaire</label><input id="visualPartner" value="Nom du partenaire" oninput="generateVisual()"></div>
   <div class="field"><label>Message</label><input id="visualPartnerMsg" value="Merci pour votre soutien" oninput="generateVisual()"></div>`;
  }else{
   box.innerHTML=`<div class="field"><label>Titre</label><input id="visualAnnouncement" value="ANNONCE CLUB" oninput="generateVisual()"></div>
-  <div class="field"><label>Message</label><textarea id="visualAnnouncementMsg" rows="5" oninput="generateVisual()">Information importante du FC LA COUR</textarea></div>`;
+  <div class="field"><label>Message</label><textarea id="visualAnnouncementMsg" rows="5" oninput="generateVisual()">Information importante du CLUB EXEMPLE</textarea></div>`;
  }
 }
 

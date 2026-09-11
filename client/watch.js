@@ -5,8 +5,8 @@ window.FCLCWatch=(()=>{
  let manualDraft=null,manualEpoch=0;
  let generation=0,request=0,timer=null,active=false,offset=0,working=false;
  const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
- const date=t=>t?new Date(t*1000).toLocaleString('fr-FR',{timeZone:'Indian/Reunion'}):'Jamais';
- const link=(title,url)=>{const a=node('a',title);const u=new URL(url);if(u.protocol==='https:'&&['liguefoot-reunion.fff.fr','saintjoseph.re','www.saintjoseph.re'].includes(u.hostname)){a.href=u.href;a.target='_blank';a.rel='noopener noreferrer';}return a;};
+ const date=t=>t?new Date(t*1000).toLocaleString('fr-FR',{timeZone:'Etc/UTC'}):'Jamais';
+ const link=(title,url)=>{const a=node('a',title);const u=new URL(url);if(u.protocol==='https:'&&['example.invalid','www.example.invalid'].includes(u.hostname)){a.href=u.href;a.target='_blank';a.rel='noopener noreferrer';}return a;};
  const valid=g=>g===generation&&!!user;
  const note=t=>{$('watchMessage').textContent=t;};
  const fail=e=>note(e.name==='AbortError'?'Délai dépassé. Actualisez la veille pour vérifier le résultat.':e.message);
@@ -92,7 +92,7 @@ window.FCLCWatch=(()=>{
  $('watchFilters').addEventListener('submit',e=>{e.preventDefault();offset=0;refresh().catch(fail);});
  for(const id of ['watchSource','watchStatus','watchTopic'])$(id).addEventListener('change',()=>{offset=0;refresh().catch(fail);});
  $('watchPrev').addEventListener('click',()=>{offset=Math.max(0,offset-50);refresh().catch(fail);});$('watchNext').addEventListener('click',()=>{offset+=50;refresh().catch(fail);});
- $('watchExport').addEventListener('click',async()=>{const g=generation;try{const out=await api('/api/watch/export');if(!valid(g))return;const url=URL.createObjectURL(new Blob([JSON.stringify(out,null,2)],{type:'application/json'})),a=node('a');a.href=url;a.download='FC_LA_COUR_veille_'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);note('Export de veille demandé. Il est distinct de la sauvegarde complète du club.');}catch(e){if(valid(g))fail(e);}});
+ $('watchExport').addEventListener('click',async()=>{const g=generation;try{const out=await api('/api/watch/export');if(!valid(g))return;const url=URL.createObjectURL(new Blob([JSON.stringify(out,null,2)],{type:'application/json'})),a=node('a');a.href=url;a.download='GESTION_CLUB_veille_'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);note('Export de veille demandé. Il est distinct de la sauvegarde complète du club.');}catch(e){if(valid(g))fail(e);}});
  window.addEventListener('pagehide',hide);
  return {show,hide};
 })();

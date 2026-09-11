@@ -47,7 +47,7 @@ try{
  startupStep('logos cartes matchs',typeof enhanceMatchCardsWithClubLogo==='function'?()=>enhanceMatchCardsWithClubLogo(document):null);
  startupStep('logo final',typeof applyClubLogoAssets==='function'?()=>applyClubLogoAssets(document):null);
 }catch(err){
- console.error('FC LA COUR startup error:',err);
+ console.error('CLUB EXEMPLE startup error:',err);
  var box=document.createElement('div');
  box.style.cssText='position:fixed;left:20px;right:20px;bottom:20px;z-index:9999;background:#2a1111;color:#fff;border:1px solid #ef4444;border-radius:14px;padding:14px;font-family:system-ui';
  box.innerHTML='<strong>Erreur de démarrage détectée</strong><div style="margin-top:6px;font-size:12px">'+String(err.message||err)+'</div>';

@@ -28,7 +28,7 @@ function generateVisual(){
   centerText('🎂', h*0.44, Math.round(w*0.09), '#fff', 900);
   centerText((document.getElementById('visualName')||{}).value || 'Prénom NOM', h*0.57, Math.round(w*0.058), '#fff', 900);
   centerText((document.getElementById('visualAge')||{}).value || 'Joyeux anniversaire !', h*0.67, Math.round(w*0.03), '#39d353', 800);
-  centerText((document.getElementById('visualCategory')||{}).value || 'FC LA COUR', h*0.75, Math.round(w*0.024), '#d8e0da', 700);
+  centerText((document.getElementById('visualCategory')||{}).value || 'CLUB EXEMPLE', h*0.75, Math.round(w*0.024), '#d8e0da', 700);
  }else if(currentVisualTemplate==='partner'){
   centerText('PARTENAIRE DU CLUB', h*0.28, Math.round(w*0.048), '#39d353', 900);
   ctx.fillStyle='#f7faf8'; ctx.beginPath(); ctx.roundRect(w*0.18,h*0.40,w*0.64,h*0.17,26); ctx.fill();
@@ -36,7 +36,7 @@ function generateVisual(){
   centerText((document.getElementById('visualPartnerMsg')||{}).value || 'Merci pour votre soutien', h*0.68, Math.round(w*0.028), '#f3c842', 800);
  }else{
   centerText((document.getElementById('visualAnnouncement')||{}).value || 'ANNONCE CLUB', h*0.36, Math.round(w*0.058), '#39d353', 950);
-  wrapText((document.getElementById('visualAnnouncementMsg')||{}).value || 'Information importante du FC LA COUR', w/2, h*0.52, w*0.72, Math.round(w*0.04), `800 ${Math.round(w*0.03)}px Arial`, '#fff', 'center');
+  wrapText((document.getElementById('visualAnnouncementMsg')||{}).value || 'Information importante du CLUB EXEMPLE', w/2, h*0.52, w*0.72, Math.round(w*0.04), `800 ${Math.round(w*0.03)}px Arial`, '#fff', 'center');
  }
 
  centerText('ENSEMBLE, PLUS FORTS.', h*0.93, Math.round(w*0.024), '#39d353', 850);

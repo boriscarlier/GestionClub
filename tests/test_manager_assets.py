@@ -11,7 +11,7 @@ import extract_manager_assets
 
 
 ROOT = Path(__file__).resolve().parents[1]
-MANAGER = ROOT / 'client' / 'FC_LA_COUR_Manager.html'
+MANAGER = ROOT / 'client' / 'GESTION_CLUB_Manager.html'
 REPO_ASSET = ROOT / 'client' / 'assets' / 'brand' / 'club-logo.png'
 EXPECTED_SHA256 = 'f1152a3cb6601bb95a90f5e362119e0bde45b8da9f4bafe5dd256bba028fb6bd'
 EXPECTED_BYTES = 92_264

@@ -1,4 +1,4 @@
-"""Arrete uniquement une instance FC LA COUR qui ecoute deja sur le port demande."""
+"""Arrete uniquement une instance CLUB EXEMPLE qui ecoute deja sur le port demande."""
 import http.client
 import os
 import subprocess
@@ -6,7 +6,7 @@ import sys
 import time
 
 DEFAULT_PORT = 8765
-SIGNATURES = ('FCLaCour/', 'FCLaCour-LAN/')
+SIGNATURES = ('GestionClub/', 'GestionClub-LAN/')
 
 
 def is_fc_la_cour_server(port=DEFAULT_PORT):
@@ -71,21 +71,21 @@ def main(argv=None):
     if not is_fc_la_cour_server(port):
         try:
             with __import__('socket').create_connection(('127.0.0.1', port), timeout=0.5):
-                print('ERREUR : le port %s est occupe par un service qui ne signe pas FC LA COUR. Aucun processus n\'est arrete.' % port)
+                print('ERREUR : le port %s est occupe par un service qui ne signe pas CLUB EXEMPLE. Aucun processus n\'est arrete.' % port)
                 return 3
         except OSError:
-            print('Aucun serveur FC LA COUR actif sur le port %s.' % port)
+            print('Aucun serveur CLUB EXEMPLE actif sur le port %s.' % port)
             return 0
     pids = listening_pids(port)
     if not pids:
-        print('ERREUR : serveur FC LA COUR detecte, mais PID introuvable. Aucun processus n\'est arrete.')
+        print('ERREUR : serveur CLUB EXEMPLE detecte, mais PID introuvable. Aucun processus n\'est arrete.')
         return 4
     for pid in pids:
         result = subprocess.run(['taskkill', '/PID', str(pid), '/T', '/F'], capture_output=True, text=True, check=False)
         if result.returncode != 0:
             print('ERREUR : impossible d\'arreter le PID %s.' % pid)
             return 5
-        print('Instance FC LA COUR arretee : PID %s, port %s.' % (pid, port))
+        print('Instance CLUB EXEMPLE arretee : PID %s, port %s.' % (pid, port))
     if not wait_until_free(port):
         print('ERREUR : le port %s reste occupe apres arret.' % port)
         return 6

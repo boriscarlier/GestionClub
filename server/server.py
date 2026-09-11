@@ -1,4 +1,4 @@
-"""FC LA COUR V1.25.10: sauvegardes, veille publique et API metier serveur."""
+"""CLUB EXEMPLE V1.25.10: sauvegardes, veille publique et API metier serveur."""
 import argparse, getpass, hashlib, hmac, json, os, re, secrets, sqlite3, time
 from contextlib import closing
 from http.cookies import SimpleCookie
@@ -26,7 +26,7 @@ def encode(value):
     return json.dumps(value, ensure_ascii=False, separators=(',', ':'), allow_nan=False)
 
 def validate(p):
-    if not isinstance(p, dict) or p.get('format') != 'FC_LA_COUR_FULL_BACKUP' or p.get('schemaVersion') != 1:
+    if not isinstance(p, dict) or p.get('format') != 'GESTION_CLUB_FULL_BACKUP' or p.get('schemaVersion') != 1:
         raise Problem(400, 'Choisir une sauvegarde complète Gestion Club.')
     if not re.fullmatch(r'V\d+\.\d+\.\d+(?:\.\d+)?', str(p.get('build', ''))):
         raise Problem(400, 'Version de sauvegarde non reconnue.')
@@ -95,7 +95,7 @@ def add_user(path, name, password, role):
 
 def manager_page(html=None):
     if html is None:
-        html = (CLIENT_ROOT / 'FC_LA_COUR_Manager.html').read_text(encoding='utf-8')
+        html = (CLIENT_ROOT / 'GESTION_CLUB_Manager.html').read_text(encoding='utf-8')
     marker = '<body'
     pos = html.find(marker)
     if pos < 0:
@@ -113,7 +113,7 @@ def manager_page(html=None):
   <span id="serverBridgeStatus" style="display:block;margin-top:6px;color:#c8f7d8"></span>
 </div>
 <script>
-window.FC_LA_COUR_SERVER_BRIDGE={build:"V1.25.10",mode:"server-bridge",bootstrapUrl:"/api/gestion/bootstrap"};
+window.GESTION_CLUB_SERVER_BRIDGE={build:"V1.25.10",mode:"server-bridge",bootstrapUrl:"/api/gestion/bootstrap"};
 (function(){
   async function api(path,method,body,csrf){
     const response=await fetch(path,{method:method||"GET",credentials:"same-origin",cache:"no-store",headers:Object.assign({"Content-Type":"application/json"},csrf?{"X-CSRF-Token":csrf}:{}),body:body===undefined?undefined:JSON.stringify(body)});
@@ -143,7 +143,7 @@ window.FC_LA_COUR_SERVER_BRIDGE={build:"V1.25.10",mode:"server-bridge",bootstrap
       try{
         dl.disabled=true;status("Lecture de la derniere revision...");
         const result=await api("/api/snapshot");
-        download("FC_LA_COUR_serveur_revision_"+result.revision+".json",result.backup);
+        download("GESTION_CLUB_serveur_revision_"+result.revision+".json",result.backup);
         status("Telechargement demande pour la revision "+result.revision+".");
       }catch(e){status(e.message);}finally{dl.disabled=false;}
     });
@@ -154,7 +154,7 @@ window.FC_LA_COUR_SERVER_BRIDGE={build:"V1.25.10",mode:"server-bridge",bootstrap
     return (html[:end+1] + banner + html[end+1:]).encode('utf-8')
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = 'FCLaCour/1.25.10'
+    server_version = 'GestionClub/1.25.10'
     sys_version = ''
     def log_message(self, *args):
         pass
@@ -403,7 +403,7 @@ def main():
     srv=make_server(args.data)
     srv.watch.start()
     print('Base de donnees : ' + str(args.data))
-    print('FC LA COUR V1.25.10 — http://127.0.0.1:8765 — Ctrl+C pour arrêter.')
+    print('CLUB EXEMPLE V1.25.10 — http://127.0.0.1:8765 — Ctrl+C pour arrêter.')
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

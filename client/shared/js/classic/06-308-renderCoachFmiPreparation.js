@@ -23,7 +23,7 @@ function renderCoachFmiPreparation(matchId,match){
  }
  box.innerHTML=`
   <div><strong>Feuille de Match Informatisée — FFF</strong></div>
-  <div class="tiny">Outil officiel de préparation de la composition. L’objectif J-2 / 48 h est un rappel interne FC LA COUR tant qu’aucun texte LRF spécifique n’est associé à cette échéance.</div>
+  <div class="tiny">Outil officiel de préparation de la composition. L’objectif J-2 / 48 h est un rappel interne CLUB EXEMPLE tant qu’aucun texte LRF spécifique n’est associé à cette échéance.</div>
   <div style="margin-top:7px"><span class="badge ${badgeClass}">${done?'PRÉPARATION FMI EFFECTUÉE':deadline.label}</span><span class="tiny coach-fmi-deadline">${timeText}</span></div>
   ${record.updatedAt?`<div class="tiny" style="margin-top:5px">Suivi local mis à jour : ${formatAccountDate(record.updatedAt)}</div>`:''}
   <div class="coach-fmi-actions">

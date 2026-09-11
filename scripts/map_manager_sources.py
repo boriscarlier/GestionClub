@@ -69,5 +69,5 @@ def inventory(source):
 
 
 if __name__ == '__main__':
-    raw, pages, blocks = inventory(Path('client/FC_LA_COUR_Manager.html'))
+    raw, pages, blocks = inventory(Path('client/GESTION_CLUB_Manager.html'))
     print(json.dumps({'pages': pages, 'blocks': blocks}, ensure_ascii=False, indent=2))

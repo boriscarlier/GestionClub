@@ -18,7 +18,7 @@ function openTeamDetail(id){
   document.getElementById('teamCompetitionBox').innerHTML=`<div class="competition-card"><h4>${t.competition}</h4><div class="tiny">Équipe : ${t.name}</div><div class="tiny">Terrain principal : ${t.ground}</div><div class="tiny">Entraînement : ${t.training}</div></div>`;
   const ranking=(state.rankings&&state.rankings[t.name])||[];
   document.getElementById('teamRankingBody').innerHTML=ranking.length
-    ? ranking.map((r,i)=>`<tr><td>${i+1}</td><td>${r.name==='FC LA COUR'?'<strong>FC LA COUR</strong>':r.name}</td><td>${r.pts}</td></tr>`).join('')
+    ? ranking.map((r,i)=>`<tr><td>${i+1}</td><td>${r.name==='CLUB EXEMPLE'?'<strong>CLUB EXEMPLE</strong>':r.name}</td><td>${r.pts}</td></tr>`).join('')
     : '<tr><td colspan="3">Classement non renseigné.</td></tr>';
   const fixtures=state.matches.filter(m=>m.team===t.name&&m.public!==false).sort((a,b)=>a.date.localeCompare(b.date));
   document.getElementById('teamFixtures').innerHTML=fixtures.length

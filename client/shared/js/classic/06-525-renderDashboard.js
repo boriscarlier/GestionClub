@@ -32,7 +32,7 @@ function renderDashboard(){
          ? '<span class="badge blue">🤝 Match amical</span>'
          : '<span class="badge">Autre</span>';
       return `<div class="match-card" onclick="openMatchDetail('${m.id}')" style="cursor:pointer">
-       <strong>${escapeHtml(m.team||'FC LA COUR')} — ${escapeHtml(m.opponent||m.opponentClub||'Adversaire')}</strong>
+       <strong>${escapeHtml(m.team||'CLUB EXEMPLE')} — ${escapeHtml(m.opponent||m.opponentClub||'Adversaire')}</strong>
        <div class="dash-match-meta">${homeAwayBadge}${compBadge}</div>
        <div class="tiny">${typeof formatMatchDateFr==='function'?formatMatchDateFr(m.date):escapeHtml(m.date||'')} • ${escapeHtml(m.time||'Horaire à préciser')} • ${escapeHtml(m.place||'Lieu à préciser')}</div>
       </div>`;

@@ -5,7 +5,7 @@
  'use strict';
  const VERSION='1.22.7.1',ADAPTER='0.3.1';
  const FIELDS=['matchNumber','team','sourceTeam','opponent','opponentClub','date','time','competition','competitionType','pool','homeAway','place','fcScore','oppScore','receiverScore','visitorScore','status'];
- const LABELS={matchNumber:'N° de match FFF',team:'Équipe du club',sourceTeam:'Équipe interne',opponent:'Adversaire',opponentClub:'Club adverse',date:'Date',time:'Heure',competition:'Compétition',competitionType:'Type de compétition',pool:'Poule',homeAway:'Domicile / extérieur',place:'Installation',fcScore:'Score FC LA COUR',oppScore:'Score adversaire',receiverScore:'Score recevant',visitorScore:'Score visiteur',status:'Statut'};
+ const LABELS={matchNumber:'N° de match FFF',team:'Équipe du club',sourceTeam:'Équipe interne',opponent:'Adversaire',opponentClub:'Club adverse',date:'Date',time:'Heure',competition:'Compétition',competitionType:'Type de compétition',pool:'Poule',homeAway:'Domicile / extérieur',place:'Installation',fcScore:'Score CLUB EXEMPLE',oppScore:'Score adversaire',receiverScore:'Score recevant',visitorScore:'Score visiteur',status:'Statut'};
  const own=(o,k)=>Object.prototype.hasOwnProperty.call(o||{},k);
  const text=v=>v==null?'':typeof v==='string'||typeof v==='number'?String(v).trim():'';
  const norm=v=>text(v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
@@ -91,7 +91,7 @@
    if(explicit&&refId&&explicit!==refId)reject('detail',explicit,'FFF_REFERENCE_DETAIL_CONTRADICTOIRE','Fiche détaillée ignorée : son numéro diffère de reference.match_id.');
    else add(detail,'detail');
   }
-  const clubNames=new Set([norm(club.name),norm('FC LA COUR')].filter(Boolean));
+  const clubNames=new Set([norm(club.name),norm('CLUB EXEMPLE')].filter(Boolean));
   const candidates=[...byId.values()].map(x=>{
    const home=clubNames.has(norm(x.home)),away=clubNames.has(norm(x.away));
    const side=home&&!away?'Domicile':away&&!home?'Extérieur':null;

@@ -10,7 +10,7 @@ function matchCompetitionType(m){
   m.team,m.sourceTeam,m.category,m.subcategory,m.teamsLabel,m.dp,m.DP
  ].filter(Boolean).join(' '));
 
- // Règle FC LA COUR : Vétérans / Féminines avec DP "Autre" + CPE ou CDF = Coupe.
+ // Règle CLUB EXEMPLE : Vétérans / Féminines avec DP "Autre" + CPE ou CDF = Coupe.
  const veteranOrWomen=
   teamRaw.includes('veteran') || teamRaw.includes('vétéran') ||
   teamRaw.includes('feminin') || teamRaw.includes('féminin') ||

@@ -6,7 +6,7 @@ function rowToRecord(row,headers,schema){
   if(isReferenceMemberExport(headers)) normalizeReferenceMemberRecord(r,row,headers);
   else{r.type=r.type||'Joueur';r.license=r.license||'En attente';r.public=boolVal(r.public);}
  }
- if(schema===importSchemas.teams){r.public=boolVal(r.public);r.rosterPublic=r.public;r.group=r.group||((String(r.name||'').startsWith('U'))?'jeunes':'seniors');r.ground=r.ground||'Stade des Jacques';}
+ if(schema===importSchemas.teams){r.public=boolVal(r.public);r.rosterPublic=r.public;r.group=r.group||((String(r.name||'').startsWith('U'))?'jeunes':'seniors');r.ground=r.ground||'Stade Municipal';}
  if(schema===importSchemas.matches){
   r.date=normalizeDateCell(r.date);r.time=normalizeTimeCell(r.time);
   r.homeScore=safeNumber(r.homeScore);r.awayScore=safeNumber(r.awayScore);

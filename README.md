@@ -1,4 +1,4 @@
-# FC LA COUR Gestion Club
+# CLUB EXEMPLE Gestion Club
 
 Application locale de gestion du club, avec sauvegardes serveur, veille publique, analyse PDF et preparation progressive vers une architecture client-serveur.
 
@@ -11,7 +11,7 @@ Application locale de gestion du club, avec sauvegardes serveur, veille publique
 - Chantier V1.25.12 : decomposition HTML indexee, recomposition sans perte et migration multi-pages progressive
 - Ecran Licencies : lecture serveur SQL/API en mode `/gestion`, repli local en HTML autonome
 - Ecran Equipes : lecture serveur SQL/API en mode `/gestion`, repli local en HTML autonome
-- Client principal : `client/FC_LA_COUR_Manager.html`
+- Client principal : `client/GESTION_CLUB_Manager.html`
 - Donnees reelles : conservees hors depot dans `data/`
 - Tests automatises : suite `unittest`
 
@@ -68,27 +68,27 @@ LANCER_TESTS.cmd
 
 ## Mise a jour simple Windows
 
-Conservez le dossier stable `D:\FC_LA_COUR_GestionClub`. Votre base reste dans `D:\FC_LA_COUR_GestionClub\data\club.sqlite3`.
+Conservez le dossier stable `D:\GESTION_CLUB_GestionClub`. Votre base reste dans `D:\GESTION_CLUB_GestionClub\data\club.sqlite3`.
 
 Pour tester une nouvelle version :
 
 1. Decompresser le nouveau zip dans un dossier temporaire.
 2. Lancer `METTRE_A_JOUR.cmd` depuis ce dossier temporaire.
-3. Le script met a jour automatiquement `D:\FC_LA_COUR_GestionClub`.
+3. Le script met a jour automatiquement `D:\GESTION_CLUB_GestionClub`.
 4. Les tests sont lances automatiquement.
 5. Si les tests passent, le serveur local est demarre automatiquement.
 
-Pour tester ensuite le mode LAN, fermer le serveur local puis lancer `DEMARRER_RESEAU_LOCAL.cmd` depuis `D:\FC_LA_COUR_GestionClub`.
+Pour tester ensuite le mode LAN, fermer le serveur local puis lancer `DEMARRER_RESEAU_LOCAL.cmd` depuis `D:\GESTION_CLUB_GestionClub`.
 
 Le script de mise a jour remplace les fichiers programme et conserve le dossier `data` de la cible.
 
 Si vous voulez placer les donnees sur un autre disque, definir une fois :
 
 ```bat
-setx FCLC_DATA_DIR "E:\FC_LA_COUR_DATA"
+setx FCLC_DATA_DIR "E:\GESTION_CLUB_DATA"
 ```
 
-Puis rouvrir une invite de commande. Le serveur utilisera `E:\FC_LA_COUR_DATA\club.sqlite3`.
+Puis rouvrir une invite de commande. Le serveur utilisera `E:\GESTION_CLUB_DATA\club.sqlite3`.
 
 ## Organisation
 

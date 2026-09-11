@@ -75,7 +75,7 @@ function renderCoachPortal(){
   const badgeClass=regularization?'yellow':fmi.prepared?'green':deadline.status==='due'?'red':deadline.status==='past'?'yellow':'blue';
   const badgeLabel=regularization?'COMPOSITION MANQUANTE — À RÉGULARISER':fmi.prepared?'FMI PRÉPARÉE':deadline.label;
   return `<div class="coach-match">
-   <strong>${escapeHtml(matchTeamName(mt)||coachCurrentTeamName||'FC LA COUR')} — ${escapeHtml(opponent)}</strong>
+   <strong>${escapeHtml(matchTeamName(mt)||coachCurrentTeamName||'CLUB EXEMPLE')} — ${escapeHtml(opponent)}</strong>
    <div class="tiny">${formatMatchDateFr(mt.date)} • ${escapeHtml(mt.time||mt.rawTime||'—')} • ${escapeHtml(mt.place||mt.venue||'—')}</div>
    <div class="tiny" style="margin-top:4px"><strong>Compétition :</strong> ${escapeHtml(comp.name||'Non renseignée')} • ${escapeHtml(comp.type||'Autre')} • ${escapeHtml(homeAway)}</div>
    ${coachMatchPlayed(mt)?`<div style="margin-top:8px">${coachMatchScoreHtml(mt)} <span class="badge ${result.className}">${result.label}</span></div>`:''}

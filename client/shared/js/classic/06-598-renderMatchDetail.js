@@ -7,7 +7,7 @@ function renderMatchDetail(){
 
  const title=document.getElementById('matchDetailTitle');
  const subtitle=document.getElementById('matchDetailSubtitle');
- if(title)title.textContent=`${m.team||'FC LA COUR'} — ${m.opponent||'Adversaire'}`;
+ if(title)title.textContent=`${m.team||'CLUB EXEMPLE'} — ${m.opponent||'Adversaire'}`;
  if(subtitle)subtitle.textContent=`${m.date||'Date non renseignée'} • ${m.time||'Heure non renseignée'} • ${m.competition||'Compétition non renseignée'}`;
  populateMatchEditFields(m);
 
@@ -22,7 +22,7 @@ function renderMatchDetail(){
   matchDetailItem('Tour',m.round||m.roundNumber),
   matchDetailItem('Date',formatMatchDateFr(m.date)),
   matchDetailItem('Heure',m.time||m.rawTime),
-  matchDetailItem('Équipe FC LA COUR',m.team),
+  matchDetailItem('Équipe CLUB EXEMPLE',m.team),
   matchDetailItem('Adversaire',m.opponent),
   matchDetailItem('Domicile / extérieur',matchHomeAwayLabel(m)),
   matchDetailItem('Installation',m.place),

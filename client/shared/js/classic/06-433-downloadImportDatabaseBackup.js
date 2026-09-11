@@ -6,7 +6,7 @@ function downloadImportDatabaseBackup(){
   const a=document.createElement('a');
   const stamp=new Date().toISOString().replace(/[:.]/g,'-');
   a.href=url;
-  a.download=`FC_LA_COUR_sauvegarde_imports_${stamp}.json`;
+  a.download=`GESTION_CLUB_sauvegarde_imports_${stamp}.json`;
   document.body.appendChild(a);
   a.click();
   a.remove();

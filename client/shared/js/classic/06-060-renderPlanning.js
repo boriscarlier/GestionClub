@@ -50,7 +50,7 @@ function renderPlanning(){
   const upcoming=publicVisibleMatches().filter(matchIsUpcoming).sort((a,b)=>String(a.date||'').localeCompare(String(b.date||''))).slice(0,12);
   official.innerHTML=upcoming.length?upcoming.map(m=>`
    <div class="planning-official-match" onclick="openMatchDetail('${m.id}')">
-    <strong>${escapeHtml(formatMatchDateFr(m.date))} — ${escapeHtml(matchTeamName(m)||'FC LA COUR')} / ${escapeHtml(matchOpponentName(m)||'Adversaire')}</strong>
+    <strong>${escapeHtml(formatMatchDateFr(m.date))} — ${escapeHtml(matchTeamName(m)||'CLUB EXEMPLE')} / ${escapeHtml(matchOpponentName(m)||'Adversaire')}</strong>
     <div class="dash-match-meta">${matchHomeAwayBadge(m)}<span class="badge ${matchCompetitionType(m)==='Coupe'?'yellow':matchCompetitionType(m)==='Championnat'?'green':'blue'}">${matchCompetitionType(m)==='Coupe'?'🏆 ':matchCompetitionType(m)==='Championnat'?'🏁 ':matchCompetitionType(m)==='Match amical'?'🤝 ':''}${escapeHtml(matchCompetitionType(m))}</span></div>
     <div class="tiny">${escapeHtml(m.time||'Horaire à préciser')} • ${escapeHtml(m.place||'Lieu à préciser')}</div>
    </div>`).join(''):'<div class="tiny">Aucun match officiel à venir.</div>';

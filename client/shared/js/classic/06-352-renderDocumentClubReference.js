@@ -2,7 +2,7 @@ function renderDocumentClubReference(){
  const p=typeof clubProfileMerged==='function'?clubProfileMerged():{};
  const name=document.getElementById('docClubReferenceName');
  const meta=document.getElementById('docClubReferenceMeta');
- if(name)name.textContent=p.name||'FC LA COUR';
+ if(name)name.textContent=p.name||'CLUB EXEMPLE';
  if(meta){
   const bits=[];
   if(p.affiliation)bits.push('Affiliation '+p.affiliation);

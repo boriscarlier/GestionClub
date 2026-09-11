@@ -20,4 +20,4 @@ window.addEventListener('resize',()=>{
 
 
 // ===== V1.21.20 — STABILISATION TECHNIQUE GLOBALE =====
-const FC_LA_COUR_BUILD=QA_BUILD;
+const GESTION_CLUB_BUILD=QA_BUILD;

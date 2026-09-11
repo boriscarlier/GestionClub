@@ -30,8 +30,8 @@ function renderPublicProgram(){
   return `<div class="program-match ${selected?'program-selected':''}" onclick="publicProgramFocusId='${m.id}';renderPublicProgram()">
    <div class="program-date">${formatMatchDateFr(m.date)}<div class="tiny">${m.time||'—'}</div></div>
    <div class="program-team">
-    <img class="club-logo-img" data-club-logo alt="Logo FC LA COUR">
-    <div><strong>${m.team||'FC LA COUR'}</strong><div class="tiny" style="display:flex;align-items:center;gap:6px">vs ${opponentLogoHtml(m.opponent,'public-opponent-logo')} <span>${m.opponent||'Adversaire'}</span></div></div>
+    <img class="club-logo-img" data-club-logo alt="Logo CLUB EXEMPLE">
+    <div><strong>${m.team||'CLUB EXEMPLE'}</strong><div class="tiny" style="display:flex;align-items:center;gap:6px">vs ${opponentLogoHtml(m.opponent,'public-opponent-logo')} <span>${m.opponent||'Adversaire'}</span></div></div>
    </div>
    <div class="program-place"><strong>${m.place||'Lieu non renseigné'}</strong><div class="tiny">${m.competition||''}</div></div>
    <div style="text-align:right"><div class="public-match-score">${score||'VS'}</div><span class="badge ${publicMatchIsFinished(m)?'green':'blue'}">${matchStatusValue(m)}</span></div>

@@ -1,7 +1,7 @@
 function qaFinishStartup(){
- document.title='FC LA COUR Manager — fclacour.re — '+QA_BUILD;
+ document.title='CLUB EXEMPLE Manager — gestionclub.local — '+QA_BUILD;
  if(typeof coachLineups==='object'){try{const data=JSON.parse(localStorage.getItem('fclc_coach_lineups')||'{}');if(data&&typeof data==='object'&&!Array.isArray(data))coachLineups=data;}catch(e){}}
- toggleCoachMobileMore(false);qaSetSpace('public');renderAll();try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){toast('Stockage','Modifications non persistantes : sauvegardez vos données.');}window.FC_LA_COUR_HEALTH=prototypeHealthCheck();
+ toggleCoachMobileMore(false);qaSetSpace('public');renderAll();try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){toast('Stockage','Modifications non persistantes : sauvegardez vos données.');}window.GESTION_CLUB_HEALTH=prototypeHealthCheck();
 }
 document.addEventListener('DOMContentLoaded',qaFinishStartup);
 if(document.readyState!=='loading')qaFinishStartup();

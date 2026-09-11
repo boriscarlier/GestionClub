@@ -1,4 +1,4 @@
-"""Runtime CLUB EXEMPLE Gestion Club V1.25.13.17 base sur le noyau V1.25.10.2 valide."""
+"""Runtime CLUB EXEMPLE Gestion Club V1.25.12.3 base sur le noyau V1.25.10.2 valide."""
 import argparse
 import getpass
 import re
@@ -9,9 +9,9 @@ from urllib.parse import urlsplit
 
 import server
 
-VERSION = 'V1.25.13.17'
+VERSION = 'V1.25.12.3'
 VERSION_BYTES = VERSION.encode('utf-8')
-MAX_BACKUP_VERSION = (1, 25, 13, 17)
+MAX_BACKUP_VERSION = (1, 25, 12, 3)
 _BASE_HANDLER = server.Handler
 ASSET_ROOT = server.PROJECT_ROOT / 'client' / 'assets'
 STATIC_ASSETS = {
@@ -50,13 +50,12 @@ def validate(payload):
 
 
 class CurrentHandler(_BASE_HANDLER):
-    server_version = 'GestionClub/1.25.13.17'
+    server_version = 'GestionClub/1.25.12.3'
 
     def send(self, status, value, cookie=None, mime='application/json; charset=utf-8', csp=None):
         if isinstance(value, bytes) and mime.startswith('text/html'):
-            for old in (b'V1.25.10', b'V1.25.12.2', b'V1.25.12.3', b'V1.25.13.1', b'V1.25.13.2', b'V1.25.13.3', b'V1.25.13.4', b'V1.25.13.5', b'V1.25.13.6', b'V1.25.13.7', b'V1.25.13.8', b'V1.25.13.9', b'V1.25.13.10', b'V1.25.13.11', b'V1.25.13.12', b'V1.25.13.13', b'V1.25.13.14', b'V1.25.13.15', b'V1.25.13.16'):
-                value = value.replace(old, VERSION_BYTES)
-        elif isinstance(value, dict) and value.get('serverBuild') in ('V1.25.10', 'V1.25.12.2', 'V1.25.12.3', 'V1.25.13.1', 'V1.25.13.2', 'V1.25.13.3', 'V1.25.13.4', 'V1.25.13.5', 'V1.25.13.6', 'V1.25.13.7', 'V1.25.13.8', 'V1.25.13.9', 'V1.25.13.10', 'V1.25.13.11', 'V1.25.13.12', 'V1.25.13.13', 'V1.25.13.14', 'V1.25.13.15', 'V1.25.13.16'):
+            value = value.replace(b'V1.25.10', VERSION_BYTES).replace(b'V1.25.12.2', VERSION_BYTES)
+        elif isinstance(value, dict) and value.get('serverBuild') in ('V1.25.10', 'V1.25.12.2'):
             value = dict(value)
             value['serverBuild'] = VERSION
         return super().send(status, value, cookie=cookie, mime=mime, csp=csp)
@@ -103,7 +102,7 @@ def main():
                     raise SystemExit('Compte introuvable.')
                 db.execute('DELETE FROM sessions WHERE user=?',(name,))
         else:
-            role='admin' if empty else input('Rôle (admin/editor/reader/educator/member) : ').strip()
+            role='admin' if empty else input('Rôle (admin/editor/reader) : ').strip()
             server.add_user(args.data,name,password,role)
         print('Compte enregistré.')
         if args.command!='start':

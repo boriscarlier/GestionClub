@@ -1,31 +1,67 @@
-# Reprise — Gestion Club V1.25.12
+# Reprise — Gestion Club V1.26
 
-Branche de reference : main. PR #3 fusionnee le 11 septembre 2026.
-Base runtime : V1.25.12.3. Candidat de sources decomposees : V1.25.12.
+## Base obligatoire
 
-## Etat valide
+La base fonctionnelle stable de référence est **V1.25.13.17**.
 
-- 114 unites CSS, 663 unites JavaScript classiques, 70 templates HTML.
-- Monolithe generique livre identique octet pour octet a sa recomposition.
-- Nom du club retire du contenu courant, logo remplace par un embleme generique GC.
-- Caches Python retires du suivi Git.
-- 144 tests Python passes localement et suites GitHub reussies.
-- 210 comparaisons visuelles et 70 acces directs actifs, aucune erreur JavaScript.
-- Revision runtime validee : da92eace26678658e618766b10ad393f0350d451.
-- Preuve CI : https://github.com/boriscarlier/GestionClub/actions/runs/34582498767
+Ne pas repartir d'une V1.25.12.x, d'une V1.25.13-dev ni d'un ancien prototype.
 
-Le controle visuel compare exactement la geometrie, le texte visible et les styles avant les pixels.
-Tolerance precedente : 0,01 % des pixels, delta maximum 12/255.
-Arrondi d'un seul niveau de couleur : borne 0,02 %, motivee par 53 pixels de contours sur mobile.
-Aucun elargissement pour les autres ecarts.
+Référence de clôture :
 
-## Suite
+- Version : `V1.25.13.17`
+- Archive : `GestionClub_V1.25.13.17_Windows_test_bandeau_admin.zip`
+- SHA-256 : `52644db27f7d40abd6a43c86d6ab43491271266e47a4d12ce4bda31b5b1af6aa`
+- Validation : `163 tests OK, 1 skipped`
+- Date : `2026-09-11`
 
-1. Test physique Windows/LAN avec le ZIP complet. Voir LIRE_AVANT_TEST.md.
-2. Verifier la conservation de la base dans l'installation existante detectee sur D:.
-3. Comparer /gestion-modulaire et /gestion-legacy.
-4. Ne pas basculer la route /gestion ni supprimer le monolithe avant validation physique.
+## Fonctionnalités validées à préserver
 
-Les noms des donnees reelles restent dans data/, hors Git. Aucun historique Git n'a ete reecrit.
-La neutralisation a modifie intentionnellement le monolithe : ne pas le declarer identique au fichier historique V1.25.12.3.
-Python seul suffit pour utiliser le paquet. Node est necessaire pour l'outillage de generation et les tests navigateur.
+- Connexion administrateur serveur.
+- Connexion éducateur serveur.
+- Connexion licencié serveur.
+- Changement de portail avec demande de déconnexion.
+- Redirection du portail correspondant à la session vers `/gestion`.
+- Ancien prototype de connexion hors parcours normal.
+- Correction de la boucle de refresh du portail licencié.
+- Bandeau serveur visible uniquement par l'administrateur.
+- Comptes serveur et permissions fonctionnels.
+
+## V1.26 — objectif
+
+V1.26 ajoute une **architecture de données claire, robuste et préparée pour le multi-club** au socle V1.25.13.17 sans modifier son comportement fonctionnel validé.
+
+### Ordre de travail obligatoire
+
+1. Inventorier les données réelles et les stockages existants.
+2. Définir l'arborescence logique des données.
+3. Définir les entités et identifiants canoniques.
+4. Définir les relations et contraintes entre club, personne, licence, compte, équipe et rôle.
+5. Définir la stratégie multi-club.
+6. Définir sauvegarde, restauration et migration depuis V1.25.13.17.
+7. Définir la synchronisation Licences -> Comptes serveur.
+8. Repenser l'écran Système > Comptes & permissions pour environ 300 comptes et plus.
+9. Seulement ensuite implémenter les migrations et le code.
+
+## Priorités fonctionnelles
+
+- Séparer les données par domaine et par club.
+- Éviter un fichier `data` unique dont l'écrasement ferait perdre toute la base.
+- Rattacher strictement licences, comptes et fiches au club actif.
+- Préparer plusieurs clubs sans mélange de données.
+- Créer les comptes licenciés manquants lors d'une synchronisation, sans toucher aux comptes déjà existants.
+- Appliquer la même logique aux éducateurs.
+- Signaler les doublons, fiches incomplètes et conflits avant validation.
+- Prévoir onglets Administrateurs / Éducateurs / Licenciés / Comptes incomplets / Comptes désactivés.
+- Prévoir recherche, filtres, tri et actions groupées.
+
+## Hors périmètre immédiat
+
+- DynDNS.
+- Serveur public.
+- Exposition Internet.
+
+Ces sujets restent différés jusqu'à stabilisation de la base, des comptes et des permissions.
+
+## Règle de sécurité de développement
+
+Aucune migration ne doit détruire ou écraser les données V1.25.13.17. Toute modification de schéma doit être testable, réversible et accompagnée d'une sauvegarde/restauration validée.

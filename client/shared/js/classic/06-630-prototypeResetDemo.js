@@ -1,6 +1,6 @@
 function prototypeResetDemo(){
  if(!confirm('Réinitialiser les données de ce prototype ? Les retours testeurs sont conservés.'))return;
- try{localStorage.setItem('fclc_before_demo_reset_backup',JSON.stringify(qaBackupPayload()));[KEY,'fclc_coach_lineups','fclc_portal_member','fclc_coach_member','fclc_coach_team'].forEach(k=>localStorage.removeItem(k));sessionStorage.removeItem('fclc_admin_account');location.reload();}catch(e){toast('Réinitialisation refusée','Sauvegarde impossible : aucune réinitialisation effectuée.');}
+ try{localStorage.setItem('gestionclub_before_demo_reset_backup',JSON.stringify(qaBackupPayload()));[KEY,'gestionclub_coach_lineups','gestionclub_portal_member','gestionclub_coach_member','gestionclub_coach_team'].forEach(k=>localStorage.removeItem(k));sessionStorage.removeItem('gestionclub_admin_account');location.reload();}catch(e){toast('Réinitialisation refusée','Sauvegarde impossible : aucune réinitialisation effectuée.');}
 }
 document.addEventListener('DOMContentLoaded',()=>{
  ensurePrototypeDemoLineups();
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 ensurePrototypeDemoLineups();
 
 
-const PROTOTYPE_SCENARIO_KEY='fclc_v1222_scenarios';
+const PROTOTYPE_SCENARIO_KEY='gestionclub_v1222_scenarios';
 const PROTOTYPE_SCENARIOS=[
  {id:'public',title:'Site public',goal:'Vérifier la navigation générale.',steps:['Ouvrir Accueil','Consulter Matchs','Ouvrir Nos équipes','Tester le menu mobile/tablette'],action:"showPublicPage('public-home')"},
  {id:'member',title:'Espace adhérent',goal:'Tester le parcours d’un licencié.',steps:['Se connecter avec le compte test','Ouvrir Mon profil','Consulter Matchs & convocations','Consulter Documents et Paiements'],action:'prototypeOpenMemberTest()'},

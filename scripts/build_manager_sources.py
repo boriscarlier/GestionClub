@@ -10,7 +10,7 @@ from extract_manager_css import collect
 from map_manager_sources import inventory
 
 ROOT = Path(__file__).resolve().parents[1]
-TOKEN = b'<!--FCLC_SOURCE:'
+TOKEN = b'<!--GESTION_SOURCE:'
 
 
 def css_boundaries(payload):
@@ -142,7 +142,7 @@ def build(root=ROOT, check=False, force=False):
     materialize(top)
     def clean(node):
         return {k:v for k,v in node.items() if k != 'children'}
-    manifest = dict(format='FCLC_MODULAR_SOURCES', schema_version=1,
+    manifest = dict(format='GESTION_CLUB_MODULAR_SOURCES', schema_version=1,
         source_sha256=digest(raw), source_bytes=len(raw),
         shell=top['path'], runtime='opt-in-composed-document',
         files={p:dict(bytes=len(c),sha256=digest(c)) for p,c in sorted(files.items())},

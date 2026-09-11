@@ -9,7 +9,7 @@ sys.path[:0]=[str(ROOT/'server'),str(ROOT/'vendor')]
 import current_server
 import server
 
-with tempfile.TemporaryDirectory(prefix='fclc-browser-') as temp:
+with tempfile.TemporaryDirectory(prefix='gestionclub-browser-') as temp:
     db=Path(temp)/'fiction.sqlite3'
     server.initialize(db)
     server.add_user(db,'browser-fixture','Fiction-only-password-123','reader')

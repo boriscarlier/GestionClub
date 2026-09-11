@@ -1,6 +1,6 @@
 function dashboardSportHealthData(){
  if((!coachLineups||!Object.keys(coachLineups).length)){
-  try{coachLineups=JSON.parse(localStorage.getItem('fclc_coach_lineups')||'{}')}catch(e){coachLineups={}}
+  try{coachLineups=JSON.parse(localStorage.getItem('gestionclub_coach_lineups')||'{}')}catch(e){coachLineups={}}
  }
  const sessions=state.coachTrainingSessions||[];
  const attendanceValues=sessions.flatMap(s=>[...new Set(s.playerIds||[])].map(id=>s.attendance?.[id]||'pending'));

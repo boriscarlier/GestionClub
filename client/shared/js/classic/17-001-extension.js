@@ -43,7 +43,7 @@
   return result;
  };
  const tabs=Array.from(document.querySelectorAll('[data-fcu-tab]'));
- const oldTab=window.fclcFootclubs.tab;
+ const oldTab=window.gestionClubFootclubs.tab;
  function syncTabs(){tabs.forEach(b=>{const selected=b.getAttribute('aria-pressed')==='true';b.setAttribute('aria-selected',String(selected));b.tabIndex=selected?0:-1;});}
  tabs.forEach(b=>{
   const key=b.dataset.fcuTab,pane=document.querySelector('[data-fcu-pane="'+key+'"]');

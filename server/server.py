@@ -60,10 +60,10 @@ def connect(path):
     return db
 
 def default_data_path():
-    configured = os.environ.get('FCLC_DATA_PATH')
+    configured = os.environ.get('GESTION_CLUB_DATA_PATH')
     if configured:
         return Path(configured)
-    root = os.environ.get('FCLC_DATA_DIR')
+    root = os.environ.get('GESTION_CLUB_DATA_DIR')
     if root:
         return Path(root) / 'club.sqlite3'
     return DATA_ROOT / 'club.sqlite3'
@@ -175,7 +175,7 @@ class Handler(BaseHTTPRequestHandler):
         cookie = SimpleCookie()
         try:
             cookie.load(self.headers.get('Cookie', ''))
-            token = cookie['fclc_session'].value
+            token = cookie['gestionclub_session'].value
         except (KeyError, ValueError):
             raise Problem(401, 'Connexion requise.')
         digest = hashlib.sha256(token.encode()).hexdigest()
@@ -234,7 +234,7 @@ class Handler(BaseHTTPRequestHandler):
                 with db:
                     db.execute('DELETE FROM sessions WHERE expires<?',(time.time(),))
                     db.execute('INSERT INTO sessions VALUES(?,?,?,?)',(hashlib.sha256(token.encode()).hexdigest(),name,csrf,time.time()+3600))
-                return self.send(200,{'user':name,'role':user['role'],'csrf':csrf},'fclc_session='+token+'; HttpOnly; SameSite=Strict; Path=/; Max-Age=3600')
+                return self.send(200,{'user':name,'role':user['role'],'csrf':csrf},'gestionclub_session='+token+'; HttpOnly; SameSite=Strict; Path=/; Max-Age=3600')
             user=self.session(db)
             if self.command != 'GET' and not hmac.compare_digest(self.headers.get('X-CSRF-Token',''),user['csrf']):
                 raise Problem(403,'Jeton de session invalide.')
@@ -316,7 +316,7 @@ class Handler(BaseHTTPRequestHandler):
             if path == '/api/logout' and self.command == 'POST':
                 with db:
                     db.execute('DELETE FROM sessions WHERE token=?',(user['token'],))
-                return self.send(200,{'ok':True},'fclc_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0')
+                return self.send(200,{'ok':True},'gestionclub_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0')
             if path == '/api/status' and self.command == 'GET':
                 row=db.execute('SELECT id,created,actor,club,payload FROM revisions ORDER BY id DESC LIMIT 1').fetchone()
                 return self.send(200,{'revision':row['id'] if row else 0,'club':row['club'] if row else None,'counts':{k:len(json.loads(row['payload'])['state'][k]) for k in ('members','teams','matches','accounts')} if row else {}})

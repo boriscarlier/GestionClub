@@ -9,7 +9,7 @@ function attemptAdminLogin(){
  }
 
  a.lastLoginAt=new Date().toISOString();
- sessionStorage.setItem('fclc_admin_account',a.id);
+ sessionStorage.setItem('gestionclub_admin_account',a.id);
  localStorage.setItem(KEY,JSON.stringify(state));
 
  const login=document.getElementById('adminLoginScreen');

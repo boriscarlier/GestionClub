@@ -6,7 +6,7 @@ function portalLogin(){
  const m=(state.members||[]).find(x=>String(x.licenseNumber||'').trim()===lic && normalizeDateCell(x.birthDate)===birth);
  if(!m){if(msg)msg.textContent='Identifiants non reconnus.';return;}
  portalCurrentMemberId=m.id;
- localStorage.setItem('fclc_portal_member',m.id);
+ localStorage.setItem('gestionclub_portal_member',m.id);
  if(msg)msg.textContent='';
  renderMemberPortal();
 }

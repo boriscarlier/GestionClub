@@ -3,7 +3,7 @@
  'use strict';
  function fixture(){
   const s={schema:'footclubs-ui/source-capture/1',generator:{name:'Footclubs UI',version:'0.08.8'},capturedAt:new Date().toISOString(),source:{origin:'https://footclubs.fff.fr',path:'/extrafoot/EX_PERSONNE.Ident',kind:'person',title:'EXEMPLE FICTIF — Contacts',frame:'work',selection:{mode:'page',tag:'BODY'},context:{affiliation:'000000',season:'2026'}},coverage:{scope:'rendered-dom',completeDataset:false,originalFileIncluded:false,truncated:false,uncommittedValuesPossible:true},safety:{readOnly:true,containsPersonalData:true,includesRawHtml:false,includesSessionData:false,missingRowsMeanDeletion:false},blocks:[{type:'text',text:'Monsieur EXEMPLE Alex'},{type:'text',text:'Numéro personne'},{type:'text',text:'9999999999'},{type:'text',text:'Né(e) le 01/01/2000 à Ville fictive'},{type:'table',title:'Contacts',columns:['Suppr','Type de contact','Contact','Diffusion'],rows:[['Non cochée','Email principal','@ alex@example.invalid','Non diffusables'],['Non cochée','Mobile personnel','0000000000','Non diffusables']]},{type:'table',title:'Licences',columns:['Saison','Sous-catégorie','Ligue','Club','Club','Licence enregistrée','Etat'],rows:[['2026','Dirigeant','0000','000000','CLUB FICTIF','01/01/2026','Validée']]}],references:[],structure:{}};
-  s.structure=root.LaCourSelectedSource.structure(s.blocks);
+  s.structure=root.GenericClubSelectedSource.structure(s.blocks);
   const db={members:[{id:'test-only',personNumber:'9999999999',licenseNumber:'LICENCE-FICTIVE',last:'EXEMPLE',first:'Alex',birthDate:'2000-01-01',email:'ancien@example.invalid',mobile:'0000000000',phone:'0000000000',sourceData:{original:'conservé'}}],clubProfile:{official:{affiliation:'000000'}},matches:[{id:'match-test',attendance:['test-only']}],teams:[{id:'team-test',players:['test-only']}],coachLineups:{test:['test-only']},auditLog:[]};
   return {s,db};
  }
@@ -27,10 +27,10 @@
    ['Capture ancienne',x=>x.s.capturedAt=new Date(Date.now()-40*86400000).toISOString(),'ANCIENNETE'],
    ['Capture future',x=>x.s.capturedAt=new Date(Date.now()+86400000).toISOString(),'HORODATAGE'],
    ['Capture tronquée',x=>x.s.coverage.truncated=true,'TRONCATURE'],
-   ['Identité absente',x=>{x.s.blocks=x.s.blocks.filter(b=>b.type!=='text');x.s.structure=root.LaCourSelectedSource.structure(x.s.blocks);},'PERSONNE']
+   ['Identité absente',x=>{x.s.blocks=x.s.blocks.filter(b=>b.type!=='text');x.s.structure=root.GenericClubSelectedSource.structure(x.s.blocks);},'PERSONNE']
   ])test(label+' : refus',()=>{const x=fixture();mutate(x);const p=C.plan(x.db,x.s,'2026');check(!p.canApply&&p.issues.some(i=>i.code===code));});
   test('Comparaison périmée : refus',()=>{const {db,s}=fixture(),p=C.plan(db,s,'2026');db.members[0].email='nouveau@example.invalid';refuses(()=>C.apply(db,s,p,['email'],'test'));});
-  test('Champ absent : aucune suppression',()=>{const {db,s}=fixture();s.blocks.find(b=>b.title==='Contacts').rows=s.blocks.find(b=>b.title==='Contacts').rows.slice(1);s.structure=root.LaCourSelectedSource.structure(s.blocks);check(!C.plan(db,s,'2026').changes.some(c=>c.key==='email'));});
+  test('Champ absent : aucune suppression',()=>{const {db,s}=fixture();s.blocks.find(b=>b.title==='Contacts').rows=s.blocks.find(b=>b.title==='Contacts').rows.slice(1);s.structure=root.GenericClubSelectedSource.structure(s.blocks);check(!C.plan(db,s,'2026').changes.some(c=>c.key==='email'));});
   return {build:'1.22.13',at:new Date().toISOString(),passed:results.filter(x=>x.ok).length,total:results.length,results};
  }
  function show(){

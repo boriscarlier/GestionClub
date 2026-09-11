@@ -85,7 +85,7 @@ Le script de mise a jour remplace les fichiers programme et conserve le dossier 
 Si vous voulez placer les donnees sur un autre disque, definir une fois :
 
 ```bat
-setx FCLC_DATA_DIR "E:\GESTION_CLUB_DATA"
+setx GESTION_CLUB_DATA_DIR "E:\GESTION_CLUB_DATA"
 ```
 
 Puis rouvrir une invite de commande. Le serveur utilisera `E:\GESTION_CLUB_DATA\club.sqlite3`.

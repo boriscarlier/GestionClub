@@ -23,7 +23,7 @@ function runReferenceLicenceImport(headers,hi,strategy){
   next.importRegistry=next.importRegistry||{};next.importRegistry.members={type:'members',reimportRequired:false,updatedAt:now,filename:importFileName,importedAt:now,itemCount:records.length,source:'Import Licenciés',note:read+' lignes, '+records.length+' licences ; cachets multiples conservés'};
   next.auditLog=next.auditLog||[];next.auditLog.unshift({id:uid('log'),at:now,accountId:currentAdminAccount()?.id||'',user:'Administration',module:'Imports',action:'Import licences de référence',detail:read+' lignes ; '+added+' ajouts ; '+updated+' mises à jour'});
   if(JSON.stringify(state)!==before||localStorage.getItem(KEY)!==disk)throw Error('La base a changé pendant le contrôle. Recommencer.');
-  localStorage.setItem('fclc_before_reference_licences',JSON.stringify(qaBackupPayload()));
+  localStorage.setItem('gestionclub_before_reference_licences',JSON.stringify(qaBackupPayload()));
   if(localStorage.getItem(KEY)!==disk)throw Error('La base a changé avant l’enregistrement.');
   localStorage.setItem(KEY,JSON.stringify(next));state=next;
   try{renderAll();}catch(e){/* Data commit succeeded; reload can refresh presentation. */}

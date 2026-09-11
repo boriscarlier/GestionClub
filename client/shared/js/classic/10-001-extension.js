@@ -1,6 +1,6 @@
 
 /* Preparatory module, not a replacement for Gestion Club's import engine.
-   Browser: LaCourFootclubsSource.mount(container, snapshot)
+   Browser: GenericClubFootclubsSource.mount(container, snapshot)
    Node: require('./gestion-club-footclubs-source.js').validate(snapshot) */
 (function(root){
   'use strict';
@@ -113,6 +113,6 @@
     shadow.append(card);container.replaceChildren(host);return Object.freeze({unmount:()=>host.remove(),schema:SCHEMA});
   }
   const api=Object.freeze({schema:SCHEMA,maxBytes:MAX_BYTES,validate,parse,mount,coverageText});
-  if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.LaCourFootclubsSource=api;
+  if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.GenericClubFootclubsSource=api;
 })(globalThis);
 

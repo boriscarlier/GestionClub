@@ -1,3 +1,3 @@
 function saveCoachLineups(){
- localStorage.setItem('fclc_coach_lineups',JSON.stringify(coachLineups));
+ localStorage.setItem('gestionclub_coach_lineups',JSON.stringify(coachLineups));
 }

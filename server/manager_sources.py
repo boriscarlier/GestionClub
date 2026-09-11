@@ -4,8 +4,8 @@ import json
 import re
 from pathlib import Path
 
-INCLUDE = re.compile(br'<!--FCLC_SOURCE:([\w./-]+)-->')
-CANONICAL_SHA = '4ebddc93e4cca037d365a0890ef794a9e8e87cb1aad063d280b1ac5106fddaec'
+INCLUDE = re.compile(br'<!--GESTION_SOURCE:([\w./-]+)-->')
+CANONICAL_SHA = '90f4525384c8327a81da824710e64fef556acf1033892f1e18e06e10e47e5d15'
 
 
 def page_for_route(root, route):
@@ -59,7 +59,7 @@ window.addEventListener('DOMContentLoaded', function(){
 def compose(root):
     root = Path(root).resolve()
     manifest = json.loads((root/'client/manager.sources.json').read_text(encoding='utf-8'))
-    if manifest.get('format') != 'FCLC_MODULAR_SOURCES' or manifest.get('schema_version') != 1:
+    if manifest.get('format') != 'GESTION_CLUB_MODULAR_SOURCES' or manifest.get('schema_version') != 1:
         raise ValueError('Unknown modular manifest')
     if manifest.get('source_sha256') != CANONICAL_SHA:
         raise ValueError('Unexpected canonical source')

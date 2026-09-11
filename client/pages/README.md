@@ -2,7 +2,7 @@
 
 Chaque fichier correspond à une unité réelle du Manager et conserve son HTML.
 Ce sont des templates assemblés par Python, pas des documents autonomes à ouvrir par double-clic.
-Les inclusions `FCLC_SOURCE` préservent notamment les portails imbriqués.
+Les inclusions `GESTION_SOURCE` préservent notamment les portails imbriqués.
 
 Depuis le serveur connecté :
 

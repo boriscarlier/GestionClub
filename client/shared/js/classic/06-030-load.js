@@ -7,7 +7,7 @@ function load(){
   for(const key of ['members','teams','matches','discipline','accounts'])if(parsed[key]!==undefined&&!Array.isArray(parsed[key]))throw new Error('Collection invalide : '+key);
   return parsed;
  }catch(e){
-  if(raw){try{localStorage.setItem('fclc_recovery_corrupt_state',raw);}catch(err){throw new Error('Base locale illisible ; sauvegarde de secours impossible. Aucune réinitialisation effectuée.');}}
+  if(raw){try{localStorage.setItem('gestionclub_recovery_corrupt_state',raw);}catch(err){throw new Error('Base locale illisible ; sauvegarde de secours impossible. Aucune réinitialisation effectuée.');}}
   return JSON.parse(JSON.stringify(defaults));
  }
 }

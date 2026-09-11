@@ -56,6 +56,6 @@
   return {ok:errors.length===0,errors};
  }
  function parse(text){if(typeof text!=='string'||new TextEncoder().encode(text).length>1500000)throw Error('Sélection trop volumineuse (1,5 Mo).');let v;try{v=JSON.parse(text);}catch(e){throw Error('JSON de sélection invalide.');}const r=validate(v);if(!r.ok)throw Error(r.errors.slice(0,4).join(' · '));return v;}
- root.LaCourSelectedSource=Object.freeze({schema,labels,sections,structure,build,validate,parse});
+ root.GenericClubSelectedSource=Object.freeze({schema,labels,sections,structure,build,validate,parse});
 })(globalThis);
 

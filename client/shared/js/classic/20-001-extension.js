@@ -19,7 +19,7 @@ function details(local,incoming){
  return {accountFields,unknownAccountFields,stateSections,unknownStateSections};
 }
 function compare(local,incoming){
- root.FCLCContinuity.validate(local);root.FCLCContinuity.validate(incoming);
+ root.GestionClubContinuity.validate(local);root.GestionClubContinuity.validate(incoming);
  const version=/^V(\d+)\.(\d+)\.(\d+)(?:\.(\d+))?$/;
  const a=version.exec(QA_BUILD),b=version.exec(incoming.build||'');
  if(!b)throw Error('Version de la sauvegarde absente ou non reconnue.');
@@ -98,7 +98,7 @@ function renderThree(result){
  const p=document.createElement('p');p.textContent='Autres rubriques (ensemble) : '+labels[result.other.state]+' · Compositions : '+labels[result.other.lineups]+' · Retours : '+labels[result.other.feedback]+' · Scénarios : '+labels[result.other.scenarios]+'.';E('transferResult').append(p);
  const note=document.createElement('p');note.textContent=result.note;E('transferResult').append(note);
 }
-function disk(){return JSON.stringify([KEY,'fclc_coach_lineups',PROTOTYPE_FEEDBACK_KEY,PROTOTYPE_SCENARIO_KEY].map(k=>localStorage.getItem(k)));}
+function disk(){return JSON.stringify([KEY,'gestionclub_coach_lineups',PROTOTYPE_FEEDBACK_KEY,PROTOTYPE_SCENARIO_KEY].map(k=>localStorage.getItem(k)));}
 function clear(message='',keepReference=false){epoch++;review=null;E('transferResult').replaceChildren();E('transferExport').disabled=true;E('transferStatus').textContent=message;E('transferFile').value='';if(!keepReference){reference=null;referenceOwner=null;E('transferReference').value='';E('transferReferenceStatus').textContent='Sans référence : comparaison entre deux bases.';}}
 
 function fresh(){access();if(!review||review.owner!==currentAdminAccount().id||review.memory!==stable(contents(qaBackupPayload()))||review.disk!==disk())throw Error('La base ou le compte a changé. Rechargez la sauvegarde pour refaire la comparaison.');return review.report;}
@@ -131,7 +131,7 @@ E('transferFile').addEventListener('change',load);
 const prevGo=goTo;goTo=function(target){if(target!=='transfer')clear();return prevGo.apply(this,arguments);};
 const prevSpace=qaSetSpace;qaSetSpace=function(){const result=prevSpace.apply(this,arguments);if(!allowed())clear();return result;};
 const prevRender=renderAll;renderAll=function(){const result=prevRender.apply(this,arguments);if(review)try{fresh();}catch(e){clear(e.message);}return result;};
-window.addEventListener('storage',e=>{if([KEY,'fclc_coach_lineups',PROTOTYPE_FEEDBACK_KEY,PROTOTYPE_SCENARIO_KEY,null].includes(e.key))clear('Une autre fenêtre a modifié les données. Refaire la comparaison.');});
-PAGE_PERMISSION_MODULE.transfer='settings';ADMIN_PAGE_TITLES.transfer='Comparer avant transfert';root.FCLCTransfer=Object.freeze({compare,threeWay,runChecks,loadReference,load,download,clear});
+window.addEventListener('storage',e=>{if([KEY,'gestionclub_coach_lineups',PROTOTYPE_FEEDBACK_KEY,PROTOTYPE_SCENARIO_KEY,null].includes(e.key))clear('Une autre fenêtre a modifié les données. Refaire la comparaison.');});
+PAGE_PERMISSION_MODULE.transfer='settings';ADMIN_PAGE_TITLES.transfer='Comparer avant transfert';root.GestionClubTransfer=Object.freeze({compare,threeWay,runChecks,loadReference,load,download,clear});
 })(globalThis);
 

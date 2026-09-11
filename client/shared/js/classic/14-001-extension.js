@@ -33,7 +33,7 @@
 (function(root){
  'use strict';
  const C=root.FCUContactsCore,E=id=>document.getElementById(id),clone=C.clone;
- const BACKUP='fclc_footclubs_contacts_before_change_v1';
+ const BACKUP='gestionclub_footclubs_contacts_before_change_v1';
  let snapshot=null,review=null,disk=null,backupProof=null,diagnostics=[];
  let storageChanged=false,saving=false,epoch=0;
  const active=()=>E('footclubsui').classList.contains('active')&&!E('intranetApp').classList.contains('hidden');

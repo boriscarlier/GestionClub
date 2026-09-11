@@ -1,6 +1,6 @@
 'use strict';
 // Rendering uses text nodes only: source pages never become executable application HTML.
-window.FCLCWatch=(()=>{
+window.GestionClubWatch=(()=>{
  const $=id=>document.getElementById(id), states={unread:'À lire',read:'Lu',action:'À traiter',archived:'Archivé'};
  let manualDraft=null,manualEpoch=0;
  let generation=0,request=0,timer=null,active=false,offset=0,working=false;

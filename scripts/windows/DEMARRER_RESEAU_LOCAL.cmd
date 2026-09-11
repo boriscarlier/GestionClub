@@ -1,9 +1,9 @@
 @echo off
 chcp 65001 >nul
 cd /d "%~dp0..\.."
-if not defined FCLC_DATA_DIR set "FCLC_DATA_DIR=%CD%\data"
-if not exist "%FCLC_DATA_DIR%" mkdir "%FCLC_DATA_DIR%"
-set "FCLC_DATA_PATH=%FCLC_DATA_DIR%\club.sqlite3"
+if not defined GESTION_CLUB_DATA_DIR set "GESTION_CLUB_DATA_DIR=%CD%\data"
+if not exist "%GESTION_CLUB_DATA_DIR%" mkdir "%GESTION_CLUB_DATA_DIR%"
+set "GESTION_CLUB_DATA_PATH=%GESTION_CLUB_DATA_DIR%\club.sqlite3"
 if not exist "%CD%\logs" mkdir "%CD%\logs"
 py -3 --version >nul 2>&1
 if errorlevel 1 (
@@ -14,7 +14,7 @@ if errorlevel 1 (
 )
 set "PYTHONPATH=%CD%\server;%CD%\vendor"
 echo Dossier programme : %CD%
-echo Base conservee : %FCLC_DATA_PATH%
+echo Base conservee : %GESTION_CLUB_DATA_PATH%
 echo Mode : passerelle reseau local V1.25.11.1
 for /f %%I in ('py -3 -c "import network_access; h=network_access.discover_lan_hosts(); print(h[0] if h else '')"') do set "LAN_IP=%%I"
 if defined LAN_IP (

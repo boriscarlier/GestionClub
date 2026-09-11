@@ -4,7 +4,7 @@
  const E=id=>document.getElementById(id),C=root.FCUContactsCore;
  let draft=null,ticket=0,busy=false,reviewDisk=null,reviewMemory='',reviewAux='',owner='',lastDownload='';
  const copy=x=>JSON.parse(JSON.stringify(x));
- const auxiliary=()=>JSON.stringify([localStorage.getItem('fclc_coach_lineups'),localStorage.getItem(PROTOTYPE_FEEDBACK_KEY),localStorage.getItem(PROTOTYPE_SCENARIO_KEY),coachLineups]);
+ const auxiliary=()=>JSON.stringify([localStorage.getItem('gestionclub_coach_lineups'),localStorage.getItem(PROTOTYPE_FEEDBACK_KEY),localStorage.getItem(PROTOTYPE_SCENARIO_KEY),coachLineups]);
  function allowed(edit=false){const a=currentAdminAccount();return qaSpace==='admin'&&a&&a.status!=='disabled'&&a.scope?.type==='club'&&currentAdminCan('settings',edit?'edit':'view');}
  function requireAccess(edit=false){if(!allowed(edit))throw Error('Un compte autorisé sur l’ensemble du club est requis pour les sauvegardes'+(edit?' et la restauration.':'.'));}
  function summary(db,lineups={}){
@@ -64,7 +64,7 @@
    status('Sauvegarde de récupération de la base actuelle…');
    await root.FCUBackupStore.save(JSON.stringify(qaBackupPayload()),'before-restore');fresh();
    qaRestoreBackup(payload);clear();
-   portalLogout();coachLogout();sessionStorage.removeItem('fclc_admin_account');qaDraftOwner=null;memberBlockEditState.clear();
+   portalLogout();coachLogout();sessionStorage.removeItem('gestionclub_admin_account');qaDraftOwner=null;memberBlockEditState.clear();
    renderAll();showPublicPage('public-home');toast('Restauration terminée','Reconnectez-vous puis vérifiez les effectifs dans Données & sauvegarde.');
   }catch(e){status('Restauration arrêtée : '+e.message);E('continuityRestore').disabled=true;}
   finally{busy=false;render();}
@@ -78,8 +78,8 @@
  const previousClose=closeAdministrationTransientUI;closeAdministrationTransientUI=function(target){if(target!=='continuity')clear();return previousClose.apply(this,arguments);};
  qaImportBackupFile=function(event){try{open();return load(event);}catch(e){toast('Restauration',e.message);}};
  qaExportBackup=exportBackup;
- window.addEventListener('storage',e=>{if([KEY,'fclc_coach_lineups',PROTOTYPE_FEEDBACK_KEY,PROTOTYPE_SCENARIO_KEY,null].includes(e.key)){clear();status('Une autre fenêtre a modifié les données. Rechargez cette page avant de restaurer.');}});
+ window.addEventListener('storage',e=>{if([KEY,'gestionclub_coach_lineups',PROTOTYPE_FEEDBACK_KEY,PROTOTYPE_SCENARIO_KEY,null].includes(e.key)){clear();status('Une autre fenêtre a modifié les données. Rechargez cette page avant de restaurer.');}});
  PAGE_PERMISSION_MODULE.continuity='settings';ADMIN_PAGE_TITLES.continuity='Données & sauvegarde';
- root.FCLCContinuity=Object.freeze({summary,validate,open,exportBackup,load,restore,recovery,render});render();
+ root.GestionClubContinuity=Object.freeze({summary,validate,open,exportBackup,load,restore,recovery,render});render();
 })(globalThis);
 

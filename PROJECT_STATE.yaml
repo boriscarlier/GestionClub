@@ -11,8 +11,8 @@ storage:
   default_windows_path: D:\GESTION_CLUB_GestionClub
   tracked_in_git: false
   configurable_paths:
-    - FCLC_DATA_PATH
-    - FCLC_DATA_DIR
+    - GESTION_CLUB_DATA_PATH
+    - GESTION_CLUB_DATA_DIR
 current_focus:
   - decomposition_html_sans_perte
   - indexation_structurelle_monolithe
@@ -58,9 +58,9 @@ refactor_phase:
     fallback_route: /gestion-legacy
 canonical_manager:
   path: client/GESTION_CLUB_Manager.html
-  bytes: 1143051
+  bytes: 1143987
   git_blob_sha: 64def65ec261d3da05d855896484c4deb79da407
-  content_sha256: 5646baa6ab0d19c31172eeeb5270fcccc8bc719726cb2f9c06f4147677f1f45c
+  content_sha256: 90f4525384c8327a81da824710e64fef556acf1033892f1e18e06e10e47e5d15
 structure_inventory:
   raw_parts: 41
   fragment_parts: 21
@@ -74,7 +74,7 @@ structure_inventory:
 assets:
   club_logo:
     path: client/assets/brand/club-logo.png
-    bytes: 92264
+    bytes: 1143987
     width: 576
     height: 507
     sha256: f1152a3cb6601bb95a90f5e362119e0bde45b8da9f4bafe5dd256bba028fb6bd

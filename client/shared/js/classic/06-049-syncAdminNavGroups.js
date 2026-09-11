@@ -9,7 +9,7 @@ function syncAdminNavGroups(page){
 
 document.querySelectorAll('.nav button[data-page]').forEach(b=>b.addEventListener('click',()=>{
  statsDrilldownOrigin=false;
- sessionStorage.removeItem('fclc_stats_drilldown');
+ sessionStorage.removeItem('gestionclub_stats_drilldown');
  closeAdministrationTransientUI(b.dataset.page);
  goTo(b.dataset.page);
 }));

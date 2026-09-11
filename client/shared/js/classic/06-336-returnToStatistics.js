@@ -1,6 +1,6 @@
 function returnToStatistics(){
  statsDrilldownOrigin=false;
- sessionStorage.removeItem('fclc_stats_drilldown');
+ sessionStorage.removeItem('gestionclub_stats_drilldown');
  goTo('statistics');
 }
 

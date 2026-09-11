@@ -51,8 +51,8 @@
   resetSelection();
   if(selected||snapshot.schema!==NeoFootclubsSourceContract.schema||snapshot.source.kind!=='person'||snapshot.source.path!=='/extrafoot/EX_PERSONNE.Ident')return;
   activeSelectionSource=snapshot;E('fcuSelectionPanel').hidden=false;
-  const groups=LaCourSelectedSource.sections(snapshot),choices=E('fcuSelectionChoices');
-  for(const [key,label] of Object.entries(LaCourSelectedSource.labels)){
+  const groups=GenericClubSelectedSource.sections(snapshot),choices=E('fcuSelectionChoices');
+  for(const [key,label] of Object.entries(GenericClubSelectedSource.labels)){
    const wrap=document.createElement('label'),input=document.createElement('input'),span=document.createElement('span');
    input.type='checkbox';input.value=key;input.disabled=!groups[key].length||!canReadPersonal();input.addEventListener('change',invalidateSelection);
    span.textContent=label+' · '+groups[key].length+' bloc(s)'+(!groups[key].length?' — non capturé':'');
@@ -65,8 +65,8 @@
    if(!isCurrent()||!canReadPersonal()||!activeSelectionSource)throw Error('Sélection non autorisée ou aucune fiche ouverte.');
    const keys=Array.from(E('fcuSelectionChoices').querySelectorAll('input:checked')).map(e=>e.value);
    invalidateSelection();
-   const payload=LaCourSelectedSource.build(activeSelectionSource,keys);
-   selectionDraft=LaCourSelectedSource.parse(JSON.stringify(payload));
+   const payload=GenericClubSelectedSource.build(activeSelectionSource,keys);
+   selectionDraft=GenericClubSelectedSource.parse(JSON.stringify(payload));
    NeoFootclubsSourceContract.mount(E('fcuSelectionPreview'),selectionDraft.capture);
    E('fcuSelectionStatus').textContent=keys.length+' rubrique(s) · '+selectionDraft.capture.blocks.length+' bloc(s) exportables sur '+activeSelectionSource.blocks.length+' capturés. Seul cet aperçu sera exporté ; aucune référence de fichier ni photo incluse.';
    E('fcuSelectionConfirm').disabled=false;
@@ -76,7 +76,7 @@
  function selectionExport(){
   try{
    if(!isCurrent()||!canReadPersonal()||!selectionDraft||!E('fcuSelectionConfirm').checked)throw Error('Afficher et confirmer l’aperçu avant l’export.');
-   const payload=LaCourSelectedSource.parse(JSON.stringify(selectionDraft));
+   const payload=GenericClubSelectedSource.parse(JSON.stringify(selectionDraft));
    prototypeDownloadText('GESTION_CLUB_selection_'+payload.exportedAt.replace(/[:.]/g,'-')+'.json',JSON.stringify(payload,null,2),'application/json');
    E('fcuSelectionStatus').textContent='Téléchargement demandé. Ce fichier contient uniquement les rubriques de l’aperçu et se recharge dans ce module. Aucune fusion effectuée.';
    E('fcuSelectionConfirm').checked=false;selectionConfirm();
@@ -85,23 +85,23 @@
 
  function parseSource(text){
   let raw;try{raw=JSON.parse(text);}catch(_){throw new Error('Le fichier n’est pas un JSON valide.');}
-  if(raw?.schema===LaCourSelectedSource.schema)return LaCourSelectedSource.parse(text);
-  if(raw?.schema===LaCourFootclubsSource.schema)return LaCourFootclubsSource.parse(text);
+  if(raw?.schema===GenericClubSelectedSource.schema)return GenericClubSelectedSource.parse(text);
+  if(raw?.schema===GenericClubFootclubsSource.schema)return GenericClubFootclubsSource.parse(text);
   if(raw?.schema===NeoFootclubsSourceContract.schema)return NeoFootclubsSourceContract.parse(text);
   throw new Error('Format non pris en charge : choisir un export de liste ou une collecte Footclubs UI. Les diagnostics et fiches internes ne sont pas importables.');
  }
  function mount(snapshot,isDemo){
   if(!isCurrent() || (!isDemo&&!canReadPersonal()))throw new Error('Consultation non autorisée dans cet espace.');
-  const selected=snapshot.schema===LaCourSelectedSource.schema;
-  if(selected)snapshot=LaCourSelectedSource.parse(JSON.stringify(snapshot)).capture;
+  const selected=snapshot.schema===GenericClubSelectedSource.schema;
+  if(selected)snapshot=GenericClubSelectedSource.parse(JSON.stringify(snapshot)).capture;
   setupSelection(snapshot,selected);
   FCUReconcile.setup(snapshot,isDemo);
   // Validation stricte puis insertion textuelle via le composant isolé du plugin.
   const collected=snapshot.schema===NeoFootclubsSourceContract.schema;
   if(collected){const mounted=NeoFootclubsSourceContract.mount(E('fcuSourceViewer'),snapshot);view={unmount:()=>mounted.destroy()};}
-  else view=LaCourFootclubsSource.mount(E('fcuSourceViewer'),snapshot);
+  else view=GenericClubFootclubsSource.mount(E('fcuSourceViewer'),snapshot);
   const sum=E('fcuReadSummary');sum.hidden=false;
-  sum.textContent=(isDemo?'EXEMPLE FICTIF · ':selected?'SÉLECTION RECHARGÉE · ':'CAPTURE DE PAGE · ')+(collected?snapshot.blocks.length+' bloc(s), '+snapshot.structure.tableCount+' tableau(x), '+snapshot.structure.rowCount+' ligne(s) de tableaux · '+(snapshot.coverage.truncated?'capture tronquée':'capture partielle')+' · identité non rapprochée':LaCourFootclubsSource.coverageText(snapshot))+'. '+
+  sum.textContent=(isDemo?'EXEMPLE FICTIF · ':selected?'SÉLECTION RECHARGÉE · ':'CAPTURE DE PAGE · ')+(collected?snapshot.blocks.length+' bloc(s), '+snapshot.structure.tableCount+' tableau(x), '+snapshot.structure.rowCount+' ligne(s) de tableaux · '+(snapshot.coverage.truncated?'capture tronquée':'capture partielle')+' · identité non rapprochée':GenericClubFootclubsSource.coverageText(snapshot))+'. '+
     'Capture du '+new Date(snapshot.capturedAt).toLocaleString('fr-FR')+' · vue de consultation ; contacts à contrôler séparément.';
   E('fcuClear').disabled=false;
   status(isDemo?'Exemple fictif chargé : aucune personne réelle, aucune modification de la base.':'Capture chargée en lecture seule. Provenance déclarée, non certifiée ; couverture partielle.');
@@ -112,7 +112,7 @@
   if(!isCurrent() || !canReadPersonal()){status('Accès refusé à la consultation de cette capture.',true);return;}
   status('Vérification du format de la capture…');
   try{
-   if(file.size>LaCourFootclubsSource.maxBytes)throw new Error('Maximum 5 Mo.');
+   if(file.size>GenericClubFootclubsSource.maxBytes)throw new Error('Maximum 5 Mo.');
    const text=await file.text();
    if(token!==request||!isCurrent()||!canReadPersonal())return;
    const snapshot=parseSource(text);
@@ -157,10 +157,10 @@
  showPublicPage=function(...args){clear(true);return previousPublic.apply(this,args);};
  window.addEventListener('pagehide',()=>clear(true));
  E('fcuSourceFile').addEventListener('change',loadFile);
- window.fclcFootclubs=Object.freeze({tab,example,sourceExample,selectionPreview,selectionConfirm,selectionExport,clear:()=>clear(false),downloadRoadmap,
+ window.gestionClubFootclubs=Object.freeze({tab,example,sourceExample,selectionPreview,selectionConfirm,selectionExport,clear:()=>clear(false),downloadRoadmap,
   open(){enterAdministration();if(currentAdminAccount()&&canView())goTo('footclubsui');},
  });
- if(typeof PROTOTYPE_SCENARIOS!=='undefined'&&!PROTOTYPE_SCENARIOS.some(s=>s.id==='footclubs-ui'))PROTOTYPE_SCENARIOS.push({id:'footclubs-ui',title:'Plugin d’interface — source Footclubs',goal:'Tester le module sans modifier les données du club.',steps:['Ouvrir Administration → Données → Plugin d’interface','Charger l’exemple fictif ou une capture de liste autorisée','Vérifier couverture, provenance et lecture seule','Consulter la roadmap commune puis quitter le module'],action:'fclcFootclubs.open()'});
+ if(typeof PROTOTYPE_SCENARIOS!=='undefined'&&!PROTOTYPE_SCENARIOS.some(s=>s.id==='footclubs-ui'))PROTOTYPE_SCENARIOS.push({id:'footclubs-ui',title:'Plugin d’interface — source Footclubs',goal:'Tester le module sans modifier les données du club.',steps:['Ouvrir Administration → Données → Plugin d’interface','Charger l’exemple fictif ou une capture de liste autorisée','Vérifier couverture, provenance et lecture seule','Consulter la roadmap commune puis quitter le module'],action:'gestionClubFootclubs.open()'});
  const area=E('prototypeFeedbackArea');if(area&&!Array.from(area.options).some(o=>o.value==='Plugin d’interface / Footclubs UI')){const o=document.createElement('option');o.value='Plugin d’interface / Footclubs UI';o.textContent=o.value;area.append(o);}
  renderRoadmap();render();
 })();

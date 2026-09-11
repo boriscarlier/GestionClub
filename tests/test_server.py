@@ -188,20 +188,20 @@ class ServerTests(unittest.TestCase):
         self.assertIn(b'teamDataSource',raw)
     def test_29_default_data_path_can_use_environment_path(self):
         with tempfile.TemporaryDirectory() as temp:
-            previous_path=os.environ.get('FCLC_DATA_PATH')
-            previous_dir=os.environ.get('FCLC_DATA_DIR')
+            previous_path=os.environ.get('GESTION_CLUB_DATA_PATH')
+            previous_dir=os.environ.get('GESTION_CLUB_DATA_DIR')
             try:
                 custom=Path(temp)/'external.sqlite3'
-                os.environ['FCLC_DATA_PATH']=str(custom)
-                os.environ['FCLC_DATA_DIR']=str(Path(temp)/'ignored')
+                os.environ['GESTION_CLUB_DATA_PATH']=str(custom)
+                os.environ['GESTION_CLUB_DATA_DIR']=str(Path(temp)/'ignored')
                 self.assertEqual(server.default_data_path(),custom)
-                os.environ.pop('FCLC_DATA_PATH')
+                os.environ.pop('GESTION_CLUB_DATA_PATH')
                 self.assertEqual(server.default_data_path(),Path(temp)/'ignored'/'club.sqlite3')
             finally:
-                if previous_path is None: os.environ.pop('FCLC_DATA_PATH',None)
-                else: os.environ['FCLC_DATA_PATH']=previous_path
-                if previous_dir is None: os.environ.pop('FCLC_DATA_DIR',None)
-                else: os.environ['FCLC_DATA_DIR']=previous_dir
+                if previous_path is None: os.environ.pop('GESTION_CLUB_DATA_PATH',None)
+                else: os.environ['GESTION_CLUB_DATA_PATH']=previous_path
+                if previous_dir is None: os.environ.pop('GESTION_CLUB_DATA_DIR',None)
+                else: os.environ['GESTION_CLUB_DATA_DIR']=previous_dir
     def test_30_root_windows_launchers_are_packaged(self):
         root=Path(__file__).resolve().parents[1]
         start=(root/'DEMARRER_SERVEUR.cmd').read_text(encoding='utf-8')
@@ -217,9 +217,9 @@ class ServerTests(unittest.TestCase):
     def test_31_windows_start_script_preserves_data_path(self):
         root=Path(__file__).resolve().parents[1]
         text=(root/'scripts/windows/DEMARRER_SERVEUR.cmd').read_text(encoding='utf-8')
-        self.assertIn('FCLC_DATA_DIR',text)
-        self.assertIn('FCLC_DATA_PATH',text)
-        self.assertIn('--data "%FCLC_DATA_PATH%"',text)
+        self.assertIn('GESTION_CLUB_DATA_DIR',text)
+        self.assertIn('GESTION_CLUB_DATA_PATH',text)
+        self.assertIn('--data "%GESTION_CLUB_DATA_PATH%"',text)
         self.assertIn('TcpClient',text)
         self.assertIn('deja lance',text)
         self.assertIn('127.0.0.1:8765',text)

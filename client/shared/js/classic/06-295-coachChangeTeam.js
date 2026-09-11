@@ -7,7 +7,7 @@ function coachChangeTeam(){
   coachCurrentTeamName=allowed[0]||null;
  }else coachCurrentTeamName=requested;
 
- if(coachCurrentTeamName)localStorage.setItem('fclc_coach_team',coachCurrentTeamName);
+ if(coachCurrentTeamName)localStorage.setItem('gestionclub_coach_team',coachCurrentTeamName);
  const selectedTraining=coachTrainingSessionById(coachCurrentTrainingSessionId);
  if(selectedTraining&&norm(selectedTraining.team)!==norm(coachCurrentTeamName))coachCurrentTrainingSessionId=null;
  if(coachCurrentStatsPlayerId&&!coachTeamMembers().some(p=>p.id===coachCurrentStatsPlayerId))coachCurrentStatsPlayerId=null;

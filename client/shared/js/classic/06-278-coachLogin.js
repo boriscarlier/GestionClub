@@ -15,8 +15,8 @@ function coachLogin(){
  coachCurrentMemberId=m.id;
  coachCurrentTeamName=teams[0];
  coachCurrentPage='home';
- localStorage.setItem('fclc_coach_member',m.id);
- localStorage.setItem('fclc_coach_team',coachCurrentTeamName);
+ localStorage.setItem('gestionclub_coach_member',m.id);
+ localStorage.setItem('gestionclub_coach_team',coachCurrentTeamName);
  if(msg)msg.textContent='';
  renderCoachPortal();
 }

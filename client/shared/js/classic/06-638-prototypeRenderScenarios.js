@@ -18,4 +18,4 @@ function prototypeRenderScenarios(){
 }
 
 
-const PROTOTYPE_FEEDBACK_KEY='fclc_v1223_feedback';
+const PROTOTYPE_FEEDBACK_KEY='gestionclub_v1223_feedback';

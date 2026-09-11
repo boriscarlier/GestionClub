@@ -62,7 +62,7 @@ for(const part of m.javascript)new vm.Script(fs.readFileSync(part.path,'utf8'),{
 
     def test_nested_pages_have_no_duplicate_payload(self):
         parent = (ROOT/'client/pages/public/coach.html').read_text()
-        self.assertIn('<!--FCLC_SOURCE:client/pages/coach/home.html-->', parent)
+        self.assertIn('<!--GESTION_SOURCE:client/pages/coach/home.html-->', parent)
         self.assertNotIn('id="coach-home"', parent)
         assembled=manager_sources.compose(ROOT).decode()
         self.assertEqual(assembled.count('id="coach-home"'), 1)

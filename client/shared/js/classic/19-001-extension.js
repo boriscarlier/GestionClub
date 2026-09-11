@@ -34,6 +34,6 @@ const prevSpace=qaSetSpace;qaSetSpace=function(){const result=prevSpace.apply(th
 const prevRender=renderAll;renderAll=function(){const result=prevRender.apply(this,arguments);if(E('readiness').classList.contains('active'))render();return result;};
 window.addEventListener('storage',e=>{if((e.key===KEY||e.key===null)&&E('readiness').classList.contains('active'))render();});
 PAGE_PERMISSION_MODULE.readiness='settings';ADMIN_PAGE_TITLES.readiness='Diagnostic & partage';
-root.FCLCReadiness=Object.freeze({inspect,report,render,download});
+root.GestionClubReadiness=Object.freeze({inspect,report,render,download});
 })(globalThis);
 

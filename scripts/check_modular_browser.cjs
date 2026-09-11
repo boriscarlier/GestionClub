@@ -4,7 +4,7 @@ const {spawn}=require('node:child_process');
 const {chromium}=require('playwright');
 const {PNG}=require('pngjs');
 const manifest=JSON.parse(fs.readFileSync('client/manager.sources.json','utf8'));
-const out=process.env.FCLC_QA_OUTPUT||'releases/modular-qa';
+const out=process.env.GESTION_CLUB_QA_OUTPUT||'releases/modular-qa';
 fs.mkdirSync(out,{recursive:true});
 const server=spawn(process.env.PYTHON||'python3',['scripts/test_modular_browser_server.py']);
 server.stderr.pipe(process.stderr);
@@ -33,7 +33,7 @@ async function select(page,target){
       // Existing fictitious prototype account, never a real club account.
       const account=state.accounts.find(a=>a.id==='demo_account_admin');
       if(!account)throw Error('Fictitious admin account not found');
-      sessionStorage.setItem('fclc_admin_account',account.id);
+      sessionStorage.setItem('gestionclub_admin_account',account.id);
       enterAdministrationAuthenticated();return goTo(id);
     }
     if(space==='coach'){
@@ -107,9 +107,9 @@ async function select(page,target){
       direct.on('pageerror',e=>report.errors.push({route:'direct',message:e.message}));
       await direct.clock.setFixedTime(new Date('2026-09-10T12:00:00Z'));
       await direct.addInitScript(()=>{
-        sessionStorage.setItem('fclc_admin_account','demo_account_admin');
-        localStorage.setItem('fclc_coach_member','demo_member_coach');
-        localStorage.setItem('fclc_portal_member','demo_member_adherent');
+        sessionStorage.setItem('gestionclub_admin_account','demo_account_admin');
+        localStorage.setItem('gestionclub_coach_member','demo_member_coach');
+        localStorage.setItem('gestionclub_portal_member','demo_member_adherent');
       });
       for(const target of manifest.pages){
         await direct.goto(base+'/gestion-modulaire/'+target.space+'/'+target.id,{waitUntil:'networkidle'});

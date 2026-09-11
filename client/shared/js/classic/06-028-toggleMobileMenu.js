@@ -5,7 +5,7 @@ function toggleMobileMenu(force){
   else el.classList.toggle('show');
 }
 
-const KEY='fclc_full_proto_v100';
+const KEY='gestionclub_full_proto_v100';
 const defaults={
  members:[],
  teams:[
@@ -45,4 +45,4 @@ const defaults={
 };
 let state=load();
 
-const DATA_RESET_MARKER='fclc_reset_reference_data_v1145';
+const DATA_RESET_MARKER='gestionclub_reset_reference_data_v1145';

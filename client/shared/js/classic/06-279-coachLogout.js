@@ -1,6 +1,6 @@
 function coachLogout(){
  coachCurrentMemberId=null;coachCurrentTeamName=null;coachCurrentPage='home';
- localStorage.removeItem('fclc_coach_member');localStorage.removeItem('fclc_coach_team');
+ localStorage.removeItem('gestionclub_coach_member');localStorage.removeItem('gestionclub_coach_team');
  toggleCoachMobileMore(false);
  document.body.classList.remove('coach-mobile-sheet-open');
  const a=document.getElementById('coachApp'),l=document.getElementById('coachLogin');

@@ -2586,7 +2586,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 <div style="display:flex;gap:10px"><button class="secondary" onclick="exitAdministration()">🌍 Retour au site public</button><button class="profile"><div class="avatar">BC</div><span>Administration</span></button><button class="ghost" onclick="logoutAdministration()">Déconnexion</button></div>
 </header>
 <section class="content">
-<div id="continuityBar" class="continuity-bar" hidden><span id="continuityBarText"></span><button onclick="FCLCContinuity.open()">Données &amp; sauvegarde</button></div>
+<div id="continuityBar" class="continuity-bar" hidden><span id="continuityBarText"></span><button onclick="GestionClubContinuity.open()">Données &amp; sauvegarde</button></div>
 <div class="page active" id="dashboard">
 <div class="intra-hero">
 <div>
@@ -3556,7 +3556,7 @@ Technique / Régionale : ...
 </div>
 </div>
 <div class="page" id="transfer"><div class="card continuity-panel">
-<h2>Comparer avant transfert — V1.23.3</h2><details><summary>Tests regroupés — données fictives</summary><p>Ce contrôle vérifie les règles de comparaison. Il ne modifie pas la base et ne remplace pas un essai de navigation ou de restauration dans Brave.</p><button onclick="FCLCTransfer.runChecks()">Lancer les tests regroupés</button><div id="transferChecks" role="status" aria-live="polite"></div></details>
+<h2>Comparer avant transfert — V1.23.3</h2><details><summary>Tests regroupés — données fictives</summary><p>Ce contrôle vérifie les règles de comparaison. Il ne modifie pas la base et ne remplace pas un essai de navigation ou de restauration dans Brave.</p><button onclick="GestionClubTransfer.runChecks()">Lancer les tests regroupés</button><div id="transferChecks" role="status" aria-live="polite"></div></details>
 <p>Sélectionnez une sauvegarde complète Gestion Club pour comparer son contenu avec la base actuelle. La lecture ne remplace aucune donnée.</p>
 <details><summary>Option : utiliser une sauvegarde de référence commune</summary>
 <p>Choisissez d’abord une sauvegarde prise avant les modifications des deux bases, puis le fichier à comparer ci-dessous. Si vous ne disposez pas de cette référence, gardez la comparaison habituelle à deux bases.</p>
@@ -3565,20 +3565,20 @@ Technique / Régionale : ...
 <p>L’application ne peut pas prouver que cette sauvegarde est l’ancêtre des deux bases. « À arbitrer » signifie que la fiche entière a changé différemment des deux côtés, relativement à votre référence.</p></details>
 <label for="transferFile">Sauvegarde complète JSON à comparer</label><input id="transferFile" type="file" accept=".json,application/json">
 <p id="transferStatus" role="status" aria-live="polite"></p><div id="transferResult" class="continuity-preview" tabindex="0" aria-label="Comparaison avant transfert"></div>
-<button id="transferExport" disabled onclick="FCLCTransfer.download()">Exporter le bilan sans coordonnées</button>
-<button onclick="FCLCTransfer.clear()">Effacer la comparaison</button>
+<button id="transferExport" disabled onclick="GestionClubTransfer.download()">Exporter le bilan sans coordonnées</button>
+<button onclick="GestionClubTransfer.clear()">Effacer la comparaison</button>
 <h3>Lire les différences</h3><p>« Différentes » désigne les fiches portant le même identifiant interne dont le contenu a changé. Deux identifiants différents ne sont pas rapprochés automatiquement, même si les noms se ressemblent.</p>
 <p>Sans une version de référence commune, ce contrôle ne peut pas déterminer quelle valeur est la plus récente. Une fiche absente du fichier n’est jamais considérée comme une demande de suppression.</p>
 <p>Le bilan exporté contient les comptes de différences, les états de contrôle et les libellés prédéfinis des champs concernés. Il ne contient pas les noms, coordonnées ou identifiants individuels et ne permet pas de restaurer la base.</p>
 <p>Pour transférer la base entière après vérification, utilisez la sauvegarde complète originale dans <strong>Données &amp; sauvegarde</strong>. Cette opération remplace la base ; elle ne fusionne pas les modifications de deux postes.</p>
-<button onclick="FCLCContinuity.open()">Ouvrir Données &amp; sauvegarde</button>
+<button onclick="GestionClubContinuity.open()">Ouvrir Données &amp; sauvegarde</button>
 </div></div>
 <div class="page" id="readiness"><div class="card continuity-panel">
 <h2>Diagnostic &amp; partage — V1.24.5</h2>
 <div class="notice"><h3>Paquet serveur V1.24.5</h3><p>Le paquet ZIP comprend DEMARRER_SERVEUR.cmd : il démarre un dépôt de sauvegardes versionnées sur cet ordinateur, avec des comptes serveur distincts. L’application métier reste enregistrée dans Brave. Dépôt et récupération utilisent vos sauvegardes complètes JSON ; aucune synchronisation automatique.</p><p>Après lancement du serveur : <a href="http://127.0.0.1:8765" target="_blank" rel="noopener noreferrer">Ouvrir les sauvegardes serveur</a>.</p><p>Le serveur doit être lancé depuis le paquet extrait. Ce HTML seul ne suffit pas à le démarrer. Les essais sur un autre ordinateur et le déploiement HTTPS restent à préparer.</p></div>
 <p>Ce contrôle lit la base actuelle sans la modifier. Il permet de repérer les problèmes d’identifiants avant une restauration ou un futur transfert.</p>
-<button onclick="FCLCReadiness.render()">Actualiser le diagnostic</button>
-<button onclick="FCLCReadiness.download()">Exporter le diagnostic sans coordonnées</button>
+<button onclick="GestionClubReadiness.render()">Actualiser le diagnostic</button>
+<button onclick="GestionClubReadiness.download()">Exporter le diagnostic sans coordonnées</button>
 <div id="readinessResult" class="continuity-preview" role="status" aria-live="polite" tabindex="0" aria-label="Résultats du diagnostic"></div>
 <h3>Ce qui fonctionne aujourd’hui</h3>
 <p>Les données restent dans ce navigateur. Les sauvegardes JSON permettent un transfert manuel avec remplacement explicite. Les captures Footclubs et le compagnon FFF ne synchronisent pas la base entre dirigeants.</p>
@@ -3588,7 +3588,7 @@ Technique / Régionale : ...
 <li><strong>V1.24 — Service de stockage :</strong> dépôt local de sauvegardes versionnées et comptes serveur livrés dans un paquet séparé. Connexion directe des écrans métier et hébergement partagé à développer.</li>
 <li><strong>V1.30 — Essai sur deux postes :</strong> tester les modifications simultanées, les sauvegardes et la récupération avant utilisation partagée. À développer.</li></ol>
 <p>Le partage réel n’est pas activé. Les comptes de ce prototype restent des contrôles locaux d’interface.</p>
-<button onclick="FCLCContinuity.open()">Ouvrir Données &amp; sauvegarde</button>
+<button onclick="GestionClubContinuity.open()">Ouvrir Données &amp; sauvegarde</button>
 </div></div>
 <div class="page" id="continuity">
 <div class="card continuity-panel">
@@ -3597,16 +3597,16 @@ Technique / Régionale : ...
 <h3>Passer à une nouvelle version</h3>
 <ol><li>Dans la version qui contient vos licenciés réels, téléchargez une sauvegarde complète et vérifiez le fichier obtenu.</li><li>Conservez le nom <strong>GESTION_CLUB_Manager.html</strong>, le même dossier et le même profil Brave pour les prochaines mises à jour.</li><li>Si la nouvelle version affiche une base vide ou de démonstration, choisissez votre sauvegarde ci-dessous, comparez les effectifs et confirmez la restauration.</li></ol>
 <p>Le navigateur ne permet pas à cette page de récupérer automatiquement la base d’un autre fichier ou profil. Le fichier licences.xlsx et les captures Footclubs ne sont pas des sauvegardes complètes.</p>
-<button onclick="FCLCContinuity.exportBackup()">Télécharger la sauvegarde complète</button>
+<button onclick="GestionClubContinuity.exportBackup()">Télécharger la sauvegarde complète</button>
 <p id="continuityDownloadState"></p>
 <h3>Examiner puis restaurer une sauvegarde</h3>
 <label for="continuityFile">Choisir la sauvegarde complète JSON</label><input id="continuityFile" type="file" accept=".json,application/json">
 <p id="continuityStatus" role="status" aria-live="polite"></p>
 <div id="continuityPreview" class="continuity-preview" tabindex="0" aria-label="Comparaison de la sauvegarde"></div>
 <label class="continuity-confirm"><input id="continuityConfirm" type="checkbox" disabled> J’ai vérifié l’aperçu et je confirme le remplacement de la base actuelle par cette sauvegarde, y compris les comptes, licenciés, matchs et compositions.</label>
-<button id="continuityRestore" disabled onclick="FCLCContinuity.restore()">Restaurer la sauvegarde choisie</button>
+<button id="continuityRestore" disabled onclick="GestionClubContinuity.restore()">Restaurer la sauvegarde choisie</button>
 <p>Une copie de récupération de la base actuelle est conservée avant le remplacement. La restauration vous déconnecte : reconnectez-vous avec un compte de la sauvegarde restaurée.</p>
-<button onclick="FCLCContinuity.recovery()">Télécharger la copie avant la dernière restauration</button>
+<button onclick="GestionClubContinuity.recovery()">Télécharger la copie avant la dernière restauration</button>
 </div></div>
 <div class="page" id="import">
 <div class="card" style="margin-bottom:16px;border-color:rgba(57,211,83,.45)">
@@ -3695,15 +3695,15 @@ Technique / Régionale : ...
   <div class="card"><span class="tiny">Collecteur existant conservé</span><strong>FFF Adapter V0.03.1</strong><span class="tiny">Contrats et flux séparés</span></div>
  </div>
  <div class="fcu-tabs" role="group" aria-label="Rubriques du plugin">
-  <button type="button" class="secondary" data-fcu-tab="source" onclick="fclcFootclubs.tab('source')" aria-pressed="true">Sources Footclubs</button>
-  <button type="button" class="ghost" data-fcu-tab="plugin" onclick="fclcFootclubs.tab('plugin')" aria-pressed="false">Plugin &amp; installation</button>
-  <button type="button" class="ghost" data-fcu-tab="roadmap" onclick="fclcFootclubs.tab('roadmap')" aria-pressed="false">Roadmap commune</button>
+  <button type="button" class="secondary" data-fcu-tab="source" onclick="gestionClubFootclubs.tab('source')" aria-pressed="true">Sources Footclubs</button>
+  <button type="button" class="ghost" data-fcu-tab="plugin" onclick="gestionClubFootclubs.tab('plugin')" aria-pressed="false">Plugin &amp; installation</button>
+  <button type="button" class="ghost" data-fcu-tab="roadmap" onclick="gestionClubFootclubs.tab('roadmap')" aria-pressed="false">Roadmap commune</button>
  </div>
  <section data-fcu-pane="source">
   <div class="card">
    <h3>Ouvrir une capture du plugin</h3>
    <p class="tiny">Dans Footclubs, utiliser <strong>« Vers Gestion Club… »</strong>, puis choisir le fichier JSON ici. Pour une fiche ou un bloc : dans Footclubs UI V0.08.8, ouvrir le Centre de collecte, choisir le contenu, prévisualiser puis créer le fichier de collecte. Chaque capture reste partielle.</p>
-   <div class="fcu-actions"><label class="secondary fcu-file">Choisir la capture JSON<input id="fcuSourceFile" type="file" accept=".json,application/json" aria-label="Capture JSON Footclubs UI" /></label><button class="ghost" type="button" onclick="fclcFootclubs.example()">Charger l’exemple fictif</button><button class="ghost" type="button" onclick="fclcFootclubs.sourceExample()">Exemple fictif de collecte</button><button class="ghost" type="button" id="fcuClear" onclick="fclcFootclubs.clear()">Effacer la consultation</button></div>
+   <div class="fcu-actions"><label class="secondary fcu-file">Choisir la capture JSON<input id="fcuSourceFile" type="file" accept=".json,application/json" aria-label="Capture JSON Footclubs UI" /></label><button class="ghost" type="button" onclick="gestionClubFootclubs.example()">Charger l’exemple fictif</button><button class="ghost" type="button" onclick="gestionClubFootclubs.sourceExample()">Exemple fictif de collecte</button><button class="ghost" type="button" id="fcuClear" onclick="gestionClubFootclubs.clear()">Effacer la consultation</button></div>
    <p class="tiny" id="fcuPermissionNote"></p>
    <div class="fcu-notice" id="fcuStatus" role="status" aria-live="polite">Aucune capture ouverte. Aucun accès à Footclubs au démarrage.</div>
    <p class="tiny">Formats acceptés : sélection Gestion Club <code>selected-source/1</code> (1,5 Mo), liste <code>page-snapshot/1</code> (5 Mo) et collecte <code>source-capture/1</code> (1,5 Mo). Les exports FFF Adapter se chargent dans <button class="ghost" type="button" onclick="goTo('fffcontrol')">Sources FFF</button>.</p>
@@ -3727,11 +3727,11 @@ Technique / Régionale : ...
 <p>La sélection produit une copie partielle distincte, réutilisable dans ce module. Elle ne met pas à jour la base du club. Les rubriques non capturées ne sont pas disponibles.</p>
 <div id="fcuSelectionChoices" class="fcu-selection-choices"></div>
 <p class="tiny">Les blocs sont conservés tels qu’ils ont été capturés. Vérifie aussi « Autres informations » : cette rubrique peut contenir des données personnelles dont le contexte est incertain. Photos et références de fichiers exclues.</p>
-<button type="button" class="secondary" onclick="fclcFootclubs.selectionPreview()">Prévisualiser la sélection</button>
+<button type="button" class="secondary" onclick="gestionClubFootclubs.selectionPreview()">Prévisualiser la sélection</button>
 <p id="fcuSelectionStatus" role="status" aria-live="polite"></p>
 <div id="fcuSelectionPreview" class="fcu-viewer"></div>
-<label class="fcu-selection-confirm"><input type="checkbox" id="fcuSelectionConfirm" disabled onchange="fclcFootclubs.selectionConfirm()"> J’ai vérifié l’aperçu et je confirme les rubriques à exporter.</label>
-<button type="button" class="secondary" id="fcuSelectionExport" disabled onclick="fclcFootclubs.selectionExport()">Exporter la sélection JSON</button>
+<label class="fcu-selection-confirm"><input type="checkbox" id="fcuSelectionConfirm" disabled onchange="gestionClubFootclubs.selectionConfirm()"> J’ai vérifié l’aperçu et je confirme les rubriques à exporter.</label>
+<button type="button" class="secondary" id="fcuSelectionExport" disabled onclick="gestionClubFootclubs.selectionExport()">Exporter la sélection JSON</button>
 </section>
   <div id="fcuSourceViewer" class="fcu-viewer" aria-label="Capture Footclubs consultée"></div>
   <div class="fcu-notice fcu-static-note"><strong>Lecture temporaire, pas de synchronisation.</strong> La capture n’est pas stockée dans la base et est effacée à la sortie du module. Aucune donnée absente ne supprime une information locale. Des valeurs non enregistrées côté Footclubs peuvent apparaître dans une capture. Les changements de contacts explicitement confirmés sont journalisés séparément.</div>
@@ -3746,7 +3746,7 @@ Technique / Régionale : ...
   <div class="card fcu-section"><h3>Vérification sur le poste utilisateur</h3><p>Connexion → page intermédiaire → Licences / Liste → filtre → aperçu → fermeture → export JSON → lecture dans Gestion Club. Contrôler aussi le retour à la présentation native en désactivant le plugin.</p><p class="tiny">La consultation de l’exemple peut être testée sur tablette. L’exécution de l’extension est un test distinct sur un navigateur compatible ; elle n’est pas embarquée dans ce HTML.</p></div>
  </section>
  <section data-fcu-pane="roadmap" hidden>
-  <div class="card"><div class="fcu-heading"><div><h3>Roadmap commune du club</h3><p class="tiny">CLUB EXEMPLE Manager × FFF Adapter × Footclubs UI · domaine gestionclub.local</p></div><button type="button" class="secondary" onclick="fclcFootclubs.downloadRoadmap()">Exporter la roadmap</button></div>
+  <div class="card"><div class="fcu-heading"><div><h3>Roadmap commune du club</h3><p class="tiny">CLUB EXEMPLE Manager × FFF Adapter × Footclubs UI · domaine gestionclub.local</p></div><button type="button" class="secondary" onclick="gestionClubFootclubs.downloadRoadmap()">Exporter la roadmap</button></div>
    <div class="fcu-notice"><strong>Backend toujours différé.</strong> L’inventaire de l’architecture déjà disponible précède le choix d’un service partagé. Le plugin ne nous impose ni serveur ni fournisseur.</div>
    <div id="fcuRoadmap"></div>
   </div>
@@ -4498,7 +4498,7 @@ function qaRestoreBackup(payload){
  if(!currentAdminCan('settings','edit'))throw new Error('Restauration non autorisée.');
  if(payload?.format!=='GESTION_CLUB_FULL_BACKUP'||payload.schemaVersion!==1||!payload.state||['members','matches','teams','accounts'].some(k=>!Array.isArray(payload.state[k])))throw new Error('Format de sauvegarde incorrect.');
  if(!payload.lineups||typeof payload.lineups!=='object'||Array.isArray(payload.lineups))throw new Error('Compositions invalides.');
- const writes={};writes[KEY]=JSON.stringify(payload.state);writes.fclc_coach_lineups=JSON.stringify(payload.lineups);writes[PROTOTYPE_FEEDBACK_KEY]=JSON.stringify(Array.isArray(payload.feedback)?payload.feedback:[]);writes[PROTOTYPE_SCENARIO_KEY]=JSON.stringify(payload.scenarios||{});
+ const writes={};writes[KEY]=JSON.stringify(payload.state);writes.gestionclub_coach_lineups=JSON.stringify(payload.lineups);writes[PROTOTYPE_FEEDBACK_KEY]=JSON.stringify(Array.isArray(payload.feedback)?payload.feedback:[]);writes[PROTOTYPE_SCENARIO_KEY]=JSON.stringify(payload.scenarios||{});
  const old=Object.fromEntries(Object.keys(writes).map(k=>[k,localStorage.getItem(k)]));
  try{Object.entries(writes).forEach(([k,v])=>localStorage.setItem(k,v));}catch(err){Object.entries(old).forEach(([k,v])=>{try{v===null?localStorage.removeItem(k):localStorage.setItem(k,v);}catch(e){}});throw err;}
  state=payload.state;coachLineups=payload.lineups;return true;
@@ -4510,8 +4510,8 @@ async function qaImportBackupFile(event){
   const payload=JSON.parse(await file.text());
   if(payload?.format!=='GESTION_CLUB_FULL_BACKUP')throw new Error('Ce fichier n’est pas une sauvegarde complète compatible.');
   if(!confirm('Restaurer cette sauvegarde et remplacer les données locales ? Une copie de sécurité sera conservée.'))return;
-  localStorage.setItem('fclc_before_restore_backup',JSON.stringify(qaBackupPayload()));qaRestoreBackup(payload);
-  portalLogout();coachLogout();sessionStorage.removeItem('fclc_admin_account');qaDraftOwner=null;memberBlockEditState.clear();renderAll();showPublicPage('public-home');toast('Sauvegarde','Restauration terminée. Sélectionnez à nouveau votre compte.');
+  localStorage.setItem('gestionclub_before_restore_backup',JSON.stringify(qaBackupPayload()));qaRestoreBackup(payload);
+  portalLogout();coachLogout();sessionStorage.removeItem('gestionclub_admin_account');qaDraftOwner=null;memberBlockEditState.clear();renderAll();showPublicPage('public-home');toast('Sauvegarde','Restauration terminée. Sélectionnez à nouveau votre compte.');
  }catch(e){toast('Restauration refusée',String(e.message||e));}
  finally{event.target.value='';}
 }
@@ -4563,7 +4563,7 @@ function toggleMobileMenu(force){
   else el.classList.toggle('show');
 }
 
-const KEY='fclc_full_proto_v100';
+const KEY='gestionclub_full_proto_v100';
 const defaults={
  members:[],
  teams:[
@@ -4603,7 +4603,7 @@ const defaults={
 };
 let state=load();
 
-const DATA_RESET_MARKER='fclc_reset_reference_data_v1145';
+const DATA_RESET_MARKER='gestionclub_reset_reference_data_v1145';
 function purgeReferenceDataOnce(){
  // Ne jamais supprimer une base existante lors d'une simple ouverture/changement de version.
  try{localStorage.setItem(DATA_RESET_MARKER,'done');}catch(e){}return false;
@@ -4619,7 +4619,7 @@ function load(){
   for(const key of ['members','teams','matches','discipline','accounts'])if(parsed[key]!==undefined&&!Array.isArray(parsed[key]))throw new Error('Collection invalide : '+key);
   return parsed;
  }catch(e){
-  if(raw){try{localStorage.setItem('fclc_recovery_corrupt_state',raw);}catch(err){throw new Error('Base locale illisible ; sauvegarde de secours impossible. Aucune réinitialisation effectuée.');}}
+  if(raw){try{localStorage.setItem('gestionclub_recovery_corrupt_state',raw);}catch(err){throw new Error('Base locale illisible ; sauvegarde de secours impossible. Aucune réinitialisation effectuée.');}}
   return JSON.parse(JSON.stringify(defaults));
  }
 }
@@ -4897,7 +4897,7 @@ function uid(p){
 
 
 function currentAdminAccount(){
- const id=sessionStorage.getItem('fclc_admin_account');
+ const id=sessionStorage.getItem('gestionclub_admin_account');
  return id?accountById(id):null;
 }
 function showAdminLogin(){
@@ -4931,7 +4931,7 @@ function attemptAdminLogin(){
  }
 
  a.lastLoginAt=new Date().toISOString();
- sessionStorage.setItem('fclc_admin_account',a.id);
+ sessionStorage.setItem('gestionclub_admin_account',a.id);
  localStorage.setItem(KEY,JSON.stringify(state));
 
  const login=document.getElementById('adminLoginScreen');
@@ -4987,7 +4987,7 @@ function enterAdministrationAuthenticated(){
  window.scrollTo({top:0,behavior:'auto'});
 }
 function logoutAdministration(){
- sessionStorage.removeItem('fclc_admin_account');
+ sessionStorage.removeItem('gestionclub_admin_account');
  if((state.accounts||[]).length)showAdminLogin();
  else exitAdministration();
 }
@@ -5114,7 +5114,7 @@ function syncAdminNavGroups(page){
 
 document.querySelectorAll('.nav button[data-page]').forEach(b=>b.addEventListener('click',()=>{
  statsDrilldownOrigin=false;
- sessionStorage.removeItem('fclc_stats_drilldown');
+ sessionStorage.removeItem('gestionclub_stats_drilldown');
  closeAdministrationTransientUI(b.dataset.page);
  goTo(b.dataset.page);
 }));
@@ -6074,7 +6074,7 @@ function runReferenceLicenceImport(headers,hi,strategy){
   next.importRegistry=next.importRegistry||{};next.importRegistry.members={type:'members',reimportRequired:false,updatedAt:now,filename:importFileName,importedAt:now,itemCount:records.length,source:'Import Licenciés',note:read+' lignes, '+records.length+' licences ; cachets multiples conservés'};
   next.auditLog=next.auditLog||[];next.auditLog.unshift({id:uid('log'),at:now,accountId:currentAdminAccount()?.id||'',user:'Administration',module:'Imports',action:'Import licences de référence',detail:read+' lignes ; '+added+' ajouts ; '+updated+' mises à jour'});
   if(JSON.stringify(state)!==before||localStorage.getItem(KEY)!==disk)throw Error('La base a changé pendant le contrôle. Recommencer.');
-  localStorage.setItem('fclc_before_reference_licences',JSON.stringify(qaBackupPayload()));
+  localStorage.setItem('gestionclub_before_reference_licences',JSON.stringify(qaBackupPayload()));
   if(localStorage.getItem(KEY)!==disk)throw Error('La base a changé avant l’enregistrement.');
   localStorage.setItem(KEY,JSON.stringify(next));state=next;
   try{renderAll();}catch(e){/* Data commit succeeded; reload can refresh presentation. */}
@@ -7843,12 +7843,12 @@ function portalLogin(){
  const m=(state.members||[]).find(x=>String(x.licenseNumber||'').trim()===lic && normalizeDateCell(x.birthDate)===birth);
  if(!m){if(msg)msg.textContent='Identifiants non reconnus.';return;}
  portalCurrentMemberId=m.id;
- localStorage.setItem('fclc_portal_member',m.id);
+ localStorage.setItem('gestionclub_portal_member',m.id);
  if(msg)msg.textContent='';
  renderMemberPortal();
 }
 function portalLogout(){
- portalCurrentMemberId=null;localStorage.removeItem('fclc_portal_member');
+ portalCurrentMemberId=null;localStorage.removeItem('gestionclub_portal_member');
  const a=document.getElementById('portalApp'),l=document.getElementById('portalLogin');
  if(a)a.style.display='none';if(l)l.style.display='block';
 }
@@ -7911,7 +7911,7 @@ function renderMemberPortal(){
  portalGo('home');
 }
 function initMemberPortal(){
- const saved=localStorage.getItem('fclc_portal_member');
+ const saved=localStorage.getItem('gestionclub_portal_member');
  if(saved&&(state.members||[]).some(m=>m.id===saved)){portalCurrentMemberId=saved;renderMemberPortal();}
 }
 
@@ -7931,7 +7931,7 @@ function coachLineupRecord(matchId){
  const rec=coachLineups[matchId];if(!Array.isArray(rec.players))rec.players=[];return rec;
 }
 function saveCoachLineups(){
- localStorage.setItem('fclc_coach_lineups',JSON.stringify(coachLineups));
+ localStorage.setItem('gestionclub_coach_lineups',JSON.stringify(coachLineups));
 }
 function coachMatchPlayed(m){return matchIsFinished(m);}
 function coachMemberGamesPlayed(memberId){
@@ -8050,14 +8050,14 @@ function coachLogin(){
  coachCurrentMemberId=m.id;
  coachCurrentTeamName=teams[0];
  coachCurrentPage='home';
- localStorage.setItem('fclc_coach_member',m.id);
- localStorage.setItem('fclc_coach_team',coachCurrentTeamName);
+ localStorage.setItem('gestionclub_coach_member',m.id);
+ localStorage.setItem('gestionclub_coach_team',coachCurrentTeamName);
  if(msg)msg.textContent='';
  renderCoachPortal();
 }
 function coachLogout(){
  coachCurrentMemberId=null;coachCurrentTeamName=null;coachCurrentPage='home';
- localStorage.removeItem('fclc_coach_member');localStorage.removeItem('fclc_coach_team');
+ localStorage.removeItem('gestionclub_coach_member');localStorage.removeItem('gestionclub_coach_team');
  toggleCoachMobileMore(false);
  document.body.classList.remove('coach-mobile-sheet-open');
  const a=document.getElementById('coachApp'),l=document.getElementById('coachLogin');
@@ -8235,7 +8235,7 @@ function coachChangeTeam(){
   coachCurrentTeamName=allowed[0]||null;
  }else coachCurrentTeamName=requested;
 
- if(coachCurrentTeamName)localStorage.setItem('fclc_coach_team',coachCurrentTeamName);
+ if(coachCurrentTeamName)localStorage.setItem('gestionclub_coach_team',coachCurrentTeamName);
  const selectedTraining=coachTrainingSessionById(coachCurrentTrainingSessionId);
  if(selectedTraining&&norm(selectedTraining.team)!==norm(coachCurrentTeamName))coachCurrentTrainingSessionId=null;
  if(coachCurrentStatsPlayerId&&!coachTeamMembers().some(p=>p.id===coachCurrentStatsPlayerId))coachCurrentStatsPlayerId=null;
@@ -8768,11 +8768,11 @@ function renderCoachPortal(){
 }
 function initCoachPortal(){
  try{
-  coachLineups=JSON.parse(localStorage.getItem('fclc_coach_lineups')||'{}');
+  coachLineups=JSON.parse(localStorage.getItem('gestionclub_coach_lineups')||'{}');
   Object.keys(coachLineups||{}).forEach(matchId=>coachLineupRecord(matchId));
   saveCoachLineups();
  }catch(e){coachLineups={}}
- const id=localStorage.getItem('fclc_coach_member'),team=localStorage.getItem('fclc_coach_team');
+ const id=localStorage.getItem('gestionclub_coach_member'),team=localStorage.getItem('gestionclub_coach_team');
  if(id&&(state.members||[]).some(m=>m.id===id)){coachCurrentMemberId=id;coachCurrentTeamName=team||null;renderCoachPortal();}
 }
 
@@ -8890,19 +8890,19 @@ let statsDrilldownOrigin=false;
 
 function openStatsDetail(page){
  statsDrilldownOrigin=true;
- sessionStorage.setItem('fclc_stats_drilldown','1');
+ sessionStorage.setItem('gestionclub_stats_drilldown','1');
  goTo(page);
  updateStatsReturnBars(page);
 }
 
 function returnToStatistics(){
  statsDrilldownOrigin=false;
- sessionStorage.removeItem('fclc_stats_drilldown');
+ sessionStorage.removeItem('gestionclub_stats_drilldown');
  goTo('statistics');
 }
 
 function updateStatsReturnBars(page){
- const active=(statsDrilldownOrigin || sessionStorage.getItem('fclc_stats_drilldown')==='1') && page!=='statistics';
+ const active=(statsDrilldownOrigin || sessionStorage.getItem('gestionclub_stats_drilldown')==='1') && page!=='statistics';
  document.querySelectorAll('.stats-return-bar').forEach(el=>el.classList.remove('show'));
  if(!active)return;
  const target=document.getElementById(`statsReturn-${page}`);
@@ -10655,7 +10655,7 @@ function downloadImportDatabaseBackup(){
 
 function restoreLastImportResetBackup(){
  try{
-  const raw=localStorage.getItem('fclc_last_import_reset_backup');
+  const raw=localStorage.getItem('gestionclub_last_import_reset_backup');
   if(!raw)return toast('Restauration','Aucune sauvegarde interne disponible.');
   const payload=JSON.parse(raw);
   const d=payload?.data||{};
@@ -10746,13 +10746,13 @@ function executeImportedDatabaseReset(){
  const before=JSON.parse(JSON.stringify(state)),oldLineups=coachLineups;
  try{
   // Échec de sauvegarde = aucune suppression.
-  localStorage.setItem('fclc_last_import_reset_backup',JSON.stringify(importDatabaseBackupPayload()));
+  localStorage.setItem('gestionclub_last_import_reset_backup',JSON.stringify(importDatabaseBackupPayload()));
   state={...state,members:[],matches:[],discipline:[],opponents:[],importedDataNeedsRelinking:true};
   state.importRegistry={...state.importRegistry};['members','matches','discipline','opponents'].forEach(k=>delete state.importRegistry[k]);
   state.importHistory=[]; // Les compositions et présences saisies ne font pas partie des quatre bases importées.
   localStorage.setItem(KEY,JSON.stringify(state));saveCoachLineups();
  }catch(e){state=before;coachLineups=oldLineups;try{localStorage.setItem(KEY,JSON.stringify(before));saveCoachLineups();}catch(x){}setResetImportStatus('Réinitialisation arrêtée : stockage indisponible.','error');return false;}
- ['fclc_portal_member','fclc_coach_member','fclc_coach_team'].forEach(k=>localStorage.removeItem(k));portalCurrentMemberId=null;coachCurrentMemberId=null;
+ ['gestionclub_portal_member','gestionclub_coach_member','gestionclub_coach_team'].forEach(k=>localStorage.removeItem(k));portalCurrentMemberId=null;coachCurrentMemberId=null;
  document.getElementById('resetFinalConfirm')?.classList.remove('active');
  ['resetConfirmImportedData','resetConfirmBackup'].forEach(id=>document.getElementById(id).checked=false);
  logAdminAction('Imports','Réinitialisation','Sauvegarde complète créée ; quatre bases importées vidées. Présences et compositions conservées, rattachements à vérifier après réimport.');renderAll();setResetImportStatus('Bases réinitialisées. Paramétrage du club conservé.','ok');return true;
@@ -12104,7 +12104,7 @@ function dashboardUpcomingMatches(){
 
 function dashboardSportHealthData(){
  if((!coachLineups||!Object.keys(coachLineups).length)){
-  try{coachLineups=JSON.parse(localStorage.getItem('fclc_coach_lineups')||'{}')}catch(e){coachLineups={}}
+  try{coachLineups=JSON.parse(localStorage.getItem('gestionclub_coach_lineups')||'{}')}catch(e){coachLineups={}}
  }
  const sessions=state.coachTrainingSessions||[];
  const attendanceValues=sessions.flatMap(s=>[...new Set(s.playerIds||[])].map(id=>s.attendance?.[id]||'pending'));
@@ -13729,10 +13729,10 @@ function ensurePrototypeDemoLineups(){
  if((state.members||[]).some(m=>m.sourceFormat&&!['DEMO','REALISTIC_2026'].includes(m.sourceFormat)))return;
 
  try{
-  const lineups=JSON.parse(localStorage.getItem('fclc_coach_lineups')||'{}');
+  const lineups=JSON.parse(localStorage.getItem('gestionclub_coach_lineups')||'{}');
   if(!lineups.demo_u15_played_1)lineups.demo_u15_played_1={players:['demo_u15_01','demo_u15_02','demo_u15_03','demo_u15_04','demo_u15_05'],updatedAt:new Date().toISOString(),updatedBy:'demo_member_coach',team:'U15',matchId:'demo_u15_played_1'};
   if(!lineups.demo_u15_played_2)lineups.demo_u15_played_2={players:['demo_u15_01','demo_u15_02','demo_u15_04','demo_u15_06'],updatedAt:new Date().toISOString(),updatedBy:'demo_member_coach',team:'U15',matchId:'demo_u15_played_2'};
-  localStorage.setItem('fclc_coach_lineups',JSON.stringify(lineups));
+  localStorage.setItem('gestionclub_coach_lineups',JSON.stringify(lineups));
  }catch(e){console.error('Prototype lineups',e)}
 }
 function togglePrototypeTester(force){
@@ -13765,7 +13765,7 @@ function prototypeOpenAdminTest(){
 }
 function prototypeResetDemo(){
  if(!confirm('Réinitialiser les données de ce prototype ? Les retours testeurs sont conservés.'))return;
- try{localStorage.setItem('fclc_before_demo_reset_backup',JSON.stringify(qaBackupPayload()));[KEY,'fclc_coach_lineups','fclc_portal_member','fclc_coach_member','fclc_coach_team'].forEach(k=>localStorage.removeItem(k));sessionStorage.removeItem('fclc_admin_account');location.reload();}catch(e){toast('Réinitialisation refusée','Sauvegarde impossible : aucune réinitialisation effectuée.');}
+ try{localStorage.setItem('gestionclub_before_demo_reset_backup',JSON.stringify(qaBackupPayload()));[KEY,'gestionclub_coach_lineups','gestionclub_portal_member','gestionclub_coach_member','gestionclub_coach_team'].forEach(k=>localStorage.removeItem(k));sessionStorage.removeItem('gestionclub_admin_account');location.reload();}catch(e){toast('Réinitialisation refusée','Sauvegarde impossible : aucune réinitialisation effectuée.');}
 }
 document.addEventListener('DOMContentLoaded',()=>{
  ensurePrototypeDemoLineups();
@@ -13773,7 +13773,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 ensurePrototypeDemoLineups();
 
 
-const PROTOTYPE_SCENARIO_KEY='fclc_v1222_scenarios';
+const PROTOTYPE_SCENARIO_KEY='gestionclub_v1222_scenarios';
 const PROTOTYPE_SCENARIOS=[
  {id:'public',title:'Site public',goal:'Vérifier la navigation générale.',steps:['Ouvrir Accueil','Consulter Matchs','Ouvrir Nos équipes','Tester le menu mobile/tablette'],action:"showPublicPage('public-home')"},
  {id:'member',title:'Espace adhérent',goal:'Tester le parcours d’un licencié.',steps:['Se connecter avec le compte test','Ouvrir Mon profil','Consulter Matchs & convocations','Consulter Documents et Paiements'],action:'prototypeOpenMemberTest()'},
@@ -13835,7 +13835,7 @@ function prototypeRenderScenarios(){
 }
 
 
-const PROTOTYPE_FEEDBACK_KEY='fclc_v1223_feedback';
+const PROTOTYPE_FEEDBACK_KEY='gestionclub_v1223_feedback';
 function prototypeFeedbackItems(){
  try{return JSON.parse(localStorage.getItem(PROTOTYPE_FEEDBACK_KEY)||'[]')}catch(e){return []}
 }
@@ -13933,7 +13933,7 @@ document.addEventListener('keydown',event=>{
 
 function qaFinishStartup(){
  document.title='CLUB EXEMPLE Manager — gestionclub.local — '+QA_BUILD;
- if(typeof coachLineups==='object'){try{const data=JSON.parse(localStorage.getItem('fclc_coach_lineups')||'{}');if(data&&typeof data==='object'&&!Array.isArray(data))coachLineups=data;}catch(e){}}
+ if(typeof coachLineups==='object'){try{const data=JSON.parse(localStorage.getItem('gestionclub_coach_lineups')||'{}');if(data&&typeof data==='object'&&!Array.isArray(data))coachLineups=data;}catch(e){}}
  toggleCoachMobileMore(false);qaSetSpace('public');renderAll();try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){toast('Stockage','Modifications non persistantes : sauvegardez vos données.');}window.GESTION_CLUB_HEALTH=prototypeHealthCheck();
 }
 document.addEventListener('DOMContentLoaded',qaFinishStartup);
@@ -14231,7 +14231,7 @@ document.addEventListener('keydown',e=>{
 (function(){
  'use strict';
  const C=FCFFFCore;let snapshot=null,selected='',plan=null,fileName='',teamChoice='',targetChoice='',dateChoice='',bridgeToken='',bridgeReady=false,timer=null,serial=0,loadSerial=0;
- const DIAGNOSTIC_KEY='fclc_fff_import_diagnostics_v1';
+ const DIAGNOSTIC_KEY='gestionclub_fff_import_diagnostics_v1';
  let diagnostics=[];
  try{const saved=JSON.parse(sessionStorage.getItem(DIAGNOSTIC_KEY)||'[]');if(Array.isArray(saved))diagnostics=saved.filter(x=>x&&typeof x.code==='string'&&typeof x.message==='string').slice(0,40);}catch(e){}
  let lastStage='ouverture',lastDiagnostic=diagnostics[0]||null;
@@ -14332,13 +14332,13 @@ document.addEventListener('keydown',e=>{
   const result=C.applyPlan(state,snapshot,plan,accepted,actor());
   if(!result.changed){message('Cette intégration est déjà appliquée ; aucun doublon ni nouvelle écriture.');return;}
   // A complete recoverable backup is created BEFORE the one-key state commit. Failure blocks all changes.
-  localStorage.setItem('fclc_fff_before_apply',JSON.stringify(qaBackupPayload()));
+  localStorage.setItem('gestionclub_fff_before_apply',JSON.stringify(qaBackupPayload()));
   const b=attachSnapshot(result.state);b.lastAppliedAt=when();b.history.unshift({label:(result.transaction.kind==='create'?'Création':'Mise à jour')+' FFF '+plan.candidateId,at:when(),actor:actor(),detail:result.transaction.changes.length+' champ(s), identifiant '+plan.targetId,transaction:result.transaction,undone:false});b.history=b.history.slice(0,30);
   addAudit(result.state,'Intégration validée',plan.candidateId+' · '+result.transaction.changes.length+' champs');commit(result.state);targetChoice='';refreshDependent();message('Intégration enregistrée. Identifiants locaux et données liées conservés.');
  }
  function undo(){requireWrite();const row=(getBridge().history||[]).find(x=>!x.undone&&x.transaction);if(!row)throw new Error('Aucune intégration à annuler.');if(!currentAdminCan('matches',row.transaction.kind==='create'?'delete':'edit'))throw new Error('Accès refusé : droit de retour arrière sur ce match manquant.');const next=C.rollback(state,row.transaction,coachLineups||{});const undoRow=next.fffBridge.history.find(x=>x.transaction?.id===row.transaction.id);undoRow.undone=true;undoRow.transaction.undone=true;undoRow.undoneAt=when();addAudit(next,'Annulation intégration',row.transaction.fffId);commit(next);targetChoice='';refreshDependent();message('Dernière intégration annulée sans modifier les présences ni les compositions.');}
  function saveMappings(){requireWrite();if(!snapshot)throw new Error('Chargez une collecte.');const next=C.clone(state);next.fffBridge=next.fffBridge||{schema:1,history:[],teamMappings:{}};next.fffBridge.teamMappings=next.fffBridge.teamMappings||{};document.querySelectorAll('[data-fff-map]').forEach(el=>{if(el.value&&(state.teams||[]).some(t=>t.name===el.value))next.fffBridge.teamMappings[el.dataset.fffMap]=el.value;else delete next.fffBridge.teamMappings[el.dataset.fffMap];});addAudit(next,'Correspondances équipes','Correspondances explicites FFF / Gestion Club');commit(next);render();message('Correspondances enregistrées. Aucune équipe locale créée ou renommée.');}
- function exportBeforeBackup(){if(qaSpace!=='admin'||!currentAdminCan('settings','view'))throw new Error('Accès refusé : sauvegarde complète réservée à l’Administration.');const raw=localStorage.getItem('fclc_fff_before_apply');if(!raw)throw new Error('Aucune sauvegarde avant intégration disponible.');const parsed=JSON.parse(raw);if(parsed.format!=='GESTION_CLUB_FULL_BACKUP')throw new Error('Sauvegarde non reconnue.');prototypeDownloadText('GESTION_CLUB_avant_integration_FFF_'+when().slice(0,10)+'.json',raw,'application/json');}
+ function exportBeforeBackup(){if(qaSpace!=='admin'||!currentAdminCan('settings','view'))throw new Error('Accès refusé : sauvegarde complète réservée à l’Administration.');const raw=localStorage.getItem('gestionclub_fff_before_apply');if(!raw)throw new Error('Aucune sauvegarde avant intégration disponible.');const parsed=JSON.parse(raw);if(parsed.format!=='GESTION_CLUB_FULL_BACKUP')throw new Error('Sauvegarde non reconnue.');prototypeDownloadText('GESTION_CLUB_avant_integration_FFF_'+when().slice(0,10)+'.json',raw,'application/json');}
  function report(){if(!canView()||qaSpace!=='admin')throw new Error('Accès refusé.');const b=getBridge();const receipt={schema:'gestion-club.fff-report/1',build:'V1.22.7.1',exportedAt:when(),diagnostic:{lastStage,lastIncident:lastDiagnostic,incidents:diagnostics,selection:plan?{fffId:plan.candidateId,localId:plan.targetId,method:plan.method,isNew:plan.isNew,canApply:plan.canApply,issues:plan.issues}:null,localMatchCount:(state.matches||[]).length,mode:bridgeReady?'compagnon-local':'fichier'},source:snapshot?{adapterVersion:snapshot.adapterVersion,club:snapshot.club,capturedAt:snapshot.capturedAt,coverage:snapshot.coverage,diagnostics:snapshot.diagnostics}:null,history:(b.history||[]).map(r=>({at:r.at,label:r.label,detail:r.detail,undone:r.undone,matchId:r.transaction?.matchId,fffId:r.transaction?.fffId,fields:r.transaction?.changes?.map(x=>x.key)}))};prototypeDownloadText('GESTION_CLUB_controle_FFF_'+when().slice(0,10)+'.json',JSON.stringify(receipt,null,2),'application/json');}
  function localAllowed(){return location.protocol==='http:'&&['127.0.0.1','localhost'].includes(location.hostname);}
  async function request(path,body){if(!localAllowed())throw new Error('Ouvrez le pack avec DEMARRER_GESTION_CLUB.cmd pour la collecte directe. L’import JSON reste disponible dans ce fichier autonome.');const controller=new AbortController(),stop=setTimeout(()=>controller.abort(),10000);try{const r=await fetch(path,{method:body?'POST':'GET',headers:body?{'Content-Type':'application/json','X-FFF-Token':bridgeToken}:{},body:body?JSON.stringify(body):undefined,credentials:'same-origin',signal:controller.signal,cache:'no-store'});const value=await r.json();if(!r.ok)throw new Error(value.error||'Compagnon HTTP '+r.status);return value;}finally{clearTimeout(stop);}}
@@ -14365,7 +14365,7 @@ document.addEventListener('keydown',e=>{
 </script>
 <script>
 /* Preparatory module, not a replacement for Gestion Club's import engine.
-   Browser: LaCourFootclubsSource.mount(container, snapshot)
+   Browser: GenericClubFootclubsSource.mount(container, snapshot)
    Node: require('./gestion-club-footclubs-source.js').validate(snapshot) */
 (function(root){
   'use strict';
@@ -14478,7 +14478,7 @@ document.addEventListener('keydown',e=>{
     shadow.append(card);container.replaceChildren(host);return Object.freeze({unmount:()=>host.remove(),schema:SCHEMA});
   }
   const api=Object.freeze({schema:SCHEMA,maxBytes:MAX_BYTES,validate,parse,mount,coverageText});
-  if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.LaCourFootclubsSource=api;
+  if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.GenericClubFootclubsSource=api;
 })(globalThis);
 
 </script>
@@ -14713,7 +14713,7 @@ document.addEventListener('keydown',e=>{
   return {ok:errors.length===0,errors};
  }
  function parse(text){if(typeof text!=='string'||new TextEncoder().encode(text).length>1500000)throw Error('Sélection trop volumineuse (1,5 Mo).');let v;try{v=JSON.parse(text);}catch(e){throw Error('JSON de sélection invalide.');}const r=validate(v);if(!r.ok)throw Error(r.errors.slice(0,4).join(' · '));return v;}
- root.LaCourSelectedSource=Object.freeze({schema,labels,sections,structure,build,validate,parse});
+ root.GenericClubSelectedSource=Object.freeze({schema,labels,sections,structure,build,validate,parse});
 })(globalThis);
 
 </script>
@@ -14865,7 +14865,7 @@ document.addEventListener('keydown',e=>{
 (function(root){
  'use strict';
  const C=root.FCUContactsCore,E=id=>document.getElementById(id),clone=C.clone;
- const BACKUP='fclc_footclubs_contacts_before_change_v1';
+ const BACKUP='gestionclub_footclubs_contacts_before_change_v1';
  let snapshot=null,review=null,disk=null,backupProof=null,diagnostics=[];
  let storageChanged=false,saving=false,epoch=0;
  const active=()=>E('footclubsui').classList.contains('active')&&!E('intranetApp').classList.contains('hidden');
@@ -14974,7 +14974,7 @@ document.addEventListener('keydown',e=>{
  'use strict';
  function fixture(){
   const s={schema:'footclubs-ui/source-capture/1',generator:{name:'Footclubs UI',version:'0.08.8'},capturedAt:new Date().toISOString(),source:{origin:'https://footclubs.fff.fr',path:'/extrafoot/EX_PERSONNE.Ident',kind:'person',title:'EXEMPLE FICTIF — Contacts',frame:'work',selection:{mode:'page',tag:'BODY'},context:{affiliation:'000000',season:'2026'}},coverage:{scope:'rendered-dom',completeDataset:false,originalFileIncluded:false,truncated:false,uncommittedValuesPossible:true},safety:{readOnly:true,containsPersonalData:true,includesRawHtml:false,includesSessionData:false,missingRowsMeanDeletion:false},blocks:[{type:'text',text:'Monsieur EXEMPLE Alex'},{type:'text',text:'Numéro personne'},{type:'text',text:'9999999999'},{type:'text',text:'Né(e) le 01/01/2000 à Ville fictive'},{type:'table',title:'Contacts',columns:['Suppr','Type de contact','Contact','Diffusion'],rows:[['Non cochée','Email principal','@ alex@example.invalid','Non diffusables'],['Non cochée','Mobile personnel','0000000000','Non diffusables']]},{type:'table',title:'Licences',columns:['Saison','Sous-catégorie','Ligue','Club','Club','Licence enregistrée','Etat'],rows:[['2026','Dirigeant','0000','000000','CLUB FICTIF','01/01/2026','Validée']]}],references:[],structure:{}};
-  s.structure=root.LaCourSelectedSource.structure(s.blocks);
+  s.structure=root.GenericClubSelectedSource.structure(s.blocks);
   const db={members:[{id:'test-only',personNumber:'9999999999',licenseNumber:'LICENCE-FICTIVE',last:'EXEMPLE',first:'Alex',birthDate:'2000-01-01',email:'ancien@example.invalid',mobile:'0000000000',phone:'0000000000',sourceData:{original:'conservé'}}],clubProfile:{official:{affiliation:'000000'}},matches:[{id:'match-test',attendance:['test-only']}],teams:[{id:'team-test',players:['test-only']}],coachLineups:{test:['test-only']},auditLog:[]};
   return {s,db};
  }
@@ -14998,10 +14998,10 @@ document.addEventListener('keydown',e=>{
    ['Capture ancienne',x=>x.s.capturedAt=new Date(Date.now()-40*86400000).toISOString(),'ANCIENNETE'],
    ['Capture future',x=>x.s.capturedAt=new Date(Date.now()+86400000).toISOString(),'HORODATAGE'],
    ['Capture tronquée',x=>x.s.coverage.truncated=true,'TRONCATURE'],
-   ['Identité absente',x=>{x.s.blocks=x.s.blocks.filter(b=>b.type!=='text');x.s.structure=root.LaCourSelectedSource.structure(x.s.blocks);},'PERSONNE']
+   ['Identité absente',x=>{x.s.blocks=x.s.blocks.filter(b=>b.type!=='text');x.s.structure=root.GenericClubSelectedSource.structure(x.s.blocks);},'PERSONNE']
   ])test(label+' : refus',()=>{const x=fixture();mutate(x);const p=C.plan(x.db,x.s,'2026');check(!p.canApply&&p.issues.some(i=>i.code===code));});
   test('Comparaison périmée : refus',()=>{const {db,s}=fixture(),p=C.plan(db,s,'2026');db.members[0].email='nouveau@example.invalid';refuses(()=>C.apply(db,s,p,['email'],'test'));});
-  test('Champ absent : aucune suppression',()=>{const {db,s}=fixture();s.blocks.find(b=>b.title==='Contacts').rows=s.blocks.find(b=>b.title==='Contacts').rows.slice(1);s.structure=root.LaCourSelectedSource.structure(s.blocks);check(!C.plan(db,s,'2026').changes.some(c=>c.key==='email'));});
+  test('Champ absent : aucune suppression',()=>{const {db,s}=fixture();s.blocks.find(b=>b.title==='Contacts').rows=s.blocks.find(b=>b.title==='Contacts').rows.slice(1);s.structure=root.GenericClubSelectedSource.structure(s.blocks);check(!C.plan(db,s,'2026').changes.some(c=>c.key==='email'));});
   return {build:'1.22.13',at:new Date().toISOString(),passed:results.filter(x=>x.ok).length,total:results.length,results};
  }
  function show(){
@@ -15067,8 +15067,8 @@ document.addEventListener('keydown',e=>{
   resetSelection();
   if(selected||snapshot.schema!==NeoFootclubsSourceContract.schema||snapshot.source.kind!=='person'||snapshot.source.path!=='/extrafoot/EX_PERSONNE.Ident')return;
   activeSelectionSource=snapshot;E('fcuSelectionPanel').hidden=false;
-  const groups=LaCourSelectedSource.sections(snapshot),choices=E('fcuSelectionChoices');
-  for(const [key,label] of Object.entries(LaCourSelectedSource.labels)){
+  const groups=GenericClubSelectedSource.sections(snapshot),choices=E('fcuSelectionChoices');
+  for(const [key,label] of Object.entries(GenericClubSelectedSource.labels)){
    const wrap=document.createElement('label'),input=document.createElement('input'),span=document.createElement('span');
    input.type='checkbox';input.value=key;input.disabled=!groups[key].length||!canReadPersonal();input.addEventListener('change',invalidateSelection);
    span.textContent=label+' · '+groups[key].length+' bloc(s)'+(!groups[key].length?' — non capturé':'');
@@ -15081,8 +15081,8 @@ document.addEventListener('keydown',e=>{
    if(!isCurrent()||!canReadPersonal()||!activeSelectionSource)throw Error('Sélection non autorisée ou aucune fiche ouverte.');
    const keys=Array.from(E('fcuSelectionChoices').querySelectorAll('input:checked')).map(e=>e.value);
    invalidateSelection();
-   const payload=LaCourSelectedSource.build(activeSelectionSource,keys);
-   selectionDraft=LaCourSelectedSource.parse(JSON.stringify(payload));
+   const payload=GenericClubSelectedSource.build(activeSelectionSource,keys);
+   selectionDraft=GenericClubSelectedSource.parse(JSON.stringify(payload));
    NeoFootclubsSourceContract.mount(E('fcuSelectionPreview'),selectionDraft.capture);
    E('fcuSelectionStatus').textContent=keys.length+' rubrique(s) · '+selectionDraft.capture.blocks.length+' bloc(s) exportables sur '+activeSelectionSource.blocks.length+' capturés. Seul cet aperçu sera exporté ; aucune référence de fichier ni photo incluse.';
    E('fcuSelectionConfirm').disabled=false;
@@ -15092,7 +15092,7 @@ document.addEventListener('keydown',e=>{
  function selectionExport(){
   try{
    if(!isCurrent()||!canReadPersonal()||!selectionDraft||!E('fcuSelectionConfirm').checked)throw Error('Afficher et confirmer l’aperçu avant l’export.');
-   const payload=LaCourSelectedSource.parse(JSON.stringify(selectionDraft));
+   const payload=GenericClubSelectedSource.parse(JSON.stringify(selectionDraft));
    prototypeDownloadText('GESTION_CLUB_selection_'+payload.exportedAt.replace(/[:.]/g,'-')+'.json',JSON.stringify(payload,null,2),'application/json');
    E('fcuSelectionStatus').textContent='Téléchargement demandé. Ce fichier contient uniquement les rubriques de l’aperçu et se recharge dans ce module. Aucune fusion effectuée.';
    E('fcuSelectionConfirm').checked=false;selectionConfirm();
@@ -15101,23 +15101,23 @@ document.addEventListener('keydown',e=>{
 
  function parseSource(text){
   let raw;try{raw=JSON.parse(text);}catch(_){throw new Error('Le fichier n’est pas un JSON valide.');}
-  if(raw?.schema===LaCourSelectedSource.schema)return LaCourSelectedSource.parse(text);
-  if(raw?.schema===LaCourFootclubsSource.schema)return LaCourFootclubsSource.parse(text);
+  if(raw?.schema===GenericClubSelectedSource.schema)return GenericClubSelectedSource.parse(text);
+  if(raw?.schema===GenericClubFootclubsSource.schema)return GenericClubFootclubsSource.parse(text);
   if(raw?.schema===NeoFootclubsSourceContract.schema)return NeoFootclubsSourceContract.parse(text);
   throw new Error('Format non pris en charge : choisir un export de liste ou une collecte Footclubs UI. Les diagnostics et fiches internes ne sont pas importables.');
  }
  function mount(snapshot,isDemo){
   if(!isCurrent() || (!isDemo&&!canReadPersonal()))throw new Error('Consultation non autorisée dans cet espace.');
-  const selected=snapshot.schema===LaCourSelectedSource.schema;
-  if(selected)snapshot=LaCourSelectedSource.parse(JSON.stringify(snapshot)).capture;
+  const selected=snapshot.schema===GenericClubSelectedSource.schema;
+  if(selected)snapshot=GenericClubSelectedSource.parse(JSON.stringify(snapshot)).capture;
   setupSelection(snapshot,selected);
   FCUReconcile.setup(snapshot,isDemo);
   // Validation stricte puis insertion textuelle via le composant isolé du plugin.
   const collected=snapshot.schema===NeoFootclubsSourceContract.schema;
   if(collected){const mounted=NeoFootclubsSourceContract.mount(E('fcuSourceViewer'),snapshot);view={unmount:()=>mounted.destroy()};}
-  else view=LaCourFootclubsSource.mount(E('fcuSourceViewer'),snapshot);
+  else view=GenericClubFootclubsSource.mount(E('fcuSourceViewer'),snapshot);
   const sum=E('fcuReadSummary');sum.hidden=false;
-  sum.textContent=(isDemo?'EXEMPLE FICTIF · ':selected?'SÉLECTION RECHARGÉE · ':'CAPTURE DE PAGE · ')+(collected?snapshot.blocks.length+' bloc(s), '+snapshot.structure.tableCount+' tableau(x), '+snapshot.structure.rowCount+' ligne(s) de tableaux · '+(snapshot.coverage.truncated?'capture tronquée':'capture partielle')+' · identité non rapprochée':LaCourFootclubsSource.coverageText(snapshot))+'. '+
+  sum.textContent=(isDemo?'EXEMPLE FICTIF · ':selected?'SÉLECTION RECHARGÉE · ':'CAPTURE DE PAGE · ')+(collected?snapshot.blocks.length+' bloc(s), '+snapshot.structure.tableCount+' tableau(x), '+snapshot.structure.rowCount+' ligne(s) de tableaux · '+(snapshot.coverage.truncated?'capture tronquée':'capture partielle')+' · identité non rapprochée':GenericClubFootclubsSource.coverageText(snapshot))+'. '+
     'Capture du '+new Date(snapshot.capturedAt).toLocaleString('fr-FR')+' · vue de consultation ; contacts à contrôler séparément.';
   E('fcuClear').disabled=false;
   status(isDemo?'Exemple fictif chargé : aucune personne réelle, aucune modification de la base.':'Capture chargée en lecture seule. Provenance déclarée, non certifiée ; couverture partielle.');
@@ -15128,7 +15128,7 @@ document.addEventListener('keydown',e=>{
   if(!isCurrent() || !canReadPersonal()){status('Accès refusé à la consultation de cette capture.',true);return;}
   status('Vérification du format de la capture…');
   try{
-   if(file.size>LaCourFootclubsSource.maxBytes)throw new Error('Maximum 5 Mo.');
+   if(file.size>GenericClubFootclubsSource.maxBytes)throw new Error('Maximum 5 Mo.');
    const text=await file.text();
    if(token!==request||!isCurrent()||!canReadPersonal())return;
    const snapshot=parseSource(text);
@@ -15173,10 +15173,10 @@ document.addEventListener('keydown',e=>{
  showPublicPage=function(...args){clear(true);return previousPublic.apply(this,args);};
  window.addEventListener('pagehide',()=>clear(true));
  E('fcuSourceFile').addEventListener('change',loadFile);
- window.fclcFootclubs=Object.freeze({tab,example,sourceExample,selectionPreview,selectionConfirm,selectionExport,clear:()=>clear(false),downloadRoadmap,
+ window.gestionClubFootclubs=Object.freeze({tab,example,sourceExample,selectionPreview,selectionConfirm,selectionExport,clear:()=>clear(false),downloadRoadmap,
   open(){enterAdministration();if(currentAdminAccount()&&canView())goTo('footclubsui');},
  });
- if(typeof PROTOTYPE_SCENARIOS!=='undefined'&&!PROTOTYPE_SCENARIOS.some(s=>s.id==='footclubs-ui'))PROTOTYPE_SCENARIOS.push({id:'footclubs-ui',title:'Plugin d’interface — source Footclubs',goal:'Tester le module sans modifier les données du club.',steps:['Ouvrir Administration → Données → Plugin d’interface','Charger l’exemple fictif ou une capture de liste autorisée','Vérifier couverture, provenance et lecture seule','Consulter la roadmap commune puis quitter le module'],action:'fclcFootclubs.open()'});
+ if(typeof PROTOTYPE_SCENARIOS!=='undefined'&&!PROTOTYPE_SCENARIOS.some(s=>s.id==='footclubs-ui'))PROTOTYPE_SCENARIOS.push({id:'footclubs-ui',title:'Plugin d’interface — source Footclubs',goal:'Tester le module sans modifier les données du club.',steps:['Ouvrir Administration → Données → Plugin d’interface','Charger l’exemple fictif ou une capture de liste autorisée','Vérifier couverture, provenance et lecture seule','Consulter la roadmap commune puis quitter le module'],action:'gestionClubFootclubs.open()'});
  const area=E('prototypeFeedbackArea');if(area&&!Array.from(area.options).some(o=>o.value==='Plugin d’interface / Footclubs UI')){const o=document.createElement('option');o.value='Plugin d’interface / Footclubs UI';o.textContent=o.value;area.append(o);}
  renderRoadmap();render();
 })();
@@ -15227,7 +15227,7 @@ document.addEventListener('keydown',e=>{
   return result;
  };
  const tabs=Array.from(document.querySelectorAll('[data-fcu-tab]'));
- const oldTab=window.fclcFootclubs.tab;
+ const oldTab=window.gestionClubFootclubs.tab;
  function syncTabs(){tabs.forEach(b=>{const selected=b.getAttribute('aria-pressed')==='true';b.setAttribute('aria-selected',String(selected));b.tabIndex=selected?0:-1;});}
  tabs.forEach(b=>{
   const key=b.dataset.fcuTab,pane=document.querySelector('[data-fcu-pane="'+key+'"]');
@@ -15256,7 +15256,7 @@ document.addEventListener('keydown',e=>{
  const E=id=>document.getElementById(id),C=root.FCUContactsCore;
  let draft=null,ticket=0,busy=false,reviewDisk=null,reviewMemory='',reviewAux='',owner='',lastDownload='';
  const copy=x=>JSON.parse(JSON.stringify(x));
- const auxiliary=()=>JSON.stringify([localStorage.getItem('fclc_coach_lineups'),localStorage.getItem(PROTOTYPE_FEEDBACK_KEY),localStorage.getItem(PROTOTYPE_SCENARIO_KEY),coachLineups]);
+ const auxiliary=()=>JSON.stringify([localStorage.getItem('gestionclub_coach_lineups'),localStorage.getItem(PROTOTYPE_FEEDBACK_KEY),localStorage.getItem(PROTOTYPE_SCENARIO_KEY),coachLineups]);
  function allowed(edit=false){const a=currentAdminAccount();return qaSpace==='admin'&&a&&a.status!=='disabled'&&a.scope?.type==='club'&&currentAdminCan('settings',edit?'edit':'view');}
  function requireAccess(edit=false){if(!allowed(edit))throw Error('Un compte autorisé sur l’ensemble du club est requis pour les sauvegardes'+(edit?' et la restauration.':'.'));}
  function summary(db,lineups={}){
@@ -15316,7 +15316,7 @@ document.addEventListener('keydown',e=>{
    status('Sauvegarde de récupération de la base actuelle…');
    await root.FCUBackupStore.save(JSON.stringify(qaBackupPayload()),'before-restore');fresh();
    qaRestoreBackup(payload);clear();
-   portalLogout();coachLogout();sessionStorage.removeItem('fclc_admin_account');qaDraftOwner=null;memberBlockEditState.clear();
+   portalLogout();coachLogout();sessionStorage.removeItem('gestionclub_admin_account');qaDraftOwner=null;memberBlockEditState.clear();
    renderAll();showPublicPage('public-home');toast('Restauration terminée','Reconnectez-vous puis vérifiez les effectifs dans Données & sauvegarde.');
   }catch(e){status('Restauration arrêtée : '+e.message);E('continuityRestore').disabled=true;}
   finally{busy=false;render();}
@@ -15330,9 +15330,9 @@ document.addEventListener('keydown',e=>{
  const previousClose=closeAdministrationTransientUI;closeAdministrationTransientUI=function(target){if(target!=='continuity')clear();return previousClose.apply(this,arguments);};
  qaImportBackupFile=function(event){try{open();return load(event);}catch(e){toast('Restauration',e.message);}};
  qaExportBackup=exportBackup;
- window.addEventListener('storage',e=>{if([KEY,'fclc_coach_lineups',PROTOTYPE_FEEDBACK_KEY,PROTOTYPE_SCENARIO_KEY,null].includes(e.key)){clear();status('Une autre fenêtre a modifié les données. Rechargez cette page avant de restaurer.');}});
+ window.addEventListener('storage',e=>{if([KEY,'gestionclub_coach_lineups',PROTOTYPE_FEEDBACK_KEY,PROTOTYPE_SCENARIO_KEY,null].includes(e.key)){clear();status('Une autre fenêtre a modifié les données. Rechargez cette page avant de restaurer.');}});
  PAGE_PERMISSION_MODULE.continuity='settings';ADMIN_PAGE_TITLES.continuity='Données & sauvegarde';
- root.FCLCContinuity=Object.freeze({summary,validate,open,exportBackup,load,restore,recovery,render});render();
+ root.GestionClubContinuity=Object.freeze({summary,validate,open,exportBackup,load,restore,recovery,render});render();
 })(globalThis);
 
 </script>
@@ -15372,7 +15372,7 @@ const prevSpace=qaSetSpace;qaSetSpace=function(){const result=prevSpace.apply(th
 const prevRender=renderAll;renderAll=function(){const result=prevRender.apply(this,arguments);if(E('readiness').classList.contains('active'))render();return result;};
 window.addEventListener('storage',e=>{if((e.key===KEY||e.key===null)&&E('readiness').classList.contains('active'))render();});
 PAGE_PERMISSION_MODULE.readiness='settings';ADMIN_PAGE_TITLES.readiness='Diagnostic & partage';
-root.FCLCReadiness=Object.freeze({inspect,report,render,download});
+root.GestionClubReadiness=Object.freeze({inspect,report,render,download});
 })(globalThis);
 
 </script>
@@ -15397,7 +15397,7 @@ function details(local,incoming){
  return {accountFields,unknownAccountFields,stateSections,unknownStateSections};
 }
 function compare(local,incoming){
- root.FCLCContinuity.validate(local);root.FCLCContinuity.validate(incoming);
+ root.GestionClubContinuity.validate(local);root.GestionClubContinuity.validate(incoming);
  const version=/^V(\d+)\.(\d+)\.(\d+)(?:\.(\d+))?$/;
  const a=version.exec(QA_BUILD),b=version.exec(incoming.build||'');
  if(!b)throw Error('Version de la sauvegarde absente ou non reconnue.');
@@ -15476,7 +15476,7 @@ function renderThree(result){
  const p=document.createElement('p');p.textContent='Autres rubriques (ensemble) : '+labels[result.other.state]+' · Compositions : '+labels[result.other.lineups]+' · Retours : '+labels[result.other.feedback]+' · Scénarios : '+labels[result.other.scenarios]+'.';E('transferResult').append(p);
  const note=document.createElement('p');note.textContent=result.note;E('transferResult').append(note);
 }
-function disk(){return JSON.stringify([KEY,'fclc_coach_lineups',PROTOTYPE_FEEDBACK_KEY,PROTOTYPE_SCENARIO_KEY].map(k=>localStorage.getItem(k)));}
+function disk(){return JSON.stringify([KEY,'gestionclub_coach_lineups',PROTOTYPE_FEEDBACK_KEY,PROTOTYPE_SCENARIO_KEY].map(k=>localStorage.getItem(k)));}
 function clear(message='',keepReference=false){epoch++;review=null;E('transferResult').replaceChildren();E('transferExport').disabled=true;E('transferStatus').textContent=message;E('transferFile').value='';if(!keepReference){reference=null;referenceOwner=null;E('transferReference').value='';E('transferReferenceStatus').textContent='Sans référence : comparaison entre deux bases.';}}
 
 function fresh(){access();if(!review||review.owner!==currentAdminAccount().id||review.memory!==stable(contents(qaBackupPayload()))||review.disk!==disk())throw Error('La base ou le compte a changé. Rechargez la sauvegarde pour refaire la comparaison.');return review.report;}
@@ -15509,8 +15509,8 @@ E('transferFile').addEventListener('change',load);
 const prevGo=goTo;goTo=function(target){if(target!=='transfer')clear();return prevGo.apply(this,arguments);};
 const prevSpace=qaSetSpace;qaSetSpace=function(){const result=prevSpace.apply(this,arguments);if(!allowed())clear();return result;};
 const prevRender=renderAll;renderAll=function(){const result=prevRender.apply(this,arguments);if(review)try{fresh();}catch(e){clear(e.message);}return result;};
-window.addEventListener('storage',e=>{if([KEY,'fclc_coach_lineups',PROTOTYPE_FEEDBACK_KEY,PROTOTYPE_SCENARIO_KEY,null].includes(e.key))clear('Une autre fenêtre a modifié les données. Refaire la comparaison.');});
-PAGE_PERMISSION_MODULE.transfer='settings';ADMIN_PAGE_TITLES.transfer='Comparer avant transfert';root.FCLCTransfer=Object.freeze({compare,threeWay,runChecks,loadReference,load,download,clear});
+window.addEventListener('storage',e=>{if([KEY,'gestionclub_coach_lineups',PROTOTYPE_FEEDBACK_KEY,PROTOTYPE_SCENARIO_KEY,null].includes(e.key))clear('Une autre fenêtre a modifié les données. Refaire la comparaison.');});
+PAGE_PERMISSION_MODULE.transfer='settings';ADMIN_PAGE_TITLES.transfer='Comparer avant transfert';root.GestionClubTransfer=Object.freeze({compare,threeWay,runChecks,loadReference,load,download,clear});
 })(globalThis);
 
 </script>
